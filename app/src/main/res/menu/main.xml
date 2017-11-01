@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--<item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />-->
+
+    <item
+        android:id="@+id/action_search"
+        android:orderInCategory="200"
+        android:title="Search"
+        android:icon="@mipmap/ic_search_black_24dp"
+        app:showAsAction="ifRoom|collapseActionView"/>
+
+
+    <!--<item android:id="@+id/menu_series_cab_search"
+        android:icon="@mipmap/ic_search_black_24dp"
+        android:title="Searcg"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView"/>-->
+
+    <item
+        android:id="@+id/notification"
+        android:orderInCategory="200"
+        android:icon="@mipmap/action_bar_notification"
+        app:showAsAction="always"
+        android:title="Notification" />
+
+    <!--<item-->
+        <!--android:id="@+id/add_post_btn"-->
+        <!--android:orderInCategory="200"-->
+        <!--android:title="Add Post"-->
+        <!--android:icon="@mipmap/ic_add_white_24dp"-->
+        <!--app:showAsAction="ifRoom|collapseActionView"/>-->
+
+
+</menu>

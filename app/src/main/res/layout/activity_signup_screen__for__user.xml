@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.nabeel.postandcommenttutorial.ui.activities.RegisterActivities.SignupScreen_For_User">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/facebook"
+                android:id="@+id/signup_user_profile_iv"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/eng_chose_dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:textColor="#015A35"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:paddingLeft="5dp"
+                    android:text="@string/eng_name"
+                    android:textColor="#015A35" />
+
+                <EditText
+                    android:id="@+id/Signup_user_namefield"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/input_background"
+                    android:ems="10"
+                    android:hint="@string/eng_name"
+                    android:padding="5dp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/eng_email"
+                android:textColor="#015A35"
+                android:layout_marginBottom="3dp"
+                android:paddingLeft="5dp"
+                />
+
+            <EditText
+                android:id="@+id/Signup_user_emailfield"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/input_background"
+                android:ems="10"
+                android:hint="@string/eng_email"
+                android:inputType="textEmailAddress"
+                android:padding="5dp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/eng_pass"
+                android:textColor="#015A35"
+                android:layout_marginBottom="3dp"
+                android:paddingLeft="5dp"
+                />
+
+            <EditText
+                android:id="@+id/Signup_user_passwordfield"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/input_background"
+                android:ems="10"
+                android:hint="@string/eng_pass"
+                android:inputType="textPassword"
+                android:padding="5dp" />
+            </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/eng_con_pass"
+                android:textColor="#015A35"
+                android:layout_marginBottom="3dp"
+                android:paddingLeft="5dp"
+                />
+
+            <EditText
+                android:id="@+id/Signup_user_Confirmpasswordfield"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/input_background"
+                android:ems="10"
+                android:hint="@string/eng_con_pass"
+                android:inputType="textPassword"
+                android:padding="5dp" />
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/eng_phone"
+                android:textColor="#015A35"
+                android:layout_marginBottom="3dp"
+                android:paddingLeft="5dp"
+                />
+
+            <EditText
+                android:id="@+id/Signup_user_PhoneField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/input_background"
+                android:ems="10"
+                android:hint="@string/eng_phone"
+                android:inputType="phone"
+                android:padding="5dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/Signup_user_gender_linear_layout"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/eng_gender"
+                    android:textSize="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="#015A35"
+                    />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    >
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/eng_male"
+                        android:layout_marginRight="20dp"
+                        android:textColor="#015A35"
+                        android:id="@+id/signup_User_male_R_btn"
+                        android:onClick="SelectGenderUser"
+                        />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/eng_female"
+                        android:textColor="#015A35"
+                        android:id="@+id/signup_user_Female_R_btn"
+                        android:onClick="SelectGenderUser"
+                        />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/eng_slct_country"
+                    android:layout_marginRight="5dp"
+                    android:gravity="center_vertical"
+                    android:textColor="#015A35"
+                    android:textSize="15dp"
+                    android:paddingLeft="5dp"
+                    />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/signup_country_spinner_user"
+
+                    />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="0.5"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/eng_state"
+                        android:textColor="#015A35"
+                        android:paddingLeft="5dp"
+                        />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Signup_state_tv_user"
+                    android:layout_below="@+id/setup_country_spinner_user"
+                    android:hint="@string/eng_state"
+                    android:paddingLeft="5dp"
+                    />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="0.5"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#015A35"
+                        android:paddingLeft="5dp"
+                        android:text="@string/eng_city"
+                        />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Signup_city_tv_user"
+                    android:layout_below="@+id/setup_state_tv_user"
+                    android:hint="@string/eng_city"
+                    android:paddingTop="10dp"
+                    />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/eng_address"
+                    android:textColor="#015A35"
+                    android:paddingLeft="5dp"
+                    />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/Signup_address_tv_user"
+                android:paddingTop="10dp"
+                android:hint="@string/eng_address"
+                />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/eng_fiqah"
+                    android:layout_marginRight="5dp"
+                    android:gravity="center_vertical"
+                    android:textSize="15dp"
+                    android:textColor="#015A35"
+                    android:paddingLeft="5dp"
+                    />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Signup_fiqah_spinner_user"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
+
+        <Button
+            android:id="@+id/finish_Signup_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/eng_finish"
+            android:layout_marginTop="20dp"
+            android:background="#015A35"
+            android:textColor="#ffffff"
+
+            />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
