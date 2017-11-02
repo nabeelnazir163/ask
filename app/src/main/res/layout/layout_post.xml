@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="4dp"
             android:layout_weight="1"
-            android:textSize="18dp"
+            android:textSize="16dp"
             android:layout_gravity="center_vertical"
             android:singleLine="true"
             android:text="Username"

@@ -61,7 +61,7 @@ public class bookmarkFragment extends Fragment {
         mLayoutManager.setStackFromEnd(true);
         bookmark_recyc_view.setLayoutManager(mLayoutManager);
 
-//        setupadapter();
+        setupadapter();
 
         return mRootView;
     }

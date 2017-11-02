@@ -108,6 +108,10 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
             answers_tv.setVisibility(View.GONE);
 
+        } else if (userType == 1){
+
+            answers_tv.setVisibility(View.VISIBLE);
+
         }
 
 
