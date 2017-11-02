@@ -26,6 +26,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,6 +78,15 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     TextView viewallanswers_tv;
 
     CardView max_layout;
+
+    LinearLayout postCommentLayout;
+    ImageView postOwnerDisplayImageView;
+    TextView postOwnerUsernameTextView;
+    TextView postTimeCreatedTextView;
+    ImageView postDisplayImageView;
+    TextView postNumCommentsTextView;
+    TextView postTextTextView;
+    RelativeLayout readmore_Rel_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,7 +219,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                 CommentHolder.class,
                 FirebaseUtils.getCommentRef(mPost.getPostId())) {
             @Override
-            protected void populateViewHolder(CommentHolder viewHolder, final Comment model, int position) {
+            protected void populateViewHolder(final CommentHolder viewHolder, final Comment model, int position) {
 
                 if (model.getUser().getName() != null) {
 
@@ -219,6 +229,32 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
                 viewHolder.setComment(model.getComment());
                 viewHolder.setTime(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
+
+                viewHolder.commentTextView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(viewHolder.commentTextView.getLineCount() <= 3){
+
+                            viewHolder.readmore_rel_lay_postactivity.setVisibility(View.GONE);
+
+                        } else if(viewHolder.commentTextView.getLineCount() >3){
+
+                            viewHolder.readmore_rel_lay_postactivity.setVisibility((View.VISIBLE));
+
+                        }
+                    }
+                });
+
+                viewHolder.readmore_rel_lay_postactivity.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        viewHolder.commentTextView.setMaxLines(Integer.MAX_VALUE);
+                        viewHolder.readmore_rel_lay_postactivity.setVisibility(View.GONE);
+
+                    }
+                });
+
 
                 if (model.getUser().getImage() != null) {
                     Glide.with(PostActivity.this)
@@ -250,13 +286,30 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initPost() {
-        ImageView postOwnerDisplayImageView = (ImageView) findViewById(R.id.iv_post_owner_display);
-        TextView postOwnerUsernameTextView = (TextView) findViewById(R.id.tv_post_username);
-        TextView postTimeCreatedTextView = (TextView) findViewById(R.id.tv_time);
-        ImageView postDisplayImageView = (ImageView) findViewById(R.id.iv_post_display);
-        LinearLayout postCommentLayout = (LinearLayout) findViewById(R.id.answer_layout);
-        TextView postNumCommentsTextView = (TextView) findViewById(R.id.tv_answers);
-        TextView postTextTextView = (TextView) findViewById(R.id.tv_post_text);
+        postOwnerDisplayImageView = (ImageView) findViewById(R.id.iv_post_owner_display);
+        postOwnerUsernameTextView = (TextView) findViewById(R.id.tv_post_username);
+        postTimeCreatedTextView = (TextView) findViewById(R.id.tv_time);
+        postDisplayImageView = (ImageView) findViewById(R.id.iv_post_display);
+        postCommentLayout = (LinearLayout) findViewById(R.id.answer_layout);
+        postNumCommentsTextView = (TextView) findViewById(R.id.tv_answers);
+        postTextTextView = (TextView) findViewById(R.id.tv_post_text);
+        readmore_Rel_layout = (RelativeLayout) findViewById(R.id.readmore_relLayout);
+
+
+       postTextTextView.post(new Runnable() {
+            @Override
+            public void run() {
+                if(postTextTextView.getLineCount() <= 3){
+
+                    readmore_Rel_layout.setVisibility(View.GONE);
+
+                } else if(postTextTextView.getLineCount() >3){
+
+                    readmore_Rel_layout.setVisibility((View.VISIBLE));
+
+                }
+            }
+        });
 
         postOwnerUsernameTextView.setText(mPost.getUser().getName());
         postTimeCreatedTextView.setText(DateUtils.getRelativeTimeSpanString(mPost.getTimeCreated()));
@@ -288,6 +341,16 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                 Intent answers_intent = new Intent(PostActivity.this , answersActivity.class);
                 answers_intent.putExtra(Constants.EXTRA_POST , mPost);
                 startActivity(answers_intent);
+
+            }
+        });
+
+        readmore_Rel_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                postTextTextView.setMaxLines(Integer.MAX_VALUE);
+                readmore_Rel_layout.setVisibility(View.GONE);
 
             }
         });
@@ -604,6 +667,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         TextView LikeAnswer_tv;
 
 
+
         public AnswerHolder(View itemView) {
 
             super(itemView);
@@ -633,6 +697,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         TextView usernameTextView;
         TextView timeTextView;
         TextView commentTextView;
+        RelativeLayout readmore_rel_lay_postactivity;
 
         public CommentHolder(View itemView) {
 
@@ -645,6 +710,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             usernameTextView = (TextView) itemView.findViewById(R.id.tv_username);
             timeTextView = (TextView) itemView.findViewById(R.id.tv_time);
             commentTextView = (TextView) itemView.findViewById(R.id.tv_comment);
+            readmore_rel_lay_postactivity = (RelativeLayout) mView.findViewById(R.id.readmore_relLayout_postactivity);
 
         }
 

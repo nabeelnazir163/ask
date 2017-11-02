@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -298,6 +299,30 @@ public class homeFragment extends Fragment {
                 viewHolder.setUsername(model.getUser().getName());
                 viewHolder.setPostText(model.getPostText());
 
+                viewHolder.postTextTextView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(viewHolder.postTextTextView.getLineCount() <= 3){
+
+                            viewHolder.readmore_rel_layout.setVisibility(View.GONE);
+
+                        } else if(viewHolder.postTextTextView.getLineCount() >3){
+
+                            viewHolder.readmore_rel_layout.setVisibility((View.VISIBLE));
+
+                        }
+                    }
+                });
+
+                viewHolder.readmore_rel_layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        viewHolder.postTextTextView.setMaxLines(Integer.MAX_VALUE);
+                        viewHolder.readmore_rel_layout.setVisibility(View.GONE);
+
+                    }
+                });
 
 
                 Glide.with(getActivity())
@@ -631,6 +656,7 @@ public class homeFragment extends Fragment {
         ImageView after_bookmark_iv;
         TextView newanswers;
         TextView fiqahOfAlim;
+        RelativeLayout readmore_rel_layout;
 
         public PostHolder(View itemView) {
             super(itemView);
@@ -651,6 +677,7 @@ public class homeFragment extends Fragment {
             after_bookmark_iv = (ImageView) itemView.findViewById(R.id.bookmark_iv_after);
             newanswers = (TextView) itemView.findViewById(R.id.newanswer_layout_post);
             fiqahOfAlim = (TextView) itemView.findViewById(R.id.tv_post_userfiqah);
+            readmore_rel_layout = (RelativeLayout) itemView.findViewById(R.id.readmore_relLayout);
 
 
         }

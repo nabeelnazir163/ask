@@ -11,6 +11,7 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class comment_reply_activity extends AppCompatActivity {
     private TextView Com_user_Display_name;
     private TextView Comment;
     private TextView commentTime;
+    private RelativeLayout readmore_for_commentin_Reply;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +54,14 @@ public class comment_reply_activity extends AppCompatActivity {
         Intent in = getIntent();
 
         mPost = (Post) in.getSerializableExtra(Constants.EXTRA_POST);
+        Comment = (TextView) findViewById(R.id.tv_reply);
+
 
         mSendReply = (ImageView) findViewById(R.id.iv_send_reply);
 
         mReplyEditText = (EditText) findViewById(R.id.edittext_reply);
+
+        Comment.setMaxLines(Integer.MAX_VALUE);
 
         mSendReply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +73,7 @@ public class comment_reply_activity extends AppCompatActivity {
         });
 
         initReply();
-        initCommentAdapter();
+        initReplyAdapter();
 
     }
 
@@ -89,10 +95,6 @@ public class comment_reply_activity extends AppCompatActivity {
                         User user = dataSnapshot.getValue(User.class);
 
                         final String uid = FirebaseUtils.getUid();
-
-
-
-                        Toast.makeText(getApplicationContext(), Strreply , Toast.LENGTH_SHORT).show();
 
                         mReply.setUser(user);
                         mReply.setReplyId(uid);
@@ -142,7 +144,7 @@ public class comment_reply_activity extends AppCompatActivity {
 
         ComUserDisplayImageView = (ImageView) findViewById(R.id.iv_reply_owner_display);
         Com_user_Display_name = (TextView) findViewById(R.id.tv_username_reply);
-        Comment = (TextView) findViewById(R.id.tv_reply);
+
         commentTime = (TextView) findViewById(R.id.tv_time_reply);
 
         Com_user_Display_name.setText(mComment.getUser().getName());
@@ -155,7 +157,7 @@ public class comment_reply_activity extends AppCompatActivity {
 
     }
 
-    private void initCommentAdapter() {
+    private void initReplyAdapter() {
 
         mcomment_reply_rv = (RecyclerView) findViewById(R.id.comment_reply_rv);
         mcomment_reply_rv.setLayoutManager(new LinearLayoutManager(this));
@@ -167,13 +169,40 @@ public class comment_reply_activity extends AppCompatActivity {
                 FirebaseUtils.getC_ReplyRef(mPost.getPostId()).child(mComment.getCommentId())
         ) {
             @Override
-            protected void populateViewHolder(reply_holder viewHolder, reply model, int position) {
+            protected void populateViewHolder(final reply_holder viewHolder, reply model, int position) {
 
                 viewHolder.setComUsername(model.getUser().getName());
                 viewHolder.setReply(model.getReply_text());
                 viewHolder.setReplyTime(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
 
                 Glide.with(comment_reply_activity.this).load(model.getUser().getImage()).into(viewHolder.mCommentIv);
+
+                viewHolder.reply_tv.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        if(viewHolder.reply_tv.getLineCount() <= 3){
+
+                            viewHolder.readmore_rel_lay_replyactivity.setVisibility(View.GONE);
+
+                        } else if(viewHolder.reply_tv.getLineCount() >3){
+
+                            viewHolder.readmore_rel_lay_replyactivity.setVisibility((View.VISIBLE));
+
+                        }
+
+                    }
+                });
+
+                viewHolder.readmore_rel_lay_replyactivity.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        viewHolder.reply_tv.setMaxLines(Integer.MAX_VALUE);
+                        viewHolder.readmore_rel_lay_replyactivity.setVisibility(View.GONE);
+
+                    }
+                });
 
             }
         };
@@ -189,6 +218,7 @@ public class comment_reply_activity extends AppCompatActivity {
         TextView reply_tv;
         TextView username_tv;
         TextView time_reply;
+        RelativeLayout readmore_rel_lay_replyactivity;
 
         public reply_holder(View itemView) {
             super(itemView);
@@ -198,6 +228,7 @@ public class comment_reply_activity extends AppCompatActivity {
             username_tv = (TextView) mView.findViewById(R.id.tv_username_reply);
             time_reply = (TextView) mView.findViewById(R.id.tv_time_reply);
             mCommentIv = (ImageView) mView.findViewById(R.id.iv_reply_owner_display);
+            readmore_rel_lay_replyactivity = (RelativeLayout) mView.findViewById(R.id.readmore_relLayout_reply_activity);
         }
 
 

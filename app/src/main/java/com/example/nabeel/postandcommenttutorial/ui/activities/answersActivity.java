@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,6 +62,8 @@ public class answersActivity extends AppCompatActivity{
 
     Post mPost;
     TextView question_tv;
+    RelativeLayout readmore;
+
 //    Answer mAnswer;
 //    String email;
 //
@@ -99,6 +102,7 @@ public class answersActivity extends AppCompatActivity{
         }
 
         question_tv = (TextView) findViewById(R.id.questiontext_answeractivity);
+        question_tv.setMaxLines(Integer.MAX_VALUE);
 
 //        audiotv = (TextView) findViewById(R.id.audiotxt);
 //
@@ -145,12 +149,6 @@ public class answersActivity extends AppCompatActivity{
                 viewHolder.edit_answer_iv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-//                        Dialog dialog = new Dialog(answersActivity.this, android.R.style.Widget_EditText);
-//                        dialog.setContentView(R.layout.editdialog);
-//                        TextView editanswer = (TextView) dialog.findViewById(R.id.t);
-//
-//                        dialog.show();
 
                         final LinearLayout edittext_layout = (LinearLayout) findViewById(R.id.edittext_layout);
                         final EditText answer_Edittext = (EditText) findViewById(R.id.edittext_answer);
@@ -212,9 +210,32 @@ public class answersActivity extends AppCompatActivity{
                    public void onClick(View view) {
 
                        LikeAnswer(model.getanswerId(), mPost.getPostId());
-                       //LikeProcess(mPost.getPostId());
 
-                       //Toast.makeText(getApplicationContext(), mPost.getPostId() +" "+ model.getanswerId(), Toast.LENGTH_SHORT).show();
+                   }
+               });
+
+                viewHolder.AnswerTextView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(viewHolder.AnswerTextView.getLineCount() <= 3){
+
+                            viewHolder.readmore_rel_lay_answers_Activity.setVisibility(View.GONE);
+
+                        } else if(viewHolder.AnswerTextView.getLineCount() >3){
+
+                            viewHolder.readmore_rel_lay_answers_Activity.setVisibility((View.VISIBLE));
+
+                        }
+                    }
+                });
+
+               viewHolder.readmore_rel_lay_answers_Activity.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View view) {
+
+                       viewHolder.AnswerTextView.setMaxLines(Integer.MAX_VALUE);
+                       viewHolder.readmore_rel_lay_answers_Activity.setVisibility(View.GONE);
+
                    }
                });
 
@@ -767,6 +788,7 @@ public class answersActivity extends AppCompatActivity{
         TextView LikeAnswer_tv;
         ImageView edit_answer_iv;
         ImageView answerDispalyImageview;
+        RelativeLayout readmore_rel_lay_answers_Activity;
 
         public AnswerHolder(View itemView) {
 
@@ -784,6 +806,7 @@ public class answersActivity extends AppCompatActivity{
             LikeAnswer_tv = (TextView) mView.findViewById(R.id.tv_likes_answer);
             edit_answer_iv = (ImageView) mView.findViewById(R.id.edit_answer_iv);
             answerDispalyImageview = (ImageView) mView.findViewById(R.id.iv_answer_ref_display);
+            readmore_rel_lay_answers_Activity = (RelativeLayout) mView.findViewById(R.id.readmore_relLayout_answersactivity);
 
         }
 

@@ -41,8 +41,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:maxLines="3"
             android:text=""
             android:textColor="@android:color/black" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_gravity="right"
+            android:id="@+id/readmore_relLayout_postactivity"
+            android:layout_marginRight="16dp"
+            android:visibility="gone"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Readmore"
+                android:textColor="@color/com_facebook_blue"
+                />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

@@ -100,9 +100,29 @@
             android:layout_marginRight="16dp"
             android:textColor="@android:color/black"
             android:textSize="16sp"
+            android:maxLines="3"
             android:textStyle="bold"
             android:fontFamily="serif"
             android:text="Post text has some words that I could use for a place holder like this" />
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_gravity="right"
+            android:id="@+id/readmore_relLayout"
+            android:layout_marginRight="16dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Readmore"
+                android:textColor="@color/com_facebook_blue"
+                />
+
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/iv_post_display"
