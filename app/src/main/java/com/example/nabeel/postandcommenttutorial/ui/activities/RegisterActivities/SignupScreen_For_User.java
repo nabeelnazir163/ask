@@ -148,6 +148,17 @@ public class SignupScreen_For_User extends BaseActivity {
                 mPassFieldUser = mSignuppassUser.getText().toString();
                 mCon_pass_user = mSignupConf_passUser.getText().toString();
                 phonenumberUser = mSignupPhoneUser.getText().toString();
+//
+//                if(mEmailFieldUser != null) {
+//
+//                    mEmailFieldUser = mEmailFieldUser.toLowerCase().trim();
+//
+//                } else if (mEmailFieldUser == null){
+//
+//                    mEmailFieldUser = mNameFieldUser.toLowerCase().trim();
+//
+//                }
+
 
                 if(!TextUtils.isEmpty(mNameFieldUser) &&
                         !TextUtils.isEmpty(mEmailFieldUser) &&
@@ -161,30 +172,28 @@ public class SignupScreen_For_User extends BaseActivity {
 
                         if(mPassFieldUser.length() > 6){
 
-                            if(isValidEmail(mEmailFieldUser)){
+                            if(!isValidEmail(mEmailFieldUser)){
 
-                                StartRegistering();
+                                if(mEmailFieldUser != null) {
 
-                            } else {
+                                    mEmailFieldUser = mEmailFieldUser.toLowerCase().trim() + "@askalim.com";
 
-                                //Toast.makeText(getApplicationContext(), "invalid email", Toast.LENGTH_LONG).show();
+                                    StartRegistering();
 
-                                mEmailFieldUser = mNameFieldUser.toLowerCase().trim();
+                                } else if (mEmailFieldUser == null){
 
+                                    mEmailFieldUser = mNameFieldUser.toLowerCase().trim() + "@askalim.com";
+
+                                    StartRegistering();
+                                }
                             }
-
-
-
                         } else {
 
                             Toast.makeText(getApplicationContext(), "Password Length must be greater than 6 chars", Toast.LENGTH_LONG).show();
 
                         }
 
-                        // To do for signup
-
-
-                    }else {
+                     }else {
 
                         Toast.makeText(getApplicationContext(), "Password and ConfirmPassword Fields doesn't match", Toast.LENGTH_LONG).show();
 
