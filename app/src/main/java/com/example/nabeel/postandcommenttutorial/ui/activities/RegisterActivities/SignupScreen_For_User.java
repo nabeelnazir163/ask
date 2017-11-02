@@ -161,7 +161,7 @@ public class SignupScreen_For_User extends BaseActivity {
 
 
                 if(!TextUtils.isEmpty(mNameFieldUser) &&
-                        !TextUtils.isEmpty(mEmailFieldUser) &&
+                        !TextUtils.isEmpty(mEmailFieldUser)&&
                             !TextUtils.isEmpty(mPassFieldUser) &&
                                 !TextUtils.isEmpty(mCon_pass_user) &&
                                     !TextUtils.isEmpty(phonenumberUser) &&

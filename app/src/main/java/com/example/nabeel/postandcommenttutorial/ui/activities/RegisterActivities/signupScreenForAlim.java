@@ -211,7 +211,7 @@ public class signupScreenForAlim extends BaseActivity {
                 phonenumberAlim = mSignupPhoneAlim.getText().toString();
 
                 if(!TextUtils.isEmpty(mNameFieldAlim) &&
-                        !TextUtils.isEmpty(mEmailFieldAlim) &&
+                        !TextUtils.isEmpty(mEmailFieldAlim)&&
                         !TextUtils.isEmpty(mPassFieldAlim) &&
                         !TextUtils.isEmpty(mCon_pass_Alim) &&
                         !TextUtils.isEmpty(phonenumberAlim) &&
@@ -220,8 +220,28 @@ public class signupScreenForAlim extends BaseActivity {
 
                     if(mPassFieldAlim.equals(mCon_pass_Alim)){
 
-                        // To do for signup
-                        StartRegistering();
+                        if(mPassFieldAlim.length() > 6){
+
+                            if(!isValidEmail(mEmailFieldAlim)){
+
+                                if(mEmailFieldAlim != null) {
+
+                                    mEmailFieldAlim = mEmailFieldAlim.toLowerCase().trim() + "@askalim.com";
+
+                                    StartRegistering();
+
+                                } else if (mEmailFieldAlim == null){
+
+                                    mEmailFieldAlim = mNameFieldAlim.toLowerCase().trim() + "@askalim.com";
+
+                                    StartRegistering();
+                                }
+                            }
+                        } else {
+
+                            Toast.makeText(getApplicationContext(), "Password Length must be greater than 6 characters", Toast.LENGTH_LONG).show();
+
+                        }
 
                     }else {
 
@@ -234,7 +254,6 @@ public class signupScreenForAlim extends BaseActivity {
                     Toast.makeText(getApplicationContext(),"Some Required Fields are empty" , Toast.LENGTH_LONG).show();
 
                 }
-
             }
         });
 
@@ -422,8 +441,6 @@ public class signupScreenForAlim extends BaseActivity {
             Toast.makeText(getApplicationContext(), "Check Your Fields and Try Again" , Toast.LENGTH_LONG).show();
             progressDialog.dismiss();
         }
-
-
     }
 
     public void selectCategories(View v){
@@ -538,6 +555,16 @@ public class signupScreenForAlim extends BaseActivity {
         for (String lan_selections : language_cb_selection) {
 
             final_language = final_language + lan_selections + " ,";
+        }
+    }
+
+    //FOR VALIDATING THE EMAIL ADDRESS
+
+    public final static boolean isValidEmail(String target) {
+        if (target == null) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
         }
     }
 
