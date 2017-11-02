@@ -73,7 +73,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     TextView mostlikedanswer_name_tv;
     TextView mostlikedanswer_time_tv;
     TextView mostLikedanswer_text_tv;
-    TextView answers_tv;
+    ImageView answers_tv;
 
     TextView viewallanswers_tv;
 
@@ -110,7 +110,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         max_layout =  (CardView)findViewById(R.id.answerlayoutpostactivity);
 
         viewallanswers_tv = (TextView) findViewById(R.id.viewallanswer);
-        answers_tv = (TextView) findViewById(R.id.newanswer_layout_post);
+        answers_tv = (ImageView) findViewById(R.id.newanswer_layout_post);
 
         userType = userType_sp.getInt("UserType", 0);
 

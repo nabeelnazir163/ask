@@ -199,11 +199,12 @@
 
             <TextView
                 android:id="@+id/tv_answers"
-                android:layout_width="20dp"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_marginLeft="8dp"
                 android:gravity="center_vertical"
                 android:text="0"
+                android:layout_marginRight="2dp"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -235,11 +236,12 @@
 
             <TextView
                 android:id="@+id/tv_comments"
-                android:layout_width="20dp"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_marginLeft="8dp"
                 android:gravity="center_vertical"
                 android:text="0"
+                android:layout_marginRight="2dp"
                 android:textSize="12sp" />
         </LinearLayout>
 
