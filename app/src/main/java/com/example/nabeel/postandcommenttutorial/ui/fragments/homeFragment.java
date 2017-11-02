@@ -258,6 +258,7 @@ public class homeFragment extends Fragment {
                         .addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
+
                                 if (dataSnapshot.hasChild(model.getPostId())){
 
                                     viewHolder.bookmark_imageview.setVisibility(View.GONE);
@@ -273,19 +274,31 @@ public class homeFragment extends Fragment {
                         });
 
 
+                SharedPreferences userType_sp = getActivity().getSharedPreferences("UserType", Context.MODE_PRIVATE);
+
+                int userType = userType_sp.getInt("UserType", 0);
+                if(userType == 2){
+
+                    viewHolder.newanswers.setVisibility(View.GONE);
+
+                } else {
+
+                    if(model.getUser().getFiqah() != null){
+
+                        viewHolder.fiqahOfAlim.setVisibility(View.VISIBLE);
+                        viewHolder.setFiqahOfAlim(model.getUser().getFiqah());
+
+                    }
+
+                }
+
                 viewHolder.setNumCOmments(String.valueOf(model.getNumComments()));
                 viewHolder.setNumAnswers(String.valueOf(model.getNumAnswers()));
                 viewHolder.setTIme(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
                 viewHolder.setUsername(model.getUser().getName());
                 viewHolder.setPostText(model.getPostText());
 
-                SharedPreferences userType_sp = getActivity().getSharedPreferences("UserType", Context.MODE_PRIVATE);
 
-                int userType = userType_sp.getInt("UserType", 0);if(userType == 2){
-
-                    viewHolder.newanswers.setVisibility(View.GONE);
-
-                }
 
                 Glide.with(getActivity())
                         .load(model.getUser().getImage())
@@ -617,6 +630,7 @@ public class homeFragment extends Fragment {
         ImageView bookmark_imageview;
         ImageView after_bookmark_iv;
         TextView newanswers;
+        TextView fiqahOfAlim;
 
         public PostHolder(View itemView) {
             super(itemView);
@@ -636,6 +650,7 @@ public class homeFragment extends Fragment {
             bookmark_imageview = (ImageView) itemView.findViewById(R.id.bookmark_iv);
             after_bookmark_iv = (ImageView) itemView.findViewById(R.id.bookmark_iv_after);
             newanswers = (TextView) itemView.findViewById(R.id.newanswer_layout_post);
+            fiqahOfAlim = (TextView) itemView.findViewById(R.id.tv_post_userfiqah);
 
 
         }
@@ -660,6 +675,10 @@ public class homeFragment extends Fragment {
 
         public void setPostText(String text) {
             postTextTextView.setText(text);
+        }
+
+        public void setFiqahOfAlim(String fiqah){
+            fiqahOfAlim.setText(fiqah);
         }
 
     }

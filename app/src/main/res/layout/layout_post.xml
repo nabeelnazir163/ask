@@ -24,18 +24,44 @@
             android:layout_marginRight="8dp"
             android:src="@drawable/facebook" />
 
-        <TextView
-            android:id="@+id/tv_post_username"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="4dp"
             android:layout_weight="1"
-            android:textSize="16dp"
+            android:orientation="vertical"
             android:layout_gravity="center_vertical"
-            android:singleLine="true"
-            android:text="Username"
             android:gravity="center_vertical"
-            />
+            >
+
+            <TextView
+                android:id="@+id/tv_post_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:layout_weight="0.5"
+                android:textSize="16dp"
+                android:layout_gravity="center_vertical"
+                android:singleLine="true"
+                android:text="Username"
+                android:gravity="center_vertical"
+                />
+
+            <TextView
+                android:id="@+id/tv_post_userfiqah"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:layout_weight="0.5"
+                android:textSize="12dp"
+                android:singleLine="true"
+                android:text="Fiqah"
+                android:gravity="center_vertical"
+                android:visibility="gone"
+                />
+
+        </LinearLayout>
+
+
 
         <TextView
             android:id="@+id/tv_time"
