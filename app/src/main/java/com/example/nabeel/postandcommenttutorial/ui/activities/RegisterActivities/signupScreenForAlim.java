@@ -27,6 +27,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -36,6 +38,8 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
+
+import static com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils.getCurrentUser;
 
 public class signupScreenForAlim extends BaseActivity {
 
@@ -329,6 +333,19 @@ public class signupScreenForAlim extends BaseActivity {
 
         }
     }
+//
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        //check if user is signed in (non null) and update UI accordingly
+//        FirebaseUser currentUser = (FirebaseUser)getCurrentUser();
+//        if (currentUser != null) {
+//            Toast.makeText(getApplicationContext(),"FACEBOOK USER IS STILL LOGGED IN",Toast.LENGTH_LONG).show();
+//        }
+//        else{
+//            Toast.makeText(getApplicationContext(),"FACEBOOK USER IS NOT LOGGED IN",Toast.LENGTH_LONG).show();
+//        }
+//    }
 
     private void StartRegistering() {
 
@@ -388,7 +405,7 @@ public class signupScreenForAlim extends BaseActivity {
                     if(task.isSuccessful()){
 
                         FirebaseUtils.getUserRef(email).child("name").setValue(mNameFieldAlim);
-                        FirebaseUtils.getUserRef(email).child("email").setValue(FirebaseUtils.getCurrentUser().getEmail());
+                        FirebaseUtils.getUserRef(email).child("email").setValue(getCurrentUser().getEmail());
                         FirebaseUtils.getUserRef(email).child("gender").setValue(select_gender_alim);
                         FirebaseUtils.getUserRef(email).child("phone").setValue(phonenumberAlim);
                         FirebaseUtils.getUserRef(email).child("country").setValue(countryname_Alim);
