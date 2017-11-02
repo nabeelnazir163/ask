@@ -72,12 +72,11 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     TextView mostlikedanswer_name_tv;
     TextView mostlikedanswer_time_tv;
     TextView mostLikedanswer_text_tv;
+    TextView answers_tv;
 
-    TextView newAnswers_tv;
     TextView viewallanswers_tv;
 
     CardView max_layout;
-    CardView answersCardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,48 +100,13 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         max_layout =  (CardView)findViewById(R.id.answerlayoutpostactivity);
 
         viewallanswers_tv = (TextView) findViewById(R.id.viewallanswer);
-        newAnswers_tv = (TextView) findViewById(R.id.newanswers);
-        answersCardView = (CardView) findViewById(R.id.answers_Cardview);
-
-//        String currentemail = mAuth.getCurrentUser().getEmail().replace(".",",");
-//
-//        audiotv = (TextView) findViewById(R.id.audiotxt);
-//
-//        SharedPreferences userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
-//        final SharedPreferences.Editor userType_sh_editor = userType_sp.edit();
-//
-//        FirebaseUtils.getUserRef(currentemail).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                String userType = dataSnapshot.child("userType").getValue().toString();
-//
-//                if(userType.equals("Alim")){
-//
-//                    userType_sh_editor.putInt("UserType", 1 );
-//                    userType_sh_editor.apply();
-//
-//                }
-//                else if (userType.equals("User")){
-//
-//                    userType_sh_editor.putInt("UserType", 2 );
-//                    userType_sh_editor.apply();
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+        answers_tv = (TextView) findViewById(R.id.newanswer_layout_post);
 
         userType = userType_sp.getInt("UserType", 0);
 
         if(userType == 2){
 
-            answersCardView.setVisibility(View.GONE);
+            answers_tv.setVisibility(View.GONE);
 
         }
 
@@ -324,7 +288,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
-        newAnswers_tv.setOnClickListener(new View.OnClickListener() {
+        answers_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

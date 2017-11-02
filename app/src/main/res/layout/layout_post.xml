@@ -199,17 +199,26 @@
             android:layout_marginRight="8dp"
             >
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Answer Now"
+                android:layout_marginRight="8dp"
+                android:textSize="12sp"
+                android:id="@+id/newanswer_layout_post"
+                />
+
             <ImageView
-                android:layout_width="21dp"
-                android:layout_height="24dp"
+                android:layout_width="15dp"
+                android:layout_height="18dp"
                 android:layout_gravity="right"
                 android:src="@drawable/bookmark"
                 android:id="@+id/bookmark_iv"
                 />
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="17dp"
+                android:layout_height="18dp"
                 android:layout_gravity="right"
                 android:src="@drawable/bookmark_after"
                 android:id="@+id/bookmark_iv_after"
