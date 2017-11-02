@@ -1,7 +1,9 @@
 package com.example.nabeel.postandcommenttutorial.ui.fragments;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -25,6 +27,7 @@ import com.example.nabeel.postandcommenttutorial.ui.activities.PostActivity;
 import com.example.nabeel.postandcommenttutorial.ui.activities.UserProfile;
 import com.example.nabeel.postandcommenttutorial.models.Post;
 import com.example.nabeel.postandcommenttutorial.ui.activities.RegisterActivities.RegisterActivity;
+import com.example.nabeel.postandcommenttutorial.ui.activities.postNewAnswer;
 import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -276,6 +279,13 @@ public class homeFragment extends Fragment {
                 viewHolder.setUsername(model.getUser().getName());
                 viewHolder.setPostText(model.getPostText());
 
+                SharedPreferences userType_sp = getActivity().getSharedPreferences("UserType", Context.MODE_PRIVATE);
+
+                int userType = userType_sp.getInt("UserType", 0);if(userType == 2){
+
+                    viewHolder.newanswers.setVisibility(View.GONE);
+
+                }
 
                 Glide.with(getActivity())
                         .load(model.getUser().getImage())
@@ -329,6 +339,15 @@ public class homeFragment extends Fragment {
                         intent.putExtra(Constants.EXTRA_POST, model);
                         startActivity(intent);
 
+                    }
+                });
+
+                viewHolder.newanswers.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent answers_inteent = new Intent(getActivity() , postNewAnswer.class);
+                        answers_inteent.putExtra(Constants.EXTRA_POST , model);
+                        startActivity(answers_inteent);
                     }
                 });
 
@@ -597,6 +616,7 @@ public class homeFragment extends Fragment {
         ImageView menu_imageview;
         ImageView bookmark_imageview;
         ImageView after_bookmark_iv;
+        TextView newanswers;
 
         public PostHolder(View itemView) {
             super(itemView);
@@ -615,7 +635,7 @@ public class homeFragment extends Fragment {
             menu_imageview = (ImageView) itemView.findViewById(R.id.menuPopup_imageview);
             bookmark_imageview = (ImageView) itemView.findViewById(R.id.bookmark_iv);
             after_bookmark_iv = (ImageView) itemView.findViewById(R.id.bookmark_iv_after);
-
+            newanswers = (TextView) itemView.findViewById(R.id.newanswer_layout_post);
 
 
         }
