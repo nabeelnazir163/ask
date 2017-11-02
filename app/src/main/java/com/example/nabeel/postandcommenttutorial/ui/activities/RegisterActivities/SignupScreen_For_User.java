@@ -159,8 +159,30 @@ public class SignupScreen_For_User extends BaseActivity {
 
                     if(mPassFieldUser.equals(mCon_pass_user)){
 
+                        if(mPassFieldUser.length() > 6){
+
+                            if(isValidEmail(mEmailFieldUser)){
+
+                                StartRegistering();
+
+                            } else {
+
+                                //Toast.makeText(getApplicationContext(), "invalid email", Toast.LENGTH_LONG).show();
+
+                                mEmailFieldUser = mNameFieldUser.toLowerCase().trim();
+
+                            }
+
+
+
+                        } else {
+
+                            Toast.makeText(getApplicationContext(), "Password Length must be greater than 6 chars", Toast.LENGTH_LONG).show();
+
+                        }
+
                         // To do for signup
-                        StartRegistering();
+
 
                     }else {
 
@@ -209,12 +231,7 @@ public class SignupScreen_For_User extends BaseActivity {
         progressDialog.setIndeterminate(true);
         progressDialog.show();
 
-        //final String email = mAuth.getCurrentUser().getEmail().replace(".",",");
         final String email = mEmailFieldUser.replace(".", ",");
-
-        /*SharedPreferences userInfo_SP = getSharedPreferences("userTypeInfo", Context.MODE_PRIVATE);
-        final SharedPreferences.Editor sh_editor = userInfo_SP.edit();
-*/
 
         final String countryname_user = mCountry_user_spinner.getSelectedItem().toString();
         final String State_user = mSignupStateUser.getText().toString();
@@ -223,25 +240,12 @@ public class SignupScreen_For_User extends BaseActivity {
         final String selected_fiqah = mFiqah_spinner_user.getSelectedItem().toString();
 
 
-        if(!TextUtils.isEmpty(mNameFieldUser) && !TextUtils.isEmpty(mEmailFieldUser) && !TextUtils.isEmpty(mPassFieldUser)){
+
+        if(!TextUtils.isEmpty(mNameFieldUser) && !TextUtils.isEmpty(mEmailFieldUser) && !TextUtils.isEmpty(mPassFieldUser) && mImageUri_user != null){
 
             mAuth.createUserWithEmailAndPassword(mEmailFieldUser , mPassFieldUser).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-
-
-                    StorageReference filepath = mSignup_Stor_ref_user.child(mImageUri_user.getLastPathSegment());
-
-                    filepath.putFile(mImageUri_user).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                            String downloaduri = taskSnapshot.getDownloadUrl().toString();
-                            FirebaseUtils.getUserRef(email).child("image").setValue(downloaduri);
-
-                        }
-                    });
-
 
                     if(task.isSuccessful()){
 
@@ -252,6 +256,18 @@ public class SignupScreen_For_User extends BaseActivity {
                         FirebaseUtils.getUserRef(email).child("country").setValue(countryname_user);
                         FirebaseUtils.getUserRef(email).child("fiqah").setValue(selected_fiqah);
                         FirebaseUtils.getUserRef(email).child("userType").setValue("User");
+
+                        StorageReference filepath = mSignup_Stor_ref_user.child(mImageUri_user.getLastPathSegment());
+
+                        filepath.putFile(mImageUri_user).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                String downloaduri = taskSnapshot.getDownloadUrl().toString();
+                                FirebaseUtils.getUserRef(email).child("image").setValue(downloaduri);
+
+                            }
+                        });
 
 
                         if(!TextUtils.isEmpty(State_user)){
@@ -300,6 +316,14 @@ public class SignupScreen_For_User extends BaseActivity {
             progressDialog.dismiss();
         }
 
+    }
+
+    public final static boolean isValidEmail(String target) {
+        if (target == null) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
     }
 
     @Override

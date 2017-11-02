@@ -87,11 +87,11 @@ public class MainActivity extends BaseActivity
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                /*if (firebaseAuth.getCurrentUser() == null) {
+                if (firebaseAuth.getCurrentUser() == null) {
                     Intent loginintent =  new Intent(MainActivity.this, RegisterActivity.class);
                     loginintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(loginintent);
-                }*/
+                }
             }
         };
 
@@ -147,7 +147,6 @@ public class MainActivity extends BaseActivity
 
         if(userType == 2) {
            // viewPagerAdapter.addFragments(new NotificationFrag(), "Notification");
-
         }
 
 

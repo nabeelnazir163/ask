@@ -332,7 +332,7 @@ public class signupScreenForAlim extends BaseActivity {
         final String qualification = mSignupQualificationAlim.getText().toString();
 
 
-        if(!TextUtils.isEmpty(mNameFieldAlim) && !TextUtils.isEmpty(mEmailFieldAlim) && !TextUtils.isEmpty(mPassFieldAlim)){
+        if(!TextUtils.isEmpty(mNameFieldAlim) && !TextUtils.isEmpty(mEmailFieldAlim) && !TextUtils.isEmpty(mPassFieldAlim) && certificate_image_uri != null && mImageUriAlim!= null){
 
             mAuth.createUserWithEmailAndPassword(mEmailFieldAlim , mPassFieldAlim).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override

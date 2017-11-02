@@ -202,7 +202,10 @@ public class homeFragment extends Fragment {
         mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
         mPostRecyclerView.setLayoutManager(mLayoutManager);
-        setupAdapter();
+
+        if(mAuth.getCurrentUser() != null) {
+            setupAdapter();
+        }
         mPostRecyclerView.setAdapter(mPostAdapter);
 
         /*mPostRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
