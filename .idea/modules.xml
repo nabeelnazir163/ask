@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Postandcommenttutorial.iml" filepath="$PROJECT_DIR$/Postandcommenttutorial.iml" />
       <module fileurl="file://C:\Users\haide\AndroidStudioProjects\ask\Postandcommenttutorial.iml" filepath="C:\Users\haide\AndroidStudioProjects\ask\Postandcommenttutorial.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ask.iml" filepath="$PROJECT_DIR$/ask.iml" />
+      <module fileurl="file://D:\Postandcommenttutorial\ask.iml" filepath="D:\Postandcommenttutorial\ask.iml" />
     </modules>
   </component>
 </project>
