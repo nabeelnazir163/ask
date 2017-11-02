@@ -654,7 +654,7 @@ public class homeFragment extends Fragment {
         ImageView menu_imageview;
         ImageView bookmark_imageview;
         ImageView after_bookmark_iv;
-        TextView newanswers;
+        ImageView newanswers;
         TextView fiqahOfAlim;
         RelativeLayout readmore_rel_layout;
 
@@ -675,7 +675,7 @@ public class homeFragment extends Fragment {
             menu_imageview = (ImageView) itemView.findViewById(R.id.menuPopup_imageview);
             bookmark_imageview = (ImageView) itemView.findViewById(R.id.bookmark_iv);
             after_bookmark_iv = (ImageView) itemView.findViewById(R.id.bookmark_iv_after);
-            newanswers = (TextView) itemView.findViewById(R.id.newanswer_layout_post);
+            newanswers = (ImageView) itemView.findViewById(R.id.newanswer_layout_post);
             fiqahOfAlim = (TextView) itemView.findViewById(R.id.tv_post_userfiqah);
             readmore_rel_layout = (RelativeLayout) itemView.findViewById(R.id.readmore_relLayout);
 

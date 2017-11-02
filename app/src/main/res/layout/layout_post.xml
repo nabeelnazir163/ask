@@ -245,12 +245,11 @@
             android:layout_marginRight="8dp"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Answer Now"
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="18dp"
                 android:layout_marginRight="8dp"
-                android:textSize="12sp"
+                android:src="@drawable/editanswer"
                 android:id="@+id/newanswer_layout_post"
                 />
 
