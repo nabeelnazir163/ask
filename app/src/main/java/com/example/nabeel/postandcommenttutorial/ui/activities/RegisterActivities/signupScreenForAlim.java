@@ -220,6 +220,8 @@ public class signupScreenForAlim extends BaseActivity {
 
                     if(mPassFieldAlim.equals(mCon_pass_Alim)){
 
+                        //after checking the password and confirm passwrod, check the length of the password here
+
                         if(mPassFieldAlim.length() > 6){
 
                             if(!isValidEmail(mEmailFieldAlim)){
