@@ -131,8 +131,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="View all answers ..."
-                        android:textColor="@color/com_facebook_blue"
+                        android:text="View All Answers"
                         android:id="@+id/viewallanswer"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="8dp"
@@ -144,9 +143,6 @@
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
-
-
-
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/post_activity_answer_recyclerview"
