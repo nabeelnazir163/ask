@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -21,10 +22,20 @@ import com.example.nabeel.postandcommenttutorial.inApp_purchaser;
 import com.example.nabeel.postandcommenttutorial.ui.activities.MainActivity;
 import com.example.nabeel.postandcommenttutorial.utils.BaseActivity;
 import com.example.nabeel.postandcommenttutorial.utils.Constants;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,9 +50,17 @@ public class RegisterActivity extends BaseActivity{
 
     private DatabaseReference mDataBaseUsers;
 
-
     private EditText memailfield;
     private EditText mpasswordfield;
+
+    //FOR FACEBOOK INTEGRATION
+//    //for fb signup functionality
+//    private static final String TAG = "RegisterActivity";
+//    private CallbackManager callbackManager;
+//    private AccessToken facebookAccessToken;
+//    private LoginButton loginButton;
+//    private FirebaseAuth firebaseAuth;
+//// ----
 
     int check_user_type_from_radio_btn;
 
@@ -61,6 +80,15 @@ public class RegisterActivity extends BaseActivity{
         mpasswordfield = (EditText) findViewById(R.id.login_pass);
         mDataBaseUsers = FirebaseDatabase.getInstance().getReference().child(Constants.USERS_KEY);
         mDataBaseUsers.keepSynced(true);
+
+
+        //FACEBOOK INTEGRATION
+
+//        //initializing the fb sdk
+//        firebaseAuth = FirebaseAuth.getInstance();
+//        FacebookSdk.sdkInitialize(getApplicationContext());
+//        loginButton = (LoginButton) findViewById(R.id.facebookLoginBtn);
+//        //---
 
 //        initializeRadioButton(RegisterActivity.this);
 
@@ -110,8 +138,65 @@ public class RegisterActivity extends BaseActivity{
 
             }
         });
-
+//
+//        //SIGNING UP WITH FACEBOOK
+//        loginButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                callbackManager = CallbackManager.Factory.create();
+//                loginButton.setReadPermissions("email", "public_profile", "user_friends","user_about_me");
+//                loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+//                    @Override
+//                    public void onSuccess(LoginResult loginResult) {
+//                        Log.d(TAG, "facebook:onSuccess: " + loginResult);
+//                        facebookAccessToken = loginResult.getAccessToken();
+//                        handleFacebookAccessToken(facebookAccessToken);
+//                    }
+//
+//                    @Override
+//                    public void onCancel() {
+//                        Log.d(TAG, "facebook:onCancel:");
+//                    }
+//
+//                    @Override
+//                    public void onError(FacebookException error) {
+//                        Log.d(TAG, "facebook:onError", error);
+//                    }
+//                });
+//            }
+//        });
+//    }
+//
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        callbackManager.onActivityResult(requestCode, resultCode, data);
+//    }
+//
+//    public void handleFacebookAccessToken(AccessToken token) {
+//        Log.d(TAG, "handleFacebookAccessToken: " + token);
+//        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+//        firebaseAuth.signInWithCredential(credential)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if(task.isSuccessful()){
+//                            //sign in success, update UI with the signed in user's information
+//                            Log.d(TAG,"signInwithCredential: success");
+//                            FirebaseUser user = firebaseAuth.getCurrentUser();
+//                            //if success, goto signup for alim activity
+//                            Intent intent = new Intent(getApplicationContext(),signupScreenForAlim.class);
+//                            startActivity(intent);
+//                        }
+//                        else{
+//                            //if sign in fails
+//                            Log.d(TAG,"signInWithCredential: failure");
+//                            Toast.makeText(getApplicationContext(),"Authentication Failed",Toast.LENGTH_SHORT).show();
+//                        }
+//
+//                    }
+//                });
     }
+
 
     private void initializeRadioButton(View v) {
 
