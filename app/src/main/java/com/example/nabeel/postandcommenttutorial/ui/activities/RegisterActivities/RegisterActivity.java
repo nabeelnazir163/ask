@@ -30,6 +30,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.facebook.share.Share;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -105,13 +106,20 @@ public class RegisterActivity extends BaseActivity{
         userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
         userType_sh_editor = userType_sp.edit();
 
+//        mGuestLogin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                Intent inApppurchaser_intent = new Intent(RegisterActivity.this , inApp_purchaser.class);
+//                startActivity(inApppurchaser_intent);
+//
+//            }
+//        });
+
         mGuestLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent inApppurchaser_intent = new Intent(RegisterActivity.this , inApp_purchaser.class);
-                startActivity(inApppurchaser_intent);
-
+                signInAnonymously();
             }
         });
 
@@ -140,6 +148,8 @@ public class RegisterActivity extends BaseActivity{
 
             }
         });
+
+
 
 //      //SIGNING UP WITH FACEBOOK
         loginButton = (LoginButton)findViewById(R.id.facebookLoginBtn);
@@ -176,6 +186,24 @@ public class RegisterActivity extends BaseActivity{
         //SIGNING UP WORK TILL HERE
     }
 
+    public void signInAnonymously(){
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.signInAnonymously().addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(getApplicationContext(),"SUCCESSFUL GUEST",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    userType_sh_editor.putInt("UserType", 3);
+                    userType_sh_editor.apply();
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"UNSUCCESSFUL",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
     //ADDITIONAL FB FUNCTIOANLITY
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
