@@ -27,6 +27,8 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,6 +44,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONObject;
+
 public class RegisterActivity extends BaseActivity{
 
     private TextView mSign_up;
@@ -54,12 +58,10 @@ public class RegisterActivity extends BaseActivity{
     private EditText mpasswordfield;
 
     //FOR FACEBOOK INTEGRATION
-//    //for fb signup functionality
-//    private static final String TAG = "RegisterActivity";
-//    private CallbackManager callbackManager;
-//    private AccessToken facebookAccessToken;
-//    private LoginButton loginButton;
-//    private FirebaseAuth firebaseAuth;
+
+    private LoginButton loginButton;
+    private CallbackManager callbackManager;
+
 //// ----
 
     int check_user_type_from_radio_btn;
@@ -82,13 +84,6 @@ public class RegisterActivity extends BaseActivity{
         mDataBaseUsers.keepSynced(true);
 
 
-        //FACEBOOK INTEGRATION
-
-//        //initializing the fb sdk
-//        firebaseAuth = FirebaseAuth.getInstance();
-//        FacebookSdk.sdkInitialize(getApplicationContext());
-//        loginButton = (LoginButton) findViewById(R.id.facebookLoginBtn);
-//        //---
 
 //        initializeRadioButton(RegisterActivity.this);
 
@@ -138,63 +133,47 @@ public class RegisterActivity extends BaseActivity{
 
             }
         });
-//
-//        //SIGNING UP WITH FACEBOOK
-//        loginButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                callbackManager = CallbackManager.Factory.create();
-//                loginButton.setReadPermissions("email", "public_profile", "user_friends","user_about_me");
-//                loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-//                    @Override
-//                    public void onSuccess(LoginResult loginResult) {
-//                        Log.d(TAG, "facebook:onSuccess: " + loginResult);
-//                        facebookAccessToken = loginResult.getAccessToken();
-//                        handleFacebookAccessToken(facebookAccessToken);
-//                    }
-//
-//                    @Override
-//                    public void onCancel() {
-//                        Log.d(TAG, "facebook:onCancel:");
-//                    }
-//
-//                    @Override
-//                    public void onError(FacebookException error) {
-//                        Log.d(TAG, "facebook:onError", error);
-//                    }
-//                });
-//            }
-//        });
-//    }
-//
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        callbackManager.onActivityResult(requestCode, resultCode, data);
-//    }
-//
-//    public void handleFacebookAccessToken(AccessToken token) {
-//        Log.d(TAG, "handleFacebookAccessToken: " + token);
-//        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-//        firebaseAuth.signInWithCredential(credential)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if(task.isSuccessful()){
-//                            //sign in success, update UI with the signed in user's information
-//                            Log.d(TAG,"signInwithCredential: success");
-//                            FirebaseUser user = firebaseAuth.getCurrentUser();
-//                            //if success, goto signup for alim activity
-//                            Intent intent = new Intent(getApplicationContext(),signupScreenForAlim.class);
-//                            startActivity(intent);
-//                        }
-//                        else{
-//                            //if sign in fails
-//                            Log.d(TAG,"signInWithCredential: failure");
-//                            Toast.makeText(getApplicationContext(),"Authentication Failed",Toast.LENGTH_SHORT).show();
-//                        }
-//
-//                    }
-//                });
+
+//      //SIGNING UP WITH FACEBOOK
+        loginButton = (LoginButton)findViewById(R.id.facebookLoginBtn);
+        callbackManager = CallbackManager.Factory.create();
+        loginButton.setReadPermissions("email","public_profile");
+
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        Intent intent = new Intent(getApplicationContext(),signupScreenForAlim.class);
+                        intent.putExtra("json",object.toString());
+                        startActivity(intent);
+                    }
+                });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields","first_name, last_name, email, gender");
+                graphRequest.setParameters(parameters);
+                graphRequest.executeAsync();
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(getApplicationContext(),"PROCESS CANCELLED",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Toast.makeText(getApplicationContext(),"AUTHENTICATION FAILED",Toast.LENGTH_SHORT).show();
+            }
+        });
+        //SIGNING UP WORK TILL HERE
+    }
+
+
+    //ADDITIONAL FB FUNCTIOANLITY
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
 
