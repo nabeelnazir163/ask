@@ -23,6 +23,8 @@ import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.ui.activities.MainActivity;
 import com.example.nabeel.postandcommenttutorial.utils.BaseActivity;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -32,8 +34,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -333,19 +339,32 @@ public class signupScreenForAlim extends BaseActivity {
 
         }
     }
-//
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        //check if user is signed in (non null) and update UI accordingly
-//        FirebaseUser currentUser = (FirebaseUser)getCurrentUser();
-//        if (currentUser != null) {
-//            Toast.makeText(getApplicationContext(),"FACEBOOK USER IS STILL LOGGED IN",Toast.LENGTH_LONG).show();
-//        }
-//        else{
-//            Toast.makeText(getApplicationContext(),"FACEBOOK USER IS NOT LOGGED IN",Toast.LENGTH_LONG).show();
-//        }
-//    }
+
+
+
+    //ON START OF APPLICATION CHECK IF THERE IS DATA COMING WITH THE INTENT
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(getIntent().getStringExtra("json")!=null){
+            try {
+                JSONObject object = new JSONObject(getIntent().getStringExtra("json"));
+                String fName = "", lName = "", name = "";
+                fName = object.getString("first_name");
+                lName = object.getString("last_name");
+                name = ""+fName+" "+lName;
+
+                mSignupNameAlim.setText(name);
+                mSignupEmailAlim.setText(object.getString("email"));
+                String userID = object.getString("id");
+                Picasso.with(signupScreenForAlim.this).load("https://graph.facebook.com/" + userID+ "/picture?type=large").into(mProfileiv);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 
     private void StartRegistering() {
 
@@ -648,4 +667,15 @@ public class signupScreenForAlim extends BaseActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LoginManager.getInstance().logOut();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        LoginManager.getInstance().logOut();
+    }
 }
