@@ -31,14 +31,31 @@
                 android:id="@+id/signup_user_profile_iv"
                 />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/eng_chose_dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="2dp"
-                android:textColor="#015A35"
-                />
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/eng_chose_dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:textColor="#015A35"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="*"
+                    android:gravity="top|left"
+                    android:textColor="@color/tw__composer_red"
+                    />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,12 +63,33 @@
                 android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="3dp"
-                    android:text="@string/eng_name"
-                    android:textColor="#015A35" />
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:text="@string/eng_name"
+                        android:textColor="#015A35" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*"
+                        android:textColor="@color/tw__composer_red"
+                        android:layout_marginLeft="1.5dp"
+                        android:gravity="top|left"
+                        />
+
+                </LinearLayout>
+
+
+
+
 
                 <!--<EditText
                 h
@@ -79,7 +117,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="0.5dp"
                     android:layout_marginTop="5dp"
                     android:background="@android:color/darker_gray"/>
             </LinearLayout>
@@ -94,13 +132,31 @@
                 android:layout_marginTop="20dp"
                 >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/eng_email"
-                android:textColor="#015A35"
-                android:layout_marginBottom="3dp"
-                />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/eng_email"
+                        android:textColor="#015A35"
+                        android:layout_marginBottom="3dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*"
+                        android:textColor="@color/tw__composer_red"
+                        android:layout_marginLeft="1.5dp"
+                        android:gravity="top|left"
+                        />
+                </LinearLayout>
+
+
 
             <EditText
                 android:id="@+id/Signup_user_emailfield"
@@ -115,9 +171,24 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="0.5dp"
                     android:layout_marginTop="5dp"
                     android:background="@android:color/darker_gray"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="8dp"
+                    android:text="- If you dont have email, re-enter your name We will register your name by adding '@askalim.com' at the end of your name"
+                    android:layout_marginBottom="3dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="8dp"
+                    android:text="- Note : You will not be able to recover your password if you forgot"
+                    />
 
 
             </LinearLayout>
@@ -130,13 +201,32 @@
                 android:layout_marginTop="20dp"
                 >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/eng_pass"
-                android:textColor="#015A35"
-                android:layout_marginBottom="3dp"
-                />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/eng_pass"
+                        android:textColor="#015A35"
+                        android:layout_marginBottom="3dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*"
+                        android:textColor="@color/tw__composer_red"
+                        android:layout_marginLeft="1.5dp"
+                        android:gravity="top|left"
+                        />
+
+                </LinearLayout>
+
+
 
             <EditText
                 android:id="@+id/Signup_user_passwordfield"
@@ -151,7 +241,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="0.5dp"
                     android:layout_marginTop="5dp"
                     android:background="@android:color/darker_gray"/>
 
@@ -165,13 +255,30 @@
                 android:layout_marginTop="20dp"
                 >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/eng_con_pass"
-                android:textColor="#015A35"
-                android:layout_marginBottom="3dp"
-                />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/eng_con_pass"
+                        android:textColor="#015A35"
+                        android:layout_marginBottom="3dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*"
+                        android:textColor="@color/tw__composer_red"
+                        android:layout_marginLeft="1.5dp"
+                        android:gravity="top|left"
+                        />
+                </LinearLayout>
+
 
             <EditText
                 android:id="@+id/Signup_user_Confirmpasswordfield"
@@ -186,9 +293,17 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="0.5dp"
                     android:layout_marginTop="5dp"
                     android:background="@android:color/darker_gray"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="- Password length should be greater than 6 characters"
+                    android:textSize="8dp"
+                    android:layout_marginTop="8dp"
+                    />
 
             </LinearLayout>
 
@@ -220,7 +335,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0.5dp"
                 android:layout_marginTop="5dp"
                 android:background="@android:color/darker_gray"/>
 
@@ -311,7 +426,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="0.5dp"
                     android:layout_marginTop="5dp"
                     android:background="@android:color/darker_gray"/>
 
@@ -329,6 +444,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     >
+
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -354,7 +471,19 @@
                             android:layout_below="@+id/setup_country_spinner_user"
                             android:hint="@string/eng_state"
                             />
+
+
                     </LinearLayout>
+
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:background="@android:color/darker_gray"/>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -387,7 +516,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="0.5dp"
                     android:layout_marginTop="5dp"
                     android:background="@android:color/darker_gray"/>
 
@@ -418,7 +547,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="0.5dp"
                     android:layout_marginTop="5dp"
                     android:background="@android:color/darker_gray"/>
 
@@ -471,7 +600,6 @@
             android:text="@string/eng_finish"
             android:background="#015A35"
             android:textColor="#ffffff"
-
             />
 
     </RelativeLayout>
