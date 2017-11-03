@@ -6,20 +6,21 @@
         android:id="@+id/group1">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/home"
             android:title="Home" /></group>
 
         <group android:checkableBehavior="single"
             android:id="@+id/group2">
         <item
             android:id="@+id/myaccount"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/profile"
             android:title="Profile" /></group>
 
     <group android:checkableBehavior="single"
         android:id="@+id/group3">
         <item
             android:id="@+id/bookmark"
+            android:icon="@drawable/bookmark"
             android:title="Bookmark"/></group>
 
     <group android:checkableBehavior="single"
@@ -45,6 +46,7 @@
             android:id="@+id/group6">
             <item
                 android:id="@+id/logout"
+                android:src="@mipmap/notification"
                 android:title="Log Out" /></group>
 
 

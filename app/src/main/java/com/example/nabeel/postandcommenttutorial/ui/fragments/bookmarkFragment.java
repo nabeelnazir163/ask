@@ -61,8 +61,11 @@ public class bookmarkFragment extends Fragment {
         mLayoutManager.setStackFromEnd(true);
         bookmark_recyc_view.setLayoutManager(mLayoutManager);
 
-//        setupadapter();
+        if(FirebaseUtils.getCurrentUser() != null) {
 
+            setupadapter();
+
+        }
         return mRootView;
     }
 
