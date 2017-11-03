@@ -27,12 +27,14 @@
         android:id="@+id/group4">
         <item
             android:id="@+id/account_setting"
+            android:icon="@drawable/account_setting"
             android:title="Account Setting"/></group>
 
     <group android:checkableBehavior="single"
         android:id="@+id/group5">
         <item
             android:id="@+id/appinfo"
+            android:icon="@drawable/app_info"
             android:title="App Info"/></group>
 
 
@@ -40,13 +42,14 @@
         android:id="@+id/group7">
         <item
             android:id="@+id/prayertime"
+            android:icon="@drawable/prayer_time"
             android:title="Prayer Time"/></group>
 
         <group android:checkableBehavior="single"
             android:id="@+id/group6">
             <item
                 android:id="@+id/logout"
-                android:src="@mipmap/notification"
+                android:icon="@drawable/logout"
                 android:title="Log Out" /></group>
 
 

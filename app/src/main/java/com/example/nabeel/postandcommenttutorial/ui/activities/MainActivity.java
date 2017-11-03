@@ -274,6 +274,7 @@ public class MainActivity extends BaseActivity
         }
     }
 
+
     private void initNavHeader(View view) {
         mDisplayImageView = (ImageView) view.findViewById(R.id.imageView_display);
         mNameTextView = (TextView) view.findViewById(R.id.textview_name);
@@ -316,6 +317,19 @@ public class MainActivity extends BaseActivity
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // if nav drawer is opened, hide the action items
+
+        if(userType == 2){
+
+            menu.findItem(R.id.chat_inbox).setVisible(false);
+
+        }
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override

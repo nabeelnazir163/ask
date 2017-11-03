@@ -186,6 +186,10 @@ public class SignupScreen_For_User extends BaseActivity {
 
                                     StartRegistering();
                                 }
+                            } else if(isValidEmail(mEmailFieldUser)){
+
+                                StartRegistering();
+
                             }
                         } else {
 
