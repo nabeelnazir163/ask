@@ -50,7 +50,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
-                    android:paddingLeft="5dp"
                     android:text="@string/eng_name"
                     android:textColor="#015A35" />
 
@@ -75,18 +74,25 @@
                     android:ems="10"
                     android:hint="@string/eng_name"
                     android:inputType="textPersonName"
-                    android:padding="5dp"
-                    android:maxLines="2"
+                    android:maxLines="1"
                     />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/darker_gray"/>
             </LinearLayout>
 
 
+
+
             <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp"
-            >
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -94,7 +100,6 @@
                 android:text="@string/eng_email"
                 android:textColor="#015A35"
                 android:layout_marginBottom="3dp"
-                android:paddingLeft="5dp"
                 />
 
             <EditText
@@ -106,17 +111,24 @@
                 android:ems="10"
                 android:hint="@string/eng_email"
                 android:inputType="textEmailAddress"
-                android:padding="5dp" />
+                />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/darker_gray"/>
+
 
             </LinearLayout>
 
 
             <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp"
-            >
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -124,7 +136,6 @@
                 android:text="@string/eng_pass"
                 android:textColor="#015A35"
                 android:layout_marginBottom="3dp"
-                android:paddingLeft="5dp"
                 />
 
             <EditText
@@ -136,16 +147,23 @@
                 android:ems="10"
                 android:hint="@string/eng_pass"
                 android:inputType="textPassword"
-                android:padding="5dp" />
+                />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/darker_gray"/>
+
             </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp"
-            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -153,7 +171,6 @@
                 android:text="@string/eng_con_pass"
                 android:textColor="#015A35"
                 android:layout_marginBottom="3dp"
-                android:paddingLeft="5dp"
                 />
 
             <EditText
@@ -165,7 +182,13 @@
                 android:ems="10"
                 android:hint="@string/eng_con_pass"
                 android:inputType="textPassword"
-                android:padding="5dp" />
+                />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
 
@@ -182,7 +205,6 @@
                 android:text="@string/eng_phone"
                 android:textColor="#015A35"
                 android:layout_marginBottom="3dp"
-                android:paddingLeft="5dp"
                 />
 
             <EditText
@@ -194,7 +216,13 @@
                 android:ems="10"
                 android:hint="@string/eng_phone"
                 android:inputType="phone"
-                android:padding="5dp" />
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
 
@@ -244,34 +272,6 @@
 
                 </RadioGroup>
 
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_gravity="center_horizontal"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/eng_slct_country"
-                    android:layout_marginRight="5dp"
-                    android:gravity="center_vertical"
-                    android:textColor="#015A35"
-                    android:textSize="15dp"
-                    android:paddingLeft="5dp"
-                    />
-
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/signup_country_spinner_user"
-
-                    />
 
             </LinearLayout>
 
@@ -279,61 +279,118 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="0.5"
+                    android:layout_gravity="center_horizontal"
                     >
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/eng_state"
+                        android:text="@string/eng_slct_country"
+                        android:layout_marginRight="5dp"
+                        android:gravity="center_vertical"
                         android:textColor="#015A35"
-                        android:paddingLeft="5dp"
+                        android:textSize="15dp"
                         />
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/Signup_state_tv_user"
-                    android:layout_below="@+id/setup_country_spinner_user"
-                    android:hint="@string/eng_state"
-                    android:paddingLeft="5dp"
-                    />
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/signup_country_spinner_user"
+
+                        />
+
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/darker_gray"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="0.5"
+                    android:orientation="horizontal"
                     >
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="#015A35"
-                        android:paddingLeft="5dp"
-                        android:text="@string/eng_city"
-                        />
+                        android:orientation="vertical"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="0.5"
+                        >
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/Signup_city_tv_user"
-                    android:layout_below="@+id/setup_state_tv_user"
-                    android:hint="@string/eng_city"
-                    android:paddingTop="10dp"
-                    />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/eng_state"
+                            android:textColor="#015A35"
+                            android:layout_marginBottom="3dp"
+                            />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/Signup_state_tv_user"
+                            android:background="@drawable/input_background"
+                            android:layout_below="@+id/setup_country_spinner_user"
+                            android:hint="@string/eng_state"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="0.5"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#015A35"
+                            android:text="@string/eng_city"
+                            android:layout_marginBottom="3dp"
+                            />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/Signup_city_tv_user"
+                            android:layout_below="@+id/setup_state_tv_user"
+                            android:hint="@string/eng_city"
+                            android:background="@drawable/input_background"
+                            />
+
+                    </LinearLayout>
 
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/darker_gray"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -348,16 +405,22 @@
                     android:layout_height="wrap_content"
                     android:text="@string/eng_address"
                     android:textColor="#015A35"
-                    android:paddingLeft="5dp"
+                    android:layout_marginBottom="3dp"
                     />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/Signup_address_tv_user"
-                android:paddingTop="10dp"
-                android:hint="@string/eng_address"
-                />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input_background"
+                    android:id="@+id/Signup_address_tv_user"
+                    android:hint="@string/eng_address"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
 
@@ -366,6 +429,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="60dp"
                 android:layout_gravity="center_horizontal"
                 >
 
@@ -377,7 +441,6 @@
                     android:gravity="center_vertical"
                     android:textSize="15dp"
                     android:textColor="#015A35"
-                    android:paddingLeft="5dp"
                     />
 
                 <Spinner
@@ -394,8 +457,9 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
+        android:id="@+id/main_lin_layout"
         >
 
         <Button
@@ -405,7 +469,6 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:text="@string/eng_finish"
-            android:layout_marginTop="20dp"
             android:background="#015A35"
             android:textColor="#ffffff"
 
