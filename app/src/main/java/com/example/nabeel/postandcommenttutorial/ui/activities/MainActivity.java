@@ -424,6 +424,9 @@ public class MainActivity extends BaseActivity
 
             startActivity(new Intent(MainActivity.this , SearchActivity.class));
 
+        } else if (id == R.id.chat_inbox){
+
+            startActivity(new Intent(MainActivity.this, inbox.class));
 
         }
         return super.onOptionsItemSelected(item);
