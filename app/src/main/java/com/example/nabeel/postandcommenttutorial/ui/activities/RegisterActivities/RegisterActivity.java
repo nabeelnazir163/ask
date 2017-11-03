@@ -1,6 +1,7 @@
 package com.example.nabeel.postandcommenttutorial.ui.activities.RegisterActivities;
 
 
+import android.support.v7.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -10,7 +11,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -23,22 +23,16 @@ import com.example.nabeel.postandcommenttutorial.ui.activities.MainActivity;
 import com.example.nabeel.postandcommenttutorial.ui.activities.ResetPassword;
 import com.example.nabeel.postandcommenttutorial.utils.BaseActivity;
 import com.example.nabeel.postandcommenttutorial.utils.Constants;
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthProvider;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,7 +40,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 public class RegisterActivity extends BaseActivity{
 
@@ -86,6 +79,9 @@ public class RegisterActivity extends BaseActivity{
         mpasswordfield = (EditText) findViewById(R.id.login_pass);
         mDataBaseUsers = FirebaseDatabase.getInstance().getReference().child(Constants.USERS_KEY);
         mDataBaseUsers.keepSynced(true);
+
+        ActionBar ab = getSupportActionBar();
+        ab.hide();
 
 
 
