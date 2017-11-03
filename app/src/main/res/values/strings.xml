@@ -12,11 +12,11 @@
 
 
     <string name="title_activity_splash">ASK ALIM</string>
-    
+
     <string name="enter">Enter</string>
 
     <string name="login_statment">Login if you have an account</string>
-    
+
     <string name="question">What is Your Question?</string>
     <string name="ask">Ask a question</string>
     <string name="G_login">Login as GUEST</string>

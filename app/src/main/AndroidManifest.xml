@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.nabeel.postandcommenttutorial" >
+    package="com.example.nabeel.postandcommenttutorial">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -30,7 +30,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="android.app.searchable"
             android:resource="@xml/searchable" />
@@ -50,7 +50,7 @@
         <activity
             android:name=".ui.activities.splash"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -115,8 +115,8 @@
         <activity android:name=".ui.activities.postNewAnswer" />
         <activity android:name=".ui.activities.Notification" />
         <activity android:name=".ui.activities.SearchActivity" />
-        <activity android:name=".ui.activities.inbox" >
-        </activity>
+        <activity android:name=".ui.activities.inbox"></activity>
+        <activity android:name=".ui.activities.ResetPassword"></activity>
     </application>
 
 </manifest>

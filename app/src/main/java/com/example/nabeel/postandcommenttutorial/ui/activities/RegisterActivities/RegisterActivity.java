@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.inApp_purchaser;
 import com.example.nabeel.postandcommenttutorial.ui.activities.MainActivity;
+import com.example.nabeel.postandcommenttutorial.ui.activities.ResetPassword;
 import com.example.nabeel.postandcommenttutorial.utils.BaseActivity;
 import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.facebook.AccessToken;
@@ -45,10 +46,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 public class RegisterActivity extends BaseActivity{
 
     private TextView mSign_up;
+    private TextView mForgot_pass;
     private TextView mLogin_tv;
     private TextView mGuestLogin;
 
@@ -75,6 +78,7 @@ public class RegisterActivity extends BaseActivity{
         setContentView(R.layout.activity_register);
 
         mSign_up = (TextView) findViewById(R.id.signup_tv);
+        mForgot_pass = (TextView) findViewById(R.id.forgotPass_tv);
         mLogin_tv = (TextView) findViewById(R.id.login_tv);
         mGuestLogin = (TextView) findViewById(R.id.guest_login);
 
@@ -121,6 +125,13 @@ public class RegisterActivity extends BaseActivity{
 
                 CreateConfirmationDialog();
 
+            }
+        });
+
+        mForgot_pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gotoResetPassword();
             }
         });
 
@@ -174,6 +185,11 @@ public class RegisterActivity extends BaseActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void gotoResetPassword(){
+        Intent intent = new Intent(RegisterActivity.this, ResetPassword.class);
+        startActivity(intent);
     }
 
 

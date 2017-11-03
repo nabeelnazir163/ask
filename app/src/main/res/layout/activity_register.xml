@@ -143,11 +143,11 @@
                         android:text="|" />
 
                     <TextView
+                        android:id="@+id/forgotPass_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/forgot_pass"
-                        android:textSize="15dp"
-                        />
+                        android:textSize="15dp" />
 
 
                 </LinearLayout>
