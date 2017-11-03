@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="20dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginRight="20dp"
     tools:context="com.example.nabeel.postandcommenttutorial.ui.activities.RegisterActivities.signupScreenForAlim">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,161 +26,287 @@
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/facebook"
                 android:id="@+id/profile_iv_alim"
+                android:contentDescription="Image"
                 />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/eng_chose_dp"
-                android:id="@+id/chose_profile_tv"
-                android:layout_gravity="center"
-                android:layout_marginTop="2dp"
-                android:textColor="#015A35"
-                />
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/eng_chose_dp"
+                    android:id="@+id/chose_profile_tv"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:textColor="#015A35"
+                    />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:paddingLeft="5dp"
-                android:text="@string/eng_name"
-                android:textColor="#015A35" />
-
-            <EditText
-                android:id="@+id/Signup_Alim_namefield"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:ems="10"
-                android:background="@drawable/input_background"
-                android:hint="@string/eng_name"
-                android:padding="5dp" />
-            </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/eng_email"
-                android:textColor="#015A35"
-                android:layout_marginBottom="3dp"
-                android:paddingLeft="5dp"
-                />
-            <EditText
-                android:id="@+id/Signup_Alim_emailfield"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/input_background"
-                android:ems="10"
-                android:hint="@string/eng_email"
-                android:inputType="textEmailAddress"
-                android:padding="5dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="*"
+                    android:gravity="top|start"
+                    android:textColor="@color/tw__composer_red"
+                    />
 
             </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/eng_pass"
-                android:textColor="#015A35"
-                android:layout_marginBottom="3dp"
-                android:paddingLeft="5dp"
-                />
-
-            <EditText
-                android:id="@+id/Aignup_Alim_passwordfield"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/Regemailfield"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/input_background"
-                android:ems="10"
-                android:hint="@string/eng_pass"
-                android:inputType="textPassword"
-                android:padding="5dp" />
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:text="@string/eng_name"
+                        android:textColor="#015A35" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*"
+                        android:textColor="@color/tw__composer_red"
+                        android:layout_marginLeft="1.5sp"
+                        android:gravity="top|start"
+                        />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/Signup_Alim_namefield"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:ems="10"
+                    android:background="@drawable/input_background"
+                    android:hint="@string/eng_name"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
 
 
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/eng_con_pass"
-                android:textColor="#015A35"
-                android:layout_marginBottom="3dp"
-                android:paddingLeft="5dp"
-                />
-            <EditText
-                android:id="@+id/Signup_alim_Confirmpasswordfield"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/Regemailfield"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/input_background"
-                android:ems="10"
-                android:hint="@string/eng_con_pass"
-                android:inputType="textPassword"
-                android:padding="5dp" />
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/eng_email"
+                        android:textColor="#015A35"
+                        android:layout_marginBottom="3dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*"
+                        android:textColor="@color/tw__composer_red"
+                        android:layout_marginLeft="1.5dp"
+                        android:gravity="top|start"
+                        />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/Signup_Alim_emailfield"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/input_background"
+                    android:ems="10"
+                    android:hint="@string/eng_email"
+                    android:inputType="textEmailAddress"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="8dp"
+                    android:text="- If you dont have email, re-enter your name We will register your name by adding '@askalim.com' at the end of your name"
+                    android:layout_marginBottom="3dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="8dp"
+                    android:text="- Note : You will not be able to recover your password if you forgot"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/eng_pass"
+                        android:textColor="#015A35"
+                        android:layout_marginBottom="3dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*"
+                        android:textColor="@color/tw__composer_red"
+                        android:layout_marginLeft="1.5dp"
+                        android:gravity="top|start"
+                        />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/Aignup_Alim_passwordfield"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Regemailfield"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/input_background"
+                    android:ems="10"
+                    android:hint="@string/eng_pass"
+                    android:inputType="textPassword"
+                     />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp"
-            >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/eng_phone"
-                android:textColor="#015A35"
-                android:layout_marginBottom="3dp"
-                android:paddingLeft="5dp"
-                />
-            <EditText
-                android:id="@+id/Signup_alim_PhoneField"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/Regemailfield"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/input_background"
-                android:ems="10"
-                android:hint="@string/eng_phone"
-                android:inputType="phone"
-                android:padding="5dp" />
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/eng_con_pass"
+                        android:textColor="#015A35"
+                        android:layout_marginBottom="3dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*"
+                        android:textColor="@color/tw__composer_red"
+                        android:layout_marginLeft="1.5dp"
+                        android:gravity="top|start"
+                        />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/Signup_alim_Confirmpasswordfield"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Regemailfield"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/input_background"
+                    android:ems="10"
+                    android:hint="@string/eng_con_pass"
+                    android:inputType="textPassword" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/darker_gray"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/eng_phone"
+                        android:textColor="#015A35"
+                        android:layout_marginBottom="3dp"
+                        />
+                    <EditText
+                        android:id="@+id/Signup_alim_PhoneField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/Regemailfield"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/input_background"
+                        android:ems="10"
+                        android:hint="@string/eng_phone"
+                        android:inputType="phone"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
 
@@ -238,93 +364,125 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
                 >
 
-                <TextView
-                    android:id="@+id/slct_cntry_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/eng_slct_country"
-                    android:textSize="15dp"
-                    android:textColor="#015A35"
-                    android:paddingLeft="5dp"
-                    />
-
-                <Spinner
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/setup_country_spinner_alim"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center_horizontal"
+                    >
 
-                    />
+                    <TextView
+                        android:id="@+id/slct_cntry_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/eng_slct_country"
+                        android:textSize="15dp"
+                        android:textColor="#015A35"
+                        />
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/setup_country_spinner_alim"
+
+                        />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="0.5"
+                    android:orientation="horizontal"
                     >
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/eng_state"
-                        android:textColor="#015A35"
-                        android:paddingLeft="5dp"
-                        />
+                        android:orientation="vertical"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="0.5"
+                        >
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/Signup_state_et_Alim"
-                    android:paddingTop="10dp"
-                    android:hint="@string/eng_state"
-                    android:layout_weight="0.5"
-                    />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/eng_state"
+                            android:textColor="#015A35"
+                            />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/Signup_state_et_Alim"
+                            android:background="@drawable/input_background"
+                            android:hint="@string/eng_state"
+                            />
+
                     </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="0.5"
-                    >
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:background="@android:color/darker_gray"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="#015A35"
-                        android:paddingLeft="5dp"
-                        android:text="@string/eng_city"
-                        />
+                        android:orientation="vertical"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="0.5"
+                        >
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/Signup_city_et_alim"
-                    android:paddingTop="10dp"
-                    android:hint="@string/eng_city"
-                    android:layout_weight="0.5"
-                    />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#015A35"
+                            android:text="@string/eng_city"
+                            />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/Signup_city_et_alim"
+                            android:hint="@string/eng_city"
+                            android:background="@drawable/input_background"
+                            />
 
                     </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
-
 
 
         <LinearLayout
@@ -339,17 +497,22 @@
                 android:layout_height="wrap_content"
                 android:text="@string/eng_address"
                 android:textColor="#015A35"
-                android:paddingLeft="5dp"
                 />
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/Signup_address_et_alim"
-                android:paddingTop="10dp"
+                android:background="@drawable/input_background"
                 android:hint="@string/eng_address"
                 />
 
-            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/darker_gray"/>
+
+        </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -363,7 +526,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/eng_education"
                     android:textColor="#015A35"
-                    android:paddingLeft="5dp"
                     />
 
                 <EditText
@@ -372,15 +534,17 @@
                     android:hint="@string/eng_education"
                     android:layout_marginRight="5dp"
                     android:gravity="center_vertical"
+                    android:background="@drawable/input_background"
                     android:id="@+id/Signup_et_qualification_alim"
                     />
 
-                <!--<Spinner
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/qualification_spinner"
-                    ></Spinner>
--->
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/darker_gray"/>
+
+
             </LinearLayout>
 
 
@@ -415,48 +579,65 @@
                 android:textColor="#015A35"
                 />
 
+
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:orientation="vertical"
                 >
 
-                <CheckBox
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/eng_Eng"
-                    android:layout_marginRight="5dp"
-                    android:id="@+id/Signup_alim_lan_eng_cb"
-                    android:onClick="selectLanguage"
-                    android:textColor="#015A35"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    >
 
-                    />
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/eng_Eng"
+                        android:layout_marginRight="5dp"
+                        android:id="@+id/Signup_alim_lan_eng_cb"
+                        android:onClick="selectLanguage"
+                        android:textColor="#015A35"
 
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/eng_urdu"
-                    android:layout_marginRight="5dp"
-                    android:id="@+id/Signup_Alim_lan_urdu_cb"
-                    android:onClick="selectLanguage"
-                    android:textColor="#015A35"
+                        />
 
-                    />
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/eng_urdu"
+                        android:layout_marginRight="5dp"
+                        android:id="@+id/Signup_Alim_lan_urdu_cb"
+                        android:onClick="selectLanguage"
+                        android:textColor="#015A35"
+
+                        />
 
 
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/eng_arabic"
-                    android:id="@+id/Signup_alim_lan_arabic_cb"
-                    android:onClick="selectLanguage"
-                    android:textColor="#015A35"
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/eng_arabic"
+                        android:id="@+id/Signup_alim_lan_arabic_cb"
+                        android:onClick="selectLanguage"
+                        android:textColor="#015A35"
 
-                    />
+                        />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -473,18 +654,22 @@
                     android:layout_marginRight="5dp"
                     android:gravity="center_vertical"
                     android:textSize="15dp"
-                    android:paddingLeft="5dp"
                     android:textColor="#015A35"
-
                     />
 
                 <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/fiqah_spinner_alim"
-                    ></Spinner>
+                    />
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -504,6 +689,7 @@
                 android:orientation="horizontal"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="70dp"
                 >
 
                 <CheckBox
@@ -540,23 +726,28 @@
 
             </LinearLayout>
 
-
-            <Button
-                android:id="@+id/finish_setup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:text="@string/eng_finish"
-                android:layout_marginTop="20dp"
-                android:background="#015A35"
-                android:textColor="#ffffff"
-                />
-
-
-
         </LinearLayout>
 
     </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/main_lin_layout"
+        >
+
+        <Button
+            android:id="@+id/finish_setup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/eng_finish"
+            android:background="#015A35"
+            android:textColor="#ffffff"
+            />
+
+    </RelativeLayout>
 
 </RelativeLayout>
