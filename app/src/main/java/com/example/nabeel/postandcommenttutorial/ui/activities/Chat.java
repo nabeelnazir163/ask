@@ -6,6 +6,7 @@ package com.example.nabeel.postandcommenttutorial.ui.activities;
 
 import android.os.AsyncTask;
 import android.os.StrictMode;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -60,6 +61,8 @@ public class Chat extends AppCompatActivity {
 //        reference2 = new Firebase("https://android-chat-app-e711d.firebaseio.com/messages/" + UserDetails.chatWith + "_" + UserDetails.username);
 
         chatWithEmail = (String) getIntent().getSerializableExtra("chatwith").toString().trim();
+
+        final ActionBar actionBar = getSupportActionBar();
         current_user = FirebaseUtils.getCurrentUser().getEmail().toString().replace(".",",");
 
         reference1 = FirebaseDatabase.getInstance().getReference().child("messages").child(current_user + "_" + chatWithEmail);
@@ -70,6 +73,8 @@ public class Chat extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 chatwithName = dataSnapshot.child("name").getValue().toString();
+
+                actionBar.setTitle(chatwithName);
 
             }
 

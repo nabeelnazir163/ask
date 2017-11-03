@@ -35,5 +35,12 @@
         <!--android:icon="@mipmap/ic_add_white_24dp"-->
         <!--app:showAsAction="ifRoom|collapseActionView"/>-->
 
+    <item
+        android:id="@+id/chat_inbox"
+        android:orderInCategory="200"
+        android:icon="@drawable/chatinbox"
+        app:showAsAction="always"
+        android:title="Notification" />
+
 
 </menu>
