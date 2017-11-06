@@ -69,6 +69,7 @@
     <string name="urdu_wazaif">وظاءف</string>
     <string name="urdu_finish">سیٹ اپ ختم کریں</string>
 
+    <string name="username">Username</string>
     <string name="eng_name">Name</string>
     <string name="eng_email">Email</string>
     <string name="eng_pass">Password</string>

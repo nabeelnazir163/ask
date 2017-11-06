@@ -45,6 +45,7 @@ public class SignupScreen_For_User extends BaseActivity {
     private EditText mSignupStateUser;
     private EditText mSignupCityUser;
     private EditText mSignupAdressUser;
+    private EditText mSignupUsernameUser;
 
     private Button mSignupSubBtnUser;
 
@@ -54,6 +55,7 @@ public class SignupScreen_For_User extends BaseActivity {
     String phonenumberUser;
     String select_gender_user;
     String mCon_pass_user;
+    String mUsername_User;
 
     private Spinner mFiqah_spinner_user;
     private Spinner mCountry_user_spinner;
@@ -82,6 +84,7 @@ public class SignupScreen_For_User extends BaseActivity {
         mSignupStateUser = (EditText) findViewById(R.id.Signup_state_tv_user);
         mSignupCityUser = (EditText) findViewById(R.id.Signup_city_tv_user);
         mSignupAdressUser = (EditText) findViewById(R.id.Signup_address_tv_user);
+        mSignupUsernameUser = (EditText) findViewById(R.id.Signup_username_namefield);
 
         mSignupSubBtnUser = (Button) findViewById(R.id.finish_Signup_user);
 
@@ -148,20 +151,11 @@ public class SignupScreen_For_User extends BaseActivity {
                 mPassFieldUser = mSignuppassUser.getText().toString();
                 mCon_pass_user = mSignupConf_passUser.getText().toString();
                 phonenumberUser = mSignupPhoneUser.getText().toString();
-//
-//                if(mEmailFieldUser != null) {
-//
-//                    mEmailFieldUser = mEmailFieldUser.toLowerCase().trim();
-//
-//                } else if (mEmailFieldUser == null){
-//
-//                    mEmailFieldUser = mNameFieldUser.toLowerCase().trim();
-//
-//                }
+                mUsername_User = mSignupUsernameUser.getText().toString();
 
 
                 if(!TextUtils.isEmpty(mNameFieldUser) &&
-                        !TextUtils.isEmpty(mEmailFieldUser)&&
+//                        !TextUtils.isEmpty(mEmailFieldUser)&&
                             !TextUtils.isEmpty(mPassFieldUser) &&
                                 !TextUtils.isEmpty(mCon_pass_user) &&
                                     !TextUtils.isEmpty(phonenumberUser) &&
@@ -172,26 +166,25 @@ public class SignupScreen_For_User extends BaseActivity {
 
                         if(mPassFieldUser.length() > 6){
 
-                            if(!isValidEmail(mEmailFieldUser)){
+                                if(!TextUtils.isEmpty(mEmailFieldUser)) {
 
-                                if(mEmailFieldUser != null) {
+                                    if(isValidEmail(mEmailFieldUser)) {
 
-                                    mEmailFieldUser = mEmailFieldUser.toLowerCase().trim() + "@askalim.com";
+                                        StartRegistering();
 
-                                    StartRegistering();
+                                    } else {
 
-                                } else if (mEmailFieldUser == null){
+                                        Toast.makeText(getApplicationContext() , "Enter Valid Email Address" , Toast.LENGTH_SHORT).show();
 
-                                    mEmailFieldUser = mNameFieldUser.toLowerCase().trim() + "@askalim.com";
+                                    }
+
+                                } else if (TextUtils.isEmpty(mEmailFieldUser)){
+
+                                    mEmailFieldUser = mUsername_User.toLowerCase().trim() + "@askalim.com";
 
                                     StartRegistering();
                                 }
-                            } else if(isValidEmail(mEmailFieldUser)){
-
-                                StartRegistering();
-
-                            }
-                        } else {
+                            } else {
 
                             Toast.makeText(getApplicationContext(), "Password Length must be greater than 6 chars", Toast.LENGTH_LONG).show();
 

@@ -58,6 +58,7 @@ public class signupScreenForAlim extends BaseActivity {
     private EditText mSignupCityAlim;
     private EditText mSignupAddressAlim;
     private EditText mSignupQualificationAlim;
+    private EditText mSignupUsernameAlim;
 
     private TextView mChosePP_Tv;
     private TextView mGender_tv;
@@ -97,6 +98,7 @@ public class signupScreenForAlim extends BaseActivity {
     String phonenumberAlim;
     String select_gender_alim;
     String mCon_pass_Alim;
+    String mUsernameAlim;
 
     private String final_speci_cat;
     private String final_language;
@@ -121,6 +123,7 @@ public class signupScreenForAlim extends BaseActivity {
         mSignupCityAlim = (EditText) findViewById(R.id.Signup_city_et_alim);
         mSignupAddressAlim = (EditText) findViewById(R.id.Signup_address_et_alim);
         mSignupQualificationAlim = (EditText) findViewById(R.id.Signup_et_qualification_alim);
+        mSignupUsernameAlim = (EditText) findViewById(R.id.Signup_Alim_Username_namefield);
 
         mChosePP_Tv = (TextView) findViewById(R.id.chose_profile_tv);
         mGender_tv = (TextView) findViewById(R.id.signup_alim_gender_tv);
@@ -219,36 +222,39 @@ public class signupScreenForAlim extends BaseActivity {
                 mPassFieldAlim = mSignupPassAlim.getText().toString();
                 mCon_pass_Alim = mSignupC_PassAlim.getText().toString();
                 phonenumberAlim = mSignupPhoneAlim.getText().toString();
+                mUsernameAlim = mSignupUsernameAlim.getText().toString();
 
                 if(!TextUtils.isEmpty(mNameFieldAlim) &&
-                        !TextUtils.isEmpty(mEmailFieldAlim)&&
-                        !TextUtils.isEmpty(mPassFieldAlim) &&
-                        !TextUtils.isEmpty(mCon_pass_Alim) &&
-                        !TextUtils.isEmpty(phonenumberAlim) &&
-                        !TextUtils.isEmpty(select_gender_alim)){
+//                        !TextUtils.isEmpty(mEmailFieldAlim)&&
+                            !TextUtils.isEmpty(mPassFieldAlim) &&
+                                !TextUtils.isEmpty(mCon_pass_Alim) &&
+                                    !TextUtils.isEmpty(phonenumberAlim) &&
+                                        !TextUtils.isEmpty(select_gender_alim)){
 
 
                     if(mPassFieldAlim.equals(mCon_pass_Alim)){
 
-                        //after checking the password and confirm passwrod, check the length of the password here
-
                         if(mPassFieldAlim.length() > 6){
 
-                            if(!isValidEmail(mEmailFieldAlim)){
+                                if(!TextUtils.isEmpty(mEmailFieldAlim)) {
 
-                                if(mEmailFieldAlim != null) {
+                                    if(isValidEmail(mEmailFieldAlim)){
 
-                                    mEmailFieldAlim = mEmailFieldAlim.toLowerCase().trim() + "@askalim.com";
+                                        StartRegistering();
+                                    } else {
 
-                                    StartRegistering();
+                                        Toast.makeText(getApplicationContext() , "Enter Valid Email Address" , Toast.LENGTH_SHORT).show();
 
-                                } else if (mEmailFieldAlim == null){
+                                    }
 
-                                    mEmailFieldAlim = mNameFieldAlim.toLowerCase().trim() + "@askalim.com";
+
+                                } else if (TextUtils.isEmpty(mEmailFieldAlim)){
+
+                                    mEmailFieldAlim = mUsernameAlim.toLowerCase().trim() + "@askalim.com";
 
                                     StartRegistering();
                                 }
-                            }
+
                         } else {
 
                             Toast.makeText(getApplicationContext(), "Password Length must be greater than 6 characters", Toast.LENGTH_LONG).show();

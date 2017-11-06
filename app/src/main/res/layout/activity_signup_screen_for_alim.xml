@@ -156,19 +156,64 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="8sp"
                     android:layout_marginTop="8dp"
-                    android:textSize="8dp"
-                    android:text="- If you dont have email, re-enter your name We will register your name by adding '@askalim.com' at the end of your name"
-                    android:layout_marginBottom="3dp"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="8dp"
-                    android:text="- Note : You will not be able to recover your password if you forgot"
+                    android:text="If you dont have valid email then leave it blank"
                     />
 
             </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:text="@string/username"
+                        android:textColor="#015A35" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*"
+                        android:textColor="@color/tw__composer_red"
+                        android:layout_marginLeft="1.5sp"
+                        android:gravity="top|start"
+                        />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/Signup_Alim_Username_namefield"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:ems="10"
+                    android:background="@drawable/input_background"
+                    android:hint="@string/username"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/darker_gray"/>
+
+
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -272,6 +317,14 @@
                     android:layout_height="0.5dp"
                     android:layout_marginTop="5dp"
                     android:background="@android:color/darker_gray"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="- Password length should be greater than 6 characters"
+                    android:textSize="8sp"
+                    android:layout_marginTop="8dp"
+                    />
 
             </LinearLayout>
 

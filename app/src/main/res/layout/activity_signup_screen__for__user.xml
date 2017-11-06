@@ -178,19 +178,63 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:textSize="8sp"
-                    android:text="- If you dont have email, re-enter your name We will register your name by adding '@askalim.com' at the end of your name"
-                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="8dp"
+                    android:text="If you dont have valid email then leave it blank"
                     />
-                <TextView
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="8sp"
-                    android:text="- Note : You will not be able to recover your password if you forgot"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:text="@string/username"
+                        android:textColor="#015A35" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*"
+                        android:textColor="@color/tw__composer_red"
+                        android:layout_marginLeft="1.5dp"
+                        android:gravity="top|start"
+                        />
+
+                </LinearLayout>
+
+
+                <EditText
+                    android:id="@+id/Signup_username_namefield"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input_background"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical"
+                    android:ems="10"
+                    android:hint="@string/username"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
                     />
 
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/darker_gray"/>
             </LinearLayout>
 
 

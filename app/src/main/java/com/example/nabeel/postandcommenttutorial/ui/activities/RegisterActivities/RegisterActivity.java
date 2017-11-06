@@ -34,6 +34,7 @@ import com.facebook.share.Share;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -81,8 +82,8 @@ public class RegisterActivity extends BaseActivity{
         mDataBaseUsers = FirebaseDatabase.getInstance().getReference().child(Constants.USERS_KEY);
         mDataBaseUsers.keepSynced(true);
 
-        ActionBar ab = getSupportActionBar();
-        ab.hide();
+       /* ActionBar ab = getSupportActionBar();
+        ab.hide();*/
 
 
 
