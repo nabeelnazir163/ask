@@ -86,6 +86,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     ImageView postDisplayImageView;
     TextView postNumCommentsTextView;
     TextView postTextTextView;
+    TextView fiqahOfAlim;
+
     RelativeLayout readmore_Rel_layout;
 
     @Override
@@ -293,6 +295,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         postCommentLayout = (LinearLayout) findViewById(R.id.answer_layout);
         postNumCommentsTextView = (TextView) findViewById(R.id.tv_answers);
         postTextTextView = (TextView) findViewById(R.id.tv_post_text);
+        fiqahOfAlim = (TextView) findViewById(R.id.tv_post_userfiqah);
+
         readmore_Rel_layout = (RelativeLayout) findViewById(R.id.readmore_relLayout);
 
 
@@ -310,6 +314,17 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                 }
             }
         });
+
+       if(userType == 1){
+
+           if(mPost.getUser().getFiqah() != null){
+
+               fiqahOfAlim.setVisibility(View.VISIBLE);
+               fiqahOfAlim.setText(mPost.getUser().getFiqah());
+
+           }
+
+       }
 
         postOwnerUsernameTextView.setText(mPost.getUser().getName());
         postTimeCreatedTextView.setText(DateUtils.getRelativeTimeSpanString(mPost.getTimeCreated()));

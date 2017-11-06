@@ -67,6 +67,8 @@ public class MainActivity extends BaseActivity
 
     DatabaseReference mDatabase;
 
+    NavigationView nv;
+
     Menu mMenu;
 
  /*
@@ -139,18 +141,22 @@ public class MainActivity extends BaseActivity
 
         viewPagerAdapter.addFragments(new homeFragment(), "home");
 
-        viewPagerAdapter.addFragments(new bookmarkFragment(), "Bookmark");
+
 
         if(userType == 1) {
+            viewPagerAdapter.addFragments(new bookmarkFragment(), "Bookmark");
             viewPagerAdapter.addFragments(new unAnsweredFragment(), "Unanswer");
+            viewPagerAdapter.addFragments(new Followers(), "Follower");
         }
 
         if(userType == 2) {
+            viewPagerAdapter.addFragments(new bookmarkFragment(), "Bookmark");
            // viewPagerAdapter.addFragments(new NotificationFrag(), "Notification");
+            viewPagerAdapter.addFragments(new Followers(), "Follower");
         }
 
 
-        viewPagerAdapter.addFragments(new Followers(), "Follower");
+
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -247,8 +253,12 @@ public class MainActivity extends BaseActivity
            });
        }
 
+        if(userType != 3) {
 
-        init();
+            init();
+
+       }
+
         /*getSupportFragmentManager().beginTransaction().replace(R.id.container, new homeFragment())
                 .commit();*/
 
@@ -266,6 +276,20 @@ public class MainActivity extends BaseActivity
         View navHeaderView = navigationView.getHeaderView(0);
         initNavHeader(navHeaderView);
 
+        if(userType == 3) {
+
+            hideItemforGuest();
+
+        }
+    }
+
+    private void hideItemforGuest()
+    {
+        nv = (NavigationView) findViewById(R.id.nav_view);
+        Menu nav_Menu = nv.getMenu();
+        nav_Menu.findItem(R.id.myaccount).setVisible(false);
+        nav_Menu.findItem(R.id.bookmark).setVisible(false);
+        nav_Menu.findItem(R.id.account_setting).setVisible(false);
     }
 
     private void init() {
@@ -280,33 +304,40 @@ public class MainActivity extends BaseActivity
         mNameTextView = (TextView) view.findViewById(R.id.textview_name);
         mEmailTextView = (TextView) view.findViewById(R.id.textView_email);
 
-        mUserValueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+        if(userType == 3){
 
-                String email = null;
-                String name = (String) dataSnapshot.child("name").getValue();
-                String photo_url = (String) dataSnapshot.child("image").getValue();
-                
-                if(mAuth.getCurrentUser() != null){
+            mNameTextView.setText("Guest User");
+            mEmailTextView.setText(null);
 
-                    email = mAuth.getCurrentUser().getEmail();
-                    
+        } else {
+
+            mUserValueEventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    String email = null;
+                    String name = (String) dataSnapshot.child("name").getValue();
+                    String photo_url = (String) dataSnapshot.child("image").getValue();
+
+                    if (mAuth.getCurrentUser() != null) {
+
+                        email = mAuth.getCurrentUser().getEmail();
+
+                    }
+
+                    Glide.with(getApplicationContext()).load(photo_url).into(mDisplayImageView);
+
+                    mNameTextView.setText(name);
+                    mEmailTextView.setText(email);
+
                 }
 
-                Glide.with(getApplicationContext()).load(photo_url).into(mDisplayImageView);
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-                mNameTextView.setText(name);
-                mEmailTextView.setText(email);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-
+                }
+            };
+        }
     }
 
     @Override
@@ -327,6 +358,11 @@ public class MainActivity extends BaseActivity
 
             menu.findItem(R.id.chat_inbox).setVisible(false);
 
+        } else if (userType == 3){
+
+            menu.findItem(R.id.chat_inbox).setVisible(false);
+            menu.findItem(R.id.notification).setVisible(false);
+
         }
 
         return super.onPrepareOptionsMenu(menu);
@@ -334,92 +370,10 @@ public class MainActivity extends BaseActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
 
         mMenu = menu;
         getMenuInflater().inflate(R.menu.main, menu);
 
-//        MenuItem mi = mMenu.findItem(R.id.action_search);
-        /*if(mi.isActionViewExpanded()){
-            mi.collapseActionView();
-        }
-
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView mSearchview = (SearchView) menu.findItem(R.id.action_search).getActionView();
-
-//        ImageView closeButton = (ImageView) mSearchview.findViewById(R.id.search_close_btn);
-
-        if (null != mSearchview) {
-            mSearchview.setSearchableInfo(searchManager
-                    .getSearchableInfo(getComponentName()));
-            mSearchview.setIconifiedByDefault(false);
-        }
-
-        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
-            public boolean onQueryTextChange(String newText) {
-                // This is your adapter that will be filtered
-
-                if (!newText.equals("")) {
-
-                    Query query = mDatabase.child("users").orderByChild("name").startAt(newText).endAt(newText + "\uf8ff");
-                    query.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
-
-                                for (DataSnapshot issue : dataSnapshot.getChildren()) {
-
-                                    //Toast.makeText(getApplicationContext(), issue.child("name").getValue().toString(), Toast.LENGTH_SHORT).show();
-
-                                    ArrayList<String> arrayList = new ArrayList<>();
-                                    arrayList.add(issue.child("name").getValue().toString());
-
-
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-
-                }
-                return true;
-            }
-
-            public boolean onQueryTextSubmit(String text) {
-                // **Here you can get the value "query" which is entered in the search box.**
-                if (!text.equals("")) {
-
-                    Query query = mDatabase.child("users").orderByChild("name").startAt(text).endAt(text + "\uf8ff");
-                    query.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
-
-                                for (DataSnapshot issue : dataSnapshot.getChildren()) {
-
-                                    Toast.makeText(getApplicationContext(), issue.child("name").getValue().toString(), Toast.LENGTH_SHORT).show();
-
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-
-                }
-
-                return true;
-            }
-        };
-        mSearchview.setOnQueryTextListener(queryTextListener);
-*/
         return true;
     }
 
@@ -450,6 +404,7 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle xnavigation view item clicks here.
+
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
@@ -459,6 +414,7 @@ public class MainActivity extends BaseActivity
             manager.beginTransaction().replace(R.id.container, home , home.getTag()).commit();
 
            viewPager.setCurrentItem(0);
+
         } else if (id == R.id.myaccount) {
 
             String email_user = FirebaseUtils.getCurrentUser().getEmail();
@@ -466,6 +422,7 @@ public class MainActivity extends BaseActivity
             Intent profile_intent = new Intent(MainActivity.this , UserProfile.class);
             profile_intent.putExtra("email" , email_user);
             startActivity(profile_intent);
+
 
 
         }  else if(id == R.id.bookmark){

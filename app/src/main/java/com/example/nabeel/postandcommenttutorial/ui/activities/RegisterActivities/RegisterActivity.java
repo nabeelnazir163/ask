@@ -193,8 +193,9 @@ public class RegisterActivity extends BaseActivity{
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(),"SUCCESSFUL GUEST",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),"SUCCESSFUL GUEST",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     userType_sh_editor.putInt("UserType", 3);
                     userType_sh_editor.apply();
                     startActivity(intent);

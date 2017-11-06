@@ -117,7 +117,7 @@
                     android:visibility="gone"
                     />
 
-                <TextView
+                <!--<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Followers"
@@ -125,14 +125,14 @@
                     android:textColor="#1971AF"
                     android:background="#F0FAFA"
                     android:padding="5dp"
-                    />
+                    />-->
 
-                <TextView
+                <!--<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Turn-On Notification"
                     android:layout_marginLeft="10dp"
-                    />
+                    />-->
 
                 <TextView
                     android:layout_width="wrap_content"

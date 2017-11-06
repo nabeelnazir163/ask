@@ -42,6 +42,7 @@
                     android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"
                     android:padding="3dp"
+                    android:text="Guest User"
                     android:id="@+id/current_user_display_name"
                     />
 

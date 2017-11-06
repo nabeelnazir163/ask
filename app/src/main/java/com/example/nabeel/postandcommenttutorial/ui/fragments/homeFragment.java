@@ -91,7 +91,7 @@ public class homeFragment extends Fragment {
             startActivity(loginintent);
 
         }
-        else if(mAuth.getCurrentUser() != null) {
+        else if(mAuth.getCurrentUser().getEmail() != null) {
 
             OneSignal.startInit(getActivity())
                     .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
@@ -140,30 +140,6 @@ public class homeFragment extends Fragment {
         }
 
 
-        /*else{
-
-            FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    String name = (String) dataSnapshot.child("name").getValue();
-                    String photo_url = (String) dataSnapshot.child("image").getValue();
-
-                    if(photo_url != null) {
-
-                        Glide.with(getContext()).load(photo_url).into(m_current_user_display_image);
-                    }
-                    m_current_user_display_name.setText(name);
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-        }*/
 
         mAsk_Ques.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -254,35 +230,38 @@ public class homeFragment extends Fragment {
 
                 final String post_key = getRef(position).getKey();
 
-
-                FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                        .addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                if (dataSnapshot.hasChild(model.getPostId())){
-
-                                    viewHolder.bookmark_imageview.setVisibility(View.GONE);
-                                    viewHolder.after_bookmark_iv.setVisibility(View.VISIBLE);
-
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-
-
                 SharedPreferences userType_sp = getActivity().getSharedPreferences("UserType", Context.MODE_PRIVATE);
 
                 int userType = userType_sp.getInt("UserType", 0);
+
+                if(userType != 3) {
+
+                    FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".", ","))
+                            .addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                    if (dataSnapshot.hasChild(model.getPostId())) {
+
+                                        viewHolder.bookmark_imageview.setVisibility(View.GONE);
+                                        viewHolder.after_bookmark_iv.setVisibility(View.VISIBLE);
+
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                }
+
+
                 if(userType == 2){
 
                     viewHolder.newanswers.setVisibility(View.GONE);
 
-                } else {
+                } else if (userType == 1){
 
                     if(model.getUser().getFiqah() != null){
 
@@ -291,6 +270,13 @@ public class homeFragment extends Fragment {
 
                     }
 
+                } else if( userType == 3){
+
+                    viewHolder.bookmark_imageview.setVisibility(View.GONE);
+                    viewHolder.after_bookmark_iv.setVisibility(View.GONE);
+                    viewHolder.menu_imageview.setVisibility(View.GONE);
+                    viewHolder.newanswers.setVisibility(View.GONE);
+                    mAsk_Ques.setVisibility(View.GONE);
                 }
 
                 viewHolder.setNumCOmments(String.valueOf(model.getNumComments()));

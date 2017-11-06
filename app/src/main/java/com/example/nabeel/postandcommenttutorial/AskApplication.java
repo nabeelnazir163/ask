@@ -122,7 +122,7 @@ public class AskApplication extends Application {
 
         }
 
-        if (mAuth.getCurrentUser() != null) {
+        if (mAuth.getCurrentUser().getEmail() != null) {
 
             String currentemail = mAuth.getCurrentUser().getEmail().replace(".", ",");
 

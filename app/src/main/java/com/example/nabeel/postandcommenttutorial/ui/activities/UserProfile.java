@@ -1,10 +1,13 @@
 package com.example.nabeel.postandcommenttutorial.ui.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -109,7 +112,11 @@ public class UserProfile extends AppCompatActivity {
 
                 mUserProfile_name_tv.setText(user_name);
 
-                mUser_add.setText(address);
+                if(!TextUtils.isEmpty(address)) {
+
+                    mUser_add.setText(address);
+
+                }
 
             }
 
@@ -119,9 +126,8 @@ public class UserProfile extends AppCompatActivity {
             }
         });
 
-//        if(email_user.replace(".",",").equals()
 
-        FirebaseUtils.getFollowers().child(email_user.replace(".",","))
+        /*FirebaseUtils.getFollowers().child(email_user.replace(".",","))
                 .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -139,7 +145,12 @@ public class UserProfile extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        });*/
+
+        SharedPreferences userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
+
+        int userType = userType_sp.getInt("UserType", 0);
+
 
         if(mUserEmail.equals(email_user) ) {
 
@@ -147,13 +158,22 @@ public class UserProfile extends AppCompatActivity {
             mMessage.setVisibility(View.GONE);
 
 
-        } else {
+        } else if (!mUserEmail.equals(email_user)){
 
             mFollowtv.setVisibility(View.VISIBLE);
 
         }
 
-        initadapter();
+        if(userType == 3){
+
+            mFollowtv.setVisibility(View.GONE);
+            munfollowtv.setVisibility(View.GONE);
+            mMessage.setVisibility(View.GONE);
+
+        }
+
+
+//        initadapter();
 
             mFollowtv.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -266,7 +286,7 @@ public class UserProfile extends AppCompatActivity {
                                    postids.add(name);
                                }
 
-                       FirebaseUtils.getPostRef().addValueEventListener(new ValueEventListener() {
+                       /*FirebaseUtils.getPostRef().addValueEventListener(new ValueEventListener() {
                            @Override
                            public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -278,7 +298,7 @@ public class UserProfile extends AppCompatActivity {
                            public void onCancelled(DatabaseError databaseError) {
 
                            }
-                       });
+                       });*/
 
                     }
 
