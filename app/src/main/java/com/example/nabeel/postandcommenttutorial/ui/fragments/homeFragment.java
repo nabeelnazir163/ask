@@ -551,7 +551,7 @@ public class homeFragment extends Fragment {
     private void BookmarkPost(final String post_id, final PostHolder view) {
 
         FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
-                .child(post_id).child("Bookmarked").setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                .child(post_id).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
