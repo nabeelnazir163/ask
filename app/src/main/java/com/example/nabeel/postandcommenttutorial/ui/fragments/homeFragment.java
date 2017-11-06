@@ -256,19 +256,17 @@ public class homeFragment extends Fragment {
                             });
                 }
 
+                if(model.getUser().getFiqah() != null){
+
+                    viewHolder.fiqahOfAlim.setVisibility(View.VISIBLE);
+                    viewHolder.setFiqahOfAlim(model.getUser().getFiqah());
+
+                }
+
 
                 if(userType == 2){
 
                     viewHolder.newanswers.setVisibility(View.GONE);
-
-                } else if (userType == 1){
-
-                    if(model.getUser().getFiqah() != null){
-
-                        viewHolder.fiqahOfAlim.setVisibility(View.VISIBLE);
-                        viewHolder.setFiqahOfAlim(model.getUser().getFiqah());
-
-                    }
 
                 } else if( userType == 3){
 
@@ -378,13 +376,35 @@ public class homeFragment extends Fragment {
                 viewHolder.menu_imageview.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
                         final PopupMenu popupMenu = new PopupMenu(getContext(), viewHolder.menu_imageview);
 
                         popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
 
-                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        /*FirebaseUtils.getPostRef().child(model.getPostId()).child("user").addValueEventListener(new ValueEventListener() {
                             @Override
+
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                final String owner_of_post = dataSnapshot.child("email").getValue().toString();
+
+                                if(!owner_of_post.equals(FirebaseUtils.getCurrentUser().getEmail())){
+
+                                    popupMenu.getMenu().findItem(R.id.delete).setVisible(false);
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });*/
+
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                            @Override
+
                             public boolean onMenuItemClick(MenuItem item) {
 
                                 int id = item.getItemId();
@@ -402,10 +422,6 @@ public class homeFragment extends Fragment {
                                 } else  if ( id == R.id.report){
 
                                     Toast.makeText(getContext() , "Report", Toast.LENGTH_SHORT).show();
-
-                                } else if ( id == R.id.edit_question){
-
-                                    Toast.makeText(getContext() , "Edit Question", Toast.LENGTH_SHORT).show();
 
                                 }
 
@@ -508,8 +524,6 @@ public class homeFragment extends Fragment {
         };
     }
 
-
-
     private void remove_bookmark(String postId, final PostHolder view) {
 
         FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser()
@@ -534,6 +548,30 @@ public class homeFragment extends Fragment {
 
     }
 
+    private void BookmarkPost(final String post_id, final PostHolder view) {
+
+        FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
+                .child(post_id).child("Bookmarked").setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                Toast.makeText(getContext() , "Post saved", Toast.LENGTH_SHORT).show();
+
+                view.bookmark_imageview.setVisibility(View.GONE);
+                view.after_bookmark_iv.setVisibility(View.VISIBLE);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        Toast.makeText(getContext() , "Unable to Bookmark Your post try agian later", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+            }
+
     private void DeletePost(final String postId) {
 
         FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).child(postId).removeValue();
@@ -547,82 +585,7 @@ public class homeFragment extends Fragment {
         FirebaseDatabase.getInstance().getReference().child(Constants.COMMENT_REPLY)
                 .child(postId).removeValue();
 
-        //FirebaseUtils.getPostRef().child(postId).removeValue();
-
-    }
-
-    private void BookmarkPost(final String post_id, final PostHolder view) {
-
-
-//        String id = FirebaseUtils.getPostRef().child(post_id).getKey();
-//        //Toast.makeText(getContext() , id , Toast.LENGTH_SHORT).show();
-//        //Toast.makeText(getContext() , id , Toast.LENGTH_SHORT).show();
-//
-//        FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
-//                .child(id).setValue("true");
-
-        FirebaseUtils.getPostRef().child(post_id).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String postid = (String) dataSnapshot.child("postId").getValue();
-                String postText = (String) dataSnapshot.child("postText").getValue();
-                long timeCreated = (long) dataSnapshot.child("timeCreated").getValue();
-                long numLikes = (long) dataSnapshot.child(Constants.NUM_LIKES_KEY).getValue();
-                long numOfCmnt = (long) dataSnapshot.child(Constants.NUM_COMMENTS_KEY).getValue();
-                long numOfAns = (long ) dataSnapshot.child(Constants.NUM_ANSWWERS_KEY).getValue();
-                String userName = (String) dataSnapshot.child("user").child("name").getValue();
-                String userImg = (String) dataSnapshot.child("user").child("image").getValue();
-
-
-                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
-                .child(post_id).child("postId").setValue(postid);
-
-                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
-                .child(post_id).child("postText").setValue(postText);
-
-                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
-                .child(post_id).child("timeCreated").setValue(timeCreated);
-
-                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
-                .child(post_id).child(Constants.NUM_LIKES_KEY).setValue(numLikes);
-
-                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
-                .child(post_id).child(Constants.NUM_ANSWWERS_KEY).setValue(numOfAns);
-
-                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
-                .child(post_id).child(Constants.NUM_COMMENTS_KEY).setValue(numOfCmnt);
-
-                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
-                        .child(post_id).child("userImage").setValue(userImg);
-
-                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
-                        .child(post_id).child("userName").setValue(userName).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-
-                        Toast.makeText(getContext() , "Post saved", Toast.LENGTH_SHORT).show();
-
-                        view.bookmark_imageview.setVisibility(View.GONE);
-                        view.after_bookmark_iv.setVisibility(View.VISIBLE);
-
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                        Toast.makeText(getContext() , "Unable to Bookmark Your post try agian later", Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        FirebaseUtils.getPostRef().child(postId).removeValue();
 
     }
 

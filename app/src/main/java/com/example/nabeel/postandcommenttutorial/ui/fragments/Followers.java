@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.models.Post;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
+import com.firebase.ui.database.FirebaseIndexRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.DataSnapshot;
@@ -62,26 +63,9 @@ public class Followers extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()){
 
-//                    Toast.makeText(getContext(), childDataSnapshot.getKey(), Toast.LENGTH_SHORT).show();
                     emails = childDataSnapshot.getKey();
 
-                    FirebaseUtils.getmypostReference().child(emails).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-
-                            for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                                keys = childDataSnapshot.getKey();
-
-                                setupadapter(keys);
-
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
+                    setupadapter(emails);
 
                 }
             }
@@ -96,16 +80,15 @@ public class Followers extends Fragment {
     }
 
 
-    private void setupadapter(String keys) {
+    private void setupadapter(String emails) {
 
-        Toast.makeText(getContext(), keys, Toast.LENGTH_SHORT).show();
-
-        FirebaseRecyclerAdapter<Post, followerViewHolder> followeradapteradapter = new FirebaseRecyclerAdapter<Post, followerViewHolder>(
+        FirebaseIndexRecyclerAdapter<Post, followerViewHolder> adapter = new FirebaseIndexRecyclerAdapter<Post, followerViewHolder>(
                 Post.class,
                 R.layout.row_post,
                 followerViewHolder.class,
+                FirebaseUtils.getmypostReference().child(emails),
                 FirebaseUtils.getPostRef().orderByKey()
-        ) {
+                ) {
 
             @Override
             protected void populateViewHolder(final followerViewHolder viewHolder, final Post model, int position) {
@@ -149,7 +132,7 @@ public class Followers extends Fragment {
             }
         };
 
-        follower_recyc_view.setAdapter(followeradapteradapter);
+        follower_recyc_view.setAdapter(adapter);
     }
 
     public static class followerViewHolder extends RecyclerView.ViewHolder{

@@ -153,10 +153,6 @@ public class NewQuestions extends Fragment {
 
                                     Toast.makeText(getContext() , "Report", Toast.LENGTH_SHORT).show();
 
-                                } else if ( id == R.id.edit_question){
-
-                                    Toast.makeText(getContext() , "Edit Question", Toast.LENGTH_SHORT).show();
-
                                 }
 
                                 return  true;

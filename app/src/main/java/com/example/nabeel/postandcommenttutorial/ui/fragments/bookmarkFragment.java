@@ -18,9 +18,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.models.Bookmark;
+import com.example.nabeel.postandcommenttutorial.models.Post;
 import com.example.nabeel.postandcommenttutorial.ui.activities.BookMark;
 import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
+import com.firebase.ui.database.FirebaseIndexRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -71,15 +73,17 @@ public class bookmarkFragment extends Fragment {
 
     private void setupadapter() {
 
-        FirebaseRecyclerAdapter<Bookmark, bookmarkViewHolder> bookmarkadapter = new FirebaseRecyclerAdapter<Bookmark, bookmarkViewHolder>(
-                Bookmark.class,
+
+        FirebaseIndexRecyclerAdapter<Post, bookmarkViewHolder> bookmarkadapter = new FirebaseIndexRecyclerAdapter<Post, bookmarkViewHolder>(
+                Post.class,
                 R.layout.row_post,
                 bookmarkViewHolder.class,
-                FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")),
+                FirebaseUtils.getPostRef()
         ) {
 
             @Override
-            protected void populateViewHolder(final bookmarkViewHolder viewHolder, final Bookmark model, int position) {
+            protected void populateViewHolder(final bookmarkViewHolder viewHolder, final Post model, int position) {
 
                 FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
                         .addValueEventListener(new ValueEventListener() {
@@ -100,12 +104,12 @@ public class bookmarkFragment extends Fragment {
                         });
 
                 viewHolder.setPostText(model.getPostText());
-                viewHolder.setUsername(model.getUserName());
+                viewHolder.setUsername(model.getUser().getName());
                 viewHolder.setNumCOmments(String.valueOf(model.getNumAnswers()));
                 viewHolder.setTIme(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
 
                 Glide.with(getActivity())
-                        .load(model.getUserImage())
+                        .load(model.getUser().getImage())
                         .into(viewHolder.postOwnerDisplayImageView);
 
                 if (model.getPostImageUrl() != null) {
@@ -125,7 +129,7 @@ public class bookmarkFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
 
-                        BookmarkPost(model.getPostId() , viewHolder);
+                        BookmarkPost(model.getPostId(), viewHolder);
 
                     }
                 });
@@ -173,68 +177,26 @@ public class bookmarkFragment extends Fragment {
 
     private void BookmarkPost(final String post_id, final bookmarkViewHolder view) {
 
-        FirebaseUtils.getPostRef().child(post_id).addValueEventListener(new ValueEventListener() {
+        FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                .child(post_id).child("Bookmarked").setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String postid = (String) dataSnapshot.child("postId").getValue();
-                String postText = (String) dataSnapshot.child("postText").getValue();
-                long timeCreated = (long) dataSnapshot.child("timeCreated").getValue();
-                long numLikes = (long) dataSnapshot.child(Constants.NUM_LIKES_KEY).getValue();
-                long numOfCmnt = (long) dataSnapshot.child(Constants.NUM_COMMENTS_KEY).getValue();
-                long numOfAns = (long ) dataSnapshot.child(Constants.NUM_ANSWWERS_KEY).getValue();
-                String userName = (String) dataSnapshot.child("user").child("name").getValue();
-                String userImg = (String) dataSnapshot.child("user").child("image").getValue();
+            public void onSuccess(Void aVoid) {
 
+                Toast.makeText(getContext() , "Post saved", Toast.LENGTH_SHORT).show();
 
-                FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                        .child(post_id).child("postId").setValue(postid);
-
-                FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                        .child(post_id).child("postText").setValue(postText);
-
-                FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                        .child(post_id).child("timeCreated").setValue(timeCreated);
-
-                FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                        .child(post_id).child(Constants.NUM_LIKES_KEY).setValue(numLikes);
-
-                FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                        .child(post_id).child(Constants.NUM_ANSWWERS_KEY).setValue(numOfAns);
-
-                FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                        .child(post_id).child(Constants.NUM_COMMENTS_KEY).setValue(numOfCmnt);
-
-                FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                        .child(post_id).child("userImage").setValue(userImg);
-
-                FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                        .child(post_id).child("userName").setValue(userName).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-
-                        Toast.makeText(getContext() , "Save Post", Toast.LENGTH_SHORT).show();
-
-                        view.bookmark_imageview.setVisibility(View.GONE);
-                        view.after_bookmark_iv.setVisibility(View.VISIBLE);
-
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                        Toast.makeText(getContext() , "Unable to Bookmark Your post try agian later", Toast.LENGTH_SHORT).show();
-
-                    }
-                });
+                view.bookmark_imageview.setVisibility(View.GONE);
+                view.after_bookmark_iv.setVisibility(View.VISIBLE);
 
             }
-
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onFailure(@NonNull Exception e) {
+
+                Toast.makeText(getContext() , "Unable to Bookmark Your post try agian later", Toast.LENGTH_SHORT).show();
 
             }
         });
+
 
     }
 

@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -43,9 +44,12 @@ import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
@@ -78,6 +82,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     TextView viewallanswers_tv;
 
     CardView max_layout;
+    CardView comment_cardview;
 
     LinearLayout postCommentLayout;
     ImageView postOwnerDisplayImageView;
@@ -87,6 +92,10 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     TextView postNumCommentsTextView;
     TextView postTextTextView;
     TextView fiqahOfAlim;
+
+    ImageView bookmark_iv;
+    ImageView bookmark_After_iv;
+    ImageView menu_imageview;
 
     RelativeLayout readmore_Rel_layout;
 
@@ -108,11 +117,15 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         mostlikedanswer_name_tv = (TextView) findViewById(R.id.mostliked_answer_username);
         mostlikedanswer_time_tv = (TextView) findViewById(R.id.tv_mostlikedtime_answer);
         mostLikedanswer_text_tv = (TextView) findViewById(R.id.tv_mostlikedanswer_text);
+        viewallanswers_tv = (TextView) findViewById(R.id.viewallanswer);
 
         max_layout =  (CardView)findViewById(R.id.answerlayoutpostactivity);
+        comment_cardview = (CardView) findViewById(R.id.cardview_for_comment);
 
-        viewallanswers_tv = (TextView) findViewById(R.id.viewallanswer);
         answers_tv = (ImageView) findViewById(R.id.newanswer_layout_post);
+        bookmark_iv = (ImageView) findViewById(R.id.bookmark_iv);
+        bookmark_After_iv = (ImageView) findViewById(R.id.bookmark_iv_after);
+        menu_imageview = (ImageView) findViewById(R.id.menuPopup_imageview);
 
         userType = userType_sp.getInt("UserType", 0);
 
@@ -120,11 +133,56 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
             answers_tv.setVisibility(View.GONE);
 
-        } else if (userType == 1){
+        } else if (userType == 3){
 
-            answers_tv.setVisibility(View.VISIBLE);
+            answers_tv.setVisibility(View.GONE);
+            menu_imageview.setVisibility(View.GONE);
+            bookmark_iv.setVisibility(View.GONE);
+            bookmark_After_iv.setVisibility(View.GONE);
+            comment_cardview.setVisibility(View.GONE);
+
 
         }
+
+        if(userType != 3) {
+
+            FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".", ","))
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            if (dataSnapshot.hasChild(mPost.getPostId())) {
+
+                                bookmark_iv.setVisibility(View.GONE);
+                                bookmark_After_iv.setVisibility(View.VISIBLE);
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+        }
+
+        bookmark_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                BookmarkPost(mPost.getPostId());
+
+            }
+        });
+
+        bookmark_After_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                remove_bookmark(mPost.getPostId());
+
+            }
+        });
 
 
 
@@ -174,6 +232,98 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         initPost();
         initAnswerSection();
         initCommentSection();
+
+    }
+
+    private void remove_bookmark(String postId) {
+
+        FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser()
+                .getEmail().replace(".",","))
+                .child(postId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                Toast.makeText(getApplicationContext() , "Remove Post as bookmark", Toast.LENGTH_SHORT).show();
+
+                bookmark_iv.setVisibility(View.VISIBLE);
+                bookmark_After_iv.setVisibility(View.GONE);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext() , "Unable to Remove Post as bookmark", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
+
+
+    private void BookmarkPost(final String post_id) {
+
+        FirebaseUtils.getPostRef().child(post_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String postid = (String) dataSnapshot.child("postId").getValue();
+                String postText = (String) dataSnapshot.child("postText").getValue();
+                long timeCreated = (long) dataSnapshot.child("timeCreated").getValue();
+                long numLikes = (long) dataSnapshot.child(Constants.NUM_LIKES_KEY).getValue();
+                long numOfCmnt = (long) dataSnapshot.child(Constants.NUM_COMMENTS_KEY).getValue();
+                long numOfAns = (long ) dataSnapshot.child(Constants.NUM_ANSWWERS_KEY).getValue();
+                String userName = (String) dataSnapshot.child("user").child("name").getValue();
+                String userImg = (String) dataSnapshot.child("user").child("image").getValue();
+
+
+                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
+                        .child(post_id).child("postId").setValue(postid);
+
+                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
+                        .child(post_id).child("postText").setValue(postText);
+
+                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
+                        .child(post_id).child("timeCreated").setValue(timeCreated);
+
+                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
+                        .child(post_id).child(Constants.NUM_LIKES_KEY).setValue(numLikes);
+
+                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
+                        .child(post_id).child(Constants.NUM_ANSWWERS_KEY).setValue(numOfAns);
+
+                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
+                        .child(post_id).child(Constants.NUM_COMMENTS_KEY).setValue(numOfCmnt);
+
+                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
+                        .child(post_id).child("userImage").setValue(userImg);
+
+                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
+                        .child(post_id).child("userName").setValue(userName).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        Toast.makeText(getApplicationContext() , "Post saved", Toast.LENGTH_SHORT).show();
+
+                        bookmark_iv.setVisibility(View.GONE);
+                        bookmark_After_iv.setVisibility(View.VISIBLE);
+
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        Toast.makeText(getApplicationContext() , "Unable to Bookmark Your post try agian later", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
@@ -315,15 +465,10 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
-       if(userType == 1){
-
            if(mPost.getUser().getFiqah() != null){
 
                fiqahOfAlim.setVisibility(View.VISIBLE);
                fiqahOfAlim.setText(mPost.getUser().getFiqah());
-
-           }
-
        }
 
         postOwnerUsernameTextView.setText(mPost.getUser().getName());
@@ -381,6 +526,13 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
+        if(userType == 3){
+
+            answers_tv.setVisibility(View.GONE);
+
+
+        }
+
     }
 
     private void init() {
@@ -388,8 +540,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         setting_num_comment();
 
         mCommentEditTextView = (EditText) findViewById(R.id.et_comment);
-
-        final ImageView menu_imageview = (ImageView) findViewById(R.id.menuPopup_imageview);
 
         findViewById(R.id.iv_send_comment).setOnClickListener(this);
 
@@ -403,6 +553,28 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
                 popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
 
+                FirebaseUtils.getPostRef().child(mPost.getPostId()).child("user").addValueEventListener(new ValueEventListener() {
+
+                    @Override
+
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        final String owner_of_post = dataSnapshot.child("email").getValue().toString();
+
+                        if(!owner_of_post.equals(FirebaseUtils.getCurrentUser().getEmail())){
+
+                            popupMenu.getMenu().findItem(R.id.delete).setVisible(false);
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -411,18 +583,19 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
                         if(id == R.id.delete){
 
-                            Toast.makeText(PostActivity.this , "Delete", Toast.LENGTH_SHORT).show();
+                            if(mPost.getUser().getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))){
+
+                                Toast.makeText(getApplicationContext() , "Delete", Toast.LENGTH_SHORT).show();
+
+                                DeletePost(mPost.getPostId());
+
+                            }
 
                         } else  if ( id == R.id.report){
 
                             Toast.makeText(PostActivity.this , "Report", Toast.LENGTH_SHORT).show();
 
-                        } else if ( id == R.id.edit_question){
-
-                            Toast.makeText(PostActivity.this , "Edit Question", Toast.LENGTH_SHORT).show();
-
                         }
-
                         return  true;
                     }
                 });
@@ -469,42 +642,22 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
-    private void popupmenu() {
+    private void DeletePost(final String postId) {
 
-         ImageView menu_imageview = (ImageView) findViewById(R.id.menuPopup_imageview);
+        FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).child(postId).removeValue();
+        FirebaseUtils.getMyPostRef().child(postId).removeValue();
+        FirebaseUtils.getPostLikedRef(postId).removeValue();
+        FirebaseUtils.getAnswerRef().child(postId).removeValue();
+        FirebaseDatabase.getInstance().getReference().child(Constants.ANSWER_LIKED_KEY).
+                child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                .child(postId).removeValue();
+        FirebaseUtils.getCommentRef(postId).removeValue();
+        FirebaseDatabase.getInstance().getReference().child(Constants.COMMENT_REPLY)
+                .child(postId).removeValue();
 
-                final PopupMenu popupMenu = new PopupMenu(PostActivity.this, menu_imageview);
-
-                popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
-
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-
-                        int id = item.getItemId();
-
-                        if(id == R.id.delete){
-
-                            Toast.makeText(PostActivity.this , "Delete", Toast.LENGTH_SHORT).show();
-
-                        } else  if ( id == R.id.report){
-
-                            Toast.makeText(PostActivity.this , "Report", Toast.LENGTH_SHORT).show();
-
-                        } else if ( id == R.id.edit_question){
-
-                            Toast.makeText(PostActivity.this , "Edit Question", Toast.LENGTH_SHORT).show();
-
-                        }
-
-                        return  true;
-                    }
-                });
-
-                popupMenu.show();
+        FirebaseUtils.getPostRef().child(postId).removeValue();
 
     }
-
 
 
     private void sendComment() {

@@ -169,10 +169,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
+                android:id="@+id/cardview_for_comment"
                 >
 
                 <LinearLayout
-                    android:id="@+id/linearLayout_for_comment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp">

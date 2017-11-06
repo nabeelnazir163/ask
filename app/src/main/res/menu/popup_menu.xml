@@ -9,9 +9,4 @@
         android:id="@+id/delete"
         android:title="Delete"/>
 
-    <item
-        android:id="@+id/edit_question"
-        android:title="Edit Question"
-        />
-
 </menu>
