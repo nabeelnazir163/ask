@@ -24,7 +24,7 @@
     <item
         android:id="@+id/notification"
         android:orderInCategory="200"
-        android:icon="@mipmap/action_bar_notification"
+        android:icon="@drawable/ic_os_notification_fallback_white_24dp"
         app:showAsAction="always"
         android:title="Notification" />
 

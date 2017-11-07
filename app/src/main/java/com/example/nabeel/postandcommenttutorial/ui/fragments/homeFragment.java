@@ -40,6 +40,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -361,6 +363,8 @@ public class homeFragment extends Fragment {
                         intent.putExtra(Constants.EXTRA_POST, model);
                         startActivity(intent);
 
+                        LikeAnswer(model.getPostId());
+
                     }
                 });
 
@@ -658,4 +662,112 @@ public class homeFragment extends Fragment {
         }
 
     }
+
+    private void LikeAnswer(final String postID) {
+
+        FirebaseUtils.postViewRef().child(postID).child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        if (dataSnapshot.getValue() != null) {
+                            /*FirebaseUtils.getPostRef().child(postID)
+                                    .child("numSeen").runTransaction(new Transaction.Handler() {
+                                @Override
+                                public Transaction.Result doTransaction(MutableData mutableData) {
+                                    long num = (long) mutableData.getValue();
+                                    mutableData.setValue(num - 1);
+                                    return Transaction.success(mutableData);
+                                }
+
+                                @Override
+                                public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+                                    FirebaseUtils.postViewRef().child(postID).child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                                            .setValue(null);
+
+                                }
+                            });*/
+
+//                        } else {
+
+                            FirebaseUtils.getPostRef()
+                                    .child(postID)
+                                    .child("numSeen")
+                                    .runTransaction(new Transaction.Handler() {
+                                        @Override
+                                        public Transaction.Result doTransaction(MutableData mutableData) {
+                                            long num = (long) mutableData.getValue();
+                                            mutableData.setValue(num + 1);
+                                            return Transaction.success(mutableData);
+                                        }
+
+                                        @Override
+                                        public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                                            FirebaseUtils.postViewRef().child(postID).child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                                                    .setValue(true);
+                                        }
+                                    });
+
+//                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+        /*FirebaseUtils.getAnswerLikedRef(answerId, postID)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getValue() != null) {
+                            //User liked
+                            FirebaseUtils.getAnswerRef()
+                                    .child(postID)
+                                    .child(answerId)
+                                    .child(Constants.NUM_LIKES_KEY)
+                                    .runTransaction(new Transaction.Handler() {
+                                        @Override
+                                        public Transaction.Result doTransaction(MutableData mutableData) {
+                                            long num = (long) mutableData.getValue();
+                                            mutableData.setValue(num - 1);
+                                            return Transaction.success(mutableData);
+                                        }
+
+                                        @Override
+                                        public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                                            FirebaseUtils.getAnswerLikedRef(answerId, postID)
+                                                    .setValue(null);
+                                        }
+                                    });
+                        } else {
+                            FirebaseUtils.getAnswerRef()
+                                    .child(postID)
+                                    .child(answerId)
+                                    .child(Constants.NUM_LIKES_KEY)
+                                    .runTransaction(new Transaction.Handler() {
+                                        @Override
+                                        public Transaction.Result doTransaction(MutableData mutableData) {
+                                            long num = (long) mutableData.getValue();
+                                            mutableData.setValue(num + 1);
+                                            return Transaction.success(mutableData);
+                                        }
+
+                                        @Override
+                                        public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                                            FirebaseUtils.getAnswerLikedRef(answerId , postID)
+                                                    .setValue(true);
+                                        }
+                                    });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });*/
+    }
+
 }

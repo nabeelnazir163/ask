@@ -58,6 +58,11 @@ public class FirebaseUtils {
                 .getReference(Constants.NOTIFICATION);
     }
 
+    public static DatabaseReference postViewRef(){
+        return FirebaseDatabase.getInstance()
+                .getReference().child("postview");
+    }
+
     public static DatabaseReference getAnswerLikedRef(String answerId, String postId){
         return getAnswerLikedRef().child(getCurrentUser().getEmail()
                 .replace(".",","))

@@ -22,6 +22,12 @@
     <string name="G_login">Login as GUEST</string>
     <string name="ayatno60">هَلْ جَزَاء الْإِحْسَانِ إِلَّا الْإِحْسَانُ</string>
 
+    <string name="email">Email Id</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="login_register">New user, tap here to register !</string>
+    <string name="register">Register</string>
+
     <string-array name="qualification_spinner_name">
         <item>Intermediate</item>
         <item>Bachelor</item>
