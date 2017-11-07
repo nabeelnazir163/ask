@@ -122,37 +122,40 @@ public class AskApplication extends Application {
 
         }
 
-        if (mAuth.getCurrentUser().getEmail() != null) {
+        if (mAuth.getCurrentUser() != null) {
 
-            String currentemail = mAuth.getCurrentUser().getEmail().replace(".", ",");
+            if (mAuth.getCurrentUser().getEmail() != null) {
 
-            userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
-            userType_sh_editor = userType_sp.edit();
+                String currentemail = mAuth.getCurrentUser().getEmail().replace(".", ",");
 
-            FirebaseUtils.getUserRef(currentemail).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
+                userType_sh_editor = userType_sp.edit();
 
-                    String userType = dataSnapshot.child("userType").getValue().toString();
+                FirebaseUtils.getUserRef(currentemail).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    if (userType.equals("Alim")) {
+                        String userType = dataSnapshot.child("userType").getValue().toString();
 
-                        userType_sh_editor.putInt("UserType", 1);
-                        userType_sh_editor.apply();
+                        if (userType.equals("Alim")) {
 
-                    } else if (userType.equals("User")) {
+                            userType_sh_editor.putInt("UserType", 1);
+                            userType_sh_editor.apply();
 
-                        userType_sh_editor.putInt("UserType", 2);
-                        userType_sh_editor.apply();
+                        } else if (userType.equals("User")) {
+
+                            userType_sh_editor.putInt("UserType", 2);
+                            userType_sh_editor.apply();
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
                     }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+                });
+            }
         }
     }
 }

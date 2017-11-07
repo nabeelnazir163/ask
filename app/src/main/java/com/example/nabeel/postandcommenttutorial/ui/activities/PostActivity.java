@@ -6,11 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
-import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -28,7 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +34,7 @@ import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.models.Answer;
 import com.example.nabeel.postandcommenttutorial.models.Comment;
 import com.example.nabeel.postandcommenttutorial.models.Post;
+import com.example.nabeel.postandcommenttutorial.models.Notification;
 import com.example.nabeel.postandcommenttutorial.models.User;
 import com.example.nabeel.postandcommenttutorial.ui.fragments.homeFragment;
 import com.example.nabeel.postandcommenttutorial.utils.BaseActivity;
@@ -51,6 +49,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -59,6 +58,8 @@ import com.google.firebase.storage.StorageReference;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 
@@ -946,5 +947,29 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
         return super.onOptionsItemSelected(item);
     }
+
+    /*public static void sendNotification(String user_id,String message,String description,String type){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("notifications").child(user_id);
+        String pushKey = databaseReference.push().getKey();
+
+        Notification notification = new Notification();
+        notification.setDescription(description);
+        notification.setMessage(message);
+        notification.setUser_id(user_id);
+        notification.setType(type);
+
+        Map<String, Object> forumValues = notification.toMap();
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put(pushKey, forumValues);
+        databaseReference.setPriority(ServerValue.TIMESTAMP);
+        databaseReference.updateChildren(childUpdates, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if(databaseError == null){
+
+                }
+            }
+        });
+    }*/
 
 }
