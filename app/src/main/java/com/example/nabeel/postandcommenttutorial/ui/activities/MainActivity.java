@@ -2,7 +2,6 @@ package com.example.nabeel.postandcommenttutorial.ui.activities;
 
 
 import android.app.Dialog;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,9 +23,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.support.v7.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.nabeel.postandcommenttutorial.R;
@@ -44,10 +41,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -391,6 +385,8 @@ public class MainActivity extends BaseActivity
         } else if(id == R.id.action_search){
 
             startActivity(new Intent(MainActivity.this , SearchActivity.class));
+
+//            startActivity(new Intent(MainActivity.this , SearchWithTabbedActivity.class));
 
         } else if (id == R.id.chat_inbox){
 
