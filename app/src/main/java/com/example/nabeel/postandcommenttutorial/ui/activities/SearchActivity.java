@@ -124,14 +124,16 @@ public class SearchActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
                 backbutton.setVisibility(View.VISIBLE);
+                String text = mSearchParams.getText().toString().trim().toLowerCase();
+                searchforMatch(text);
 
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
 
-                String text = mSearchParams.getText().toString();
-                searchforMatch(text);
+                /*String text = mSearchParams.getText().toString().trim().toLowerCase();
+                searchforMatch(text);*/
 
             }
         });
@@ -147,7 +149,7 @@ public class SearchActivity extends AppCompatActivity {
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
-            Query query = reference.child("users").orderByChild("name").startAt(keyword).endAt(keyword + "\uf8ff");
+            Query query = reference.child("users").orderByChild("email").startAt(keyword).endAt(keyword + "\uf8ff");
 
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

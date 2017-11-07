@@ -288,8 +288,8 @@ public class MainActivity extends BaseActivity
         nv = (NavigationView) findViewById(R.id.nav_view);
         Menu nav_Menu = nv.getMenu();
         nav_Menu.findItem(R.id.myaccount).setVisible(false);
-        nav_Menu.findItem(R.id.bookmark).setVisible(false);
-        nav_Menu.findItem(R.id.account_setting).setVisible(false);
+//        nav_Menu.findItem(R.id.bookmark).setVisible(false);
+//        nav_Menu.findItem(R.id.account_setting).setVisible(false);
     }
 
     private void init() {
@@ -425,10 +425,10 @@ public class MainActivity extends BaseActivity
 
 
 
-        }  else if(id == R.id.bookmark){
+        /*}  else if(id == R.id.bookmark){
 
             Intent bookmark_intent = new Intent(MainActivity.this, BookMark.class);
-            startActivity(bookmark_intent);
+            startActivity(bookmark_intent);*/
 
         } else if( id == R.id.logout){
 

@@ -109,7 +109,6 @@
 
         <activity android:name=".ui.activities.RegisterActivities.SignupScreen_For_User" />
         <activity android:name=".ui.activities.RegisterActivities.signupScreenForAlim" />
-        <activity android:name=".ui.activities.BookMark" />
         <activity android:name=".ui.activities.CreateNewPostActivity" />
         <activity android:name=".ui.activities.answersActivity" />
         <activity android:name=".ui.activities.postNewAnswer" />

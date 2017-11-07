@@ -17,6 +17,7 @@ import com.example.nabeel.postandcommenttutorial.utils.PrayTime;
 import com.example.nabeel.postandcommenttutorial.R;
 
 public class Prayer_Time_Activity extends AppCompatActivity {
+    private TextView txtPrayerNames;
     private TextView txtPrayerTimes;
     GPSTracker gps;
     double latitude;
@@ -36,6 +37,7 @@ public class Prayer_Time_Activity extends AppCompatActivity {
 
         }
 
+        txtPrayerNames = (TextView) findViewById(R.id.txtPrayerNames);
         txtPrayerTimes = (TextView) findViewById(R.id.txtPrayerTimes);
 
         gps = new GPSTracker(Prayer_Time_Activity.this);
@@ -88,8 +90,11 @@ public class Prayer_Time_Activity extends AppCompatActivity {
         ArrayList prayerNames = prayers.getTimeNames();
 
         for (int i = 0; i < prayerTimes.size(); i++) {
-            txtPrayerTimes.append("\n" + prayerNames.get(i) + " - "
-                    + prayerTimes.get(i));
+//            txtPrayerTimes.append("\n" + prayerNames.get(i) + " - "
+//                    + prayerTimes.get(i));
+
+            txtPrayerNames.append("\n" +prayerNames.get(i));
+            txtPrayerTimes.append("\n" +prayerTimes.get(i));
         }
 
         mGetTime.setVisibility(View.GONE);

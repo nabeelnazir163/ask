@@ -67,9 +67,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     private static final String BUNDLE_COMMENT = "comment";
     private Post mPost;
     private EditText mCommentEditTextView;
-    private EditText mAnswerEditTextView;
     private Comment mComment;
-    private Answer mAnswer;
     int userType;
     String email;
 
@@ -141,7 +139,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             bookmark_After_iv.setVisibility(View.GONE);
             comment_cardview.setVisibility(View.GONE);
 
-
         }
 
         if(userType != 3) {
@@ -184,29 +181,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
-
-
-/*
-
-        SharedPreferences userInfo_SP = getSharedPreferences("userTypeInfo", Context.MODE_PRIVATE);
-        userType = userInfo_SP.getInt("usertype", 0);
-        LinearLayout cmnt_Linear_layout = (LinearLayout) findViewById(R.id.linearLayout_for_comment);
-        if(userType == 1){
-
-            cmnt_Linear_layout.setVisibility(View.GONE);
-
-        } else if(userType == 2){
-
-            cmnt_Linear_layout.setVisibility(View.VISIBLE);
-
-        }
-
-        if (savedInstanceState != null) {
-            mComment = (Comment) savedInstanceState.getSerializable(BUNDLE_COMMENT);
-        }
-*/
-
-
         Intent intent = getIntent();
         mPost = (Post) intent.getSerializableExtra(Constants.EXTRA_POST);
 
@@ -235,6 +209,29 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FirebaseUtils.getAnswerRef().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.hasChild(mPost.getPostId())){
+
+                    max_layout.setVisibility(View.VISIBLE);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+}
+
     private void remove_bookmark(String postId) {
 
         FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser()
@@ -259,73 +256,29 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
+        private void BookmarkPost(final String post_id) {
 
-    private void BookmarkPost(final String post_id) {
+            FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
+                    .child(post_id).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
 
-        FirebaseUtils.getPostRef().child(post_id).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String postid = (String) dataSnapshot.child("postId").getValue();
-                String postText = (String) dataSnapshot.child("postText").getValue();
-                long timeCreated = (long) dataSnapshot.child("timeCreated").getValue();
-                long numLikes = (long) dataSnapshot.child(Constants.NUM_LIKES_KEY).getValue();
-                long numOfCmnt = (long) dataSnapshot.child(Constants.NUM_COMMENTS_KEY).getValue();
-                long numOfAns = (long ) dataSnapshot.child(Constants.NUM_ANSWWERS_KEY).getValue();
-                String userName = (String) dataSnapshot.child("user").child("name").getValue();
-                String userImg = (String) dataSnapshot.child("user").child("image").getValue();
+                    Toast.makeText(getApplicationContext() , "Post saved", Toast.LENGTH_SHORT).show();
 
+                    bookmark_iv.setVisibility(View.GONE);
+                    bookmark_After_iv.setVisibility(View.VISIBLE);
 
-                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
-                        .child(post_id).child("postId").setValue(postid);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
 
-                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
-                        .child(post_id).child("postText").setValue(postText);
+                    Toast.makeText(getApplicationContext() , "Unable to Bookmark Your post try agian later", Toast.LENGTH_SHORT).show();
 
-                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
-                        .child(post_id).child("timeCreated").setValue(timeCreated);
+                }
+            });
 
-                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
-                        .child(post_id).child(Constants.NUM_LIKES_KEY).setValue(numLikes);
-
-                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
-                        .child(post_id).child(Constants.NUM_ANSWWERS_KEY).setValue(numOfAns);
-
-                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
-                        .child(post_id).child(Constants.NUM_COMMENTS_KEY).setValue(numOfCmnt);
-
-                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
-                        .child(post_id).child("userImage").setValue(userImg);
-
-                FirebaseUtils.getBookmarksRef().child(mAuth.getCurrentUser().getEmail().replace(".",","))
-                        .child(post_id).child("userName").setValue(userName).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-
-                        Toast.makeText(getApplicationContext() , "Post saved", Toast.LENGTH_SHORT).show();
-
-                        bookmark_iv.setVisibility(View.GONE);
-                        bookmark_After_iv.setVisibility(View.VISIBLE);
-
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                        Toast.makeText(getApplicationContext() , "Unable to Bookmark Your post try agian later", Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-    }
+        }
 
 
     private void initAnswerSection() {
@@ -474,7 +427,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         postOwnerUsernameTextView.setText(mPost.getUser().getName());
         postTimeCreatedTextView.setText(DateUtils.getRelativeTimeSpanString(mPost.getTimeCreated()));
         postTextTextView.setText(mPost.getPostText());
-        //postNumCommentsTextView.setText(String.valueOf(mPost.getNumComments()));
         postNumCommentsTextView.setText(String.valueOf(mPost.getNumAnswers()));
 
         Glide.with(PostActivity.this)

@@ -17,13 +17,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.nabeel.postandcommenttutorial.R;
-import com.example.nabeel.postandcommenttutorial.models.Bookmark;
 import com.example.nabeel.postandcommenttutorial.models.Post;
-import com.example.nabeel.postandcommenttutorial.ui.activities.BookMark;
-import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
 import com.firebase.ui.database.FirebaseIndexRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -72,7 +68,6 @@ public class bookmarkFragment extends Fragment {
     }
 
     private void setupadapter() {
-
 
         FirebaseIndexRecyclerAdapter<Post, bookmarkViewHolder> bookmarkadapter = new FirebaseIndexRecyclerAdapter<Post, bookmarkViewHolder>(
                 Post.class,

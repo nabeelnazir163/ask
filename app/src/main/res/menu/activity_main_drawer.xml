@@ -16,26 +16,26 @@
             android:icon="@drawable/profile"
             android:title="Profile" /></group>
 
-    <group android:checkableBehavior="single"
+    <!--<group android:checkableBehavior="single"
         android:id="@+id/group3">
         <item
             android:id="@+id/bookmark"
             android:icon="@drawable/bookmark"
-            android:title="Bookmark"/></group>
+            android:title="Bookmark"/></group>-->
 
-    <group android:checkableBehavior="single"
+    <!--<group android:checkableBehavior="single"
         android:id="@+id/group4">
         <item
             android:id="@+id/account_setting"
             android:icon="@drawable/account_setting"
-            android:title="Account Setting"/></group>
+            android:title="Account Setting"/></group>-->
 
     <group android:checkableBehavior="single"
         android:id="@+id/group5">
         <item
             android:id="@+id/appinfo"
             android:icon="@drawable/app_info"
-            android:title="App Info"/></group>
+            android:title="App Setting"/></group>
 
 
     <group android:checkableBehavior="single"

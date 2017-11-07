@@ -14,12 +14,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.models.Post;
 import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
+import com.firebase.ui.database.FirebaseIndexRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -86,6 +88,15 @@ public class UserProfile extends AppCompatActivity {
         email_user = FirebaseUtils.getCurrentUser().getEmail();
         mEmail = mUserEmail.replace(".",",");
 
+        userProfile_question = (RecyclerView) findViewById(R.id.recyclerview_userprofile);
+        userProfile_question.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
+        userProfile_question.setLayoutManager(mLayoutManager);
+
+        setupAdapterProfile();
+
         mMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,25 +138,6 @@ public class UserProfile extends AppCompatActivity {
         });
 
 
-        /*FirebaseUtils.getFollowers().child(email_user.replace(".",","))
-                .addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                if (dataSnapshot.hasChild(mEmail)){
-
-                    mFollowtv.setVisibility(View.GONE);
-                    munfollowtv.setVisibility(View.VISIBLE);
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });*/
 
         SharedPreferences userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
 
@@ -173,7 +165,7 @@ public class UserProfile extends AppCompatActivity {
         }
 
 
-//        initadapter();
+
 
             mFollowtv.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -252,29 +244,25 @@ public class UserProfile extends AppCompatActivity {
 
     private void initadapter() {
 
-        userProfile_question = (RecyclerView) findViewById(R.id.recyclerview_userprofile);
-        userProfile_question.setHasFixedSize(true);
-        userProfile_question.setLayoutManager(new LinearLayoutManager(this));
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mLayoutManager.setReverseLayout(true);
-        mLayoutManager.setStackFromEnd(true);
-        userProfile_question.setLayoutManager(mLayoutManager);
-        setupAdapterProfile();
+
     }
 
     private void setupAdapterProfile() {
 
-        FirebaseRecyclerAdapter<Post, UP_viewholder> mUP_Adapter = new FirebaseRecyclerAdapter<Post, UP_viewholder>(
+//        Toast.makeText(getApplicationContext(), mEmail , Toast.LENGTH_SHORT).show();
+
+        FirebaseRecyclerAdapter<Post, UP_viewholder> mUP_Adapter = new FirebaseIndexRecyclerAdapter<Post, UP_viewholder>(
                 Post.class,
                 R.layout.row_post,
                 UP_viewholder.class,
+                FirebaseUtils.getmypostReference().child(mEmail),
                 FirebaseUtils.getPostRef()
         ) {
             @Override
             protected void populateViewHolder(UP_viewholder viewHolder, final Post model, int position) {
 
 
-                        String User_email = mUserEmail.replace(".", ",");
+                       /* String User_email = mUserEmail.replace(".", ",");
 
                         mDatabase.child(User_email).addValueEventListener(new ValueEventListener() {
                            @Override
@@ -286,27 +274,13 @@ public class UserProfile extends AppCompatActivity {
                                    postids.add(name);
                                }
 
-                       /*FirebaseUtils.getPostRef().addValueEventListener(new ValueEventListener() {
-                           @Override
-                           public void onDataChange(DataSnapshot dataSnapshot) {
-
-
-
-                                   }
-
-                           @Override
-                           public void onCancelled(DatabaseError databaseError) {
-
-                           }
-                       });*/
-
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
-                });
+                });*/
 
                 viewHolder.setNumCOmments(String.valueOf(model.getNumComments()));
                 viewHolder.setTIme(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
@@ -343,7 +317,6 @@ public class UserProfile extends AppCompatActivity {
         };
 
         userProfile_question.setAdapter(mUP_Adapter);
-
 
     }
 
