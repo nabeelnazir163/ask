@@ -1,4 +1,3 @@
-/*
 package com.example.nabeel.postandcommenttutorial;
 
 import android.util.Log;
@@ -6,10 +5,7 @@ import android.util.Log;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
-*/
-/**
- * Created by Nabeel on 8/29/2017.
- *//*
+
 
 
 public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
@@ -22,4 +18,3 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
         Log.d(REG_TOKEN,recent_token);
     }
 }
-*/

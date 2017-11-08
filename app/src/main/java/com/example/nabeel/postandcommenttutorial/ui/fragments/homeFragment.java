@@ -696,6 +696,7 @@ public class homeFragment extends Fragment {
                                     .runTransaction(new Transaction.Handler() {
                                         @Override
                                         public Transaction.Result doTransaction(MutableData mutableData) {
+
                                             long num = (long) mutableData.getValue();
                                             mutableData.setValue(num + 1);
                                             return Transaction.success(mutableData);

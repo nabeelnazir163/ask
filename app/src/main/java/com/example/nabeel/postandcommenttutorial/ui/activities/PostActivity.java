@@ -34,7 +34,6 @@ import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.models.Answer;
 import com.example.nabeel.postandcommenttutorial.models.Comment;
 import com.example.nabeel.postandcommenttutorial.models.Post;
-import com.example.nabeel.postandcommenttutorial.models.Notification;
 import com.example.nabeel.postandcommenttutorial.models.User;
 import com.example.nabeel.postandcommenttutorial.ui.fragments.homeFragment;
 import com.example.nabeel.postandcommenttutorial.utils.BaseActivity;
@@ -49,7 +48,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -58,8 +56,6 @@ import com.google.firebase.storage.StorageReference;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 
@@ -436,6 +432,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
         if (mPost.getPostImageUrl() != null) {
             postDisplayImageView.setVisibility(View.VISIBLE);
+
             StorageReference storageReference = FirebaseStorage.getInstance().getReference(mPost.getPostImageUrl());
 
             Glide.with(PostActivity.this)

@@ -350,7 +350,7 @@ public class MainActivity extends BaseActivity
 
         if(userType == 2){
 
-            menu.findItem(R.id.chat_inbox).setVisible(false);
+//            menu.findItem(R.id.chat_inbox).setVisible(false);
 
         } else if (userType == 3){
 

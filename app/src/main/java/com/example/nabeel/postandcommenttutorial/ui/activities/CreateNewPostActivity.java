@@ -170,6 +170,7 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
                         mPost.setUser(user);
                         mPost.setNumComments(0);
                         mPost.setNumAnswers(0);
+                        mPost.setNumSeen(0);
                         mPost.setTimeCreated(System.currentTimeMillis());
                         mPost.setPostId(postId);
                         mPost.setPostText(text);

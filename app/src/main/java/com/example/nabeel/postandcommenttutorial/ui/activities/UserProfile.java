@@ -102,7 +102,7 @@ public class UserProfile extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent message_intent = new Intent(UserProfile.this , Chat.class);
-                message_intent.putExtra("chatwith", mEmail);
+                message_intent.putExtra("emailforchat", mEmail);
                 startActivity(message_intent);
 
             }

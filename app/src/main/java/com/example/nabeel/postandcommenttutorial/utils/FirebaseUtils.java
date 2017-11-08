@@ -58,6 +58,11 @@ public class FirebaseUtils {
                 .getReference(Constants.NOTIFICATION);
     }
 
+    public static DatabaseReference getMessageRef(){
+        return FirebaseDatabase.getInstance()
+                .getReference("message");
+    }
+
     public static DatabaseReference postViewRef(){
         return FirebaseDatabase.getInstance()
                 .getReference().child("postview");
