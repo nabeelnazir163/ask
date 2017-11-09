@@ -284,6 +284,7 @@ public class homeFragment extends Fragment {
                 viewHolder.setTIme(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
                 viewHolder.setUsername(model.getUser().getName());
                 viewHolder.setPostText(model.getPostText());
+                viewHolder.setnumberSeen(String.valueOf(model.getNumSeen()));
 
                 viewHolder.postTextTextView.post(new Runnable() {
                     @Override
@@ -352,6 +353,19 @@ public class homeFragment extends Fragment {
                         Intent intent = new Intent(getContext(), PostActivity.class);
                         intent.putExtra(Constants.EXTRA_POST, model);
                         startActivity(intent);
+
+                        PostSeen(model.getPostId());
+                    }
+                });
+
+                viewHolder.tv_seenPost.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), PostActivity.class);
+                        intent.putExtra(Constants.EXTRA_POST, model);
+                        startActivity(intent);
+
+                        PostSeen(model.getPostId());
                     }
                 });
 
@@ -363,7 +377,7 @@ public class homeFragment extends Fragment {
                         intent.putExtra(Constants.EXTRA_POST, model);
                         startActivity(intent);
 
-                        LikeAnswer(model.getPostId());
+                        PostSeen(model.getPostId());
 
                     }
                 });
@@ -383,27 +397,6 @@ public class homeFragment extends Fragment {
                         final PopupMenu popupMenu = new PopupMenu(getContext(), viewHolder.menu_imageview);
 
                         popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
-
-                        /*FirebaseUtils.getPostRef().child(model.getPostId()).child("user").addValueEventListener(new ValueEventListener() {
-                            @Override
-
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                final String owner_of_post = dataSnapshot.child("email").getValue().toString();
-
-                                if(!owner_of_post.equals(FirebaseUtils.getCurrentUser().getEmail())){
-
-                                    popupMenu.getMenu().findItem(R.id.delete).setVisible(false);
-
-                                }
-
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });*/
 
                         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
@@ -432,6 +425,7 @@ public class homeFragment extends Fragment {
                                 return  true;
                             }
                         });
+                        PostSeen(model.getPostId());
 
                         popupMenu.show();
                     }
@@ -444,8 +438,6 @@ public class homeFragment extends Fragment {
                 mDatabaseposts.child("user").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        //Current_User = (String) dataSnapshot.child("uid").getValue();
 
                     }
 
@@ -463,8 +455,6 @@ public class homeFragment extends Fragment {
                             public void onDataChange(DataSnapshot dataSnapshot) {
 
                                 Current_User = (String) dataSnapshot.child("user").child("email").getValue();
-//                                Toast.makeText(getContext() , Current_User , Toast.LENGTH_LONG).show();
-//                                Toast.makeText(getContext() , "post key "+post_key , Toast.LENGTH_LONG).show();
 
                                 Intent user_profile = new Intent(getContext() , UserProfile.class);
                                 user_profile.putExtra("postkey", post_key);
@@ -610,6 +600,8 @@ public class homeFragment extends Fragment {
         ImageView newanswers;
         TextView fiqahOfAlim;
         RelativeLayout readmore_rel_layout;
+        LinearLayout seenLayout;
+        TextView tv_seenPost;
 
         public PostHolder(View itemView) {
             super(itemView);
@@ -631,6 +623,8 @@ public class homeFragment extends Fragment {
             newanswers = (ImageView) itemView.findViewById(R.id.newanswer_layout_post);
             fiqahOfAlim = (TextView) itemView.findViewById(R.id.tv_post_userfiqah);
             readmore_rel_layout = (RelativeLayout) itemView.findViewById(R.id.readmore_relLayout);
+            seenLayout = (LinearLayout) itemView.findViewById(R.id.seen_layout);
+            tv_seenPost = (TextView) itemView.findViewById(R.id.tv_seen);
 
 
         }
@@ -661,114 +655,61 @@ public class homeFragment extends Fragment {
             fiqahOfAlim.setText(fiqah);
         }
 
+        public void setnumberSeen(String seencount){
+            tv_seenPost.setText(seencount);
+        }
+
     }
 
-    private void LikeAnswer(final String postID) {
+    private void PostSeen(final String postID) {
 
-        FirebaseUtils.postViewRef().child(postID).child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        if (dataSnapshot.getValue() != null) {
-                            /*FirebaseUtils.getPostRef().child(postID)
-                                    .child("numSeen").runTransaction(new Transaction.Handler() {
-                                @Override
-                                public Transaction.Result doTransaction(MutableData mutableData) {
-                                    long num = (long) mutableData.getValue();
-                                    mutableData.setValue(num - 1);
-                                    return Transaction.success(mutableData);
-                                }
+        FirebaseUtils.postViewRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                .child(postID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                @Override
-                                public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue() != null){
 
-                                    FirebaseUtils.postViewRef().child(postID).child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                                            .setValue(null);
-
-                                }
-                            });*/
-
-//                        } else {
-
-                            FirebaseUtils.getPostRef()
-                                    .child(postID)
-                                    .child("numSeen")
-                                    .runTransaction(new Transaction.Handler() {
-                                        @Override
-                                        public Transaction.Result doTransaction(MutableData mutableData) {
-
-                                            long num = (long) mutableData.getValue();
-                                            mutableData.setValue(num + 1);
-                                            return Transaction.success(mutableData);
-                                        }
-
-                                        @Override
-                                        public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
-                                            FirebaseUtils.postViewRef().child(postID).child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                                                    .setValue(true);
-                                        }
-                                    });
-
-//                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-        /*FirebaseUtils.getAnswerLikedRef(answerId, postID)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.getValue() != null) {
-                            //User liked
-                            FirebaseUtils.getAnswerRef()
-                                    .child(postID)
-                                    .child(answerId)
-                                    .child(Constants.NUM_LIKES_KEY)
-                                    .runTransaction(new Transaction.Handler() {
-                                        @Override
-                                        public Transaction.Result doTransaction(MutableData mutableData) {
-                                            long num = (long) mutableData.getValue();
-                                            mutableData.setValue(num - 1);
-                                            return Transaction.success(mutableData);
-                                        }
-
-                                        @Override
-                                        public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
-                                            FirebaseUtils.getAnswerLikedRef(answerId, postID)
-                                                    .setValue(null);
-                                        }
-                                    });
-                        } else {
-                            FirebaseUtils.getAnswerRef()
-                                    .child(postID)
-                                    .child(answerId)
-                                    .child(Constants.NUM_LIKES_KEY)
-                                    .runTransaction(new Transaction.Handler() {
-                                        @Override
-                                        public Transaction.Result doTransaction(MutableData mutableData) {
-                                            long num = (long) mutableData.getValue();
-                                            mutableData.setValue(num + 1);
-                                            return Transaction.success(mutableData);
-                                        }
-
-                                        @Override
-                                        public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
-                                            FirebaseUtils.getAnswerLikedRef(answerId , postID)
-                                                    .setValue(true);
-                                        }
-                                    });
+                    FirebaseUtils.getPostRef().child(postID).child("numSeen").runTransaction(new Transaction.Handler() {
+                        @Override
+                        public Transaction.Result doTransaction(MutableData mutableData) {
+                            return null;
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
 
-                    }
-                });*/
+                        }
+                    });
+
+                } else {
+
+                    FirebaseUtils.getPostRef().child(postID).child("numSeen").runTransaction(new Transaction.Handler() {
+                        @Override
+                        public Transaction.Result doTransaction(MutableData mutableData) {
+                            long num = (long) mutableData.getValue();
+                            mutableData.setValue(num + 1);
+                            return Transaction.success(mutableData);
+                        }
+
+                        @Override
+                        public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+                            FirebaseUtils.postViewRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                                    .child(postID).setValue(true);
+                        }
+                    });
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 }

@@ -138,33 +138,6 @@
     </LinearLayout>
 
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="vertical"-->
-        <!--android:id="@+id/postview"-->
-        <!--&gt;-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/tv_post_text"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginBottom="8dp"-->
-        <!--android:layout_marginLeft="16dp"-->
-        <!--android:layout_marginRight="16dp"-->
-        <!--android:text="Post text has some words that I could use for a place holder like this" />-->
-
-    <!--<ImageView-->
-        <!--android:id="@+id/iv_post_display"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="200dp"-->
-        <!--android:adjustViewBounds="true"-->
-        <!--android:scaleType="fitXY"-->
-        <!--android:src="@drawable/placeholder"-->
-        <!--android:maxHeight="200dp"-->
-        <!--/>-->
-    <!--</LinearLayout>-->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -184,12 +157,7 @@
             android:background="@drawable/viewallanswers_bg"
             >
 
-            <!--<ImageView-->
-            <!--android:layout_width="20dp"-->
-            <!--android:layout_height="20dp"-->
-            <!--android:src="@drawable/ic_mode_comment_black_24dp"-->
 
-            <!--/>-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
@@ -221,12 +189,6 @@
             android:background="@drawable/viewallanswers_bg"
             >
 
-            <!--<ImageView-->
-            <!--android:layout_width="20dp"-->
-            <!--android:layout_height="20dp"-->
-            <!--android:src="@drawable/ic_mode_comment_black_24dp"-->
-
-            <!--/>-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
@@ -243,6 +205,36 @@
                 android:text="0"
                 android:layout_marginRight="2dp"
                 android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/seen_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            android:padding="3dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seen"
+                />
+
+            <TextView
+                android:id="@+id/tv_seen"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="4dp"
+                android:gravity="center_vertical"
+                android:text="0"
+                android:layout_marginRight="2dp"
+                android:textSize="12sp" />
+
         </LinearLayout>
 
         <LinearLayout
