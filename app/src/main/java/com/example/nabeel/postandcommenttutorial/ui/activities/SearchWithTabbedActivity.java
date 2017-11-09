@@ -38,8 +38,9 @@ import java.util.List;
 
 public class SearchWithTabbedActivity extends AppCompatActivity {
 
-    public EditText mSearchParams;
-    private ImageView backbutton;
+//    public static TextView mSearchParams;
+    public static EditText mSearchParams;
+    public static ImageView backbutton;
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;

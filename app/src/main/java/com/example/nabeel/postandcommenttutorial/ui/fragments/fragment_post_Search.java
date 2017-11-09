@@ -14,10 +14,16 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.nabeel.postandcommenttutorial.R;
+import com.example.nabeel.postandcommenttutorial.models.Post;
 import com.example.nabeel.postandcommenttutorial.models.User;
+import com.example.nabeel.postandcommenttutorial.ui.activities.PostActivity;
+import com.example.nabeel.postandcommenttutorial.ui.activities.SearchWithTabbedActivity;
 import com.example.nabeel.postandcommenttutorial.ui.activities.UserProfile;
+import com.example.nabeel.postandcommenttutorial.ui.adapter.PostListadapter;
+import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.example.nabeel.postandcommenttutorial.utils.UserListAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,23 +43,21 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class fragment_post_Search extends Fragment {
 
-    private EditText mSearchParams;
     private ListView mListview;
-    private ImageView backbutton;
 
-    private List<User> mUsersList;
-    private UserListAdapter mAdapter;
+    private List<Post> mUsersList;
+    private PostListadapter mAdapter;
 
     View mRootview;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        mRootview = inflater.inflate(R.layout.fragment_usersearch, container , false);
+        mRootview = inflater.inflate(R.layout.fragment_postsearch, container , false);
 
-        mSearchParams = (EditText) mRootview.findViewById(R.id.search);
-        backbutton = (ImageView) mRootview.findViewById(R.id.back_button);
-        mListview = (ListView) mRootview.findViewById(R.id.listview_search_Activity);
+//        mSearchParams = (EditText) mRootview.findViewById(R.id.search);
+//        backbutton = (ImageView) mRootview.findViewById(R.id.back_button);
+        mListview = (ListView) mRootview.findViewById(R.id.listview_search_Activity_post);
 
         hideSoftkeyboard();
         initTextListener();
@@ -75,7 +79,7 @@ public class fragment_post_Search extends Fragment {
 
         mUsersList = new ArrayList<>();
 
-        mSearchParams.addTextChangedListener(new TextWatcher() {
+        SearchWithTabbedActivity.mSearchParams.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -84,8 +88,8 @@ public class fragment_post_Search extends Fragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                backbutton.setVisibility(View.VISIBLE);
-                String text = mSearchParams.getText().toString().trim().toLowerCase();
+                SearchWithTabbedActivity.backbutton.setVisibility(View.VISIBLE);
+                String text = SearchWithTabbedActivity.mSearchParams.getText().toString().trim().toLowerCase();
                 searchforMatch(text);
 
             }
@@ -93,7 +97,7 @@ public class fragment_post_Search extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
 
-                /*String text = mSearchParams.getText().toString().trim().toLowerCase();
+                /*String text = SearchWithTabbedActivity.mSearchParams.getText().toString().trim().toLowerCase();
                 searchforMatch(text);*/
 
             }
@@ -110,15 +114,17 @@ public class fragment_post_Search extends Fragment {
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
-            Query query = reference.child("post").orderByChild("postText").startAt(keyword).endAt(keyword + "\uf8ff");
+            Query query = reference.child("posts").orderByChild("postText").startAt(keyword).endAt(keyword + "\uf8ff");
 
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for(DataSnapshot singlesnapshot : dataSnapshot.getChildren()){
 
-                        mUsersList.add(singlesnapshot.getValue(User.class));
-                        updateUsersListview();
+//                        Toast.makeText(getContext(), singlesnapshot.child("postText").getValue(Post.class).toString(), Toast.LENGTH_SHORT).show();
+
+                        mUsersList.add(singlesnapshot.getValue(Post.class));
+                        updateUsersListview(singlesnapshot.getValue(Post.class));
 
                     }
                 }
@@ -133,9 +139,9 @@ public class fragment_post_Search extends Fragment {
 
     }
 
-    private void updateUsersListview(){
+    private void updateUsersListview(final Post model){
 
-        mAdapter = new UserListAdapter(getContext() , R.layout.layout_user_listenitem, mUsersList);
+        mAdapter = new PostListadapter(getContext() , R.layout.layout_post_listenitem, mUsersList);
 
         mListview.setAdapter(mAdapter);
 
@@ -143,9 +149,9 @@ public class fragment_post_Search extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Intent profile_intent = new Intent(getContext() , UserProfile.class);
-                profile_intent.putExtra("email", mUsersList.get(i).getEmail());
-                startActivity(profile_intent);
+                Intent intent = new Intent(getContext(), PostActivity.class);
+                intent.putExtra(Constants.EXTRA_POST, model);
+                startActivity(intent);
 
             }
         });

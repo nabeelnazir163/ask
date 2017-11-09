@@ -338,11 +338,15 @@ public class homeFragment extends Fragment {
                         dialog.setContentView(R.layout.dialogpostimage_layout);
                         ImageView myImage = (ImageView) dialog.findViewById(R.id.i);
 
+
                         StorageReference storageReference = FirebaseStorage.getInstance()
                                 .getReference(model.getPostImageUrl());
 
                         Glide.with(getContext())
                                 .using(new FirebaseImageLoader()).load(storageReference).into(myImage);
+
+                        PostSeen(model.getPostId());
+
                         dialog.show();
                     }
                 });
@@ -388,6 +392,8 @@ public class homeFragment extends Fragment {
                         Intent answers_inteent = new Intent(getActivity() , postNewAnswer.class);
                         answers_inteent.putExtra(Constants.EXTRA_POST , model);
                         startActivity(answers_inteent);
+
+                        PostSeen(model.getPostId());
                     }
                 });
 
@@ -461,6 +467,8 @@ public class homeFragment extends Fragment {
                                 user_profile.putExtra("email", Current_User);
                                 startActivity(user_profile);
 
+                                PostSeen(model.getPostId());
+
                             }
 
                             @Override
@@ -486,6 +494,8 @@ public class homeFragment extends Fragment {
                                 user_profile.putExtra("email", Current_User);
                                 startActivity(user_profile);
 
+                                PostSeen(model.getPostId());
+
                             }
 
                             @Override
@@ -503,6 +513,8 @@ public class homeFragment extends Fragment {
 
                         BookmarkPost(model.getPostId() , viewHolder);
 
+                        PostSeen(model.getPostId());
+
                     }
                 });
 
@@ -511,6 +523,8 @@ public class homeFragment extends Fragment {
                     public void onClick(View view) {
 
                         remove_bookmark(model.getPostId(), viewHolder);
+
+                        PostSeen(model.getPostId());
 
                     }
                 });
@@ -535,6 +549,7 @@ public class homeFragment extends Fragment {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+
                 Toast.makeText(getContext() , "Unable to Remove Post as bookmark", Toast.LENGTH_SHORT).show();
 
             }

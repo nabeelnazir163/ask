@@ -67,7 +67,7 @@
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
+            android:layout_marginRight="6dp"
             android:textSize="12dp"
             android:layout_gravity="center_vertical"
             android:text="10h30" />
@@ -136,7 +136,6 @@
 
 
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -273,6 +272,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
 </LinearLayout>

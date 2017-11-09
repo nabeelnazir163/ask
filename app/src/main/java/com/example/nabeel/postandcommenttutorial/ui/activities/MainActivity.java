@@ -384,9 +384,9 @@ public class MainActivity extends BaseActivity
 
         } else if(id == R.id.action_search){
 
-            startActivity(new Intent(MainActivity.this , SearchActivity.class));
+//            startActivity(new Intent(MainActivity.this , SearchActivity.class));
 
-//            startActivity(new Intent(MainActivity.this , SearchWithTabbedActivity.class));
+            startActivity(new Intent(MainActivity.this , SearchWithTabbedActivity.class));
 
         } else if (id == R.id.chat_inbox){
 

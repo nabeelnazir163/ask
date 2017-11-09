@@ -40,8 +40,6 @@ public class SearchActivity extends AppCompatActivity {
     private List<User> mUsersList;
     private UserListAdapter mAdapter;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +75,6 @@ public class SearchActivity extends AppCompatActivity {
         initTextListener();
 
     }
-
 
     private void hideSoftkeyboard(){
 
