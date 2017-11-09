@@ -355,7 +355,7 @@ public class homeFragment extends Fragment {
                     }
                 });
 
-                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                viewHolder.postTextTextView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 

@@ -49,7 +49,7 @@ public class Chat extends AppCompatActivity {
     String current_user_image;
     String chatwithName;
     String push_id;
-    String specific_message_id;
+    String specific_message_id = "";
 
     String messageText;
 
@@ -71,24 +71,32 @@ public class Chat extends AppCompatActivity {
         textView = (TextView)findViewById(R.id.text_message_left);
         textview_right = (TextView) findViewById(R.id.text_message_right);
 
-        chatWithEmail = (String) getIntent().getSerializableExtra("emailforchat").toString().trim().replace(".",",");
+        chatWithEmail = (String) getIntent().getSerializableExtra("emailforchat")
+                .toString().trim().replace(".",",");
 
-        specific_message_id = (String) getIntent().getSerializableExtra("msg_id").toString().trim();
+        if(!getIntent().getSerializableExtra("msg_id").toString().equals("")) {
 
-        FirebaseUtils.getMessageRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                .child("inbox").child(specific_message_id).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                message_received = dataSnapshot.child("message").getValue().toString();
-                textView.setText(message_received);
-                textView.setBackgroundResource(R.drawable.rounded_corner1);
-            }
+            specific_message_id = (String) getIntent().getSerializableExtra("msg_id").toString().trim();
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+        }
 
-            }
-        });
+        if(!specific_message_id.equals("")) {
+
+            FirebaseUtils.getMessageRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".", ","))
+                    .child("inbox").child(specific_message_id).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    message_received = dataSnapshot.child("message").getValue().toString();
+                    textView.setText("\n" + message_received + "\n");
+                    textView.setBackgroundResource(R.drawable.rounded_corner1);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
 
         final ActionBar actionBar = getSupportActionBar();
 
@@ -163,10 +171,13 @@ public class Chat extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
 
-                            textview_right.setText(messageText);
+//                            textview_right.setText(messageText);
+                            textview_right.append("\n"+messageText+"\n");
                             textview_right.setBackgroundResource(R.drawable.rounded_corner2);
                             progressDialog.dismiss();
-                            finish();
+                            messageArea.setText("");
+//                            finish();
+//                            textView.append(messageText);
 
                         }
                     });

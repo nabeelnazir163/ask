@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -32,6 +33,15 @@ public class inbox extends AppCompatActivity {
         setContentView(R.layout.activity_inbox);
 
 //        mDatabase = FirebaseDatabase.getInstance().getReference().child("message").child("inbox");
+
+        if(getSupportActionBar() != null){
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            ActionBar ab = getSupportActionBar();
+            ab.setTitle("Inbox");
+
+        }
 
         ActionBar ab = getSupportActionBar();
         ab.setTitle("Inbox");
@@ -118,6 +128,16 @@ public class inbox extends AppCompatActivity {
         public void setMessage(String comment) {
             messageTextView.setText(comment);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == android.R.id.home)
+
+            finish();
+
+        return super.onOptionsItemSelected(item);
     }
 
 }
