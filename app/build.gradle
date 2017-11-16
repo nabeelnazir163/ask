@@ -63,5 +63,8 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.1.0'
     compile 'com.squareup.okhttp3:okhttp:3.3.1'
     testCompile 'junit:junit:4.12'
+    android {
+        useLibrary 'org.apache.http.legacy'
+    }
 }
 apply plugin: 'com.google.gms.google-services'
