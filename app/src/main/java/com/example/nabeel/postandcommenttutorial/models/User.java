@@ -15,19 +15,19 @@ public class User implements Serializable {
     private String uid;
     private String email;
     private String fiqah;
-    private String FCM_TOKEN;
+    private String fcmtoken;
 
     public User() {
     }
 
-    public User(String address, String image, String name, String uid, String email, String fiqah, String FCM_TOKEN) {
+    public User(String address, String image, String name, String uid, String email, String fiqah, String fcmtoken) {
         this.address = address;
         this.image = image;
         this.name = name;
         this.uid = uid;
         this.email = email;
         this.fiqah = fiqah;
-        this.FCM_TOKEN = FCM_TOKEN;
+        this.fcmtoken = fcmtoken;
     }
 
     public String getFiqah() {
@@ -74,11 +74,11 @@ public class User implements Serializable {
 
     public void setEmail(String email) { this.email = email; }
 
-    public String getFCM_TOKEN() {
-        return FCM_TOKEN;
+    public String getfcmtoken() {
+        return fcmtoken;
     }
 
-    public void setFCM_TOKEN(String FCM_TOKEN) {
-        this.FCM_TOKEN = FCM_TOKEN;
+    public void setfcmtoken(String fcmtoken) {
+        this.fcmtoken = fcmtoken;
     }
 }
