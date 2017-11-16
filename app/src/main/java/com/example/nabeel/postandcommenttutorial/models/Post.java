@@ -17,12 +17,12 @@ public class Post implements Serializable {
     private long numComments;
     private long timeCreated;
     private long numAnswers;
-    private String FCM_TOKEN;
+//    private String FCM_TOKEN;
 
     public Post() {
     }
 
-    public Post(User user, String postText, String postImageUrl, String postId, long numLikes, long numComments, long timeCreated, long numAnswers, long numSeen, String FCM_TOKEN) {
+    public Post(User user, String postText, String postImageUrl, String postId, long numLikes, long numComments, long timeCreated, long numAnswers, long numSeen/*, String FCM_TOKEN*/) {
 
         this.user = user;
         this.postText = postText;
@@ -33,7 +33,7 @@ public class Post implements Serializable {
         this.timeCreated = timeCreated;
         this.numAnswers = numAnswers;
         this.numSeen = numSeen;
-        this.FCM_TOKEN = FCM_TOKEN;
+//        this.FCM_TOKEN = FCM_TOKEN;
     }
 
     public long getNumAnswers() {
@@ -106,11 +106,11 @@ public class Post implements Serializable {
         this.timeCreated = timeCreated;
     }
 
-    public String getFCM_TOKEN() {
+    /*public String getFCM_TOKEN() {
         return FCM_TOKEN;
     }
 
     public void setFCM_TOKEN(String FCM_TOKEN) {
         this.FCM_TOKEN = FCM_TOKEN;
-    }
+    }*/
 }
