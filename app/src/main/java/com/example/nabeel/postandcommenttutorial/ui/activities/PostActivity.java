@@ -39,6 +39,7 @@ import com.example.nabeel.postandcommenttutorial.ui.fragments.homeFragment;
 import com.example.nabeel.postandcommenttutorial.utils.BaseActivity;
 import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
+import com.example.nabeel.postandcommenttutorial.utils.sendNotification;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -93,6 +94,10 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     ImageView menu_imageview;
 
     RelativeLayout readmore_Rel_layout;
+
+    String postId;
+    String Current_UserName;
+    String FCM_token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -671,10 +676,36 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
                                                 if(!C_Current_user.equals(updated_email)){
 
-                                                    //Toast.makeText(PostActivity.this , C_Current_user + email , Toast.LENGTH_LONG).show();
 
-                                                    sendNotification();
+                                                    FirebaseUtils.getUserRef(C_Current_user).addValueEventListener(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                                            Current_UserName = dataSnapshot.child("name").getValue().toString();
 
+                                                            FirebaseUtils.getPostRef().child(mPost.getPostId())
+                                                                    .child("user").addValueEventListener(new ValueEventListener() {
+                                                                @Override
+                                                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                                    FCM_token = dataSnapshot.child("fcm_TOKEN").getValue().toString();
+
+                                                                    sendNotification notify = new sendNotification();
+                                                                    notify.send(Current_UserName,postId,FCM_token);
+                                                                }
+
+                                                                @Override
+                                                                public void onCancelled(DatabaseError databaseError) {
+
+                                                                }
+                                                            });
+
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(DatabaseError databaseError) {
+
+                                                        }
+                                                    });
                                                 }
 
                                             }
