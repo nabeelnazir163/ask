@@ -95,12 +95,12 @@
         </service>
 
 
-        <!--<service android:name=".MyFirebaseMessagingService">
+        <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"></action>
             </intent-filter>
 
-        </service>-->
+        </service>
 
         <activity android:name=".ui.activities.UserProfile" />
         <activity android:name=".ui.activities.Prayer_Time_Activity" />

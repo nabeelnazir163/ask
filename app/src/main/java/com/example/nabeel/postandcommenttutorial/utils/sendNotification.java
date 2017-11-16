@@ -28,6 +28,11 @@ import java.util.List;
 
 public class sendNotification {
 
+    public sendNotification(String name, String postID, String fcm){
+        send(name,postID,fcm);
+    }
+
+
     public void send(String name, String postID, String fcm){
         String message, title = "ASK ALIM", pID, fcm_token;
         message = name+" commented on your post";

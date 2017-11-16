@@ -689,8 +689,9 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
                                                                     FCM_token = dataSnapshot.child("fcm_TOKEN").getValue().toString();
 
-                                                                    sendNotification notify = new sendNotification();
-                                                                    notify.send(Current_UserName,postId,FCM_token);
+                                                                    sendNotification notify = new sendNotification(Current_UserName,postId,FCM_token);
+                                                                    //notify.send(Current_UserName,postId,FCM_token);
+                                                                    // asy n
                                                                 }
 
                                                                 @Override
