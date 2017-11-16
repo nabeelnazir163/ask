@@ -87,12 +87,13 @@
 
         <activity android:name=".ui.activities.Chat" />
 
-        <service android:name=".MyFirebaseInstanceIdService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"></action>
-            </intent-filter>
 
+        <service android:name=".MyFirebaseInstanceIdService">
+        <intent-filter>
+            <action android:name="com.google.firebase.INSTANCE_ID_EVENT"></action>
+        </intent-filter>
         </service>
+
 
         <!--<service android:name=".MyFirebaseMessagingService">
             <intent-filter>

@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -70,11 +71,18 @@ public class SignupScreen_For_User extends BaseActivity {
 
     SharedPreferences userType_sp;
     SharedPreferences.Editor userType_sh_editor;
+    String token = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_screen__for__user);
+
+
+        /**
+         * getting the fcm token here
+         */
+        token = FirebaseInstanceId.getInstance().getToken();
 
         mSignupNameUser = (EditText) findViewById(R.id.Signup_user_namefield);
         mSignupEmailUser = (EditText) findViewById(R.id.Signup_user_emailfield);
@@ -255,17 +263,6 @@ public class SignupScreen_For_User extends BaseActivity {
 
                     if(task.isSuccessful()){
 
-                        /**
-                         * registering the fcm token here
-                         */
-
-                        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.FCM_PREF), MODE_PRIVATE);
-                        final String token = sharedPreferences.getString(getString(R.string.FCM_TOEKN), "");
-
-                        /**
-                         * Store this fcm token into the firebase database
-                         */
-
                         FirebaseUtils.getUserRef(email).child("name").setValue(mNameFieldUser);
                         FirebaseUtils.getUserRef(email).child("email").setValue(FirebaseUtils.getCurrentUser().getEmail());
                         FirebaseUtils.getUserRef(email).child("gender").setValue(select_gender_user);
@@ -274,6 +271,7 @@ public class SignupScreen_For_User extends BaseActivity {
                         FirebaseUtils.getUserRef(email).child("fiqah").setValue(selected_fiqah);
                         FirebaseUtils.getUserRef(email).child("userType").setValue("User");
                         FirebaseUtils.getUserRef(email).child("uid").setValue(FirebaseUtils.getCurrentUser().getUid());
+                        FirebaseUtils.getUserRef(email).child("FCM_TOKEN").setValue(token);
 
                         StorageReference filepath = mSignup_Stor_ref_user.child(mImageUri_user.getLastPathSegment());
 

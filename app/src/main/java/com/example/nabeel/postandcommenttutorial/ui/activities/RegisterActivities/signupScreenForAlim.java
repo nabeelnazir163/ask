@@ -31,6 +31,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -108,11 +109,17 @@ public class signupScreenForAlim extends BaseActivity {
 
     SharedPreferences userType_sp;
     SharedPreferences.Editor userType_sh_editor;
+    String token = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_screen_for_alim);
+
+        /**
+         * getting the fcm token here
+         */
+        token = FirebaseInstanceId.getInstance().getToken();
 
         mSignupNameAlim = (EditText) findViewById(R.id.Signup_Alim_namefield);
         mSignupEmailAlim = (EditText) findViewById(R.id.Signup_Alim_emailfield);
@@ -429,17 +436,6 @@ public class signupScreenForAlim extends BaseActivity {
 
                     if(task.isSuccessful()){
 
-                        /**
-                         * registering the fcm token here
-                         */
-
-                        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.FCM_PREF), MODE_PRIVATE);
-                        final String token = sharedPreferences.getString(getString(R.string.FCM_TOEKN), "");
-
-                        /**
-                         * Store this fcm token into the firebase database
-                         */
-
                         FirebaseUtils.getUserRef(email).child("name").setValue(mNameFieldAlim);
                         FirebaseUtils.getUserRef(email).child("email").setValue(getCurrentUser().getEmail());
                         FirebaseUtils.getUserRef(email).child("gender").setValue(select_gender_alim);
@@ -450,7 +446,9 @@ public class signupScreenForAlim extends BaseActivity {
                         FirebaseUtils.getUserRef(email).child("qualification").setValue(qualification);
                         FirebaseUtils.getUserRef(email).child("Interested_in_catrgoires").setValue(final_speci_cat);
                         FirebaseUtils.getUserRef(email).child("known_languages").setValue(final_language);
+                        FirebaseUtils.getUserRef(email).child("FCM_TOKEN").setValue(token);
                         FirebaseUtils.getUserRef(email).child("uid").setValue(FirebaseUtils.getCurrentUser().getUid());
+
 
                         if(!TextUtils.isEmpty(State_Alim)){
 

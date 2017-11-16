@@ -23,6 +23,7 @@ import com.example.nabeel.postandcommenttutorial.ui.activities.MainActivity;
 import com.example.nabeel.postandcommenttutorial.ui.activities.ResetPassword;
 import com.example.nabeel.postandcommenttutorial.utils.BaseActivity;
 import com.example.nabeel.postandcommenttutorial.utils.Constants;
+import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -40,6 +41,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONObject;
 
@@ -66,12 +68,15 @@ public class RegisterActivity extends BaseActivity{
 
     SharedPreferences userType_sp;
     SharedPreferences.Editor userType_sh_editor;
-
+    String token = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_register);
+
+        //get fcm token here
+        token = FirebaseInstanceId.getInstance().getToken();
+        //the fcm token of the user/alim has to be updated at the time of login
 
         mSign_up = (TextView) findViewById(R.id.signup_tv);
         mForgot_pass = (TextView) findViewById(R.id.forgotPass_tv);
@@ -152,8 +157,9 @@ public class RegisterActivity extends BaseActivity{
         });
 
 
-
-//      //SIGNING UP WITH FACEBOOK
+        /**
+         * SIGNING UP WITH FACEBOOK
+         */
         loginButton = (LoginButton)findViewById(R.id.facebookLoginBtn);
         callbackManager = CallbackManager.Factory.create();
         loginButton.setReadPermissions("email","public_profile");
@@ -362,12 +368,12 @@ public class RegisterActivity extends BaseActivity{
     private void startLogging() {
 
         final ProgressDialog progressDialog = new ProgressDialog(RegisterActivity.this);
-        progressDialog.setMessage("Logging-in");
+        progressDialog.setMessage("Logging-In");
         progressDialog.setCancelable(true);
         progressDialog.setIndeterminate(true);
         progressDialog.show();
 
-        String email = memailfield.getText().toString();
+        final String email = memailfield.getText().toString();
         String password = mpasswordfield.getText().toString();
 
         if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)){
@@ -381,6 +387,8 @@ public class RegisterActivity extends BaseActivity{
                         if(check_user_type_from_radio_btn == 1 || check_user_type_from_radio_btn == 2) {
 
                             checkUserExist();
+
+                            FirebaseUtils.getUserRef(email.replace(".",",")).child("FCM_TOKEN").setValue(token);
 
                             progressDialog.dismiss();
                         } else {
