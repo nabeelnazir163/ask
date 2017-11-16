@@ -1,5 +1,8 @@
 package com.example.nabeel.postandcommenttutorial.ui.fragments;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.StrictMode;
@@ -8,15 +11,17 @@ import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import com.example.nabeel.postandcommenttutorial.NotificationReceiever.Notification_receiver_hadees;
 import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.utils.BaseActivity;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Scanner;
 
-public class AppInfo extends BaseActivity {
+public class  AppInfo extends BaseActivity {
 
     Switch hadees, HijriCal, PrayerTime, unAnsweredQues;
 
@@ -42,6 +47,20 @@ public class AppInfo extends BaseActivity {
         hadeesPrefs = getSharedPreferences(HADEES_PREFS,0);
         Hadeeseditor = hadeesPrefs.edit();
         hadees.setChecked(hadeesPrefs.getBoolean("hadees", false));
+
+        /*if(hadeesPrefs.getBoolean("hadees", false) == true){
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 22);
+            calendar.set(Calendar.MINUTE, 20);
+
+            Intent intent = new Intent(getApplicationContext(), Notification_receiver_hadees.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        }*/
 
         calPrefs = getSharedPreferences(CAL_PREFS,0);
         CalEditor = calPrefs.edit();

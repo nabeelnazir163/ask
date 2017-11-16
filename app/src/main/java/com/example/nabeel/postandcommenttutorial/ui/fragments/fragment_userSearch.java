@@ -135,6 +135,7 @@ public class fragment_userSearch extends Fragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for(DataSnapshot singlesnapshot : dataSnapshot.getChildren()){
 
+                        mUsersList.clear();
                         mUsersList.add(singlesnapshot.getValue(User.class));
                         updateUsersListview();
 

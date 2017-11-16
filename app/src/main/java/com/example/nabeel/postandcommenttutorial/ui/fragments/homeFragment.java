@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -67,6 +69,7 @@ public class homeFragment extends Fragment {
     private TextView m_current_user_display_name;
     static String Loggedin_user_email;
     public static String login_user_name;
+    private SwipeRefreshLayout mSwipeRef_home;
 
     public homeFragment() {
         // Required empty public constructor
@@ -83,6 +86,20 @@ public class homeFragment extends Fragment {
 
         m_current_user_display_image = (ImageView)mRootVIew.findViewById(R.id.current_user_display_image);
         m_current_user_display_name = (TextView) mRootVIew.findViewById(R.id.current_user_display_name);
+        mSwipeRef_home = (SwipeRefreshLayout) mRootVIew.findViewById(R.id.swipe_refresh_layout);
+
+        mSwipeRef_home.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        init();
+                        mSwipeRef_home.setRefreshing(false);
+                    }
+                },5000);
+            }
+        });
 
         mAsk_Ques = (TextView) mRootVIew.findViewById(R.id.ask_ques_tv);
 

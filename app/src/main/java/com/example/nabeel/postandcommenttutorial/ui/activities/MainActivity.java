@@ -78,8 +78,6 @@ public class MainActivity extends BaseActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -114,8 +112,8 @@ public class MainActivity extends BaseActivity
             });
 
         }*/
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
 

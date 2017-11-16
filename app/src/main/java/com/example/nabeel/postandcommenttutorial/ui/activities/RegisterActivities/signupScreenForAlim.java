@@ -439,6 +439,7 @@ public class signupScreenForAlim extends BaseActivity {
                         FirebaseUtils.getUserRef(email).child("qualification").setValue(qualification);
                         FirebaseUtils.getUserRef(email).child("Interested_in_catrgoires").setValue(final_speci_cat);
                         FirebaseUtils.getUserRef(email).child("known_languages").setValue(final_language);
+                        FirebaseUtils.getUserRef(email).child("uid").setValue(FirebaseUtils.getCurrentUser().getUid());
 
                         if(!TextUtils.isEmpty(State_Alim)){
 

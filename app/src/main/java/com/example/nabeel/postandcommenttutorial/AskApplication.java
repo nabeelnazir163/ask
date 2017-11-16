@@ -69,8 +69,8 @@ public class AskApplication extends Application {
         if (hadeesState == true) {
 
             Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, 2);
-            calendar.set(Calendar.MINUTE, 35);
+            calendar.set(Calendar.HOUR_OF_DAY, 22);
+            calendar.set(Calendar.MINUTE, 20);
 
             Intent intent = new Intent(getApplicationContext(), Notification_receiver_hadees.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);

@@ -262,6 +262,7 @@ public class SignupScreen_For_User extends BaseActivity {
                         FirebaseUtils.getUserRef(email).child("country").setValue(countryname_user);
                         FirebaseUtils.getUserRef(email).child("fiqah").setValue(selected_fiqah);
                         FirebaseUtils.getUserRef(email).child("userType").setValue("User");
+                        FirebaseUtils.getUserRef(email).child("uid").setValue(FirebaseUtils.getCurrentUser().getUid());
 
                         StorageReference filepath = mSignup_Stor_ref_user.child(mImageUri_user.getLastPathSegment());
 
