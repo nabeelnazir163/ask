@@ -206,7 +206,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
         init();
         initPost();
-        initAnswerSection();
+        //initAnswerSection();
         initCommentSection();
 
     }
@@ -283,7 +283,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         }
 
 
-    private void initAnswerSection() {
+    /*private void initAnswerSection() {
         RecyclerView answerRecyclerView = (RecyclerView) findViewById(R.id.post_activity_answer_recyclerview);
         answerRecyclerView.setLayoutManager(new LinearLayoutManager(PostActivity.this));
 
@@ -314,7 +314,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
         answerRecyclerView.setAdapter(answerAdapter);
 
-    }
+    }*/
 
     private void initCommentSection() {
         RecyclerView commentRecyclerView = (RecyclerView) findViewById(R.id.comment_recyclerview);
@@ -687,7 +687,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                                                                 @Override
                                                                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                                                    FCM_token = dataSnapshot.child("fcm_TOKEN").getValue().toString();
+                                                                    FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
 
                                                                     sendNotification notify = new sendNotification(Current_UserName,postId,FCM_token);
                                                                     //notify.send(Current_UserName,postId,FCM_token);
