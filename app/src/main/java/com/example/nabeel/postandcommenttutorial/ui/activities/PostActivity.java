@@ -687,10 +687,24 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                                                                 @Override
                                                                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                                                    FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
+                                                                    String email = dataSnapshot.child("email").getValue().toString();
 
-                                                                    sendNotification notify = new sendNotification(Current_UserName,postId,FCM_token);
-                                                                    //notify.send(Current_UserName,postId,FCM_token);
+                                                                    FirebaseUtils.getUserRef(email).addValueEventListener(new ValueEventListener() {
+                                                                        @Override
+                                                                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                                            FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
+                                                                            sendNotification notify = new sendNotification(Current_UserName,postId,FCM_token);
+
+                                                                        }
+
+                                                                        @Override
+                                                                        public void onCancelled(DatabaseError databaseError) {
+
+                                                                        }
+                                                                    });
+
+                                                                   //notify.send(Current_UserName,postId,FCM_token);
                                                                     // asy n
                                                                 }
 
