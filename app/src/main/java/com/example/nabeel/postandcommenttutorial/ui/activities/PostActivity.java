@@ -689,7 +689,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
                                                                     String email = dataSnapshot.child("email").getValue().toString();
 
-                                                                    FirebaseUtils.getUserRef(email).addValueEventListener(new ValueEventListener() {
+                                                                    FirebaseUtils.getUserRef(email.replace(".",",")).addValueEventListener(new ValueEventListener() {
                                                                         @Override
                                                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
