@@ -43,6 +43,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RegisterActivity extends BaseActivity{
@@ -61,6 +62,7 @@ public class RegisterActivity extends BaseActivity{
 
     private LoginButton loginButton;
     private CallbackManager callbackManager;
+    private String email;
 
 //// ----
 
@@ -172,6 +174,12 @@ public class RegisterActivity extends BaseActivity{
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         Intent intent = new Intent(getApplicationContext(),signupScreenForAlim.class);
                         intent.putExtra("json",object.toString());
+                        try {
+                            email = object.getString("email");
+                            Toast.makeText(getApplicationContext(),email,Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         startActivity(intent);
                     }
                 });
