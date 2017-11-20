@@ -171,16 +171,47 @@ public class RegisterActivity extends BaseActivity{
             public void onSuccess(LoginResult loginResult) {
                 GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
-                    public void onCompleted(JSONObject object, GraphResponse response) {
-                        Intent intent = new Intent(getApplicationContext(),signupScreenForAlim.class);
-                        intent.putExtra("json",object.toString());
+                    public void onCompleted(final JSONObject object, GraphResponse response) {
                         try {
                             email = object.getString("email");
-                            Toast.makeText(getApplicationContext(),email,Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        startActivity(intent);
+
+                        if(!email.equals(null)){
+
+                            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
+                            mDatabase.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                    if(dataSnapshot.hasChild(email.replace(".",","))){
+
+                                        SharedPreferences userInfo_SP = getSharedPreferences("userTypeInfo", Context.MODE_PRIVATE);
+                                        final SharedPreferences.Editor sh_editor = userInfo_SP.edit();
+
+                                        sh_editor.putInt("usertype", 2);
+                                        sh_editor.apply();
+
+                                        Intent login_intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                        login_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(login_intent);
+
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        } else if(!email.equals(null)) {
+
+                            Intent intent = new Intent(getApplicationContext(), signupScreenForAlim.class);
+                            intent.putExtra("json", object.toString());
+                            startActivity(intent);
+                        }
                     }
                 });
                 Bundle parameters = new Bundle();

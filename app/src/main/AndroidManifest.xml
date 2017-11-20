@@ -46,7 +46,7 @@
             android:name=".ui.activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.activities.RegisterActivities.RegisterActivity" />
+        <activity android:name=".ui.activities.RegisterActivities.RegisterActivity" android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".ui.activities.PostActivity" />
         <activity
             android:name=".ui.activities.splash"
@@ -115,8 +115,8 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".ui.activities.RegisterActivities.SignupScreen_For_User" />
-        <activity android:name=".ui.activities.RegisterActivities.signupScreenForAlim" />
+        <activity android:name=".ui.activities.RegisterActivities.SignupScreen_For_User" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".ui.activities.RegisterActivities.signupScreenForAlim" android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".ui.activities.CreateNewPostActivity" />
         <activity android:name=".ui.activities.answersActivity" />
         <activity android:name=".ui.activities.postNewAnswer" />
