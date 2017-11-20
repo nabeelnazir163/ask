@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -174,7 +175,7 @@ public class homeFragment extends Fragment {
 
 
 
-        /*FloatingActionButton fab = (FloatingActionButton) mRootVIew.findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) mRootVIew.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,7 +186,7 @@ public class homeFragment extends Fragment {
                 startActivity(post_intent);
 
             }
-        });*/
+        });
 
 
         init();

@@ -95,6 +95,8 @@ public class unAnsweredFragment extends Fragment {
 
                                     final String post_key = getRef(position).getKey();
 
+//                                    Toast.makeText(getContext(), post_key , Toast.LENGTH_SHORT).show();
+
                                     SharedPreferences userType_sp = getActivity().getSharedPreferences("UserType", Context.MODE_PRIVATE);
 
                                     final int userType = userType_sp.getInt("UserType", 0);
