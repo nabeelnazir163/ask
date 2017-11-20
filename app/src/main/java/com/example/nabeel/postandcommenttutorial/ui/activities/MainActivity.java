@@ -342,7 +342,7 @@ public class MainActivity extends BaseActivity
             drawer.closeDrawer(GravityCompat.START);
         }else{
             if (isSecond) {
-                super.finish();
+                System.exit(1);
             }
             if(isSecond ==false)
                 Toast.makeText(getApplicationContext(),"Press again to exit",Toast.LENGTH_SHORT).show();
