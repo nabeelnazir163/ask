@@ -368,6 +368,7 @@ public class signupScreenForAlim extends BaseActivity {
 
                 mSignupNameAlim.setText(name);
                 mSignupEmailAlim.setText(object.getString("email"));
+                mEmailFieldAlim = object.getString("email");
                 String userID = object.getString("id");
                 Picasso.with(signupScreenForAlim.this).load("https://graph.facebook.com/" + userID+ "/picture?type=large").into(mProfileiv);
             } catch (JSONException e) {
