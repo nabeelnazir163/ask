@@ -23,16 +23,22 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 >
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:src="@drawable/facebook"
-                    android:layout_margin="20dp"
-                    android:id="@+id/userprofile_displayImage"
-                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:src="@drawable/facebook"
+                        android:layout_margin="20dp"
+                        android:id="@+id/userprofile_displayImage"
+                        />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -62,20 +68,47 @@
                                 android:textSize="16dp"
                                 />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Address"
-                            android:textSize="16dp"
-                            android:id="@+id/userprofile_add"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Address"
+                                android:textSize="16dp"
+                                android:id="@+id/userprofile_add"
 
-                            />
+                                />
 
                         </LinearLayout>
 
                     </LinearLayout>
 
-            </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="10dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:text="Fiqah : "
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:text=""
+                        android:id="@+id/fiqahinuserprofile"
+
+                        />
+
+                </LinearLayout>
 
                 <!--<TextView
                     android:layout_width="wrap_content"
@@ -88,60 +121,47 @@
                     android:id="@+id/userprofile_desc"
                     />-->
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="5dp"
-                >
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Follow"
-                    android:layout_marginLeft="20dp"
-                    android:textColor="#1971AF"
-                    android:background="#F0FAFA"
-                    android:padding="5dp"
-                    android:id="@+id/followText"
-                    />
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="5dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Follow"
+                        android:layout_marginLeft="20dp"
+                        android:textColor="#1971AF"
+                        android:background="#F0FAFA"
+                        android:padding="5dp"
+                        android:id="@+id/followText"
+                        />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Un-follow"
-                    android:layout_marginLeft="20dp"
-                    android:textColor="#1971AF"
-                    android:background="#F0FAFA"
-                    android:padding="5dp"
-                    android:id="@+id/unfollowText"
-                    android:visibility="gone"
-                    />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Unfollow"
+                        android:layout_marginLeft="20dp"
+                        android:textColor="#1971AF"
+                        android:background="#F0FAFA"
+                        android:padding="5dp"
+                        android:id="@+id/unfollowText"
+                        android:visibility="gone"
+                        />
 
-                <!--<TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Followers"
-                    android:layout_marginLeft="20dp"
-                    android:textColor="#1971AF"
-                    android:background="#F0FAFA"
-                    android:padding="5dp"
-                    />-->
 
-                <!--<TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Turn-On Notification"
-                    android:layout_marginLeft="10dp"
-                    />-->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Message"
+                        android:layout_marginLeft="10dp"
+                        android:id="@+id/chat"
+                        />
+                </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Message"
-                    android:layout_marginLeft="10dp"
-                    android:id="@+id/chat"
-                    />
             </LinearLayout>
+
         </LinearLayout
             >
 

@@ -50,36 +50,41 @@ public class Prayer_Time_Activity extends AppCompatActivity {
             gps.showSettingsAlert();
         }
 
-        double m_latitude = latitude;
-        double m_longitude = longitude;
-        double timezone = (Calendar.getInstance().getTimeZone()
-                .getOffset(Calendar.getInstance().getTimeInMillis()))
-                / (1000 * 60 * 60);
-        PrayTime prayers = new PrayTime();
+        if(latitude != 0 && longitude != 0 ){
 
-        prayers.setTimeFormat(prayers.Time12);
-        prayers.setCalcMethod(prayers.Makkah);
-        prayers.setAsrJuristic(prayers.Shafii);
-        prayers.setAdjustHighLats(prayers.AngleBased);
-        int[] offsets = { 0, 0, 0, 0, 0, 0, 0 }; // {Fajr,Sunrise,Dhuhr,Asr,Sunset,Maghrib,Isha}
-        prayers.tune(offsets);
+            double m_latitude = latitude;
+            double m_longitude = longitude;
+            double timezone = (Calendar.getInstance().getTimeZone()
+                    .getOffset(Calendar.getInstance().getTimeInMillis()))
+                    / (1000 * 60 * 60);
+            PrayTime prayers = new PrayTime();
 
-        Date now = new Date();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(now);
+            prayers.setTimeFormat(prayers.Time12);
+            prayers.setCalcMethod(prayers.Makkah);
+            prayers.setAsrJuristic(prayers.Shafii);
+            prayers.setAdjustHighLats(prayers.AngleBased);
+            int[] offsets = { 0, 0, 0, 0, 0, 0, 0 }; // {Fajr,Sunrise,Dhuhr,Asr,Sunset,Maghrib,Isha}
+            prayers.tune(offsets);
 
-        ArrayList prayerTimes = prayers.getPrayerTimes(cal, m_latitude,
-                m_longitude, timezone);
-        ArrayList prayerNames = prayers.getTimeNames();
+            Date now = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(now);
 
-        for (int i = 0; i < prayerTimes.size(); i++) {
+            ArrayList prayerTimes = prayers.getPrayerTimes(cal, m_latitude,
+                    m_longitude, timezone);
+            ArrayList prayerNames = prayers.getTimeNames();
+
+            for (int i = 0; i < prayerTimes.size(); i++) {
 //            txtPrayerTimes.append("\n" + prayerNames.get(i) + " - "
 //                    + prayerTimes.get(i));
 
-            txtPrayerNames.append("\n" +prayerNames.get(i));
-            txtPrayerTimes.append("\n" +prayerTimes.get(i));
-        }
+                txtPrayerNames.append("\n" +prayerNames.get(i));
+                txtPrayerTimes.append("\n" +prayerTimes.get(i));
+            }
 
+        } else {
+            gps.showSettingsAlert();
+        }
 
     }
 

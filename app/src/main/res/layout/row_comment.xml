@@ -2,25 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
-    android:layout_marginLeft="10dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
     android:orientation="vertical">
     
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         >
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/iv_comment_owner_display"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@drawable/facebook" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-    <LinearLayout
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_comment_owner_display"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/facebook" />
+
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Username"
+                android:textSize="14sp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+
+
+    <!--<LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -33,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Username"
+            android:textSize="14sp"
             android:textColor="@android:color/black"
             android:textStyle="bold" />
 
@@ -42,6 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:maxLines="3"
+            android:textSize="14sp"
             android:text=""
             android:textColor="@android:color/black" />
 
@@ -64,7 +88,7 @@
 
         </RelativeLayout>
 
-    </LinearLayout>
+    </LinearLayout>-->
 
     <TextView
         android:id="@+id/tv_time"
@@ -75,12 +99,41 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_comment"
+        android:layout_width="match_parent"
+        android:layout_marginRight="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:maxLines="3"
+        android:textSize="14sp"
+        android:text=""
+        android:textColor="@android:color/black" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_gravity="right"
+        android:id="@+id/readmore_relLayout_postactivity"
+        android:layout_marginRight="16dp"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Readmore"
+            android:textColor="@color/com_facebook_blue"
+            />
+
+    </RelativeLayout>
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:layout_marginRight="36dp"
+        android:layout_marginRight="16dp"
         android:text="Reply"
 
         />
-
 </LinearLayout>

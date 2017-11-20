@@ -41,10 +41,11 @@ public class UserProfile extends AppCompatActivity {
 
     private TextView mUserProfile_name_tv;
     private TextView mUser_add;
-    private TextView mUserProfile_desc_tv;
+    private TextView fiqah;
     private TextView mFollowtv;
     private TextView munfollowtv;
     private TextView mMessage;
+
 
     private DatabaseReference mDatabase;
     String mUserEmail;
@@ -53,7 +54,7 @@ public class UserProfile extends AppCompatActivity {
     String email_user;
     String mEmail;
 
-    ArrayList<String> postids = new ArrayList<>();
+//    ArrayList<String> postids = new ArrayList<>();
 
     private RecyclerView userProfile_question;
 
@@ -76,7 +77,7 @@ public class UserProfile extends AppCompatActivity {
 
         mUserProfile_name_tv = (TextView) findViewById(R.id.userprofile_display_name);
         mUser_add = (TextView) findViewById(R.id.userprofile_add);
-//        mUserProfile_desc_tv = (TextView) findViewById(R.id.userprofile_desc);
+        fiqah = (TextView) findViewById(R.id.fiqahinuserprofile);
         mFollowtv = (TextView) findViewById(R.id.followText);
         munfollowtv = (TextView) findViewById(R.id.unfollowText);
 
@@ -117,6 +118,9 @@ public class UserProfile extends AppCompatActivity {
                 String user_profile_image = (String) dataSnapshot.child("image").getValue();
                 String user_name = (String) dataSnapshot.child("name").getValue();
                 String address = (String) dataSnapshot.child("address").getValue();
+                String fiqh = dataSnapshot.child("fiqah").getValue().toString();
+                String city = dataSnapshot.child("city").getValue().toString();
+                String country = dataSnapshot.child("country").getValue().toString();
 
                 Glide.with(getApplicationContext())
                         .load(user_profile_image)
@@ -129,6 +133,8 @@ public class UserProfile extends AppCompatActivity {
                     mUser_add.setText(address);
 
                 }
+
+                fiqah.setText(fiqh + "," + city);
 
             }
 
