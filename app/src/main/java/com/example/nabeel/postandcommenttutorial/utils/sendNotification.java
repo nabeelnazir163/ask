@@ -35,7 +35,7 @@ public class sendNotification {
 
     public void send(String name, String postID, String fcm){
         String message, title = "ASK ALIM", pID, fcm_token;
-        message = name+" commented on your post";
+        message = name;
         pID = postID;
         fcm_token = fcm;
         String send_notification_url = "https://fcmnotificationtesting.000webhostapp.com//send_notification.php";

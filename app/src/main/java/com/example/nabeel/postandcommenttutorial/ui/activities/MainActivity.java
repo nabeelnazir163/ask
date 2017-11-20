@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -24,6 +25,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.nabeel.postandcommenttutorial.R;
@@ -53,6 +55,7 @@ public class MainActivity extends BaseActivity
     private ValueEventListener mUserValueEventListener;
     private DatabaseReference mUserRef;
     private Toolbar toolbar;
+    boolean isSecond = false;
     TabLayout tabLayout;
     ViewPager viewPager;
     ViewPagerAdapter viewPagerAdapter;
@@ -337,9 +340,21 @@ public class MainActivity extends BaseActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } /*else {
-            super.onBackPressed();
-        }*/
+        }else{
+            if (isSecond) {
+                System.exit(1);
+            }
+            if(isSecond ==false)
+                Toast.makeText(getApplicationContext(),"Press again to exit",Toast.LENGTH_SHORT).show();
+
+            isSecond = true;
+            new Handler() . postDelayed(new Runnable() {
+                @Override
+                public void run(){
+                    isSecond = false;
+                }
+            }, 3000);
+        }
     }
 
     @Override
@@ -482,6 +497,7 @@ public class MainActivity extends BaseActivity
 
 
     }*/
+
 
 
 }

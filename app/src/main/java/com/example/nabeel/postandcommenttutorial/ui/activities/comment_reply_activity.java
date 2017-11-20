@@ -23,6 +23,7 @@ import com.example.nabeel.postandcommenttutorial.models.User;
 import com.example.nabeel.postandcommenttutorial.models.reply;
 import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
+import com.example.nabeel.postandcommenttutorial.utils.sendNotification;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,6 +41,7 @@ public class comment_reply_activity extends AppCompatActivity {
     private TextView Com_user_Display_name;
     private TextView Comment;
     private TextView commentTime;
+    String Current_UserName,FCM_token;
     private RelativeLayout readmore_for_commentin_Reply;
 
     @Override
@@ -106,6 +108,47 @@ public class comment_reply_activity extends AppCompatActivity {
                                 .child(uid)
                                 .setValue(mReply);
 
+
+                        /**
+                         * SEND NOTIFICATION ON COMMENT REPLY
+                         */
+                        final String C_Current_user =FirebaseUtils.getCurrentUser().getEmail().replace(".",",");
+                        FirebaseUtils.getUserRef(C_Current_user).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Current_UserName = dataSnapshot.child("name").getValue().toString();
+
+                                FirebaseUtils.getCommentRef(mPost.getPostId()).child(mComment.getCommentId())
+                                        .child("user").addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                        final String email = dataSnapshot.child("email").getValue().toString();
+
+                                        FirebaseUtils.getUserRef(email.replace(".",",")).addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
+                                                Current_UserName +=" replied to your comment";
+                                                if(!FirebaseUtils.getCurrentUser().getEmail().equals(email)){
+                                                    sendNotification notify = new sendNotification(Current_UserName,mPost.getPostId(),FCM_token);
+                                                }
+                                            }
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+                                            }
+                                        });
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
 
                        /* FirebaseUtils.getCommentRef(mPost.getPostId())
                                 .child(mComment.getCommentId())
