@@ -397,7 +397,7 @@ public class RegisterActivity extends BaseActivity{
 
                             checkUserExist();
 
-                            FirebaseUtils.getUserRef(email.replace(".",",")).child("FCM_TOKEN").setValue(token);
+                            FirebaseUtils.getUserRef(email.replace(".",",")).child("fcmtoken").setValue(token);
 
                             progressDialog.dismiss();
                         } else {

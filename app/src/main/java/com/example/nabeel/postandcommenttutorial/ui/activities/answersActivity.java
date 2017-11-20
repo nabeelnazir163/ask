@@ -37,6 +37,7 @@ import com.example.nabeel.postandcommenttutorial.models.User;
 import com.example.nabeel.postandcommenttutorial.ui.fragments.homeFragment;
 import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
+import com.example.nabeel.postandcommenttutorial.utils.sendNotification;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -60,6 +61,7 @@ import java.util.Scanner;
 
 public class answersActivity extends AppCompatActivity{
 
+    String FCM_token,Current_UserName;
     Post mPost;
     TextView question_tv;
     RelativeLayout readmore;
@@ -338,6 +340,54 @@ public class answersActivity extends AppCompatActivity{
                                         public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
                                             FirebaseUtils.getAnswerLikedRef(answerId , postID)
                                                     .setValue(true);
+
+
+                                            /**
+                                             * Send Notification here
+                                             */
+
+                                            final String C_Current_user =FirebaseUtils.getCurrentUser().getEmail().replace(".",",");
+                                            FirebaseUtils.getUserRef(C_Current_user).addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    Current_UserName = dataSnapshot.child("name").getValue().toString();
+                                                    FirebaseUtils.getAnswerRef().child(postID).child(answerId)
+                                                            .child("user").addValueEventListener(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                            String email = dataSnapshot.child("email").getValue().toString();
+                                                            FirebaseUtils.getUserRef(email.replace(".",",")).addValueEventListener(new ValueEventListener() {
+                                                                @Override
+                                                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                                    FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
+                                                                    Current_UserName +=" liked your answer";
+                                                                    sendNotification notify = new sendNotification(Current_UserName,postID,FCM_token);
+                                                                }
+                                                                @Override
+                                                                public void onCancelled(DatabaseError databaseError) {
+                                                                }
+                                                            });
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(DatabaseError databaseError) {
+
+                                                        }
+                                                    });
+                                                }
+
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+
+                                                }
+                                            });
+
+
+                                            /**
+                                             * Notification work ends here
+                                             */
                                         }
                                     });
                         }

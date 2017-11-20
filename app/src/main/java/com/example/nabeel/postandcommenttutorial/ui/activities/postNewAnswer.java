@@ -33,6 +33,7 @@ import com.example.nabeel.postandcommenttutorial.models.User;
 import com.example.nabeel.postandcommenttutorial.ui.fragments.homeFragment;
 import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
+import com.example.nabeel.postandcommenttutorial.utils.sendNotification;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -54,6 +55,8 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class postNewAnswer extends AppCompatActivity implements View.OnClickListener {
+
+    String Current_UserName,FCM_token;
 
     Answer mAnswer;
     Post mPost;
@@ -447,6 +450,8 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                             dialog_first_answer.show();
                             dialog_first_answer.getWindow().setAttributes(lp);
 
+
+
                             final CheckBox dont_show = (CheckBox) dialog_first_answer.findViewById(R.id.dont_show_checkbox_answer);
                             Button close = (Button) dialog_first_answer.findViewById(R.id.ins_close_b_answer);
 
@@ -530,21 +535,79 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
                                 if(!C_Current_user.equals(updated_email)){
 
-                                    sendNotification();
+//                                    sendNotification();
 
-                                    /*FirebaseUtils.getNotificationRef().child(updated_email)
-                                            .child("username").setValue(C_Current_user);
+                                    /**
+                                     * Send notification on answer post
+                                     */
 
-                                    FirebaseUtils.getNotificationRef().child(updated_email)
-                                            .child("message").setValue( " Send you a Message");
 
-                                    Toast.makeText(getApplicationContext(), C_Current_user , Toast.LENGTH_SHORT).show();*/
+                                    final String C_Current_user =FirebaseUtils.getCurrentUser().getEmail().replace(".",",");
 
-                                    Map<String, String> map = new HashMap<String, String>();
-                                    map.put("notification", "answer on your post");
-                                    map.put("name", name);
-                                    map.put("imageurl" , image_current_user);
-                                    FirebaseUtils.getNotificationRef().child(updated_email).push().setValue(map);
+                                    FirebaseUtils.getUserRef(C_Current_user).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            Current_UserName = dataSnapshot.child("name").getValue().toString();
+
+                                            FirebaseUtils.getPostRef().child(mPost.getPostId())
+                                                    .child("user").addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                    String email = dataSnapshot.child("email").getValue().toString();
+
+                                                    FirebaseUtils.getUserRef(email.replace(".",",")).addValueEventListener(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                            FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
+                                                            Current_UserName +=" answered your question";
+                                                            sendNotification notify = new sendNotification(Current_UserName,mPost.getPostId(),FCM_token);
+
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(DatabaseError databaseError) {
+
+                                                        }
+                                                    });
+
+                                                    //notify.send(Current_UserName,postId,FCM_token);
+                                                    // asy n
+                                                }
+
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+
+                                                }
+                                            });
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                                    /**
+                                     *  NOTIFICATION WORK ENDS HERE
+                                     */
+
+
+//                                    /*FirebaseUtils.getNotificationRef().child(updated_email)
+//                                            .child("username").setValue(C_Current_user);
+//
+//                                    FirebaseUtils.getNotificationRef().child(updated_email)
+//                                            .child("message").setValue( " Send you a Message");
+//
+//                                    Toast.makeText(getApplicationContext(), C_Current_user , Toast.LENGTH_SHORT).show();*/
+//
+//                                    Map<String, String> map = new HashMap<String, String>();
+//                                    map.put("notification", "answer on your post");
+//                                    map.put("name", name);
+//                                    map.put("imageurl" , image_current_user);
+//                                    FirebaseUtils.getNotificationRef().child(updated_email).push().setValue(map);
 
                                 }
 

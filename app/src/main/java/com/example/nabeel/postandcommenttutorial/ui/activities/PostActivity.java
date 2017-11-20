@@ -694,7 +694,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                                                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
                                                                             FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
-                                                                            sendNotification notify = new sendNotification(Current_UserName,postId,FCM_token);
+                                                                            Current_UserName +=" commented on your post";
+                                                                            sendNotification notify = new sendNotification(Current_UserName,mPost.getPostId(),FCM_token);
 
                                                                         }
 
