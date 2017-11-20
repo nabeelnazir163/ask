@@ -22,13 +22,13 @@ public class Prayer_Time_Activity extends AppCompatActivity {
     GPSTracker gps;
     double latitude;
     double longitude;
-    private Button mGetTime;
+//    private Button mGetTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prayer__time_);
 
-        mGetTime = (Button) findViewById(R.id.gettimebtn);
+//        mGetTime = (Button) findViewById(R.id.gettimebtn);
 
         if(getSupportActionBar() != null){
 
@@ -49,6 +49,38 @@ public class Prayer_Time_Activity extends AppCompatActivity {
         } else {
             gps.showSettingsAlert();
         }
+
+        double m_latitude = latitude;
+        double m_longitude = longitude;
+        double timezone = (Calendar.getInstance().getTimeZone()
+                .getOffset(Calendar.getInstance().getTimeInMillis()))
+                / (1000 * 60 * 60);
+        PrayTime prayers = new PrayTime();
+
+        prayers.setTimeFormat(prayers.Time12);
+        prayers.setCalcMethod(prayers.Makkah);
+        prayers.setAsrJuristic(prayers.Shafii);
+        prayers.setAdjustHighLats(prayers.AngleBased);
+        int[] offsets = { 0, 0, 0, 0, 0, 0, 0 }; // {Fajr,Sunrise,Dhuhr,Asr,Sunset,Maghrib,Isha}
+        prayers.tune(offsets);
+
+        Date now = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+
+        ArrayList prayerTimes = prayers.getPrayerTimes(cal, m_latitude,
+                m_longitude, timezone);
+        ArrayList prayerNames = prayers.getTimeNames();
+
+        for (int i = 0; i < prayerTimes.size(); i++) {
+//            txtPrayerTimes.append("\n" + prayerNames.get(i) + " - "
+//                    + prayerTimes.get(i));
+
+            txtPrayerNames.append("\n" +prayerNames.get(i));
+            txtPrayerTimes.append("\n" +prayerTimes.get(i));
+        }
+
+
     }
 
     @Override
@@ -61,7 +93,7 @@ public class Prayer_Time_Activity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void getTime(View v) {
+    /*public void getTime(View v) {
         Toast.makeText(
                 getApplicationContext(),
                 "Your Location is -\nLat: " + latitude + "\nLong: "
@@ -98,5 +130,5 @@ public class Prayer_Time_Activity extends AppCompatActivity {
         }
 
         mGetTime.setVisibility(View.GONE);
-    }
+    }*/
 }

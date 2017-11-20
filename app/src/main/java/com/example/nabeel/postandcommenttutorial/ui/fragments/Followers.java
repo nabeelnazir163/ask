@@ -58,6 +58,12 @@ public class Followers extends Fragment {
         mLayoutManager.setStackFromEnd(true);
         follower_recyc_view.setLayoutManager(mLayoutManager);
 
+        initialize();
+
+        return mRootview;
+    }
+
+    private void initialize() {
         FirebaseUtils.getFollowers().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -75,8 +81,6 @@ public class Followers extends Fragment {
 
             }
         });
-
-        return mRootview;
     }
 
 
@@ -133,6 +137,7 @@ public class Followers extends Fragment {
         };
 
         follower_recyc_view.setAdapter(adapter);
+        initialize();
     }
 
     public static class followerViewHolder extends RecyclerView.ViewHolder{
