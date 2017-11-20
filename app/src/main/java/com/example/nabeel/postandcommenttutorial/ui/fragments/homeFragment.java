@@ -251,7 +251,7 @@ public class homeFragment extends Fragment {
 
                 SharedPreferences userType_sp = getActivity().getSharedPreferences("UserType", Context.MODE_PRIVATE);
 
-                int userType = userType_sp.getInt("UserType", 0);
+                final int userType = userType_sp.getInt("UserType", 0);
 
                 if(userType != 3) {
 
@@ -362,7 +362,13 @@ public class homeFragment extends Fragment {
                         Glide.with(getContext())
                                 .using(new FirebaseImageLoader()).load(storageReference).into(myImage);
 
-                        PostSeen(model.getPostId());
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
+
+
 
                         dialog.show();
                     }
@@ -375,7 +381,11 @@ public class homeFragment extends Fragment {
                         intent.putExtra(Constants.EXTRA_POST, model);
                         startActivity(intent);
 
-                        PostSeen(model.getPostId());
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
                     }
                 });
 
@@ -386,7 +396,11 @@ public class homeFragment extends Fragment {
                         intent.putExtra(Constants.EXTRA_POST, model);
                         startActivity(intent);
 
-                        PostSeen(model.getPostId());
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
                     }
                 });
 
@@ -398,7 +412,11 @@ public class homeFragment extends Fragment {
                         intent.putExtra(Constants.EXTRA_POST, model);
                         startActivity(intent);
 
-                        PostSeen(model.getPostId());
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
 
                     }
                 });
@@ -410,7 +428,11 @@ public class homeFragment extends Fragment {
                         answers_inteent.putExtra(Constants.EXTRA_POST , model);
                         startActivity(answers_inteent);
 
-                        PostSeen(model.getPostId());
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
                     }
                 });
 
@@ -448,7 +470,11 @@ public class homeFragment extends Fragment {
                                 return  true;
                             }
                         });
-                        PostSeen(model.getPostId());
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
 
                         popupMenu.show();
                     }
@@ -484,7 +510,13 @@ public class homeFragment extends Fragment {
                                 user_profile.putExtra("email", Current_User);
                                 startActivity(user_profile);
 
-                                PostSeen(model.getPostId());
+                                if(userType != 3){
+
+                                    PostSeen(model.getPostId());
+
+                                }
+
+
 
                             }
 
@@ -511,8 +543,11 @@ public class homeFragment extends Fragment {
                                 user_profile.putExtra("email", Current_User);
                                 startActivity(user_profile);
 
-                                PostSeen(model.getPostId());
+                                if(userType != 3){
 
+                                    PostSeen(model.getPostId());
+
+                                }
                             }
 
                             @Override
@@ -530,8 +565,11 @@ public class homeFragment extends Fragment {
 
                         BookmarkPost(model.getPostId() , viewHolder);
 
-                        PostSeen(model.getPostId());
+                        if(userType != 3){
 
+                            PostSeen(model.getPostId());
+
+                        }
                     }
                 });
 
@@ -541,8 +579,11 @@ public class homeFragment extends Fragment {
 
                         remove_bookmark(model.getPostId(), viewHolder);
 
-                        PostSeen(model.getPostId());
+                        if(userType != 3){
 
+                            PostSeen(model.getPostId());
+
+                        }
                     }
                 });
             }

@@ -76,7 +76,7 @@ public class UserProfile extends AppCompatActivity {
 
         mUserProfile_name_tv = (TextView) findViewById(R.id.userprofile_display_name);
         mUser_add = (TextView) findViewById(R.id.userprofile_add);
-        mUserProfile_desc_tv = (TextView) findViewById(R.id.userprofile_desc);
+//        mUserProfile_desc_tv = (TextView) findViewById(R.id.userprofile_desc);
         mFollowtv = (TextView) findViewById(R.id.followText);
         munfollowtv = (TextView) findViewById(R.id.unfollowText);
 
