@@ -49,6 +49,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -206,7 +207,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
         init();
         initPost();
-        //initAnswerSection();
+        initAnswerSection();
         initCommentSection();
 
     }
@@ -283,10 +284,10 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         }
 
 
-    /*private void initAnswerSection() {
+    private void initAnswerSection() {
+
         RecyclerView answerRecyclerView = (RecyclerView) findViewById(R.id.post_activity_answer_recyclerview);
         answerRecyclerView.setLayoutManager(new LinearLayoutManager(PostActivity.this));
-
 
        FirebaseRecyclerAdapter<Answer, AnswerHolder> answerAdapter = new FirebaseRecyclerAdapter<Answer, AnswerHolder>(
                Answer.class,
@@ -306,19 +307,19 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                                .load(model.getUser().getImage())
                                .into(mostLikedanswer_iv);
                    }
-
-
-
            }
        };
 
         answerRecyclerView.setAdapter(answerAdapter);
-
-    }*/
+    }
 
     private void initCommentSection() {
         RecyclerView commentRecyclerView = (RecyclerView) findViewById(R.id.comment_recyclerview);
         commentRecyclerView.setLayoutManager(new LinearLayoutManager(PostActivity.this));
+        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
+        commentRecyclerView.setLayoutManager(mLayoutManager);
 
         FirebaseRecyclerAdapter<Comment, CommentHolder> commentAdapter = new FirebaseRecyclerAdapter<Comment, CommentHolder>(
                 Comment.class,
