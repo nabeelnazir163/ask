@@ -26,7 +26,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.putExtra(Constants.EXTRA_POST,postID);
         notificationBuilder.setContentTitle(title);
         notificationBuilder.setContentText(message+" on "+postID);
-        notificationBuilder.setSmallIcon(R.drawable.messenger_bubble_small_blue);
+        notificationBuilder.setSmallIcon(R.drawable.notification_icon_askalim);
         notificationBuilder.setAutoCancel(true);
         notificationBuilder.setContentIntent(pendingIntent);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
