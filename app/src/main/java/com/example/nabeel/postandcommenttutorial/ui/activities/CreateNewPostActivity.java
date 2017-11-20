@@ -66,11 +66,10 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
         if(actionBar != null){
 
             actionBar.hide();
-
         }
 
         mPost = new Post();
-        mProgressDialog = new ProgressDialog(getApplicationContext());
+        mProgressDialog = new ProgressDialog(CreateNewPostActivity.this);
 
         ///mRootView = getApplicationContext().getLayoutInflater().inflate(R.layout.create_post_dialog, null);
 
@@ -140,6 +139,7 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.post_dialog_send_imageview:
+
                 sendPost();
                 break;
             case R.id.post_dialog_select_imageview:
@@ -152,7 +152,7 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
         mProgressDialog.setMessage("Sending post...");
         mProgressDialog.setCancelable(false);
         mProgressDialog.setIndeterminate(true);
-//        mProgressDialog.show();
+        mProgressDialog.show();
 
         FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".", ","))
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -196,7 +196,7 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        //mProgressDialog.dismiss();
+                        mProgressDialog.dismiss();
                         finish();
                     }
                 });
@@ -211,7 +211,7 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-//                        mProgressDialog.dismiss();
+                        mProgressDialog.dismiss();
                         finish();
                     }
                 });

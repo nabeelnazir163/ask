@@ -482,7 +482,7 @@ public class homeFragment extends Fragment {
 
 
 
-                DatabaseReference mDatabaseposts = FirebaseDatabase.getInstance().getReference().child(Constants.POST_KEY).child(post_key);
+               /* DatabaseReference mDatabaseposts = FirebaseDatabase.getInstance().getReference().child(Constants.POST_KEY).child(post_key);
 
                 mDatabaseposts.child("user").addValueEventListener(new ValueEventListener() {
                     @Override
@@ -494,7 +494,9 @@ public class homeFragment extends Fragment {
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
-                });
+                });*/
+
+
                 viewHolder.postOwnerDisplayImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -666,14 +668,14 @@ public class homeFragment extends Fragment {
         LinearLayout postCommentLayout;
         TextView postNumAnswersTextView;
         TextView postNumCommentsTextView;
-        LinearLayout mPostView;
+//        LinearLayout mPostView;
         ImageView menu_imageview;
         ImageView bookmark_imageview;
         ImageView after_bookmark_iv;
         ImageView newanswers;
         TextView fiqahOfAlim;
         RelativeLayout readmore_rel_layout;
-        LinearLayout seenLayout;
+//        LinearLayout seenLayout;
         TextView tv_seenPost;
 
         public PostHolder(View itemView) {
@@ -689,16 +691,15 @@ public class homeFragment extends Fragment {
             postNumAnswersTextView = (TextView) itemView.findViewById(R.id.tv_answers);
             postNumCommentsTextView = (TextView) itemView.findViewById(R.id.tv_comments);
             postTextTextView = (TextView) itemView.findViewById(R.id.tv_post_text);
-            mPostView = (LinearLayout) itemView.findViewById(R.id.postview);
+//            mPostView = (LinearLayout) itemView.findViewById(R.id.postview);
             menu_imageview = (ImageView) itemView.findViewById(R.id.menuPopup_imageview);
             bookmark_imageview = (ImageView) itemView.findViewById(R.id.bookmark_iv);
             after_bookmark_iv = (ImageView) itemView.findViewById(R.id.bookmark_iv_after);
             newanswers = (ImageView) itemView.findViewById(R.id.newanswer_layout_post);
             fiqahOfAlim = (TextView) itemView.findViewById(R.id.tv_post_userfiqah);
             readmore_rel_layout = (RelativeLayout) itemView.findViewById(R.id.readmore_relLayout);
-            seenLayout = (LinearLayout) itemView.findViewById(R.id.seen_layout);
+//            seenLayout = (LinearLayout) itemView.findViewById(R.id.seen_layout);
             tv_seenPost = (TextView) itemView.findViewById(R.id.tv_seen);
-
 
         }
 
@@ -710,15 +711,9 @@ public class homeFragment extends Fragment {
             postTimeCreatedTextView.setText(time);
         }
 
-        public void setNumAnswers(String numAnswers) {
-            postNumAnswersTextView.setText(numAnswers);
-        }
+        public void setNumAnswers(String numAnswers) { postNumAnswersTextView.setText(numAnswers); }
 
-        public void setNumCOmments(String numCOmments){
-
-            postNumCommentsTextView.setText(numCOmments);
-
-        }
+        public void setNumCOmments(String numCOmments){ postNumCommentsTextView.setText(numCOmments); }
 
         public void setPostText(String text) {
             postTextTextView.setText(text);
@@ -728,9 +723,7 @@ public class homeFragment extends Fragment {
             fiqahOfAlim.setText(fiqah);
         }
 
-        public void setnumberSeen(String seencount){
-            tv_seenPost.setText(seencount);
-        }
+        public void setnumberSeen(String seencount){ tv_seenPost.setText(seencount); }
 
     }
 

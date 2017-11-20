@@ -622,29 +622,31 @@
 
             </LinearLayout>
 
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/main_lin_layout"
+                >
+
+                <Button
+                    android:id="@+id/finish_Signup_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/eng_finish"
+                    android:background="#015A35"
+                    android:textColor="#ffffff"
+                    />
+
+            </RelativeLayout>
+
         </LinearLayout>
 
     </ScrollView>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/main_lin_layout"
-        >
 
-        <Button
-            android:id="@+id/finish_Signup_user"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:text="@string/eng_finish"
-            android:background="#015A35"
-            android:textColor="#ffffff"
-            />
-
-    </RelativeLayout>
 
 
 </RelativeLayout>

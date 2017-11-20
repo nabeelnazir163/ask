@@ -131,7 +131,7 @@ public class SignupScreen_For_User extends BaseActivity {
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // set the ArrayAdapter to the spinner
         mCountry_user_spinner.setAdapter(dataAdapter);
-        mCountry_user_spinner.setSelection(153);
+        mCountry_user_spinner.setSelection(166);
 
         System.out.println("# countries found: " + countries_user.size());
 

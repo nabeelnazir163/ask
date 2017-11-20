@@ -1,23 +1,34 @@
 package com.example.nabeel.postandcommenttutorial.ui.fragments;
 
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.models.Post;
+import com.example.nabeel.postandcommenttutorial.ui.activities.PostActivity;
+import com.example.nabeel.postandcommenttutorial.ui.activities.UserProfile;
+import com.example.nabeel.postandcommenttutorial.ui.activities.postNewAnswer;
+import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
 import com.firebase.ui.database.FirebaseIndexRecyclerAdapter;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
@@ -25,6 +36,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -38,6 +52,7 @@ public class bookmarkFragment extends Fragment {
 
     RecyclerView bookmark_recyc_view;
     TextView bookmarktextview;
+    String Current_User;
 
     public bookmarkFragment() {
         // Required empty public constructor
@@ -80,14 +95,144 @@ public class bookmarkFragment extends Fragment {
             @Override
             protected void populateViewHolder(final bookmarkViewHolder viewHolder, final Post model, int position) {
 
-                FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                        .addValueEventListener(new ValueEventListener() {
+                final String post_key = getRef(position).getKey();
+
+                SharedPreferences userType_sp = getActivity().getSharedPreferences("UserType", Context.MODE_PRIVATE);
+
+                final int userType = userType_sp.getInt("UserType", 0);
+
+                if(userType != 3) {
+
+                    FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".", ","))
+                            .addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.hasChild(model.getPostId())) {
+
+                                        viewHolder.bookmark_imageview.setVisibility(View.GONE);
+                                        viewHolder.after_bookmark_iv.setVisibility(View.VISIBLE);
+
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+                }
+
+                if(model.getUser().getFiqah() != null){
+
+                    viewHolder.fiqahOfAlim.setVisibility(View.VISIBLE);
+                    viewHolder.setFiqahOfAlim(model.getUser().getFiqah());
+
+                }
+
+                if(userType == 2){
+
+                    viewHolder.newanswers.setVisibility(View.GONE);
+
+                } else if( userType == 3){
+
+                    viewHolder.bookmark_imageview.setVisibility(View.GONE);
+                    viewHolder.after_bookmark_iv.setVisibility(View.GONE);
+                    viewHolder.menu_imageview.setVisibility(View.GONE);
+                    viewHolder.newanswers.setVisibility(View.GONE);
+//                    mAsk_Ques.setVisibility(View.GONE);
+                }
+
+                viewHolder.setPostText(model.getPostText());
+                viewHolder.setNumAnswers(String.valueOf(model.getNumAnswers()));
+                viewHolder.setUsername(model.getUser().getName());
+                viewHolder.setnumberSeen(String.valueOf(model.getNumSeen()));
+                viewHolder.setNumCOmments(String.valueOf(model.getNumAnswers()));
+                viewHolder.setTIme(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
+
+                viewHolder.postTextTextView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(viewHolder.postTextTextView.getLineCount() <= 3){
+
+                            viewHolder.readmore_rel_layout.setVisibility(View.GONE);
+
+                        } else if(viewHolder.postTextTextView.getLineCount() >3){
+
+                            viewHolder.readmore_rel_layout.setVisibility((View.VISIBLE));
+
+                        }
+                    }
+                });
+
+                viewHolder.postOwnerDisplayImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        FirebaseUtils.getPostRef().child(post_key).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.hasChild(model.getPostId())){
 
-                                    viewHolder.bookmark_imageview.setVisibility(View.GONE);
-                                    viewHolder.after_bookmark_iv.setVisibility(View.VISIBLE);
+                                Current_User = (String) dataSnapshot.child("user").child("email").getValue();
+
+                                Intent user_profile = new Intent(getContext() , UserProfile.class);
+                                user_profile.putExtra("postkey", post_key);
+                                user_profile.putExtra("email", Current_User);
+                                startActivity(user_profile);
+
+                                if(userType != 3){
+
+                                    PostSeen(model.getPostId());
+
+                                }
+
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                });
+
+                viewHolder.postTextTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent intent = new Intent(getContext(), PostActivity.class);
+                        intent.putExtra(Constants.EXTRA_POST, model);
+                        startActivity(intent);
+
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
+
+                    }
+                });
+
+                viewHolder.postOwnerUsernameTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        FirebaseUtils.getPostRef().child(post_key).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                Current_User = (String) dataSnapshot.child("user").child("email").getValue();
+
+                                Intent user_profile = new Intent(getContext() , UserProfile.class);
+                                user_profile.putExtra("postkey", post_key);
+                                user_profile.putExtra("email", Current_User);
+                                startActivity(user_profile);
+
+                                if(userType != 3){
+
+                                    PostSeen(model.getPostId());
 
                                 }
                             }
@@ -98,10 +243,116 @@ public class bookmarkFragment extends Fragment {
                             }
                         });
 
-                viewHolder.setPostText(model.getPostText());
-                viewHolder.setUsername(model.getUser().getName());
-                viewHolder.setNumCOmments(String.valueOf(model.getNumAnswers()));
-                viewHolder.setTIme(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
+                    }
+                });
+
+                viewHolder.readmore_rel_layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        viewHolder.postTextTextView.setMaxLines(Integer.MAX_VALUE);
+                        viewHolder.readmore_rel_layout.setVisibility(View.GONE);
+
+                    }
+                });
+
+                viewHolder.tv_seenPost.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), PostActivity.class);
+                        intent.putExtra(Constants.EXTRA_POST, model);
+                        startActivity(intent);
+
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
+                    }
+                });
+
+                viewHolder.postCommentLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), PostActivity.class);
+                        intent.putExtra(Constants.EXTRA_POST, model);
+                        startActivity(intent);
+
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
+                    }
+                });
+
+                viewHolder.menu_imageview.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final PopupMenu popupMenu = new PopupMenu(getContext(), viewHolder.menu_imageview);
+
+                        popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                            @Override
+
+                            public boolean onMenuItemClick(MenuItem item) {
+
+                                int id = item.getItemId();
+
+                                if(id == R.id.delete){
+
+                                    if(model.getUser().getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))){
+
+                                        Toast.makeText(getContext() , "Delete", Toast.LENGTH_SHORT).show();
+
+                                        DeletePost(model.getPostId());
+
+                                    }
+
+                                } else  if ( id == R.id.report){
+
+                                    Toast.makeText(getContext() , "Report", Toast.LENGTH_SHORT).show();
+
+                                }
+
+                                return  true;
+                            }
+                        });
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
+
+                        popupMenu.show();
+                    }
+                });
+
+                viewHolder.postDisplayImageVIew.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Dialog dialog = new Dialog(getContext(), android.R.style.Animation);
+                        dialog.setContentView(R.layout.dialogpostimage_layout);
+                        ImageView myImage = (ImageView) dialog.findViewById(R.id.i);
+
+
+                        StorageReference storageReference = FirebaseStorage.getInstance()
+                                .getReference(model.getPostImageUrl());
+
+                        Glide.with(getContext())
+                                .using(new FirebaseImageLoader()).load(storageReference).into(myImage);
+
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
+
+                        dialog.show();
+                    }
+                });
 
                 Glide.with(getActivity())
                         .load(model.getUser().getImage())
@@ -126,6 +377,21 @@ public class bookmarkFragment extends Fragment {
 
                         BookmarkPost(model.getPostId(), viewHolder);
 
+                    }
+                });
+
+                viewHolder.newanswers.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent answers_inteent = new Intent(getActivity() , postNewAnswer.class);
+                        answers_inteent.putExtra(Constants.EXTRA_POST , model);
+                        startActivity(answers_inteent);
+
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
                     }
                 });
 
@@ -195,6 +461,23 @@ public class bookmarkFragment extends Fragment {
 
     }
 
+    private void DeletePost(final String postId) {
+
+        FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).child(postId).removeValue();
+        FirebaseUtils.getMyPostRef().child(postId).removeValue();
+        FirebaseUtils.getPostLikedRef(postId).removeValue();
+        FirebaseUtils.getAnswerRef().child(postId).removeValue();
+        FirebaseDatabase.getInstance().getReference().child(Constants.ANSWER_LIKED_KEY).
+                child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                .child(postId).removeValue();
+        FirebaseUtils.getCommentRef(postId).removeValue();
+        FirebaseDatabase.getInstance().getReference().child(Constants.COMMENT_REPLY)
+                .child(postId).removeValue();
+
+        FirebaseUtils.getPostRef().child(postId).removeValue();
+
+    }
+
     public static class bookmarkViewHolder extends RecyclerView.ViewHolder{
 
         View mView;
@@ -205,11 +488,16 @@ public class bookmarkFragment extends Fragment {
         ImageView postDisplayImageVIew;
         TextView postTextTextView;
         LinearLayout postCommentLayout;
+        TextView postNumAnswersTextView;
         TextView postNumCommentsTextView;
-        LinearLayout mPostView;
+//        LinearLayout mPostView;
         ImageView menu_imageview;
         ImageView bookmark_imageview;
         ImageView after_bookmark_iv;
+        TextView fiqahOfAlim;
+        ImageView newanswers;
+        RelativeLayout readmore_rel_layout;
+        TextView tv_seenPost;
 
         public bookmarkViewHolder(View itemView) {
             super(itemView);
@@ -221,12 +509,17 @@ public class bookmarkFragment extends Fragment {
             postTimeCreatedTextView = (TextView) itemView.findViewById(R.id.tv_time);
             postDisplayImageVIew = (ImageView) itemView.findViewById(R.id.iv_post_display);
             postCommentLayout = (LinearLayout) itemView.findViewById(R.id.answer_layout);
-            postNumCommentsTextView = (TextView) itemView.findViewById(R.id.tv_answers);
+            postNumAnswersTextView = (TextView) itemView.findViewById(R.id.tv_answers);
+            postNumCommentsTextView = (TextView) itemView.findViewById(R.id.tv_comments);
             postTextTextView = (TextView) itemView.findViewById(R.id.tv_post_text);
-            mPostView = (LinearLayout) itemView.findViewById(R.id.postview);
+//            mPostView = (LinearLayout) itemView.findViewById(R.id.postview);
             menu_imageview = (ImageView) itemView.findViewById(R.id.menuPopup_imageview);
             bookmark_imageview = (ImageView) itemView.findViewById(R.id.bookmark_iv);
             after_bookmark_iv = (ImageView) itemView.findViewById(R.id.bookmark_iv_after);
+            fiqahOfAlim = (TextView) itemView.findViewById(R.id.tv_post_userfiqah);
+            newanswers = (ImageView) itemView.findViewById(R.id.newanswer_layout_post);
+            readmore_rel_layout = (RelativeLayout) itemView.findViewById(R.id.readmore_relLayout);
+            tv_seenPost = (TextView) itemView.findViewById(R.id.tv_seen);
         }
 
         public void setUsername(String username) {
@@ -237,13 +530,68 @@ public class bookmarkFragment extends Fragment {
             postTimeCreatedTextView.setText(time);
         }
 
-        public void setNumCOmments(String numComments) {
-            postNumCommentsTextView.setText(numComments);
-        }
+        public void setNumCOmments(String numCOmments){ postNumCommentsTextView.setText(numCOmments); }
+
+        public void setNumAnswers(String numAnswers) { postNumAnswersTextView.setText(numAnswers); }
 
         public void setPostText(String text) {
             postTextTextView.setText(text);
         }
+
+        public void setFiqahOfAlim(String fiqah){ fiqahOfAlim.setText(fiqah); }
+
+        public void setnumberSeen(String seencount){ tv_seenPost.setText(seencount); }
+    }
+
+    private void PostSeen(final String postID) {
+
+        FirebaseUtils.postViewRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                .child(postID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.getValue() != null){
+
+                    FirebaseUtils.getPostRef().child(postID).child("numSeen").runTransaction(new Transaction.Handler() {
+                        @Override
+                        public Transaction.Result doTransaction(MutableData mutableData) {
+                            return null;
+                        }
+
+                        @Override
+                        public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+                        }
+                    });
+
+                } else {
+
+                    FirebaseUtils.getPostRef().child(postID).child("numSeen").runTransaction(new Transaction.Handler() {
+                        @Override
+                        public Transaction.Result doTransaction(MutableData mutableData) {
+                            long num = (long) mutableData.getValue();
+                            mutableData.setValue(num + 1);
+                            return Transaction.success(mutableData);
+                        }
+
+                        @Override
+                        public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+                            FirebaseUtils.postViewRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                                    .child(postID).setValue(true);
+                        }
+                    });
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 }

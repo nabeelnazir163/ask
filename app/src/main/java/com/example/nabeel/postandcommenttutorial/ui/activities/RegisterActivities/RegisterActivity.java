@@ -205,6 +205,7 @@ public class RegisterActivity extends BaseActivity{
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     userType_sh_editor.putInt("UserType", 3);
                     userType_sh_editor.apply();
+                    finish();
                     startActivity(intent);
                 }
                 else{
