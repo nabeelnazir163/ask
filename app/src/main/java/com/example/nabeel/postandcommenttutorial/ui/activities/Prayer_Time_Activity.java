@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.Manifest;
 import com.example.nabeel.postandcommenttutorial.utils.GPSTracker;
 import com.example.nabeel.postandcommenttutorial.utils.PrayTime;
 import com.example.nabeel.postandcommenttutorial.R;
@@ -52,7 +58,7 @@ public class Prayer_Time_Activity extends AppCompatActivity {
         }
 
     }
-
+    
     @Override
     protected void onStop() {
         super.onStop();
@@ -104,15 +110,7 @@ public class Prayer_Time_Activity extends AppCompatActivity {
         init();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId() == android.R.id.home)
-
-            finish();
-
-        return super.onOptionsItemSelected(item);
-    }
 
     /*public void getTime(View v) {
         Toast.makeText(

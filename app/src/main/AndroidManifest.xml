@@ -16,8 +16,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-
     -->
     <application
         android:name=".AskApplication"
@@ -42,7 +40,9 @@
             android:name=".ui.activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.activities.RegisterActivities.RegisterActivity" android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".ui.activities.RegisterActivities.RegisterActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ui.activities.PostActivity" />
         <activity
             android:name=".ui.activities.splash"
@@ -83,19 +83,15 @@
 
         <activity android:name=".ui.activities.Chat" />
 
-
         <service android:name=".MyFirebaseInstanceIdService">
-        <intent-filter>
-            <action android:name="com.google.firebase.INSTANCE_ID_EVENT"></action>
-        </intent-filter>
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
         </service>
-
-
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"></action>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-
         </service>
 
         <activity android:name=".ui.activities.UserProfile" />
@@ -111,8 +107,12 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".ui.activities.RegisterActivities.SignupScreen_For_User" android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".ui.activities.RegisterActivities.signupScreenForAlim" android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".ui.activities.RegisterActivities.SignupScreen_For_User"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.activities.RegisterActivities.signupScreenForAlim"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ui.activities.CreateNewPostActivity" />
         <activity android:name=".ui.activities.answersActivity" />
         <activity android:name=".ui.activities.postNewAnswer" />
@@ -123,7 +123,8 @@
         <activity
             android:name=".ui.activities.SearchWithTabbedActivity"
             android:label="@string/title_activity_search_with_tabbed"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.activities.RatingStars"></activity>
     </application>
 
 </manifest>

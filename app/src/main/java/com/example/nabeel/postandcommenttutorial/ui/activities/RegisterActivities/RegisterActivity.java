@@ -21,6 +21,7 @@ import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.inApp_purchaser;
 import com.example.nabeel.postandcommenttutorial.ui.activities.MainActivity;
 import com.example.nabeel.postandcommenttutorial.ui.activities.ResetPassword;
+import com.example.nabeel.postandcommenttutorial.ui.activities.splash;
 import com.example.nabeel.postandcommenttutorial.utils.BaseActivity;
 import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
@@ -171,45 +172,45 @@ public class RegisterActivity extends BaseActivity{
             public void onSuccess(LoginResult loginResult) {
                 GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
-                    public void onCompleted(JSONObject object, GraphResponse response) {
-                        Intent intent = new Intent(getApplicationContext(),signupScreenForAlim.class);
-                        intent.putExtra("json",object.toString());
+                    public void onCompleted(final JSONObject object, GraphResponse response) {
                         try {
                             email = object.getString("email");
-                            if(email != null){
-
-                                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
-                                mDatabase.addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        if(dataSnapshot.hasChild(email.replace(".",","))){
-
-                                            SharedPreferences userInfo_SP = getSharedPreferences("userTypeInfo", Context.MODE_PRIVATE);
-                                            final SharedPreferences.Editor sh_editor = userInfo_SP.edit();
-//                                            Toast.makeText(RegisterActivity.this , "Successful", Toast.LENGTH_SHORT).show();
-                                            sh_editor.putInt("usertype", 2);
-                                            sh_editor.apply();
-
-                                            Intent login_intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                            login_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                            startActivity(login_intent);
-                                        } else {
-
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
-
-                            }
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        startActivity(intent);
+
+                        if(email != null){
+
+                            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
+                            mDatabase.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.hasChild(email.replace(".",","))){
+
+                                        SharedPreferences userInfo_SP = getSharedPreferences("userTypeInfo", Context.MODE_PRIVATE);
+                                        final SharedPreferences.Editor sh_editor = userInfo_SP.edit();
+//                                            Toast.makeText(RegisterActivity.this , "Successful", Toast.LENGTH_SHORT).show();
+                                        sh_editor.putInt("usertype", 2);
+                                        sh_editor.apply();
+
+                                        Intent login_intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                        login_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(login_intent);
+                                    } else {
+                                        Intent intent = new Intent(getApplicationContext(),signupScreenForAlim.class);
+                                        intent.putExtra("json",object.toString());
+                                        startActivity(intent);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+                        }
+
                     }
                 });
 
