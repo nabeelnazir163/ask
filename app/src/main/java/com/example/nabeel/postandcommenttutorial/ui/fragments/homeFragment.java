@@ -15,6 +15,7 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -170,10 +171,6 @@ public class homeFragment extends Fragment {
 
             }
         });
-
-
-
-
 
         FloatingActionButton fab = (FloatingActionButton) mRootVIew.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -440,10 +437,17 @@ public class homeFragment extends Fragment {
                 viewHolder.menu_imageview.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
                         final PopupMenu popupMenu = new PopupMenu(getContext(), viewHolder.menu_imageview);
 
                         popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
 
+                        if(!model.getUser().getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))) {
+
+                            Menu m = popupMenu.getMenu();
+                            m.removeItem((R.id.delete));
+
+                        }
                         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
                             @Override
