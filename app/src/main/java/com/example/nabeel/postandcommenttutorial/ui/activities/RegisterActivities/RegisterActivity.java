@@ -176,13 +176,43 @@ public class RegisterActivity extends BaseActivity{
                         intent.putExtra("json",object.toString());
                         try {
                             email = object.getString("email");
-                            Toast.makeText(getApplicationContext(),email,Toast.LENGTH_SHORT).show();
+                            if(email != null){
+
+                                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
+                                mDatabase.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if(dataSnapshot.hasChild(email.replace(".",","))){
+
+                                            SharedPreferences userInfo_SP = getSharedPreferences("userTypeInfo", Context.MODE_PRIVATE);
+                                            final SharedPreferences.Editor sh_editor = userInfo_SP.edit();
+//                                            Toast.makeText(RegisterActivity.this , "Successful", Toast.LENGTH_SHORT).show();
+                                            sh_editor.putInt("usertype", 2);
+                                            sh_editor.apply();
+
+                                            Intent login_intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                            login_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            startActivity(login_intent);
+                                        } else {
+
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                            }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         startActivity(intent);
                     }
                 });
+
                 Bundle parameters = new Bundle();
                 parameters.putString("fields","first_name, last_name, email, gender");
                 graphRequest.setParameters(parameters);

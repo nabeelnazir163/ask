@@ -45,10 +45,22 @@ public class Prayer_Time_Activity extends AppCompatActivity {
         if(gps.canGetLocation()) {
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
+//            init();
 
         } else {
             gps.showSettingsAlert();
         }
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        txtPrayerNames.setText("");
+        txtPrayerTimes.setText("");
+    }
+
+    public void init(){
 
         if(latitude != 0 && longitude != 0 ){
 
@@ -82,10 +94,14 @@ public class Prayer_Time_Activity extends AppCompatActivity {
                 txtPrayerTimes.append("\n" +prayerTimes.get(i));
             }
 
-        } else {
-            gps.showSettingsAlert();
         }
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        init();
     }
 
     @Override

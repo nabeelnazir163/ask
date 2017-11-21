@@ -65,15 +65,15 @@
 
         </LinearLayout>
 
-            <!--<Button-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Get time"-->
-                <!--android:onClick="getTime"-->
-                <!--android:id="@+id/gettimebtn"-->
-                <!--android:layout_gravity="center_horizontal"-->
-                <!--android:layout_below="@+id/txtPrayerTimes"-->
-                <!--/>-->
+            <!--<Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Get time"
+                android:onClick="getTime"
+                android:id="@+id/gettimebtn"
+                android:layout_gravity="center_horizontal"
+                android:layout_below="@+id/txtPrayerTimes"
+                />-->
 
     </LinearLayout>
 </RelativeLayout>
