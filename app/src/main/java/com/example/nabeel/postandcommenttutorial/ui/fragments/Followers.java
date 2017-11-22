@@ -137,7 +137,7 @@ public class Followers extends Fragment {
         };
 
         follower_recyc_view.setAdapter(adapter);
-        initialize();
+//        initialize();
     }
 
     public static class followerViewHolder extends RecyclerView.ViewHolder{

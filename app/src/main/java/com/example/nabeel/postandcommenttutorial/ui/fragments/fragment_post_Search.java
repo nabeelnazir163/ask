@@ -122,7 +122,7 @@ public class fragment_post_Search extends Fragment {
                     for(DataSnapshot singlesnapshot : dataSnapshot.getChildren()){
 
 //                        Toast.makeText(getContext(), singlesnapshot.child("postText").getValue(Post.class).toString(), Toast.LENGTH_SHORT).show();
-                        mUsersList.clear();
+//                        mUsersList.clear();
                         mUsersList.add(singlesnapshot.getValue(Post.class));
                         updateUsersListview(singlesnapshot.getValue(Post.class));
 

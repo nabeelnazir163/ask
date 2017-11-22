@@ -120,7 +120,7 @@ public class UserProfile extends AppCompatActivity {
                 String address = (String) dataSnapshot.child("address").getValue();
                 String fiqh = dataSnapshot.child("fiqah").getValue().toString();
                 String city = dataSnapshot.child("city").getValue().toString();
-                String country = dataSnapshot.child("country").getValue().toString();
+//                String country = dataSnapshot.child("country").getValue().toString();
 
                 Glide.with(getApplicationContext())
                         .load(user_profile_image)
@@ -130,11 +130,11 @@ public class UserProfile extends AppCompatActivity {
 
                 if(!TextUtils.isEmpty(address)) {
 
-                    mUser_add.setText(address);
+                    mUser_add.setText(address + " ," + city);
 
                 }
 
-                fiqah.setText(fiqh + "," + city);
+                fiqah.setText(fiqh);
 
             }
 
@@ -170,9 +170,6 @@ public class UserProfile extends AppCompatActivity {
             mMessage.setVisibility(View.GONE);
 
         }
-
-
-
 
             mFollowtv.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -231,7 +228,6 @@ public class UserProfile extends AppCompatActivity {
         });
 
     }
-
 
     private void followProcess() {
 
