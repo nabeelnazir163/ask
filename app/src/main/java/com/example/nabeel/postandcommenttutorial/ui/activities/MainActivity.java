@@ -1,8 +1,10 @@
 package com.example.nabeel.postandcommenttutorial.ui.activities;
 
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -341,19 +343,23 @@ public class MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }else{
-            if (isSecond) {
-                System.exit(1);
-            }
-            if(isSecond ==false)
-                Toast.makeText(getApplicationContext(),"Press again to exit",Toast.LENGTH_SHORT).show();
-
-            isSecond = true;
-            new Handler() . postDelayed(new Runnable() {
+            final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+            alert.setTitle("ASK ALIM");
+            alert.setMessage("Do you want exit?");
+            alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                 @Override
-                public void run(){
-                    isSecond = false;
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                    System.exit(1);
                 }
-            }, 3000);
+            });
+            alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            alert.show();
         }
     }
 
