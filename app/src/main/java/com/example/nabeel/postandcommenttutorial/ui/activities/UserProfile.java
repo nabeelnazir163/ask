@@ -1,18 +1,23 @@
 package com.example.nabeel.postandcommenttutorial.ui.activities;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +29,15 @@ import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
 import com.firebase.ui.database.FirebaseIndexRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -49,10 +58,11 @@ public class UserProfile extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
     String mUserEmail;
-    String mPostKey;
+//    String mPostKey;
 
     String email_user;
     String mEmail;
+    String Current_User;
 
 //    ArrayList<String> postids = new ArrayList<>();
 
@@ -84,7 +94,7 @@ public class UserProfile extends AppCompatActivity {
         mMessage = (TextView) findViewById(R.id.chat);
 
         mUserEmail = getIntent().getExtras().getString("email");
-        mPostKey = getIntent().getExtras().getString("postkey");
+//        mPostKey = getIntent().getExtras().getString("postkey");
 
         email_user = FirebaseUtils.getCurrentUser().getEmail();
         mEmail = mUserEmail.replace(".",",");
@@ -171,23 +181,22 @@ public class UserProfile extends AppCompatActivity {
 
         }
 
+        isFollowing();
+
             mFollowtv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    FirebaseUtils.getFollowers().child(email_user.replace(".",",")).addValueEventListener(new ValueEventListener() {
+                    FirebaseUtils.getFollowers().child(email_user.replace(".",","))
+                            .child(mEmail).setValue("true").addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
+                        public void onSuccess(Void aVoid) {
 
-                                followProcess();
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                            followProcess();
 
                         }
                     });
+
                 }
             });
 
@@ -195,17 +204,12 @@ public class UserProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                FirebaseUtils.getFollowers().child(email_user.replace(".",",")).addValueEventListener(new ValueEventListener() {
+                FirebaseUtils.getFollowers().child(email_user.replace(".",","))
+                        .child(mEmail).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onSuccess(Void aVoid) {
 
-//                            unfollowprocess();
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                        unfollowprocess();
 
                     }
                 });
@@ -214,41 +218,39 @@ public class UserProfile extends AppCompatActivity {
         });
     }
 
-    private void unfollowprocess() {
+    private void isFollowing() {
 
-        FirebaseUtils.getFollowers().child(email_user.replace(".",","))
-                .child(mEmail).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+        FirebaseUtils.getFollowers().child(email_user.replace(".",",")).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onSuccess(Void aVoid) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild(mEmail.replace(".",","))){
 
-                mFollowtv.setVisibility(View.VISIBLE);
-                munfollowtv.setVisibility(View.GONE);
+                    followProcess();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
 
+    }
+
+    private void unfollowprocess() {
+
+                mFollowtv.setVisibility(View.VISIBLE);
+                munfollowtv.setVisibility(View.GONE);
     }
 
     private void followProcess() {
 
-        FirebaseUtils.getFollowers().child(email_user.replace(".",","))
-                .child(mEmail).setValue("true").addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-
                 mFollowtv.setVisibility(View.GONE);
                 munfollowtv.setVisibility(View.VISIBLE);
 
-            }
-        });
-
-
     }
 
-    private void initadapter() {
-
-
-    }
 
     private void setupAdapterProfile() {
 
@@ -262,20 +264,254 @@ public class UserProfile extends AppCompatActivity {
                 FirebaseUtils.getPostRef()
         ) {
             @Override
-            protected void populateViewHolder(UP_viewholder viewHolder, final Post model, int position) {
+            protected void populateViewHolder(final UP_viewholder viewHolder, final Post model, int position) {
+
+                final String post_key = getRef(position).getKey();
+
+                SharedPreferences userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
+
+                final int userType = userType_sp.getInt("UserType", 0);
+
+                if(userType != 3) {
+
+                    FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".", ","))
+                            .addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                    if (dataSnapshot.hasChild(model.getPostId())) {
+
+                                        viewHolder.bookmark_imageview.setVisibility(View.GONE);
+                                        viewHolder.after_bookmark_iv.setVisibility(View.VISIBLE);
+
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                }
+
+                if(model.getUser().getFiqah() != null){
+
+                    viewHolder.fiqahOfAlim.setVisibility(View.VISIBLE);
+                    viewHolder.setFiqahOfAlim(model.getUser().getFiqah());
+
+                }
 
 
-                       /* String User_email = mUserEmail.replace(".", ",");
+                if(userType == 2){
 
-                        mDatabase.child(User_email).addValueEventListener(new ValueEventListener() {
-                           @Override
-                           public void onDataChange(DataSnapshot dataSnapshot) {
+                    viewHolder.newanswers.setVisibility(View.GONE);
 
-                               for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                } else if( userType == 3){
 
-                                   String name = ds.getKey().toString();
-                                   postids.add(name);
-                               }
+                    viewHolder.bookmark_imageview.setVisibility(View.GONE);
+                    viewHolder.after_bookmark_iv.setVisibility(View.GONE);
+                    viewHolder.menu_imageview.setVisibility(View.GONE);
+                    viewHolder.newanswers.setVisibility(View.GONE);
+                }
+
+                viewHolder.setNumCOmments(String.valueOf(model.getNumComments()));
+                viewHolder.setNumAnswers(String.valueOf(model.getNumAnswers()));
+                viewHolder.setTIme(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
+                viewHolder.setUsername(model.getUser().getName());
+                viewHolder.setPostText(model.getPostText());
+                viewHolder.setnumberSeen(String.valueOf(model.getNumSeen()));
+
+                viewHolder.postTextTextView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(viewHolder.postTextTextView.getLineCount() <= 3){
+
+                            viewHolder.readmore_rel_layout.setVisibility(View.GONE);
+
+                        } else if(viewHolder.postTextTextView.getLineCount() >3){
+
+                            viewHolder.readmore_rel_layout.setVisibility((View.VISIBLE));
+
+                        }
+                    }
+                });
+
+                viewHolder.readmore_rel_layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        viewHolder.postTextTextView.setMaxLines(Integer.MAX_VALUE);
+                        viewHolder.readmore_rel_layout.setVisibility(View.GONE);
+
+                    }
+                });
+
+
+                Glide.with(UserProfile.this)
+                        .load(model.getUser().getImage())
+                        .into(viewHolder.postOwnerDisplayImageView);
+
+
+                if (model.getPostImageUrl() != null) {
+                    viewHolder.postDisplayImageVIew.setVisibility(View.VISIBLE);
+                    StorageReference storageReference = FirebaseStorage.getInstance()
+                            .getReference(model.getPostImageUrl());
+                    Glide.with(UserProfile.this)
+                            .using(new FirebaseImageLoader())
+                            .load(storageReference)
+                            .into(viewHolder.postDisplayImageVIew);
+                } else {
+                    viewHolder.postDisplayImageVIew.setImageBitmap(null);
+                    viewHolder.postDisplayImageVIew.setVisibility(View.GONE);
+                }
+
+
+                viewHolder.postDisplayImageVIew.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Dialog dialog = new Dialog(UserProfile.this, android.R.style.Animation);
+                        dialog.setContentView(R.layout.dialogpostimage_layout);
+                        ImageView myImage = (ImageView) dialog.findViewById(R.id.i);
+
+
+                        StorageReference storageReference = FirebaseStorage.getInstance()
+                                .getReference(model.getPostImageUrl());
+
+                        Glide.with(UserProfile.this)
+                                .using(new FirebaseImageLoader()).load(storageReference).into(myImage);
+
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
+
+
+
+                        dialog.show();
+                    }
+                });
+
+                viewHolder.postCommentLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(UserProfile.this, PostActivity.class);
+                        intent.putExtra(Constants.EXTRA_POST, model);
+                        startActivity(intent);
+
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
+                    }
+                });
+
+                viewHolder.tv_seenPost.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(UserProfile.this, PostActivity.class);
+                        intent.putExtra(Constants.EXTRA_POST, model);
+                        startActivity(intent);
+
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
+                    }
+                });
+
+                viewHolder.postTextTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent intent = new Intent(UserProfile.this, PostActivity.class);
+                        intent.putExtra(Constants.EXTRA_POST, model);
+                        startActivity(intent);
+
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
+
+                    }
+                });
+
+                viewHolder.newanswers.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent answers_inteent = new Intent(UserProfile.this , postNewAnswer.class);
+                        answers_inteent.putExtra(Constants.EXTRA_POST , model);
+                        startActivity(answers_inteent);
+
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
+                    }
+                });
+
+                viewHolder.menu_imageview.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        final PopupMenu popupMenu = new PopupMenu(UserProfile.this, viewHolder.menu_imageview);
+
+                        popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+
+                        if(!model.getUser().getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))) {
+
+                            Menu m = popupMenu.getMenu();
+                            m.removeItem((R.id.delete));
+
+                        }
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                            @Override
+
+                            public boolean onMenuItemClick(MenuItem item) {
+
+                                int id = item.getItemId();
+
+                                if(id == R.id.delete){
+
+                                    if(model.getUser().getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))){
+
+                                        Toast.makeText(UserProfile.this , "Delete", Toast.LENGTH_SHORT).show();
+
+                                        DeletePost(model.getPostId());
+
+                                    }
+
+                                } else  if ( id == R.id.report){
+
+                                    Toast.makeText(UserProfile.this , "Report", Toast.LENGTH_SHORT).show();
+
+                                }
+
+                                return  true;
+                            }
+                        });
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
+
+                        popupMenu.show();
+                    }
+                });
+
+
+
+                DatabaseReference mDatabaseposts = FirebaseDatabase.getInstance().getReference().child(Constants.POST_KEY).child(post_key);
+
+                mDatabaseposts.child("user").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
                     }
 
@@ -283,9 +519,37 @@ public class UserProfile extends AppCompatActivity {
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
-                });*/
+                });
 
-                viewHolder.setNumCOmments(String.valueOf(model.getNumComments()));
+
+                viewHolder.bookmark_imageview.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        BookmarkPost(model.getPostId() , viewHolder);
+
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
+                    }
+                });
+
+                viewHolder.after_bookmark_iv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        remove_bookmark(model.getPostId(), viewHolder);
+
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
+                    }
+                });
+                /*viewHolder.setNumCOmments(String.valueOf(model.getNumComments()));
                 viewHolder.setTIme(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
                 viewHolder.setUsername(model.getUser().getName());
                 viewHolder.setPostText(model.getPostText());
@@ -314,7 +578,8 @@ public class UserProfile extends AppCompatActivity {
                         intent.putExtra(Constants.EXTRA_POST, model);
                         startActivity(intent);
                     }
-                });
+                });*/
+
 
             }
         };
@@ -323,18 +588,91 @@ public class UserProfile extends AppCompatActivity {
 
     }
 
+    private void remove_bookmark(String postId, final UP_viewholder view) {
+
+        FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser()
+                .getEmail().replace(".",","))
+                .child(postId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                Toast.makeText(UserProfile.this , "Remove Post as bookmark", Toast.LENGTH_SHORT).show();
+
+                view.bookmark_imageview.setVisibility(View.VISIBLE);
+                view.after_bookmark_iv.setVisibility(View.GONE);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Toast.makeText(UserProfile.this , "Unable to Remove Post as bookmark", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
+
+    private void BookmarkPost(final String post_id, final UP_viewholder view) {
+
+        FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                .child(post_id).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                Toast.makeText(UserProfile.this , "Post saved", Toast.LENGTH_SHORT).show();
+
+                view.bookmark_imageview.setVisibility(View.GONE);
+                view.after_bookmark_iv.setVisibility(View.VISIBLE);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Toast.makeText(UserProfile.this , "Unable to Bookmark Your post try agian later", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
+
+    private void DeletePost(final String postId) {
+
+        FirebaseUtils.getBookmarksRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).child(postId).removeValue();
+        FirebaseUtils.getMyPostRef().child(postId).removeValue();
+        FirebaseUtils.getPostLikedRef(postId).removeValue();
+        FirebaseUtils.getAnswerRef().child(postId).removeValue();
+        FirebaseDatabase.getInstance().getReference().child(Constants.ANSWER_LIKED_KEY).
+                child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                .child(postId).removeValue();
+        FirebaseUtils.getCommentRef(postId).removeValue();
+        FirebaseDatabase.getInstance().getReference().child(Constants.COMMENT_REPLY)
+                .child(postId).removeValue();
+
+        FirebaseUtils.getPostRef().child(postId).removeValue();
+
+    }
 
     public static class UP_viewholder extends RecyclerView.ViewHolder{
 
-        TextView postTextTextView;
+        ImageView postOwnerDisplayImageView;
         TextView postOwnerUsernameTextView;
         TextView postTimeCreatedTextView;
-        TextView postNumCommentsTextView;
-        ImageView postOwnerDisplayImageView;
         ImageView postDisplayImageVIew;
+        TextView postTextTextView;
         LinearLayout postCommentLayout;
-
-
+        TextView postNumAnswersTextView;
+        TextView postNumCommentsTextView;
+        LinearLayout mPostView;
+        ImageView menu_imageview;
+        ImageView bookmark_imageview;
+        ImageView after_bookmark_iv;
+        ImageView newanswers;
+        TextView fiqahOfAlim;
+        RelativeLayout readmore_rel_layout;
+        LinearLayout seenLayout;
+        TextView tv_seenPost;
 
         View mView;
 
@@ -343,13 +681,23 @@ public class UserProfile extends AppCompatActivity {
 
             mView = itemView;
 
-            postTextTextView = (TextView) itemView.findViewById(R.id.tv_post_text);
+            postOwnerDisplayImageView = (ImageView) itemView.findViewById(R.id.iv_post_owner_display);
             postOwnerUsernameTextView = (TextView) itemView.findViewById(R.id.tv_post_username);
             postTimeCreatedTextView = (TextView) itemView.findViewById(R.id.tv_time);
-            postNumCommentsTextView = (TextView) itemView.findViewById(R.id.tv_answers);
-            postOwnerDisplayImageView = (ImageView) itemView.findViewById(R.id.iv_post_owner_display);
             postDisplayImageVIew = (ImageView) itemView.findViewById(R.id.iv_post_display);
             postCommentLayout = (LinearLayout) itemView.findViewById(R.id.answer_layout);
+            postNumAnswersTextView = (TextView) itemView.findViewById(R.id.tv_answers);
+            postNumCommentsTextView = (TextView) itemView.findViewById(R.id.tv_comments);
+            postTextTextView = (TextView) itemView.findViewById(R.id.tv_post_text);
+            mPostView = (LinearLayout) itemView.findViewById(R.id.postview);
+            menu_imageview = (ImageView) itemView.findViewById(R.id.menuPopup_imageview);
+            bookmark_imageview = (ImageView) itemView.findViewById(R.id.bookmark_iv);
+            after_bookmark_iv = (ImageView) itemView.findViewById(R.id.bookmark_iv_after);
+            newanswers = (ImageView) itemView.findViewById(R.id.newanswer_layout_post);
+            fiqahOfAlim = (TextView) itemView.findViewById(R.id.tv_post_userfiqah);
+            readmore_rel_layout = (RelativeLayout) itemView.findViewById(R.id.readmore_relLayout);
+            seenLayout = (LinearLayout) itemView.findViewById(R.id.seen_layout);
+            tv_seenPost = (TextView) itemView.findViewById(R.id.tv_seen);
 
         }
 
@@ -362,16 +710,72 @@ public class UserProfile extends AppCompatActivity {
             postTimeCreatedTextView.setText(time);
         }
 
-        public void setNumCOmments(String numComments) {
-            postNumCommentsTextView.setText(numComments);
-        }
+        public void setNumAnswers(String numAnswers) { postNumAnswersTextView.setText(numAnswers); }
+
+        public void setNumCOmments(String numCOmments){ postNumCommentsTextView.setText(numCOmments); }
 
         public void setPostText(String text) {
             postTextTextView.setText(text);
         }
 
+        public void setFiqahOfAlim(String fiqah){
+            fiqahOfAlim.setText(fiqah);
+        }
+
+        public void setnumberSeen(String seencount){ tv_seenPost.setText(seencount); }
+
     }
 
+    private void PostSeen(final String postID) {
+
+        FirebaseUtils.postViewRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                .child(postID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.getValue() != null){
+
+                    FirebaseUtils.getPostRef().child(postID).child("numSeen").runTransaction(new Transaction.Handler() {
+                        @Override
+                        public Transaction.Result doTransaction(MutableData mutableData) {
+                            return null;
+                        }
+
+                        @Override
+                        public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+                        }
+                    });
+
+                } else {
+
+                    FirebaseUtils.getPostRef().child(postID).child("numSeen").runTransaction(new Transaction.Handler() {
+                        @Override
+                        public Transaction.Result doTransaction(MutableData mutableData) {
+                            long num = (long) mutableData.getValue();
+                            mutableData.setValue(num + 1);
+                            return Transaction.success(mutableData);
+                        }
+
+                        @Override
+                        public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+                            FirebaseUtils.postViewRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                                    .child(postID).setValue(true);
+                        }
+                    });
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

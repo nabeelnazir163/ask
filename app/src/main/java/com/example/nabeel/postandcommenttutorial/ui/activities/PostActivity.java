@@ -16,6 +16,7 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -710,6 +711,13 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
                     }
                 });
+
+                if(!mPost.getUser().getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))) {
+
+                    Menu m = popupMenu.getMenu();
+                    m.removeItem((R.id.delete));
+
+                }
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
