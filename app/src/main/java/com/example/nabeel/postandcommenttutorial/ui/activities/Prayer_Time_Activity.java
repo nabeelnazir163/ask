@@ -30,6 +30,7 @@ import com.example.nabeel.postandcommenttutorial.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
@@ -87,11 +88,12 @@ public class Prayer_Time_Activity extends AppCompatActivity implements GoogleApi
         txtPrayerNames = (TextView) findViewById(R.id.txtPrayerNames);
         txtPrayerTimes = (TextView) findViewById(R.id.txtPrayerTimes);
 
+        displayLocation();
+
         mGetTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 displayLocation();
-                init();
             }
         });
     }
@@ -134,9 +136,9 @@ public class Prayer_Time_Activity extends AppCompatActivity implements GoogleApi
             if (mLastLocation != null) {
                 latitude = mLastLocation.getLatitude();
                 longitude = mLastLocation.getLongitude();
-
-                //Toast.makeText(this, "LAT: "+latitude+"\nLON: "+longtitude, Toast.LENGTH_SHORT).show();
-            } else {
+                init();
+            }
+            else{
                 if(isGPSEnabled == false)
                     showSettingsAlert();
                 //Toast.makeText(this, "COULD NOT ACCESS LOCATION", Toast.LENGTH_SHORT).show();
@@ -357,9 +359,6 @@ public class Prayer_Time_Activity extends AppCompatActivity implements GoogleApi
             mGoogleApiClient.connect();
         }
         displayLocation();
-        displayLocation();
-        if(longitude>0 && latitude>0)
-            init();
     }
 
 
