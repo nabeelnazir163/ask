@@ -124,7 +124,8 @@
             android:name=".ui.activities.SearchWithTabbedActivity"
             android:label="@string/title_activity_search_with_tabbed"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.activities.RatingStars"></activity>
+        <activity android:name=".ui.activities.RatingStars" />
+        <activity android:name=".ui.activities.search_user_for_newMessage"></activity>
     </application>
 
 </manifest>

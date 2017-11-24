@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -62,6 +63,13 @@ public class Chat extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        if(getSupportActionBar() != null){
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        }
 
         layout = (LinearLayout)findViewById(R.id.layout1);
         sendButton = (ImageView)findViewById(R.id.sendButton);
@@ -326,5 +334,15 @@ public class Chat extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == android.R.id.home)
+
+            finish();
+
+        return super.onOptionsItemSelected(item);
     }
 }
