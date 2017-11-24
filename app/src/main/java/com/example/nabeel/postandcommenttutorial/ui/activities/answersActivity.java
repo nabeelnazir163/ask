@@ -347,6 +347,7 @@ public class answersActivity extends AppCompatActivity{
                                              */
 
                                             final String C_Current_user =FirebaseUtils.getCurrentUser().getEmail().replace(".",",");
+
                                             FirebaseUtils.getUserRef(C_Current_user).addValueEventListener(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -357,6 +358,7 @@ public class answersActivity extends AppCompatActivity{
                                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
                                                             String email = dataSnapshot.child("email").getValue().toString();
+
                                                             FirebaseUtils.getUserRef(email.replace(".",",")).addValueEventListener(new ValueEventListener() {
                                                                 @Override
                                                                 public void onDataChange(DataSnapshot dataSnapshot) {

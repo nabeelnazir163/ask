@@ -26,11 +26,22 @@ import com.google.firebase.database.FirebaseDatabase;
 public class inbox extends AppCompatActivity {
 
 //    DatabaseReference mDatabase;
+    TextView newMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inbox);
+
+        newMessage = (TextView) findViewById(R.id.newMessageInbox);
+
+        newMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(inbox.this , search_user_for_newMessage.class);
+                startActivity(intent);
+            }
+        });
 
 //        mDatabase = FirebaseDatabase.getInstance().getReference().child("message").child("inbox");
 
