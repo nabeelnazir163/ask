@@ -66,19 +66,19 @@
 
         </LinearLayout>
 
-        <view
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+        <!--<view-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"/>-->
 
-            <!--<Button
+
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Get time"
-                android:onClick="getTime"
+                android:text="Refresh"
                 android:id="@+id/gettimebtn"
                 android:layout_gravity="center_horizontal"
                 android:layout_below="@+id/txtPrayerTimes"
-                />-->
+                />
 
     </LinearLayout>
 </RelativeLayout>

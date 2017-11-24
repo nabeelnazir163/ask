@@ -1,19 +1,23 @@
 package com.example.nabeel.postandcommenttutorial.ui.activities;
 
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -70,6 +74,8 @@ public class MainActivity extends BaseActivity
 
     Menu mMenu;
 
+    private static int MY_PERMISSION_ACCESS_COARSE_LOCATION = 0;
+    private static int MY_PERMISSION_ACCESS_FINE_LOCATION = 0;
  /*
     NotificationManager notificationManager;
     NotificationBadge mBadge;
@@ -79,6 +85,8 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getPermissions();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -279,6 +287,83 @@ public class MainActivity extends BaseActivity
 
         }
     }
+
+    public void getPermissions() {
+        getCoarsePermission();
+        getFinePermission();
+    }
+    public void getCoarsePermission(){
+        //check if permission is granted
+        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED){
+
+            //should we show description?
+            if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)){
+                /*
+                DESCRIBE WHY THE PERMISSION IS REQUIRED
+                 */
+            }else{
+                //NO EXPLANATION NEEDED
+
+                ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},MY_PERMISSION_ACCESS_COARSE_LOCATION);
+            }
+        }
+    }
+    public void getFinePermission(){
+        //check if permission is granted
+        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                !=PackageManager.PERMISSION_GRANTED){
+
+            //should we show description?
+            if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)){
+                /*
+                DESCRIBE WHY THE PERMISSION IS REQUIRED
+                 */
+            }else{
+                //NO EXPLANATION NEEDED
+                ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},MY_PERMISSION_ACCESS_FINE_LOCATION);
+            }
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+
+        if (requestCode == MY_PERMISSION_ACCESS_COARSE_LOCATION) {
+            // If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+            return;
+        }
+        if (requestCode == MY_PERMISSION_ACCESS_FINE_LOCATION) {
+            // If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+            return;
+        }
+        // other 'case' lines to check for other
+        // permissions this app might request
+    }
+
 
     private void hideItemforGuest()
     {
