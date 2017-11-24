@@ -118,6 +118,7 @@ public class answersActivity extends AppCompatActivity{
         Intent intent = getIntent();
         mPost = (Post) intent.getSerializableExtra(Constants.EXTRA_POST);
 
+
         question_tv.setText(mPost.getPostText());
 
         init();
@@ -140,6 +141,33 @@ public class answersActivity extends AppCompatActivity{
 
                final String audiokey = getRef(position).getKey();
 
+                FirebaseUtils.getAnswerRef()
+                        .child(mPost.getPostId())
+                        .child(model.getanswerId())
+                        .child("user").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        String email = dataSnapshot.child("email").getValue().toString();
+//                        Toast.makeText(getApplicationContext(), email , Toast.LENGTH_SHORT).show();
+
+                        if(email.equals(FirebaseUtils.getCurrentUser().getEmail())){
+
+                            viewHolder.edit_answer_iv.setVisibility(View.VISIBLE);
+
+                        } else {
+
+                            viewHolder.edit_answer_iv.setVisibility(View.GONE);
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
                if(model.getUser().getName() != null){
                    viewHolder.setanswerUsername(model.getUser().getName());
                }
@@ -148,7 +176,7 @@ public class answersActivity extends AppCompatActivity{
                viewHolder.setAnswerTime(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
                viewHolder.setNumLikes(String.valueOf(model.getNumLikes()));
 
-                viewHolder.edit_answer_iv.setOnClickListener(new View.OnClickListener() {
+               viewHolder.edit_answer_iv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 

@@ -433,6 +433,15 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
                         }
 
+                        Boolean checktoclose = getSharedPreferences("firstAnsPref",  MODE_PRIVATE).getBoolean("isFirstAnswer", true);
+
+                        if(!checktoclose){
+
+                            finish();
+
+                        }
+
+
                         Boolean isFirtanswer = getSharedPreferences("firstAnsPref",  MODE_PRIVATE).getBoolean("isFirstAnswer", true);
 
                         if(isFirtanswer){
@@ -449,8 +458,6 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                             dialog_first_answer.setCancelable(true);
                             dialog_first_answer.show();
                             dialog_first_answer.getWindow().setAttributes(lp);
-
-
 
                             final CheckBox dont_show = (CheckBox) dialog_first_answer.findViewById(R.id.dont_show_checkbox_answer);
                             Button close = (Button) dialog_first_answer.findViewById(R.id.ins_close_b_answer);

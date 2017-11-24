@@ -318,6 +318,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initCommentSection() {
+
         RecyclerView commentRecyclerView = (RecyclerView) findViewById(R.id.comment_recyclerview);
         commentRecyclerView.setLayoutManager(new LinearLayoutManager(PostActivity.this));
         final LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());

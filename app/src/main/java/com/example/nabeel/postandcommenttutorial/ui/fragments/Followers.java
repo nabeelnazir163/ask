@@ -3,7 +3,9 @@ package com.example.nabeel.postandcommenttutorial.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
@@ -43,12 +45,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class Followers extends Fragment {
 
-    Post mPost;
     View mRootview;
     RecyclerView follower_recyc_view;
     String emails;
-    String keys;
-    String ids;
+    private SwipeRefreshLayout mSwipeRef__followers;
 
     public Followers() {
         // Required empty public constructor
@@ -59,8 +59,22 @@ public class Followers extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         mRootview = inflater.inflate(R.layout.fragment_followers, container, false);
-        mPost = new Post();
+        mRootview = inflater.inflate(R.layout.fragment_followers, container, false);
+        mSwipeRef__followers = (SwipeRefreshLayout) mRootview.findViewById(R.id.swipe_refresh_layout_followers);
+
+        mSwipeRef__followers.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        setupadapter();
+                        mSwipeRef__followers.setRefreshing(false);
+                    }
+                },5000);
+            }
+        });
+
 
         follower_recyc_view = (RecyclerView) mRootview.findViewById(R.id.followers_recyclerview);
         follower_recyc_view.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -76,7 +90,7 @@ public class Followers extends Fragment {
         return mRootview;
     }
 
-    private void initialize() {
+    /*private void initialize() {
         FirebaseUtils.getFollowers().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -94,7 +108,7 @@ public class Followers extends Fragment {
 
             }
         });
-    }
+    }*/
 
     private void setupadapter() {
 

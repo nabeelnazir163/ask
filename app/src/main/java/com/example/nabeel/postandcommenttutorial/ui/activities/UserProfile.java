@@ -4,7 +4,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -55,18 +57,13 @@ public class UserProfile extends AppCompatActivity {
     private TextView munfollowtv;
     private TextView mMessage;
 
-
-    private DatabaseReference mDatabase;
     String mUserEmail;
-//    String mPostKey;
-
     String email_user;
     String mEmail;
-    String Current_User;
-
-//    ArrayList<String> postids = new ArrayList<>();
 
     private RecyclerView userProfile_question;
+
+    private SwipeRefreshLayout mSwipeRef_userProfile;
 
 
     @Override
@@ -80,8 +77,6 @@ public class UserProfile extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         }
-
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(Constants.MY_POSTS);
 
         mUserProfile_Iv = (ImageView) findViewById(R.id.userprofile_displayImage);
 
@@ -98,6 +93,21 @@ public class UserProfile extends AppCompatActivity {
 
         email_user = FirebaseUtils.getCurrentUser().getEmail();
         mEmail = mUserEmail.replace(".",",");
+
+        mSwipeRef_userProfile = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout_userProfile);
+
+        mSwipeRef_userProfile.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        setupAdapterProfile();
+                        mSwipeRef_userProfile.setRefreshing(false);
+                    }
+                },5000);
+            }
+        });
 
         userProfile_question = (RecyclerView) findViewById(R.id.recyclerview_userprofile);
         userProfile_question.setLayoutManager(new LinearLayoutManager(this));

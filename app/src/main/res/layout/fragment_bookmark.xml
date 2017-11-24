@@ -7,21 +7,18 @@
     android:layout_height="match_parent"
     tools:context="com.example.nabeel.postandcommenttutorial.ui.fragments.bookmarkFragment">
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/swipe_refresh_layout_bm"
+        >
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/bookmark_recyclerview"
         ></android.support.v7.widget.RecyclerView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No New Questions"
-        android:textSize="24dp"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:padding="5dp"
-        android:id="@+id/null_bookmark_tv"
-        android:visibility="gone"
-        />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -52,8 +54,8 @@ public class bookmarkFragment extends Fragment {
     View mRootView;
 
     RecyclerView bookmark_recyc_view;
-    TextView bookmarktextview;
     String Current_User;
+    private SwipeRefreshLayout mSwipeRef_bookmark;
 
     public bookmarkFragment() {
         // Required empty public constructor
@@ -67,7 +69,20 @@ public class bookmarkFragment extends Fragment {
         mRootView = inflater.inflate(R.layout.fragment_bookmark, container, false);
 
         bookmark_recyc_view = (RecyclerView) mRootView.findViewById(R.id.bookmark_recyclerview);
-        bookmarktextview = (TextView) mRootView.findViewById(R.id.null_bookmark_tv);
+        mSwipeRef_bookmark = (SwipeRefreshLayout) mRootView.findViewById(R.id.swipe_refresh_layout_bm);
+
+        mSwipeRef_bookmark.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        setupadapter();
+                        mSwipeRef_bookmark.setRefreshing(false);
+                    }
+                },5000);
+            }
+        });
 
         bookmark_recyc_view.setLayoutManager(new LinearLayoutManager(getContext()));
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());

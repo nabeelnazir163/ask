@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,13 +43,18 @@ public class comment_reply_activity extends AppCompatActivity {
     private TextView Comment;
     private TextView commentTime;
     String Current_UserName,FCM_token;
-    private RelativeLayout readmore_for_commentin_Reply;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment_reply_activity);
 
+        if(getSupportActionBar() != null){
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        }
 
         Intent intent = getIntent();
         mComment = (Comment) intent.getSerializableExtra(Constants.EXTRA_REPLY);
@@ -109,7 +115,7 @@ public class comment_reply_activity extends AppCompatActivity {
                                 .setValue(mReply);
 
 
-                        /**
+                        /*
                          * SEND NOTIFICATION ON COMMENT REPLY
                          */
                         final String C_Current_user =FirebaseUtils.getCurrentUser().getEmail().replace(".",",");
@@ -204,6 +210,10 @@ public class comment_reply_activity extends AppCompatActivity {
 
         mcomment_reply_rv = (RecyclerView) findViewById(R.id.comment_reply_rv);
         mcomment_reply_rv.setLayoutManager(new LinearLayoutManager(this));
+        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
+        mcomment_reply_rv.setLayoutManager(mLayoutManager);
 
         FirebaseRecyclerAdapter<reply , reply_holder> reply_adapter = new FirebaseRecyclerAdapter<reply, reply_holder>(
                 reply.class,
@@ -294,6 +304,16 @@ public class comment_reply_activity extends AppCompatActivity {
             time_reply.setText(time);
 
         }
-
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == android.R.id.home)
+
+            finish();
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

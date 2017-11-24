@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -52,6 +54,7 @@ public class unAnsweredFragment extends Fragment {
     View mRootview;
     RecyclerView unanswered_recyc_view;
     String Current_User;
+    private SwipeRefreshLayout mSwipeRef_unAnswered;
 
     public unAnsweredFragment() {
         // Required empty public constructor
@@ -65,6 +68,22 @@ public class unAnsweredFragment extends Fragment {
         mRootview = inflater.inflate(R.layout.fragment_un_answered, container, false);
 
         unanswered_recyc_view = (RecyclerView) mRootview.findViewById(R.id.unanswered_recyclerview);
+        mSwipeRef_unAnswered = (SwipeRefreshLayout) mRootview.findViewById(R.id.swipe_refresh_layout_unanswered);
+
+        mSwipeRef_unAnswered.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        setupAdapter();
+                        mSwipeRef_unAnswered.setRefreshing(false);
+
+                    }
+                },5000);
+            }
+        });
 
         unanswered_recyc_view.setLayoutManager(new LinearLayoutManager(getContext()));
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext().getApplicationContext());
