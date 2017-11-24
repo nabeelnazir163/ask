@@ -235,29 +235,29 @@ public class Chat extends AppCompatActivity {
 //        scrollView.fullScroll(View.FOCUS_DOWN);
     }*/
 
-    public void addMessageBox(String message, int type){
-        TextView textView = (TextView)findViewById(R.id.text_message_left);
-        TextView textview_right = (TextView) findViewById(R.id.text_message_right);
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(0, 0, 0, 10);
-        textView.setLayoutParams(lp);
-
-
-        if(type == 1) {
-            textView.setText(message);
-            textView.setBackgroundResource(R.drawable.rounded_corner1);
-
-        }
-        else{
-            textview_right.setText(message);
-            textView.setBackgroundResource(R.drawable.rounded_corner2);
-
-        }
-
-        layout.addView(textView);
-        scrollView.fullScroll(View.FOCUS_DOWN);
-    }
+//    public void addMessageBox(String message, int type){
+//        TextView textView = (TextView)findViewById(R.id.text_message_left);
+//        TextView textview_right = (TextView) findViewById(R.id.text_message_right);
+//
+//        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        lp.setMargins(0, 0, 0, 10);
+//        textView.setLayoutParams(lp);
+//
+//
+//        if(type == 1) {
+//            textView.setText(message);
+//            textView.setBackgroundResource(R.drawable.rounded_corner1);
+//
+//        }
+//        else{
+//            textview_right.setText(message);
+//            textView.setBackgroundResource(R.drawable.rounded_corner2);
+//
+//        }
+//
+//        layout.addView(textView);
+//        scrollView.fullScroll(View.FOCUS_DOWN);
+//    }
 
     private void sendNotification(final String cu_user)
     {

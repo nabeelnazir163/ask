@@ -63,9 +63,10 @@ public class Prayer_Time_Activity extends AppCompatActivity implements GoogleApi
 
     private TextView txtPrayerNames;
     private TextView txtPrayerTimes;
+    private TextView partitionLine;
     double latitude;
     double longitude;
-    Button mGetTime;
+//    Button mGetTime;
 
     //    private Button mGetTime;
     @Override
@@ -73,7 +74,7 @@ public class Prayer_Time_Activity extends AppCompatActivity implements GoogleApi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prayer__time_);
 
-        mGetTime = (Button) findViewById(R.id.gettimebtn);
+//        mGetTime = (Button) findViewById(R.id.gettimebtn);
 
         if(getSupportActionBar() != null){
 
@@ -87,15 +88,16 @@ public class Prayer_Time_Activity extends AppCompatActivity implements GoogleApi
         }
         txtPrayerNames = (TextView) findViewById(R.id.txtPrayerNames);
         txtPrayerTimes = (TextView) findViewById(R.id.txtPrayerTimes);
+        partitionLine = (TextView) findViewById(R.id.partitionline);
 
         displayLocation();
 
-        mGetTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                displayLocation();
-            }
-        });
+//        mGetTime.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                displayLocation();
+//            }
+//        });
     }
     
     @Override
@@ -344,13 +346,12 @@ public class Prayer_Time_Activity extends AppCompatActivity implements GoogleApi
 //            txtPrayerTimes.append("\n" + prayerNames.get(i) + " - "
 //                    + prayerTimes.get(i));
 
-                txtPrayerNames.append("\n" +prayerNames.get(i));
-                txtPrayerTimes.append("\n" +prayerTimes.get(i));
+                txtPrayerNames.append("\n" +prayerNames.get(i) + "\n" );
+                txtPrayerTimes.append("\n" +prayerTimes.get(i) + "\n" );
+                partitionLine.append("\n" + "_________" + "\n");
             }
 
         }
-
-
 
     @Override
     protected void onStart() {
