@@ -146,7 +146,7 @@ public class homeFragment extends Fragment {
 
                         if(photo_url != null) {
 
-                            Glide.with(getContext()).load(photo_url).into(m_current_user_display_image);
+                             Glide.with(getContext()).load(photo_url).into(m_current_user_display_image);
                         }
                         m_current_user_display_name.setText(name);
 
