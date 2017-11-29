@@ -178,7 +178,7 @@ public class answersActivity extends AppCompatActivity{
 
                viewHolder.edit_answer_iv.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(final View view) {
 
                         final LinearLayout edittext_layout = (LinearLayout) findViewById(R.id.edittext_layout);
                         final EditText answer_Edittext = (EditText) findViewById(R.id.edittext_answer);
@@ -187,6 +187,23 @@ public class answersActivity extends AppCompatActivity{
                         edittext_layout.setVisibility(View.VISIBLE);
                         answer_Edittext.setText(model.getanswer());
                         viewHolder.AnswerTextView.setVisibility(View.GONE);
+
+                        /*FirebaseUtils.getAnswerLikedRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                                .child(mPost.getPostId()).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.hasChild(model.getanswerId())){
+
+                                    viewHolder.LikeAnswer_iv.setText(R.string.Downvote);
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });*/
 
                         done.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -239,10 +256,20 @@ public class answersActivity extends AppCompatActivity{
                    @Override
                    public void onClick(View view) {
 
-                       LikeAnswer(model.getanswerId(), mPost.getPostId());
+                       LikeAnswer(model.getanswerId(), mPost.getPostId(), viewHolder);
 
                    }
                });
+
+                /*viewHolder.unLikeAnswer_tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        LikeAnswer(model.getanswerId(), mPost.getPostId(), viewHolder);
+
+                    }
+                });*/
+
 
                 viewHolder.AnswerTextView.post(new Runnable() {
                     @Override
@@ -325,7 +352,10 @@ public class answersActivity extends AppCompatActivity{
 
     }
 
-    private void LikeAnswer(final String answerId, final String postID) {
+    private void LikeAnswer(final String answerId, final String postID, final AnswerHolder v) {
+
+        v.LikeAnswer_iv.setClickable(false);
+        v.LikeAnswer_iv.setEnabled(false);
 
         FirebaseUtils.getAnswerLikedRef(answerId, postID)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -349,6 +379,10 @@ public class answersActivity extends AppCompatActivity{
                                         public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
                                             FirebaseUtils.getAnswerLikedRef(answerId, postID)
                                                     .setValue(null);
+                                            v.LikeAnswer_iv.setEnabled(true);
+                                            v.LikeAnswer_iv.setClickable(true);
+//                                            v.LikeAnswer_iv.setText/(R.string.upvote);
+
                                         }
                                     });
                         } else {
@@ -368,7 +402,9 @@ public class answersActivity extends AppCompatActivity{
                                         public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
                                             FirebaseUtils.getAnswerLikedRef(answerId , postID)
                                                     .setValue(true);
-
+                                            v.LikeAnswer_iv.setEnabled(true);
+                                            v.LikeAnswer_iv.setClickable(true);
+//                                            v.LikeAnswer_iv.setText(R.string.Downvote);
 
                                             /**
                                              * Send Notification here
@@ -866,6 +902,7 @@ public class answersActivity extends AppCompatActivity{
         ImageView playaudio;
         TextView LikeAnswer_iv;
         TextView LikeAnswer_tv;
+//        TextView unLikeAnswer_tv;
         ImageView edit_answer_iv;
         ImageView answerDispalyImageview;
         RelativeLayout readmore_rel_lay_answers_Activity;
@@ -884,6 +921,7 @@ public class answersActivity extends AppCompatActivity{
             playaudio = (ImageView) mView.findViewById(R.id.fab_answer);
             LikeAnswer_iv = (TextView) mView.findViewById(R.id.iv_like_answer);
             LikeAnswer_tv = (TextView) mView.findViewById(R.id.tv_likes_answer);
+//            unLikeAnswer_tv = (TextView) mView.findViewById(R.id.iv_unlike_answer);
             edit_answer_iv = (ImageView) mView.findViewById(R.id.edit_answer_iv);
             answerDispalyImageview = (ImageView) mView.findViewById(R.id.iv_answer_ref_display);
             readmore_rel_lay_answers_Activity = (RelativeLayout) mView.findViewById(R.id.readmore_relLayout_answersactivity);

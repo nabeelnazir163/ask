@@ -88,8 +88,15 @@
                     android:id="@+id/iv_like_answer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/upvote"
+                    android:text="Upvote"
                     />
+
+                <!--<TextView
+                    android:id="@+id/iv_unlike_answer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Downvote"
+                    />-->
 
                 <TextView
                     android:id="@+id/tv_likes_answer"

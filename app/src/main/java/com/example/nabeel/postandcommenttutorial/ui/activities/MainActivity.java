@@ -459,7 +459,7 @@ public class MainActivity extends BaseActivity
         } else if (userType == 3){
 
             menu.findItem(R.id.chat_inbox).setVisible(false);
-            menu.findItem(R.id.notification).setVisible(false);
+//            menu.findItem(R.id.notification).setVisible(false);
 
         }
 
@@ -482,11 +482,11 @@ public class MainActivity extends BaseActivity
 
         int id = item.getItemId();
 
-        if(id == R.id.notification){
+        /*if(id == R.id.notification){
 
             startActivity(new Intent(MainActivity.this , Notification.class));
 
-        } else if(id == R.id.action_search){
+        } else*/ if(id == R.id.action_search){
 
 //            startActivity(new Intent(MainActivity.this , SearchActivity.class));
 

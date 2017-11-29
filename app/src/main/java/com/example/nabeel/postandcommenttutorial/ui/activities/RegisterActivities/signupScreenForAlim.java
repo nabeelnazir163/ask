@@ -189,7 +189,7 @@ public class signupScreenForAlim extends BaseActivity {
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // set the ArrayAdapter to the spinner
         mCountrySpinnerAlim.setAdapter(dataAdapter);
-        mCountrySpinnerAlim.setSelection(166);
+//        mCountrySpinnerAlim.setSelection(166);
 
         System.out.println("# countries found: " + countries_user.size());
 

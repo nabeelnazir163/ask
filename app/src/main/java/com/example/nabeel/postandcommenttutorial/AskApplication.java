@@ -66,7 +66,7 @@ public class AskApplication extends Application {
         unAnsweredQuestionPrefs = getSharedPreferences(UNANSWERED_QUES_PREFS, 0);
         unAnsweredState = unAnsweredQuestionPrefs.getBoolean("unAnsweredQues", false);
 
-        if (hadeesState == true) {
+        /*if (hadeesState == true) {
 
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 22);
@@ -120,7 +120,7 @@ public class AskApplication extends Application {
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
-        }
+        }*/
 
         if (mAuth.getCurrentUser() != null) {
 

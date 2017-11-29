@@ -21,12 +21,12 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView"/>-->
 
-    <item
+    <!--<item
         android:id="@+id/notification"
         android:orderInCategory="200"
         android:icon="@drawable/ic_os_notification_fallback_white_24dp"
         app:showAsAction="always"
-        android:title="Notification" />
+        android:title="Notification" />-->
 
     <!--<item-->
         <!--android:id="@+id/add_post_btn"-->

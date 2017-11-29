@@ -12,6 +12,9 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.example.nabeel.postandcommenttutorial.NotificationReceiever.Notification_receiver_hadees;
+import com.example.nabeel.postandcommenttutorial.NotificationReceiever.Notification_receiver_hijriEvent;
+import com.example.nabeel.postandcommenttutorial.NotificationReceiever.Notification_receiver_prayerTime;
+import com.example.nabeel.postandcommenttutorial.NotificationReceiever.Notification_receiver_unAnsweredQues;
 import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.utils.BaseActivity;
 
@@ -31,6 +34,11 @@ public class  AppInfo extends BaseActivity {
     public static final String UNANSWERED_QUES_PREFS = "unAnsweredQuestionPrefs";
 
     SharedPreferences hadeesPrefs , calPrefs , prayerTimePrefs, unAnsweredQuestionPrefs;
+
+    boolean hadeesState;
+    boolean calState;
+    boolean prayertimeState;
+    boolean unAnsweredState;
 
     SharedPreferences.Editor Hadeeseditor , CalEditor , PrayerTimeEditor , unAnsQuesEditor;
 
@@ -167,6 +175,74 @@ public class  AppInfo extends BaseActivity {
 //
 //            }
 //        });
+
+        hadeesPrefs = getSharedPreferences(HADEES_PREFS, 0);
+        hadeesState = hadeesPrefs.getBoolean("hadees", false);
+
+        calPrefs = getSharedPreferences(CAL_PREFS, 0);
+        calState = calPrefs.getBoolean("calender", false);
+
+        prayerTimePrefs = getSharedPreferences(PRAYER_TIME_PREFS, 0);
+        prayertimeState = prayerTimePrefs.getBoolean("prayertime", false);
+
+        unAnsweredQuestionPrefs = getSharedPreferences(UNANSWERED_QUES_PREFS, 0);
+        unAnsweredState = unAnsweredQuestionPrefs.getBoolean("unAnsweredQues", false);
+
+        if (hadeesState == true) {
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 14);
+            calendar.set(Calendar.MINUTE, 30);
+
+            Intent intent = new Intent(getApplicationContext(), Notification_receiver_hadees.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        }
+
+        if (calState == true) {
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 14);
+            calendar.set(Calendar.MINUTE, 32);
+
+            Intent intent = new Intent(getApplicationContext(), Notification_receiver_hijriEvent.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        }
+
+        if (prayertimeState == true) {
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 14);
+            calendar.set(Calendar.MINUTE, 34);
+
+            Intent intent = new Intent(getApplicationContext(), Notification_receiver_prayerTime.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        }
+
+        if (unAnsweredState == true) {
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 14);
+            calendar.set(Calendar.MINUTE, 36);
+
+            Intent intent = new Intent(getApplicationContext(), Notification_receiver_unAnsweredQues.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        }
     }
 
     private void sendNotification()

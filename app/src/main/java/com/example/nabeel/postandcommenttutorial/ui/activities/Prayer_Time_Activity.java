@@ -347,8 +347,9 @@ public class Prayer_Time_Activity extends AppCompatActivity implements GoogleApi
 //                    + prayerTimes.get(i));
 
                 txtPrayerNames.append("\n" +prayerNames.get(i) + "\n" );
-                txtPrayerTimes.append("\n" +prayerTimes.get(i) + "\n" );
                 partitionLine.append("\n" + "_________" + "\n");
+                txtPrayerTimes.append("\n" +prayerTimes.get(i) + "\n" );
+
             }
 
         }

@@ -105,6 +105,7 @@
     <string name="answer">Answer</string>
     <string name="comment">Comment</string>
     <string name="upvote">Upvote</string>
+    <string name="Downvote">Downvote</string>
 
     <string name="home">Home</string>
     <string name="Bookmark">Bookmark</string>
