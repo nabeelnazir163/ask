@@ -317,6 +317,21 @@ public class unAnsweredFragment extends Fragment {
                                         }
                                     });
 
+                                    viewHolder.CommentLayout_post.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intent = new Intent(getContext(), PostActivity.class);
+                                            intent.putExtra(Constants.EXTRA_POST, model);
+                                            startActivity(intent);
+
+                                            if(userType != 3){
+
+                                                PostSeen(model.getPostId());
+
+                                            }
+                                        }
+                                    });
+
                                     viewHolder.bookmark_imageview.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -529,12 +544,13 @@ public class unAnsweredFragment extends Fragment {
         ImageView postDisplayImageVIew;
         TextView postTextTextView;
         LinearLayout postCommentLayout;
+        LinearLayout CommentLayout_post;
         TextView postNumAnswersTextView;
         TextView postNumCommentsTextView;
         ImageView menu_imageview;
         ImageView bookmark_imageview;
         ImageView after_bookmark_iv;
-        ImageView newanswers;
+        LinearLayout newanswers;
         TextView fiqahOfAlim;
         RelativeLayout readmore_rel_layout;
         TextView tv_seenPost;
@@ -549,6 +565,7 @@ public class unAnsweredFragment extends Fragment {
             postTimeCreatedTextView = (TextView) itemView.findViewById(R.id.tv_time);
             postDisplayImageVIew = (ImageView) itemView.findViewById(R.id.iv_post_display);
             postCommentLayout = (LinearLayout) itemView.findViewById(R.id.answer_layout);
+            CommentLayout_post = (LinearLayout) itemView.findViewById(R.id.comment_layout);
             postNumAnswersTextView = (TextView) itemView.findViewById(R.id.tv_answers);
             postNumCommentsTextView = (TextView) itemView.findViewById(R.id.tv_comments);
             postTextTextView = (TextView) itemView.findViewById(R.id.tv_post_text);
@@ -556,7 +573,7 @@ public class unAnsweredFragment extends Fragment {
             menu_imageview = (ImageView) itemView.findViewById(R.id.menuPopup_imageview);
             bookmark_imageview = (ImageView) itemView.findViewById(R.id.bookmark_iv);
             after_bookmark_iv = (ImageView) itemView.findViewById(R.id.bookmark_iv_after);
-            newanswers = (ImageView) itemView.findViewById(R.id.newanswer_layout_post);
+            newanswers = (LinearLayout) itemView.findViewById(R.id.newanswer_layout_post);
             fiqahOfAlim = (TextView) itemView.findViewById(R.id.tv_post_userfiqah);
             readmore_rel_layout = (RelativeLayout) itemView.findViewById(R.id.readmore_relLayout);
 //            seenLayout = (LinearLayout) itemView.findViewById(R.id.seen_layout);

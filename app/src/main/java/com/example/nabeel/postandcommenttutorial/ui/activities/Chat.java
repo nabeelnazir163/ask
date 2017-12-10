@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.ui.fragments.homeFragment;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
+import com.example.nabeel.postandcommenttutorial.utils.sendNotification;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -58,6 +59,9 @@ public class Chat extends AppCompatActivity {
 
     TextView textView;
     TextView textview_right;
+
+    String FCM_token,Current_UserName;
+    String postID = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,6 +190,34 @@ public class Chat extends AppCompatActivity {
                             messageArea.setText("");
 //                            finish();
 //                            textView.append(messageText);
+
+                            final String C_Current_user =FirebaseUtils.getCurrentUser().getEmail().replace(".",",");
+
+                            FirebaseUtils.getUserRef(C_Current_user).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    Current_UserName = dataSnapshot.child("name").getValue().toString();
+
+                                            FirebaseUtils.getUserRef(chatWithEmail.replace(".",",")).addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                    FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
+                                                    Current_UserName +=" send you a message";
+                                                    sendNotification notify = new sendNotification(Current_UserName,postID,FCM_token);
+                                                }
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+                                                }
+                                            });
+                                        }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
 
                         }
                     });

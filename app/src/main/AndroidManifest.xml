@@ -20,10 +20,10 @@
     <application
         android:name=".AskApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo120x120"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo24x24"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
@@ -129,7 +129,10 @@
             android:label="@string/title_activity_search_with_tabbed"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.activities.RatingStars" />
-        <activity android:name=".ui.activities.search_user_for_newMessage"></activity>
+        <activity android:name=".ui.activities.search_user_for_newMessage" />
+        <activity android:name=".ui.activities.QiblaDirection" />
+        <activity android:name=".ui.activities.viewallsearchesForUser" />
+        <activity android:name=".ui.activities.viewallPosts"></activity>
     </application>
 
 </manifest>

@@ -33,7 +33,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.putExtra(Constants.EXTRA_POST,postID);
         notificationBuilder.setContentTitle(title);
         notificationBuilder.setContentText(message);
-        notificationBuilder.setSmallIcon(R.drawable.notification_icon_askalim);
+        notificationBuilder.setSmallIcon(R.drawable.logo24x24);
         notificationBuilder.setAutoCancel(true);
 //        notificationBuilder.setSound(snotification);
         notificationBuilder.setVibrate(vPattern);

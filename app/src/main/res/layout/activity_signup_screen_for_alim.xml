@@ -157,8 +157,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="8sp"
+                    android:id="@+id/email_validity_statement"
                     android:layout_marginTop="8dp"
-                    android:text="If you dont have valid email then leave it blank"
+                    android:text="@string/validEmailStatement"
                     />
 
             </LinearLayout>
@@ -321,7 +322,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="- Password length should be greater than 6 characters"
+                    android:id="@+id/passwordHint"
+                    android:text="@string/passwordLengthHint"
                     android:textSize="8sp"
                     android:layout_marginTop="8dp"
                     />
@@ -381,6 +383,7 @@
                     android:id="@+id/signup_alim_gender_tv"
                     android:layout_gravity="center_vertical"
                     android:textColor="#015A35"
+                    android:layout_marginRight="40dp"
                     />
 
                 <RadioGroup

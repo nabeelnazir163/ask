@@ -75,7 +75,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     TextView mostlikedanswer_name_tv;
     TextView mostlikedanswer_time_tv;
     TextView mostLikedanswer_text_tv;
-    ImageView answers_tv;
+    LinearLayout answers_tv;
 
     TextView viewallanswers_tv;
 
@@ -125,10 +125,22 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         max_layout =  (CardView)findViewById(R.id.answerlayoutpostactivity);
         comment_cardview = (CardView) findViewById(R.id.cardview_for_comment);
 
-        answers_tv = (ImageView) findViewById(R.id.newanswer_layout_post);
+        answers_tv = (LinearLayout) findViewById(R.id.newanswer_layout_post);
         bookmark_iv = (ImageView) findViewById(R.id.bookmark_iv);
         bookmark_After_iv = (ImageView) findViewById(R.id.bookmark_iv_after);
         menu_imageview = (ImageView) findViewById(R.id.menuPopup_imageview);
+
+        Intent intent = getIntent();
+
+        if(intent.getSerializableExtra(Constants.EXTRA_POST) != null) {
+
+            mPost = (Post) intent.getSerializableExtra(Constants.EXTRA_POST);
+
+        } /*else if ( postString != null ){
+
+            postString = intent.getSerializableExtra(Constants.EXTRA_POST);
+
+        }*/
 
         userType = userType_sp.getInt("UserType", 0);
 
@@ -186,8 +198,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
-        Intent intent = getIntent();
-        mPost = (Post) intent.getSerializableExtra(Constants.EXTRA_POST);
 
         FirebaseUtils.getAnswerRef().addValueEventListener(new ValueEventListener() {
             @Override

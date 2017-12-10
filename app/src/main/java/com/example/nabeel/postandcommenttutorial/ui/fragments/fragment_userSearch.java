@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,13 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.models.User;
 import com.example.nabeel.postandcommenttutorial.ui.activities.SearchWithTabbedActivity;
 import com.example.nabeel.postandcommenttutorial.ui.activities.UserProfile;
+import com.example.nabeel.postandcommenttutorial.ui.activities.viewallsearchesForUser;
 import com.example.nabeel.postandcommenttutorial.utils.UserListAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -117,6 +120,24 @@ public class fragment_userSearch extends Fragment {
             }
         });
 
+        SearchWithTabbedActivity.mSearchParams.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+//                    Toast.makeText(getContext(), SearchWithTabbedActivity.mSearchParams.getText(), Toast.LENGTH_SHORT).show();
+
+                    Intent alluserSearchIntent = new Intent(getContext(), viewallsearchesForUser.class);
+                    alluserSearchIntent.putExtra("textTomatch" , SearchWithTabbedActivity.mSearchParams.getText().toString().trim().toLowerCase() );
+                    startActivity(alluserSearchIntent);
+
+                    return true;
+                }
+                return false;
+            }
+        });
+
     }
 
     private void searchforMatch(String keyword){
@@ -128,7 +149,7 @@ public class fragment_userSearch extends Fragment {
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
-            Query query = reference.child("users").orderByChild("email").startAt(keyword).endAt(keyword + "\uf8ff");
+            Query query = reference.child("users").orderByChild("email").startAt(keyword).endAt(keyword + "\uf8ff").limitToFirst(5);
 
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

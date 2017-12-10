@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,8 @@ import com.example.nabeel.postandcommenttutorial.models.User;
 import com.example.nabeel.postandcommenttutorial.ui.activities.PostActivity;
 import com.example.nabeel.postandcommenttutorial.ui.activities.SearchWithTabbedActivity;
 import com.example.nabeel.postandcommenttutorial.ui.activities.UserProfile;
+import com.example.nabeel.postandcommenttutorial.ui.activities.viewallPosts;
+import com.example.nabeel.postandcommenttutorial.ui.activities.viewallsearchesForUser;
 import com.example.nabeel.postandcommenttutorial.ui.adapter.PostListadapter;
 import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.example.nabeel.postandcommenttutorial.utils.UserListAdapter;
@@ -114,7 +117,7 @@ public class fragment_post_Search extends Fragment {
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
-            Query query = reference.child("posts").orderByChild("postText").startAt(keyword).endAt(keyword + "\uf8ff");
+            Query query = reference.child("posts").orderByChild("postText").startAt(keyword).endAt(keyword + "\uf8ff").limitToFirst(5);
 
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -132,6 +135,24 @@ public class fragment_post_Search extends Fragment {
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
+                }
+            });
+
+            SearchWithTabbedActivity.mSearchParams.setOnKeyListener(new View.OnKeyListener() {
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    // If the event is a key-down event on the "enter" button
+                    if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                            (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                        // Perform action on key press
+//                    Toast.makeText(getContext(), SearchWithTabbedActivity.mSearchParams.getText(), Toast.LENGTH_SHORT).show();
+
+                        Intent alluserSearchIntent = new Intent(getContext(), viewallPosts.class);
+                        alluserSearchIntent.putExtra("textTomatch" , SearchWithTabbedActivity.mSearchParams.getText().toString().trim().toLowerCase() );
+                        startActivity(alluserSearchIntent);
+
+                        return true;
+                    }
+                    return false;
                 }
             });
 

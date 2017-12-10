@@ -41,6 +41,8 @@
                     android:textColor="@color/tw__composer_black"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
+                    android:inputType="text"
+                    android:ems="10"
                     android:id="@+id/search"
                     />
 

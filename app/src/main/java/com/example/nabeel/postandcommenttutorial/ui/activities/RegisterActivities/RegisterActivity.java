@@ -1,6 +1,8 @@
 package com.example.nabeel.postandcommenttutorial.ui.activities.RegisterActivities;
 
 
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -558,6 +560,32 @@ public class RegisterActivity extends BaseActivity{
 
                 }
             });
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }else{
+            final AlertDialog.Builder alert = new AlertDialog.Builder(RegisterActivity.this);
+            alert.setTitle("ASK AALIM");
+            alert.setMessage("Do you want exit?");
+            alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                    System.exit(1);
+                }
+            });
+            alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            alert.show();
         }
     }
 }

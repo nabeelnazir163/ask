@@ -302,6 +302,21 @@ public class bookmarkFragment extends Fragment {
                     }
                 });
 
+                viewHolder.CommentLayout_post.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), PostActivity.class);
+                        intent.putExtra(Constants.EXTRA_POST, model);
+                        startActivity(intent);
+
+                        if(userType != 3){
+
+                            PostSeen(model.getPostId());
+
+                        }
+                    }
+                });
+
                 viewHolder.menu_imageview.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -511,6 +526,7 @@ public class bookmarkFragment extends Fragment {
         ImageView postDisplayImageVIew;
         TextView postTextTextView;
         LinearLayout postCommentLayout;
+        LinearLayout CommentLayout_post;
         TextView postNumAnswersTextView;
         TextView postNumCommentsTextView;
 //        LinearLayout mPostView;
@@ -518,7 +534,7 @@ public class bookmarkFragment extends Fragment {
         ImageView bookmark_imageview;
         ImageView after_bookmark_iv;
         TextView fiqahOfAlim;
-        ImageView newanswers;
+        LinearLayout newanswers;
         RelativeLayout readmore_rel_layout;
         TextView tv_seenPost;
 
@@ -532,6 +548,7 @@ public class bookmarkFragment extends Fragment {
             postTimeCreatedTextView = (TextView) itemView.findViewById(R.id.tv_time);
             postDisplayImageVIew = (ImageView) itemView.findViewById(R.id.iv_post_display);
             postCommentLayout = (LinearLayout) itemView.findViewById(R.id.answer_layout);
+            CommentLayout_post = (LinearLayout) itemView.findViewById(R.id.comment_layout);
             postNumAnswersTextView = (TextView) itemView.findViewById(R.id.tv_answers);
             postNumCommentsTextView = (TextView) itemView.findViewById(R.id.tv_comments);
             postTextTextView = (TextView) itemView.findViewById(R.id.tv_post_text);
@@ -540,7 +557,7 @@ public class bookmarkFragment extends Fragment {
             bookmark_imageview = (ImageView) itemView.findViewById(R.id.bookmark_iv);
             after_bookmark_iv = (ImageView) itemView.findViewById(R.id.bookmark_iv_after);
             fiqahOfAlim = (TextView) itemView.findViewById(R.id.tv_post_userfiqah);
-            newanswers = (ImageView) itemView.findViewById(R.id.newanswer_layout_post);
+            newanswers = (LinearLayout) itemView.findViewById(R.id.newanswer_layout_post);
             readmore_rel_layout = (RelativeLayout) itemView.findViewById(R.id.readmore_relLayout);
             tv_seenPost = (TextView) itemView.findViewById(R.id.tv_seen);
         }

@@ -68,6 +68,7 @@ public class signupScreenForAlim extends BaseActivity {
     private TextView mFiqah_tv;
     private TextView mSpec_Cat_tv;
     private TextView mSelectCountry_tv;
+    private TextView passwordHint;
 
     private CheckBox mLanEng;
     private CheckBox mLanUrdu;
@@ -100,6 +101,8 @@ public class signupScreenForAlim extends BaseActivity {
     String select_gender_alim;
     String mCon_pass_Alim;
     String mUsernameAlim;
+
+    private TextView mEmailValidation;
 
     private String final_speci_cat;
     private String final_language;
@@ -139,6 +142,9 @@ public class signupScreenForAlim extends BaseActivity {
         mFiqah_tv = (TextView) findViewById(R.id.fiqah_tv);
         mSpec_Cat_tv = (TextView) findViewById(R.id.chose_spec_cat_tv);
         mSelectCountry_tv = (TextView) findViewById(R.id.slct_cntry_tv);
+        passwordHint = (TextView) findViewById(R.id.passwordHint);
+
+        mEmailValidation = (TextView) findViewById(R.id.email_validity_statement);
 
         mLanEng = (CheckBox) findViewById(R.id.Signup_alim_lan_eng_cb);
         mLanUrdu = (CheckBox) findViewById(R.id.Signup_Alim_lan_urdu_cb);
@@ -304,6 +310,7 @@ public class signupScreenForAlim extends BaseActivity {
             mFiqah_tv.setText(R.string.urdu_fiqah);
             mSpec_Cat_tv.setText(R.string.urdu_spec_cat);
             mSelectCountry_tv.setText(R.string.urdu_select_country);
+            passwordHint.setText(R.string.passwordhinturdu);
 
             mLanEng.setText(R.string.urdu_eng);
             mLanUrdu.setText(R.string.urdu_urdu);
@@ -316,6 +323,7 @@ public class signupScreenForAlim extends BaseActivity {
             mFemale.setText(R.string.urdu_female);
 
             mFinishBtn.setText(R.string.urdu_finish);
+            mEmailValidation.setText(R.string.emailvalidity_urdu);
 
         } else if(language.equals("en")){
 

@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
@@ -46,6 +47,13 @@ public class  AppInfo extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_info);
+
+        if(getSupportActionBar() != null){
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        }
 
         hadees = (Switch) findViewById(R.id.dailyhadeesSwitch);
         HijriCal = (Switch) findViewById(R.id.hijriCalUpdateswitch);
@@ -245,7 +253,7 @@ public class  AppInfo extends BaseActivity {
         }
     }
 
-    private void sendNotification()
+    /*private void sendNotification()
     {
         AsyncTask.execute(new Runnable() {
             @Override
@@ -322,5 +330,15 @@ public class  AppInfo extends BaseActivity {
                 }
             }
         });
+    }*/
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == android.R.id.home)
+
+            finish();
+
+        return super.onOptionsItemSelected(item);
     }
 }

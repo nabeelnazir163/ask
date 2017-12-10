@@ -38,6 +38,14 @@
             android:title="App Setting"/></group>
 
 
+        <!--<group android:checkableBehavior="single"
+            android:id="@+id/group8">
+            <item
+                android:id="@+id/qibladirection"
+                android:icon="@drawable/profile"
+                android:title="Qibla Direction" /></group>-->
+
+
     <group android:checkableBehavior="single"
         android:id="@+id/group7">
         <item

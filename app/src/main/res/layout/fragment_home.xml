@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.nabeel.postandcommenttutorial.ui.fragments.homeFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -38,11 +39,10 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        android:backgroundTint="@color/colorPrimary"
         android:src="@drawable/ic_create_white_24dp" />
 
 </FrameLayout>

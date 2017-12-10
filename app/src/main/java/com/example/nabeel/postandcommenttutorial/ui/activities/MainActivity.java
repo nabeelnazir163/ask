@@ -546,7 +546,13 @@ public class MainActivity extends BaseActivity
             Intent appinfo_intent = new Intent (MainActivity.this , AppInfo.class);
             startActivity(appinfo_intent);
 
-        }
+        }/*else if( id == R.id.qibladirection){
+
+            mAuth.signOut();
+            startActivity(new Intent(MainActivity.this , RegisterActivity.class));
+            finish();
+
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

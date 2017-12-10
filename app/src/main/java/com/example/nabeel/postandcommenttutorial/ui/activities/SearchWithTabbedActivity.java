@@ -194,18 +194,13 @@ public class SearchWithTabbedActivity extends AppCompatActivity {
 
                 case 0:
 
-                    /*fragment_userSearch userSearch = new fragment_userSearch();
-                    FragmentManager manager = getSupportFragmentManager();
-                    manager.beginTransaction().replace(R.id.container_search, userSearch , userSearch.getTag()).commit();*/
+                    fragment_post_Search post_search = new fragment_post_Search();
+                    return post_search;
+
+                case 1:
 
                     fragment_userSearch userSearch = new fragment_userSearch();
                     return userSearch;
-                case 1:
-                    fragment_post_Search post_search = new fragment_post_Search();
-                    /*FragmentManager mana = getSupportFragmentManager();
-                    mana.beginTransaction().replace(R.id.container_search, post_search , post_search.getTag()).commit();*/
-
-                    return post_search;
             }
             return null;
 

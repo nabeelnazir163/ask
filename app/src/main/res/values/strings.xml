@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ASK ALIM</string>
+    <string name="app_name">Ask Aalim</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -11,7 +11,7 @@
     <string name="web_client_id">568222930825-pgnkmh9g26i0be0a7v5ba1305c2l9tnm.apps.googleusercontent.com</string>
 
 
-    <string name="title_activity_splash">ASK ALIM</string>
+    <string name="title_activity_splash">ASK AALIM</string>
 
     <string name="enter">Enter</string>
 
@@ -57,7 +57,7 @@
     <string name="urdu_choose_dp">اپنی پروفائل کیلئے تصویر منتخب کریں</string>
     <string name="urdu_male">مرد</string>
     <string name="urdu_female">عورت</string>
-    <string name="urdu_gender">جنس</string>
+    <string name="urdu_gender"> : جنس</string>
     <string name="urdu_city">شہر</string>
     <string name="urdu_state">علاقہ</string>
     <string name="urdu_cmplt_address">مکمل پتہ</string>
@@ -69,11 +69,13 @@
     <string name="urdu_select_country">اپنے ملک کا انتخاب کریں</string>
     <string name="urdu_eng">انگریزی</string>
     <string name="urdu_urdu">اردو</string>
+    <string name="emailvalidity_urdu">اگر آپ کے پاس درست ای میل نہیں ہے تو اسے خالی چھوڑ دیں</string>
     <string name="urdu_arabic">عربی</string>
     <string name="urdu_khuwab">خواب</string>
     <string name="urdu_istekhara">استخارہ</string>
     <string name="urdu_wazaif">وظاءف</string>
     <string name="urdu_finish">سیٹ اپ ختم کریں</string>
+    <string name="passwordhinturdu">پاس ورڈ کی لمبائی 6 حروف سے زیادہ ہونا چاہئے -</string>
 
     <string name="username">Username</string>
     <string name="eng_name">Name</string>
@@ -106,6 +108,8 @@
     <string name="comment">Comment</string>
     <string name="upvote">Upvote</string>
     <string name="Downvote">Downvote</string>
+    <string name="validEmailStatement">If you dont have valid email then leave it blank</string>
+    <string name="passwordLengthHint">- Password length should be greater than 6 characters</string>
 
     <string name="home">Home</string>
     <string name="Bookmark">Bookmark</string>
