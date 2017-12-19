@@ -36,6 +36,7 @@ import com.example.nabeel.postandcommenttutorial.models.Answer;
 import com.example.nabeel.postandcommenttutorial.models.Comment;
 import com.example.nabeel.postandcommenttutorial.models.Post;
 import com.example.nabeel.postandcommenttutorial.models.User;
+import com.example.nabeel.postandcommenttutorial.ui.activities.RegisterActivities.RegisterActivity;
 import com.example.nabeel.postandcommenttutorial.ui.fragments.homeFragment;
 import com.example.nabeel.postandcommenttutorial.utils.BaseActivity;
 import com.example.nabeel.postandcommenttutorial.utils.Constants;
@@ -43,6 +44,9 @@ import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
 import com.example.nabeel.postandcommenttutorial.utils.sendNotification;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -78,6 +82,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     LinearLayout answers_tv;
 
     TextView viewallanswers_tv;
+    TextView viewallComments_tv;
 
     CardView max_layout;
     CardView comment_cardview;
@@ -106,6 +111,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
+//        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
+
         if(getSupportActionBar() != null){
 
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -121,6 +128,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         tv_seenPost = (TextView) findViewById(R.id.tv_seen);
         mostLikedanswer_text_tv = (TextView) findViewById(R.id.tv_mostlikedanswer_text);
         viewallanswers_tv = (TextView) findViewById(R.id.viewallanswer);
+        viewallComments_tv = (TextView) findViewById(R.id.viewallcomments);
 
         max_layout =  (CardView)findViewById(R.id.answerlayoutpostactivity);
         comment_cardview = (CardView) findViewById(R.id.cardview_for_comment);
@@ -340,7 +348,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                 Comment.class,
                 R.layout.row_comment,
                 CommentHolder.class,
-                FirebaseUtils.getCommentRef(mPost.getPostId())) {
+                FirebaseUtils.getCommentRef(mPost.getPostId()).limitToLast(3)
+        ) {
             @Override
             protected void populateViewHolder(final CommentHolder viewHolder, final Comment model, int position) {
 
@@ -596,6 +605,17 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             postDisplayImageView.setImageBitmap(null);
             postDisplayImageView.setVisibility(View.GONE);
         }
+
+        viewallComments_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent answers_intent = new Intent(PostActivity.this , viewallComments.class);
+                answers_intent.putExtra(Constants.EXTRA_POST , mPost);
+                startActivity(answers_intent);
+
+            }
+        });
 
         viewallanswers_tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1216,4 +1236,16 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         });
     }*/
 
+    /*@Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(userType == 3){
+
+            mAuth.signOut();
+            startActivity(new Intent(PostActivity.this , RegisterActivity.class));
+            finish();
+
+        }
+    }*/
 }

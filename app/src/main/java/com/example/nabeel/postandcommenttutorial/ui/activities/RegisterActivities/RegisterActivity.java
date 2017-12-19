@@ -35,6 +35,8 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.share.Share;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -67,6 +69,8 @@ public class RegisterActivity extends BaseActivity{
     private CallbackManager callbackManager;
     private String email;
 
+//    AdView madView;
+
 //// ----
 
     int check_user_type_from_radio_btn;
@@ -78,6 +82,12 @@ public class RegisterActivity extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        //Displaying Ads
+
+//        madView = (AdView) findViewById(R.id.adView);
+//        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
+//        madView.loadAd(adRequest);
 
         //get fcm token here
         token = FirebaseInstanceId.getInstance().getToken();
@@ -156,8 +166,16 @@ public class RegisterActivity extends BaseActivity{
             @Override
             public void onClick(View view) {
 
-                startLogging();
+                if(!TextUtils.isEmpty(memailfield.getText().toString())
+                        && !TextUtils.isEmpty(mpasswordfield.getText().toString())){
 
+                        startLogging();
+
+                } else {
+
+                    Toast.makeText(RegisterActivity.this , "Empty Email or Password Field", Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
 
@@ -236,12 +254,21 @@ public class RegisterActivity extends BaseActivity{
     }
 
     public void signInAnonymously(){
+
+        final ProgressDialog progressDialog = new ProgressDialog(RegisterActivity.this);
+        progressDialog.setMessage("Logging-In as Guest");
+        progressDialog.setCancelable(true);
+        progressDialog.setIndeterminate(true);
+        progressDialog.show();
+
         mAuth = FirebaseAuth.getInstance();
         mAuth.signInAnonymously().addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     //Toast.makeText(getApplicationContext(),"SUCCESSFUL GUEST",Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     userType_sh_editor.putInt("UserType", 3);
@@ -305,11 +332,10 @@ public class RegisterActivity extends BaseActivity{
 
     private void CreateConfirmationDialog() {
         AlertDialog.Builder signup_altert_dlg = new AlertDialog.Builder(this);
-        signup_altert_dlg.setTitle("SignUp As ?");
-        signup_altert_dlg.setMessage("You Want to Signup as ?");
+        signup_altert_dlg.setTitle("Signup As :");
         signup_altert_dlg.setCancelable(true);
 
-        signup_altert_dlg.setPositiveButton("Alim", new DialogInterface.OnClickListener() {
+        signup_altert_dlg.setPositiveButton("Aalim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -565,10 +591,6 @@ public class RegisterActivity extends BaseActivity{
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        }else{
             final AlertDialog.Builder alert = new AlertDialog.Builder(RegisterActivity.this);
             alert.setTitle("ASK AALIM");
             alert.setMessage("Do you want exit?");
@@ -586,6 +608,6 @@ public class RegisterActivity extends BaseActivity{
                 }
             });
             alert.show();
-        }
+
     }
 }

@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import com.example.nabeel.postandcommenttutorial.NotificationReceiever.Notification_receiver_hadees;
 import com.example.nabeel.postandcommenttutorial.NotificationReceiever.Notification_receiver_hijriEvent;
@@ -18,6 +19,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.OkHttpDownloader;
+import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 
@@ -52,9 +55,19 @@ public class AskApplication extends Application {
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         }
 
+//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
+        /*Picasso.Builder builder = new Picasso.Builder(this);
+        builder.downloader(new OkHttpDownloader(this, Integer.MAX_VALUE));
+        Picasso built = builder.build();
+        built.setIndicatorsEnabled(false);
+        built.setLoggingEnabled(true);
+        Picasso.setSingletonInstance(built);*/
+
+
         mAuth = FirebaseAuth.getInstance();
 
-        hadeesPrefs = getSharedPreferences(HADEES_PREFS, 0);
+        /*hadeesPrefs = getSharedPreferences(HADEES_PREFS, 0);
         hadeesState = hadeesPrefs.getBoolean("hadees", false);
 
         calPrefs = getSharedPreferences(CAL_PREFS, 0);
@@ -64,7 +77,7 @@ public class AskApplication extends Application {
         prayertimeState = prayerTimePrefs.getBoolean("prayertime", false);
 
         unAnsweredQuestionPrefs = getSharedPreferences(UNANSWERED_QUES_PREFS, 0);
-        unAnsweredState = unAnsweredQuestionPrefs.getBoolean("unAnsweredQues", false);
+        unAnsweredState = unAnsweredQuestionPrefs.getBoolean("unAnsweredQues", false);*/
 
         /*if (hadeesState == true) {
 
@@ -131,30 +144,34 @@ public class AskApplication extends Application {
                 userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
                 userType_sh_editor = userType_sp.edit();
 
-                FirebaseUtils.getUserRef(currentemail).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                if(!TextUtils.isEmpty(currentemail)){
 
-                        String userType = dataSnapshot.child("userType").getValue().toString();
+                    FirebaseUtils.getUserRef(currentemail).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        if (userType.equals("Alim")) {
+                            String userType = dataSnapshot.child("userType").getValue().toString();
 
-                            userType_sh_editor.putInt("UserType", 1);
-                            userType_sh_editor.apply();
+                            if (userType.equals("Alim")) {
 
-                        } else if (userType.equals("User")) {
+                                userType_sh_editor.putInt("UserType", 1);
+                                userType_sh_editor.apply();
 
-                            userType_sh_editor.putInt("UserType", 2);
-                            userType_sh_editor.apply();
+                            } else if (userType.equals("User")) {
+
+                                userType_sh_editor.putInt("UserType", 2);
+                                userType_sh_editor.apply();
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
                         }
-                    }
+                    });
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+                }
             }
         }
     }

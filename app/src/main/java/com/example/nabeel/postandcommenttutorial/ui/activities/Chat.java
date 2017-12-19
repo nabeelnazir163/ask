@@ -377,4 +377,6 @@ public class Chat extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

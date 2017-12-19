@@ -1,6 +1,8 @@
 package com.example.nabeel.postandcommenttutorial.ui.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.Toast;
 
 import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.models.User;
+import com.example.nabeel.postandcommenttutorial.ui.activities.RegisterActivities.RegisterActivity;
+import com.example.nabeel.postandcommenttutorial.utils.BaseActivity;
 import com.example.nabeel.postandcommenttutorial.utils.UserListAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class viewallsearchesForUser extends AppCompatActivity {
+public class viewallsearchesForUser extends BaseActivity {
 
     private ListView mListview;
 
@@ -32,6 +36,8 @@ public class viewallsearchesForUser extends AppCompatActivity {
 
     String testtoSearch;
 
+    int userType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +45,10 @@ public class viewallsearchesForUser extends AppCompatActivity {
 
         mListview = (ListView) findViewById(R.id.listview_search_Activity_user_Forall);
         mUsersList = new ArrayList<>();
+
+        SharedPreferences userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
+
+        userType = userType_sp.getInt("UserType", 0);
 
         hideSoftkeyboard();
 
@@ -109,4 +119,17 @@ public class viewallsearchesForUser extends AppCompatActivity {
         }
 
     }
+
+   /* @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(userType == 3){
+
+            mAuth.signOut();
+            startActivity(new Intent(viewallsearchesForUser.this , RegisterActivity.class));
+            finish();
+
+        }
+    }*/
 }

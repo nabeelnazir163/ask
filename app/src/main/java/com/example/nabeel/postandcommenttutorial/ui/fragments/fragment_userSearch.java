@@ -56,6 +56,11 @@ public class fragment_userSearch extends Fragment {
 
         mListview = (ListView) mRootview.findViewById(R.id.listview_search_Activity_user);
 
+        mUsersList = new ArrayList<>();
+        mAdapter = new UserListAdapter(getContext() , R.layout.layout_user_listenitem, mUsersList);;
+
+        mAdapter.notifyDataSetChanged();
+
         hideSoftkeyboard();
         initTextListener();
 
@@ -75,8 +80,6 @@ public class fragment_userSearch extends Fragment {
 
     private void updateUsersListview(){
 
-        mAdapter = new UserListAdapter(getContext() , R.layout.layout_user_listenitem, mUsersList);
-
         mListview.setAdapter(mAdapter);
 
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -94,7 +97,7 @@ public class fragment_userSearch extends Fragment {
 
     private void initTextListener(){
 
-        mUsersList = new ArrayList<>();
+
 
         SearchWithTabbedActivity.mSearchParams.addTextChangedListener(new TextWatcher() {
             @Override

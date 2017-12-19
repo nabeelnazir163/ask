@@ -44,7 +44,10 @@ import com.example.nabeel.postandcommenttutorial.ui.fragments.homeFragment;
 import com.example.nabeel.postandcommenttutorial.ui.fragments.unAnsweredFragment;
 import com.example.nabeel.postandcommenttutorial.utils.BaseActivity;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -532,9 +535,9 @@ public class MainActivity extends BaseActivity
 
         } else if( id == R.id.logout){
 
-            mAuth.signOut();
-            startActivity(new Intent(MainActivity.this , RegisterActivity.class));
-            finish();
+                mAuth.signOut();
+                startActivity(new Intent(MainActivity.this , RegisterActivity.class));
+                finish();
 
         } else if ( id == R.id.prayertime){
 
@@ -546,13 +549,12 @@ public class MainActivity extends BaseActivity
             Intent appinfo_intent = new Intent (MainActivity.this , AppInfo.class);
             startActivity(appinfo_intent);
 
-        }/*else if( id == R.id.qibladirection){
-
-            mAuth.signOut();
-            startActivity(new Intent(MainActivity.this , RegisterActivity.class));
-            finish();
-
-        }*/
+//        }else if( id == R.id.qibladirection){
+//
+////            mAuth.signOut();
+//            startActivity(new Intent(MainActivity.this , QiblaDirection.class));
+//
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -571,6 +573,8 @@ public class MainActivity extends BaseActivity
     }
 
 
+
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -578,23 +582,38 @@ public class MainActivity extends BaseActivity
             mAuth.removeAuthStateListener(mAuthStateListener);
         if (mUserRef != null)
             mUserRef.removeEventListener(mUserValueEventListener);
+
+        /*if(userType == 3){
+
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+
+                    if(task.isSuccessful()){
+
+                        mAuth.signOut();
+                        startActivity(new Intent(MainActivity.this , RegisterActivity.class));
+                        finish();
+
+                    }
+
+                }
+            });
+
+        }*/
     }
 
+    /*@Override
+    protected void onDestroy() {
+        super.onDestroy();
 
-    /*public void setRole(){
+        if(userType == 3){
 
-        // get value from sharedprefrence
+            mAuth.signOut();
 
-
-        // if value is 2
-
-        // get id of any view and hide it
-
-
-
+        }
 
     }*/
-
-
 
 }

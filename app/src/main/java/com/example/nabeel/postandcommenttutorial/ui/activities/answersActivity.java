@@ -1,8 +1,11 @@
 package com.example.nabeel.postandcommenttutorial.ui.activities;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -34,7 +37,9 @@ import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.models.Answer;
 import com.example.nabeel.postandcommenttutorial.models.Post;
 import com.example.nabeel.postandcommenttutorial.models.User;
+import com.example.nabeel.postandcommenttutorial.ui.activities.RegisterActivities.RegisterActivity;
 import com.example.nabeel.postandcommenttutorial.ui.fragments.homeFragment;
+import com.example.nabeel.postandcommenttutorial.utils.BaseActivity;
 import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
 import com.example.nabeel.postandcommenttutorial.utils.sendNotification;
@@ -59,12 +64,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
-public class answersActivity extends AppCompatActivity{
+public class answersActivity extends BaseActivity{
 
     String FCM_token,Current_UserName;
     Post mPost;
     TextView question_tv;
     RelativeLayout readmore;
+    int userType;
 
 //    Answer mAnswer;
 //    String email;
@@ -106,21 +112,14 @@ public class answersActivity extends AppCompatActivity{
         question_tv = (TextView) findViewById(R.id.questiontext_answeractivity);
         question_tv.setMaxLines(Integer.MAX_VALUE);
 
-//        audiotv = (TextView) findViewById(R.id.audiotxt);
-//
-//        mAnswerEditTextView = (EditText) findViewById(R.id.et_answer);
-//
-//        mStorage = FirebaseStorage.getInstance().getReference();
-
-//        findViewById(R.id.iv_send_answer).setOnClickListener(this);
-//        findViewById(R.id.activity_post_mic).setOnClickListener(this);
-
         Intent intent = getIntent();
         mPost = (Post) intent.getSerializableExtra(Constants.EXTRA_POST);
 
 
         question_tv.setText(mPost.getPostText());
 
+        SharedPreferences userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
+        userType = userType_sp.getInt("UserType", 0);
         init();
     }
 
@@ -256,7 +255,19 @@ public class answersActivity extends AppCompatActivity{
                    @Override
                    public void onClick(View view) {
 
-                       LikeAnswer(model.getanswerId(), mPost.getPostId(), viewHolder);
+                       if(userType != 3){
+
+                           LikeAnswer(model.getanswerId(), mPost.getPostId(), viewHolder);
+
+                       } else if ( userType == 3 ){
+
+                           final AlertDialog.Builder alert = new AlertDialog.Builder(answersActivity.this);
+                           alert.setTitle("ALERT");
+                           alert.setMessage("You cannot like the answer, you have to login first");
+
+                           alert.show();
+
+                       }
 
                    }
                });
@@ -954,4 +965,17 @@ public class answersActivity extends AppCompatActivity{
 
         return super.onOptionsItemSelected(item);
     }
+
+    /*@Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(userType == 3){
+
+            mAuth.signOut();
+            startActivity(new Intent(answersActivity.this , RegisterActivity.class));
+            finish();
+
+        }
+    }*/
 }

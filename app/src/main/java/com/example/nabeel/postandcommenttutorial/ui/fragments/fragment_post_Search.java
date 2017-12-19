@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -60,6 +61,13 @@ public class fragment_post_Search extends Fragment {
 
 //        mSearchParams = (EditText) mRootview.findViewById(R.id.search);
 //        backbutton = (ImageView) mRootview.findViewById(R.id.back_button);
+
+        mUsersList = new ArrayList<>();
+
+        mAdapter = new PostListadapter(getContext() , R.layout.layout_post_listenitem, mUsersList);
+
+        mAdapter.notifyDataSetChanged();
+
         mListview = (ListView) mRootview.findViewById(R.id.listview_search_Activity_post);
 
         hideSoftkeyboard();
@@ -80,8 +88,6 @@ public class fragment_post_Search extends Fragment {
 
     private void initTextListener(){
 
-        mUsersList = new ArrayList<>();
-
         SearchWithTabbedActivity.mSearchParams.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -92,8 +98,12 @@ public class fragment_post_Search extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
                 SearchWithTabbedActivity.backbutton.setVisibility(View.VISIBLE);
-                String text = SearchWithTabbedActivity.mSearchParams.getText().toString().trim().toLowerCase();
-                searchforMatch(text);
+                String text = SearchWithTabbedActivity.mSearchParams.getText().toString();
+
+                if(!TextUtils.isEmpty(text)){
+
+                    searchforMatch(text);
+                }
 
             }
 
@@ -117,7 +127,7 @@ public class fragment_post_Search extends Fragment {
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
-            Query query = reference.child("posts").orderByChild("postText").startAt(keyword).endAt(keyword + "\uf8ff").limitToFirst(5);
+            Query query = reference.child("posts").orderByChild("numSeen").startAt(keyword).endAt(keyword + "\uf8ff").limitToLast(5);
 
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -144,7 +154,6 @@ public class fragment_post_Search extends Fragment {
                     if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                             (keyCode == KeyEvent.KEYCODE_ENTER)) {
                         // Perform action on key press
-//                    Toast.makeText(getContext(), SearchWithTabbedActivity.mSearchParams.getText(), Toast.LENGTH_SHORT).show();
 
                         Intent alluserSearchIntent = new Intent(getContext(), viewallPosts.class);
                         alluserSearchIntent.putExtra("textTomatch" , SearchWithTabbedActivity.mSearchParams.getText().toString().trim().toLowerCase() );
@@ -162,8 +171,6 @@ public class fragment_post_Search extends Fragment {
 
     private void updateUsersListview(final Post model){
 
-        mAdapter = new PostListadapter(getContext() , R.layout.layout_post_listenitem, mUsersList);
-
         mListview.setAdapter(mAdapter);
 
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -178,4 +185,6 @@ public class fragment_post_Search extends Fragment {
         });
 
     }
+
+
 }

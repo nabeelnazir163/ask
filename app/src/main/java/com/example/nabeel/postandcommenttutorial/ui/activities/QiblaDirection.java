@@ -1,6 +1,9 @@
 package com.example.nabeel.postandcommenttutorial.ui.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -8,12 +11,15 @@ import android.hardware.SensorManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.nabeel.postandcommenttutorial.R;
+import com.example.nabeel.postandcommenttutorial.ui.activities.RegisterActivities.RegisterActivity;
+import com.example.nabeel.postandcommenttutorial.utils.BaseActivity;
 
-public class QiblaDirection extends AppCompatActivity implements SensorEventListener {
+public class QiblaDirection extends BaseActivity implements SensorEventListener {
 
     ImageView compass_img;
     TextView txt_compass;
@@ -27,11 +33,22 @@ public class QiblaDirection extends AppCompatActivity implements SensorEventList
     private float[] mLastMagnetometer = new float[3];
     private boolean mLastAccelerometerSet = false;
     private boolean mLastMagnetometerSet = false;
+    int userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qibla_direction);
+
+        if(getSupportActionBar() != null){
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        }
+
+        SharedPreferences userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
+        userType = userType_sp.getInt("UserType", 0);
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         compass_img = (ImageView) findViewById(R.id.img_compass);
@@ -142,5 +159,28 @@ public class QiblaDirection extends AppCompatActivity implements SensorEventList
         super.onResume();
         start();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == android.R.id.home)
+
+            finish();
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /*@Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(userType == 3){
+
+            mAuth.signOut();
+            startActivity(new Intent(QiblaDirection.this , RegisterActivity.class));
+            finish();
+
+        }
+    }*/
 
 }

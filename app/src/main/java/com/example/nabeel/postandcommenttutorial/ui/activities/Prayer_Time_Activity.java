@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -25,6 +26,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import android.Manifest;
+
+import com.example.nabeel.postandcommenttutorial.ui.activities.RegisterActivities.RegisterActivity;
+import com.example.nabeel.postandcommenttutorial.utils.BaseActivity;
 import com.example.nabeel.postandcommenttutorial.utils.PrayTime;
 import com.example.nabeel.postandcommenttutorial.R;
 import com.google.android.gms.common.ConnectionResult;
@@ -35,7 +39,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 
-public class Prayer_Time_Activity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
     /**
@@ -66,6 +70,8 @@ public class Prayer_Time_Activity extends AppCompatActivity implements GoogleApi
     private TextView partitionLine;
     double latitude;
     double longitude;
+
+    int userType;
 //    Button mGetTime;
 
     //    private Button mGetTime;
@@ -75,6 +81,9 @@ public class Prayer_Time_Activity extends AppCompatActivity implements GoogleApi
         setContentView(R.layout.activity_prayer__time_);
 
 //        mGetTime = (Button) findViewById(R.id.gettimebtn);
+
+        SharedPreferences userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
+        userType = userType_sp.getInt("UserType", 0);
 
         if(getSupportActionBar() != null){
 
@@ -412,4 +421,18 @@ public class Prayer_Time_Activity extends AppCompatActivity implements GoogleApi
 
         mGetTime.setVisibility(View.GONE);
     }*/
+
+    /*@Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(userType == 3){
+
+            mAuth.signOut();
+            startActivity(new Intent(Prayer_Time_Activity.this , RegisterActivity.class));
+            finish();
+
+        }
+    }*/
+
 }

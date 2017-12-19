@@ -14,6 +14,7 @@ public class Constants {
     public static final String POST_IMAGES = "post_images";
     public static final String ANSWER_IMAGES = "answer_images";
     public static final String MY_POSTS = "my_posts";
+    public static final String MY_ANSWERS = "my_answers";
     public static final String EXTRA_POST = "post";
     //public static final String EXTRA_COMMENT = "comment";
     public static final String EXTRA_REPLY = "reply";

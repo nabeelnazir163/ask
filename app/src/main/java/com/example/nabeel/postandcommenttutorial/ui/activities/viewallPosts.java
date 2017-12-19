@@ -1,6 +1,8 @@
 package com.example.nabeel.postandcommenttutorial.ui.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +12,9 @@ import android.widget.ListView;
 
 import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.models.Post;
+import com.example.nabeel.postandcommenttutorial.ui.activities.RegisterActivities.RegisterActivity;
 import com.example.nabeel.postandcommenttutorial.ui.adapter.PostListadapter;
+import com.example.nabeel.postandcommenttutorial.utils.BaseActivity;
 import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class viewallPosts extends AppCompatActivity {
+public class viewallPosts extends BaseActivity {
 
     private ListView mListview;
 
@@ -31,6 +35,8 @@ public class viewallPosts extends AppCompatActivity {
 
     String textToSearch;
 
+    int userType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +44,10 @@ public class viewallPosts extends AppCompatActivity {
 
         mListview = (ListView) findViewById(R.id.listview_search_Activity_post_allPosts);
         mUsersList = new ArrayList<>();
+
+        SharedPreferences userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
+
+        userType = userType_sp.getInt("UserType", 0);
 
         textToSearch = getIntent().getExtras().getString("textTomatch").toString();
 
@@ -107,5 +117,18 @@ public class viewallPosts extends AppCompatActivity {
         });
 
     }
+
+    /*@Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(userType == 3){
+
+            mAuth.signOut();
+            startActivity(new Intent(viewallPosts.this , RegisterActivity.class));
+            finish();
+
+        }
+    }*/
 
 }

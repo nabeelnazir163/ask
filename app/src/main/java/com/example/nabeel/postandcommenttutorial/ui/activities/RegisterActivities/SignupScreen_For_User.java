@@ -48,6 +48,7 @@ public class SignupScreen_For_User extends BaseActivity {
     private EditText mSignupCityUser;
     private EditText mSignupAdressUser;
     private EditText mSignupUsernameUser;
+    private EditText mConfirmEmailField;
 
     private Button mSignupSubBtnUser;
 
@@ -58,6 +59,7 @@ public class SignupScreen_For_User extends BaseActivity {
     String select_gender_user;
     String mCon_pass_user;
     String mUsername_User;
+    String CEmail;
 
     private Spinner mFiqah_spinner_user;
     private Spinner mCountry_user_spinner;
@@ -87,6 +89,7 @@ public class SignupScreen_For_User extends BaseActivity {
 
         mSignupNameUser = (EditText) findViewById(R.id.Signup_user_namefield);
         mSignupEmailUser = (EditText) findViewById(R.id.Signup_user_emailfield);
+        mConfirmEmailField = (EditText) findViewById(R.id.Signup_user_emailfield_confirm);
         mSignuppassUser = (EditText) findViewById(R.id.Signup_user_passwordfield);
         mSignupConf_passUser = (EditText) findViewById(R.id.Signup_user_Confirmpasswordfield);
         mSignupPhoneUser = (EditText) findViewById(R.id.Signup_user_PhoneField);
@@ -161,6 +164,7 @@ public class SignupScreen_For_User extends BaseActivity {
                 mCon_pass_user = mSignupConf_passUser.getText().toString();
                 phonenumberUser = mSignupPhoneUser.getText().toString();
                 mUsername_User = mSignupUsernameUser.getText().toString();
+                CEmail = mConfirmEmailField.getText().toString();
 
 
                 if(!TextUtils.isEmpty(mNameFieldUser) &&
@@ -170,6 +174,8 @@ public class SignupScreen_For_User extends BaseActivity {
                                     !TextUtils.isEmpty(phonenumberUser) &&
                                         !TextUtils.isEmpty(select_gender_user)){
 
+
+                    if(mEmailFieldUser.equals(CEmail)){
 
                     if(mPassFieldUser.equals(mCon_pass_user)){
 
@@ -206,6 +212,11 @@ public class SignupScreen_For_User extends BaseActivity {
                     }
 
                 } else {
+
+                    Toast.makeText(getApplicationContext(),"Email fields Doesn't Match", Toast.LENGTH_LONG).show();
+
+                }
+                }else {
 
                     Toast.makeText(getApplicationContext(),"Missing Some Required Fields", Toast.LENGTH_LONG).show();
 

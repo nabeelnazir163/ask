@@ -132,7 +132,8 @@
         <activity android:name=".ui.activities.search_user_for_newMessage" />
         <activity android:name=".ui.activities.QiblaDirection" />
         <activity android:name=".ui.activities.viewallsearchesForUser" />
-        <activity android:name=".ui.activities.viewallPosts"></activity>
+        <activity android:name=".ui.activities.viewallPosts" />
+        <activity android:name=".ui.activities.viewallComments"></activity>
     </application>
 
 </manifest>

@@ -23,8 +23,8 @@
 
             <ImageView
                 android:id="@+id/post_Answer_cross_iv"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@android:drawable/ic_menu_close_clear_cancel"
                 android:padding="5dp"
                 />
@@ -47,6 +47,7 @@
                 android:text="Submit"
                 android:gravity="right"
                 android:padding="5dp"
+                android:textSize="18sp"
                 />
 
         </LinearLayout>

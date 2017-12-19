@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,7 +35,9 @@ import com.example.nabeel.postandcommenttutorial.ui.fragments.homeFragment;
 import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
 import com.example.nabeel.postandcommenttutorial.utils.sendNotification;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -492,6 +495,14 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                 .child(mPost.getPostId())
                 .child(uid)
                 .setValue(mAnswer);
+
+        FirebaseUtils.getMyAnsRef().child(mPost.getPostId()).setValue(true)
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        finish();
+                    }
+                });
 
         FirebaseUtils.getPostRef().child(mPost.getPostId())
                 .child(Constants.NUM_ANSWWERS_KEY)

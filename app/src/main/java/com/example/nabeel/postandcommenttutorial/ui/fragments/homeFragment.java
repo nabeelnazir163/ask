@@ -1,7 +1,9 @@
 package com.example.nabeel.postandcommenttutorial.ui.fragments;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +40,10 @@ import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,6 +57,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.onesignal.OneSignal;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,6 +82,9 @@ public class homeFragment extends Fragment {
     static String Loggedin_user_email;
     public static String login_user_name;
     private SwipeRefreshLayout mSwipeRef_home;
+    FloatingActionButton fab;
+    SharedPreferences userType_sp;
+    private int userType;
 
     public homeFragment() {
         // Required empty public constructor
@@ -85,6 +98,11 @@ public class homeFragment extends Fragment {
         mRootVIew = inflater.inflate(R.layout.fragment_home, container, false);
         mAuth = FirebaseAuth.getInstance();
 
+        FirebaseUtils.getPostRef().keepSynced(true);
+
+        userType_sp = getActivity().getSharedPreferences("UserType", Context.MODE_PRIVATE);
+
+        userType = userType_sp.getInt("UserType", 0);
 
         m_current_user_display_image = (ImageView)mRootVIew.findViewById(R.id.current_user_display_image);
         m_current_user_display_name = (TextView) mRootVIew.findViewById(R.id.current_user_display_name);
@@ -122,17 +140,21 @@ public class homeFragment extends Fragment {
             Loggedin_user_email = mAuth.getCurrentUser().getEmail();
             OneSignal.sendTag("User_ID", Loggedin_user_email);
 
-            FirebaseUtils.getUserRef(Loggedin_user_email.replace(".",",")).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    login_user_name = dataSnapshot.child("name").getValue().toString();
-                }
+           if(userType != 3){
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+               FirebaseUtils.getUserRef(Loggedin_user_email.replace(".",",")).addValueEventListener(new ValueEventListener() {
+                   @Override
+                   public void onDataChange(DataSnapshot dataSnapshot) {
+                       login_user_name = dataSnapshot.child("name").getValue().toString();
+                   }
 
-                }
-            });
+                   @Override
+                   public void onCancelled(DatabaseError databaseError) {
+
+                   }
+               });
+
+           }
 
             FirebaseUtils.getPostRef().keepSynced(true);
 
@@ -172,7 +194,14 @@ public class homeFragment extends Fragment {
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) mRootVIew.findViewById(R.id.fab);
+        fab = (FloatingActionButton) mRootVIew.findViewById(R.id.fab);
+
+        if(userType == 3){
+
+            fab.setVisibility(View.GONE);
+
+        }
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -247,9 +276,7 @@ public class homeFragment extends Fragment {
 
                 final String post_key = getRef(position).getKey();
 
-                SharedPreferences userType_sp = getActivity().getSharedPreferences("UserType", Context.MODE_PRIVATE);
 
-                final int userType = userType_sp.getInt("UserType", 0);
 
                 if(userType != 3) {
 
@@ -292,7 +319,18 @@ public class homeFragment extends Fragment {
                     viewHolder.after_bookmark_iv.setVisibility(View.GONE);
                     viewHolder.menu_imageview.setVisibility(View.GONE);
                     viewHolder.newanswers.setVisibility(View.GONE);
-                    mAsk_Ques.setVisibility(View.GONE);
+                    mAsk_Ques.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                            alert.setTitle("ALERT");
+                            alert.setMessage("You cannot Post New Question, you have to login first for posting new question");
+
+                            alert.show();
+
+                        }
+                    });
                 }
 
                 viewHolder.setNumCOmments(String.valueOf(model.getNumComments()));
@@ -337,10 +375,24 @@ public class homeFragment extends Fragment {
                     viewHolder.postDisplayImageVIew.setVisibility(View.VISIBLE);
                     StorageReference storageReference = FirebaseStorage.getInstance()
                             .getReference(model.getPostImageUrl());
-                    Glide.with(getActivity())
+                    /*Glide.with(getActivity())
                             .using(new FirebaseImageLoader())
                             .load(storageReference)
-                            .into(viewHolder.postDisplayImageVIew);
+                            .into(viewHolder.postDisplayImageVIew);*/
+
+                    Picasso.with(getContext()).load(model.getPostImageUrl()).networkPolicy(NetworkPolicy.OFFLINE).into(viewHolder.postDisplayImageVIew, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+
+                            Picasso.with(getContext()).load(model.getPostImageUrl()).into(viewHolder.postDisplayImageVIew);
+
+                        }
+                    });
                 } else {
                     viewHolder.postDisplayImageVIew.setImageBitmap(null);
                     viewHolder.postDisplayImageVIew.setVisibility(View.GONE);
@@ -799,4 +851,15 @@ public class homeFragment extends Fragment {
 
     }
 
+    /*@Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if(userType == 3){
+
+            mAuth.signOut();
+
+        }
+
+    }*/
 }

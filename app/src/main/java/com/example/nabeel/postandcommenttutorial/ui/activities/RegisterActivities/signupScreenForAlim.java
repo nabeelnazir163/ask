@@ -60,6 +60,7 @@ public class signupScreenForAlim extends BaseActivity {
     private EditText mSignupAddressAlim;
     private EditText mSignupQualificationAlim;
     private EditText mSignupUsernameAlim;
+    private EditText mConfirmEmailAlim;
 
     private TextView mChosePP_Tv;
     private TextView mGender_tv;
@@ -101,6 +102,7 @@ public class signupScreenForAlim extends BaseActivity {
     String select_gender_alim;
     String mCon_pass_Alim;
     String mUsernameAlim;
+    String mConfirmEmail;
 
     private TextView mEmailValidation;
 
@@ -126,6 +128,7 @@ public class signupScreenForAlim extends BaseActivity {
 
         mSignupNameAlim = (EditText) findViewById(R.id.Signup_Alim_namefield);
         mSignupEmailAlim = (EditText) findViewById(R.id.Signup_Alim_emailfield);
+        mConfirmEmailAlim = (EditText) findViewById(R.id.Signup_Alim_emailfield_Confirm);
         mSignupPassAlim = (EditText) findViewById(R.id.Aignup_Alim_passwordfield);
         mSignupC_PassAlim = (EditText) findViewById(R.id.Signup_alim_Confirmpasswordfield);
         mSignupPhoneAlim = (EditText) findViewById(R.id.Signup_alim_PhoneField);
@@ -235,37 +238,39 @@ public class signupScreenForAlim extends BaseActivity {
                 mCon_pass_Alim = mSignupC_PassAlim.getText().toString();
                 phonenumberAlim = mSignupPhoneAlim.getText().toString();
                 mUsernameAlim = mSignupUsernameAlim.getText().toString();
+                mConfirmEmail = mConfirmEmailAlim.getText().toString();
 
-                if(!TextUtils.isEmpty(mNameFieldAlim) &&
+                if (!TextUtils.isEmpty(mNameFieldAlim) &&
 //                        !TextUtils.isEmpty(mEmailFieldAlim)&&
                             !TextUtils.isEmpty(mPassFieldAlim) &&
                                 !TextUtils.isEmpty(mCon_pass_Alim) &&
                                     !TextUtils.isEmpty(phonenumberAlim) &&
-                                        !TextUtils.isEmpty(select_gender_alim)){
+                                        !TextUtils.isEmpty(select_gender_alim)) {
 
+                    if(mEmailFieldAlim.equals(mConfirmEmail)){
 
-                    if(mPassFieldAlim.equals(mCon_pass_Alim)){
+                        if (mPassFieldAlim.equals(mCon_pass_Alim)) {
 
-                        if(mPassFieldAlim.length() > 6){
+                            if (mPassFieldAlim.length() > 6) {
 
-                                if(!TextUtils.isEmpty(mEmailFieldAlim)) {
+                                if (!TextUtils.isEmpty(mEmailFieldAlim)) {
 
-                                    if(isValidEmail(mEmailFieldAlim)){
+                                    if (isValidEmail(mEmailFieldAlim)) {
 
                                         StartRegistering();
                                     } else {
 
-                                        Toast.makeText(getApplicationContext() , "Enter Valid Email Address" , Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Enter Valid Email Address", Toast.LENGTH_SHORT).show();
 
                                     }
 
 
-                                } else if (TextUtils.isEmpty(mEmailFieldAlim)){
+                                } else if (TextUtils.isEmpty(mEmailFieldAlim)) {
 
-                                    mEmailFieldAlim = mUsernameAlim.toLowerCase().trim() + "@askalim.com";
+                                mEmailFieldAlim = mUsernameAlim.toLowerCase().trim() + "@askalim.com";
 
-                                    StartRegistering();
-                                }
+                                StartRegistering();
+                            }
 
                         } else {
 
@@ -273,13 +278,18 @@ public class signupScreenForAlim extends BaseActivity {
 
                         }
 
-                    }else {
+                    } else {
 
                         Toast.makeText(getApplicationContext(), "Password and ConfirmPassword Fields doesn't match", Toast.LENGTH_LONG).show();
 
                     }
 
                 } else {
+
+                    Toast.makeText(getApplicationContext(),"Email fields Doesn't Match", Toast.LENGTH_LONG).show();
+                }
+
+            }else {
 
                     Toast.makeText(getApplicationContext(),"Some Required Fields are empty" , Toast.LENGTH_LONG).show();
 
@@ -691,7 +701,7 @@ public class signupScreenForAlim extends BaseActivity {
 
     }
 
-    @Override
+    /*@Override
     protected void onResume() {
         super.onResume();
         LoginManager.getInstance().logOut();
@@ -701,5 +711,5 @@ public class signupScreenForAlim extends BaseActivity {
     protected void onStop() {
         super.onStop();
         LoginManager.getInstance().logOut();
-    }
+    }*/
 }

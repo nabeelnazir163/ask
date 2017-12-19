@@ -107,6 +107,17 @@ public class FirebaseUtils {
 
     }
 
+    public static DatabaseReference getMyAnsRef(){
+        return FirebaseDatabase.getInstance().getReference(Constants.MY_ANSWERS)
+                .child(getCurrentUser().getEmail().replace(".",","));
+    }
+
+    public static DatabaseReference getmyanswerReference(){
+
+        return FirebaseDatabase.getInstance().getReference(Constants.MY_ANSWERS );
+
+    }
+
     public static DatabaseReference getCommentRef(String postId){
         return FirebaseDatabase.getInstance().getReference(Constants.COMMENTS_KEY)
                 .child(postId);
