@@ -68,7 +68,7 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
     SeekBar seekBar;
 
-    private Button Start, Stop, Play, Ok, cancel;
+    private ImageView Start, Stop, Play, Ok, cancel;
 
     private String OutPutFile;
 
@@ -109,6 +109,12 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_post_new_answer);
 
         ActionBar actionBar = getSupportActionBar();
+
+        handler = new Handler();
+
+        //MediaPlayer mediaPlayer = MediaPlayer.create()
+
+        mediaPlayer = new MediaPlayer();
 
         if(actionBar != null){
 
@@ -219,14 +225,17 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
         seekBar.setVisibility(View.VISIBLE);
         audiobtnLayout.setVisibility(View.VISIBLE);
 
-        Play = (Button)findViewById(R.id.post_answer_play);
-        Stop = (Button)findViewById(R.id.post_answer_stop);
-        Start = (Button)findViewById(R.id.post_answer_record);
-        Ok = (Button) findViewById(R.id.post_answer_okay);
-        cancel = (Button) findViewById(R.id.post_answer_cancel);
+        Play = (ImageView)findViewById(R.id.post_answer_play);
+        Stop = (ImageView)findViewById(R.id.post_answer_stop);
+        Start = (ImageView)findViewById(R.id.post_answer_record);
+        Ok = (ImageView) findViewById(R.id.post_answer_okay);
+        cancel = (ImageView) findViewById(R.id.post_answer_cancel);
 
-        Stop.setEnabled(false);
-        Play.setEnabled(false);
+        /*Stop.setEnabled(false);
+        Play.setEnabled(false);*/
+        Stop.setVisibility(View.GONE);
+        Play.setVisibility(View.GONE);
+        Ok.setVisibility(View.GONE);
 
         OutPutFile = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/recording.3gp";
 
@@ -259,10 +268,15 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                 } catch (Exception e){
                     e.printStackTrace();
                 }
-                Start.setEnabled(false);
+                /*Start.setEnabled(false);
                 Stop.setEnabled(true);
                 Ok.setEnabled(false);
-                cancel.setEnabled(false);
+                cancel.setEnabled(false);*/
+
+                Start.setVisibility(View.GONE);
+                Stop.setVisibility(View.VISIBLE);
+                Ok.setVisibility(View.GONE);
+                cancel.setVisibility(View.GONE);
 
                 Toast.makeText(getApplicationContext(), "Recording Started", Toast.LENGTH_SHORT).show();
             }
@@ -276,11 +290,18 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                 myAudioRecorder.release();
                 myAudioRecorder = null;
 
-                Start.setEnabled(true);
+                /*Start.setEnabled(true);
                 Stop.setEnabled(false);
                 Play.setEnabled(true);
                 Ok.setEnabled(false);
-                cancel.setEnabled(false);
+                cancel.setEnabled(false);*/
+
+                Start.setVisibility(View.VISIBLE);
+                Stop.setVisibility(View.GONE);
+                Play.setVisibility(View.VISIBLE);
+                Ok.setVisibility(View.GONE);
+                cancel.setVisibility(View.GONE);
+                Ok.setVisibility(View.VISIBLE);
 
                 Toast.makeText(getApplicationContext(), "Recording Finished", Toast.LENGTH_SHORT).show();
             }
@@ -290,8 +311,10 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View view) {
 
-                Ok.setEnabled(true);
-                cancel.setEnabled(true);
+                /*Ok.setEnabled(true);
+                cancel.setEnabled(true);*/
+
+                cancel.setVisibility(View.VISIBLE);
 
                 handler = new Handler();
 
@@ -352,7 +375,12 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View view) {
 
-                mediaPlayer.stop();
+                if(mediaPlayer.isPlaying()){
+
+                    mediaPlayer.stop();
+
+                }
+
                 audiobtnLayout.setVisibility(View.GONE);
                 seekBar.setVisibility(View.GONE);
 

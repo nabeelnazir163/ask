@@ -147,82 +147,82 @@
             android:layout_above="@+id/select_image_mic_layout"
             >
 
-            <Button
+            <!--<Button
                 android:id="@+id/post_answer_record"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="Record" />
+                android:text="Record" />-->
 
-            <!--<ImageButton
+            <ImageView
                 android:id="@+id/post_answer_record"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/voice_recorder"
                 android:layout_gravity="center"
                 android:layout_weight="0.2"
-                android:text="Record" />-->
+                android:text="Record" />
 
-            <Button
+            <!--<Button
                 android:id="@+id/post_answer_stop"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:text="Stop" />
+                android:text="Stop" />-->
 
-            <!--<ImageButton
+            <ImageView
                 android:id="@+id/post_answer_stop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="0.2"
                 android:src="@drawable/stop_record"
-                android:text="Stop" />-->
+                android:text="Stop" />
 
-            <Button
+            <!--<Button
                 android:id="@+id/post_answer_play"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:text="Play" />
+                android:text="Play" />-->
 
-            <!--<ImageButton
+            <ImageView
                 android:id="@+id/post_answer_play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
                 android:layout_gravity="center"
                 android:src="@drawable/play_audio"
-                android:text="Play" />-->
+                android:text="Play" />
 
-            <Button
+            <!--<Button
                 android:id="@+id/post_answer_okay"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="Ok" />
+                android:text="Ok" />-->
 
-            <!--<ImageButton
+            <ImageView
                 android:id="@+id/post_answer_okay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
                 android:layout_gravity="center"
                 android:src="@drawable/done_record"
-                android:text="Ok" />-->
+                android:text="Ok" />
 
-            <Button
+            <!--<Button
                 android:id="@+id/post_answer_cancel"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="Cancel" />
+                android:text="Cancel" />-->
 
-            <!--<ImageButton
+            <ImageView
                 android:id="@+id/post_answer_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
                 android:layout_gravity="center"
                 android:src="@drawable/cancel_record"
-                android:text="Cancel" />-->
+                android:text="Cancel" />
 
         </LinearLayout>
 

@@ -356,7 +356,7 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
 //                    + prayerTimes.get(i));
 
                 txtPrayerNames.append("\n" +prayerNames.get(i) + "\n" );
-                partitionLine.append("\n" + "_________" + "\n");
+//                partitionLine.append("\n" + "_________" + "\n");
                 txtPrayerTimes.append("\n" +prayerTimes.get(i) + "\n" );
 
             }

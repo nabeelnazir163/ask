@@ -779,7 +779,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
-
     }
 
     @Override

@@ -147,25 +147,19 @@ public class MainActivity extends BaseActivity
 
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        viewPagerAdapter.addFragments(new homeFragment(), "home");
-
-
+        viewPagerAdapter.addFragments(new homeFragment(), "Home");
 
         if(userType == 1) {
-            viewPagerAdapter.addFragments(new bookmarkFragment(), "Bookmark");
-            viewPagerAdapter.addFragments(new unAnsweredFragment(), "Unanswer");
-            viewPagerAdapter.addFragments(new Followers(), "Follower");
+            viewPagerAdapter.addFragments(new bookmarkFragment(), "Bookmarks");
+            viewPagerAdapter.addFragments(new unAnsweredFragment(), "Unanswered");
+            viewPagerAdapter.addFragments(new Followers(), "Following");
         }
 
         if(userType == 2) {
-            viewPagerAdapter.addFragments(new bookmarkFragment(), "Bookmark");
+            viewPagerAdapter.addFragments(new bookmarkFragment(), "Bookmarks");
            // viewPagerAdapter.addFragments(new NotificationFrag(), "Notification");
-            viewPagerAdapter.addFragments(new Followers(), "Follower");
+            viewPagerAdapter.addFragments(new Followers(), "Following");
         }
-
-
-
-
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
@@ -535,9 +529,25 @@ public class MainActivity extends BaseActivity
 
         } else if( id == R.id.logout){
 
+            if(userType != 3){
                 mAuth.signOut();
                 startActivity(new Intent(MainActivity.this , RegisterActivity.class));
                 finish();
+            }else if(userType == 3){
+
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            startActivity(new Intent(MainActivity.this , RegisterActivity.class));
+                            finish();
+                        }
+                    }
+                });
+
+            }
+
 
         } else if ( id == R.id.prayertime){
 

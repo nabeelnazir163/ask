@@ -126,7 +126,7 @@ public class Followers extends Fragment {
             protected void populateViewHolder(final followerViewHolder viewHolder, final User model, final int position) {
 
 
-                viewHolder.email.setText(model.getEmail());
+//                viewHolder.email.setText(model.getEmail());
                 viewHolder.username.setText(model.getName());
 
                 Glide.with(getActivity())
@@ -191,7 +191,7 @@ public class Followers extends Fragment {
 
         View mView;
 
-        TextView username, email;
+        TextView username;
         CircleImageView profileimage;
 //        ImageView postOwnerDisplayImageView;
 //        TextView postOwnerUsernameTextView;
@@ -209,7 +209,7 @@ public class Followers extends Fragment {
             mView = itemView;
 
             username = (TextView) itemView.findViewById(R.id.username_search);
-            email = (TextView) itemView.findViewById(R.id.email_search);
+//            email = (TextView) itemView.findViewById(R.id.email_search);
 
             profileimage = (CircleImageView) itemView.findViewById(R.id.profile_image);
 

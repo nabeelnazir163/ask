@@ -127,7 +127,7 @@ public class fragment_post_Search extends Fragment {
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
-            Query query = reference.child("posts").orderByChild("numSeen").startAt(keyword).endAt(keyword + "\uf8ff").limitToLast(5);
+            Query query = reference.child("posts").orderByChild("postText").startAt(keyword).endAt(keyword + "\uf8ff").limitToLast(5);
 
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

@@ -72,6 +72,7 @@ public class answersActivity extends BaseActivity{
     RelativeLayout readmore;
     int userType;
 
+    String tosendNotifemail;
 //    Answer mAnswer;
 //    String email;
 //
@@ -432,15 +433,18 @@ public class answersActivity extends BaseActivity{
                                                         @Override
                                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                                            String email = dataSnapshot.child("email").getValue().toString();
+                                                            tosendNotifemail = dataSnapshot.child("email").getValue().toString();
 
-                                                            FirebaseUtils.getUserRef(email.replace(".",",")).addValueEventListener(new ValueEventListener() {
+                                                            FirebaseUtils.getUserRef(tosendNotifemail.replace(".",",")).addValueEventListener(new ValueEventListener() {
                                                                 @Override
                                                                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                                                    FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
-                                                                    Current_UserName +=" liked your answer";
-                                                                    sendNotification notify = new sendNotification(Current_UserName,postID,FCM_token);
+                                                                    if(!C_Current_user.equals(tosendNotifemail.replace(".",","))) {
+
+                                                                        FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
+                                                                        Current_UserName += " liked your answer";
+                                                                        sendNotification notify = new sendNotification(Current_UserName, postID, FCM_token);
+                                                                    }
                                                                 }
                                                                 @Override
                                                                 public void onCancelled(DatabaseError databaseError) {
