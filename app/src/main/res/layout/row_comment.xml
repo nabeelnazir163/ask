@@ -38,7 +38,7 @@
                     android:id="@+id/tv_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Username"
+                    android:text="@string/username"
                     android:textSize="14sp"
 
                     android:textColor="@android:color/black"
@@ -66,7 +66,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Readmore"
+                        android:text="@string/readmore"
                         android:textColor="@color/com_facebook_blue"
                         />
 
@@ -76,6 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:paddingBottom="3dp"
                     >
 
                     <TextView
@@ -85,7 +86,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
                         android:layout_weight="1"
-                        android:text="10h30" />
+                        android:text="@string/time" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -105,7 +106,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
-                            android:text="Reply"
+                            android:text="@string/reply"
                             android:id="@+id/reply_text"
                             />
 

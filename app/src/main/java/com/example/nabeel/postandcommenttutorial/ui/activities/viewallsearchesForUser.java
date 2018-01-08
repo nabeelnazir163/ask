@@ -50,11 +50,12 @@ public class viewallsearchesForUser extends BaseActivity {
 
         userType = userType_sp.getInt("UserType", 0);
 
-        hideSoftkeyboard();
-
         testtoSearch = getIntent().getExtras().getString("textTomatch").toString();
 
-        Toast.makeText(getApplicationContext(), testtoSearch , Toast.LENGTH_SHORT).show();
+        hideSoftkeyboard();
+        searchforMatch(testtoSearch);
+
+//        Toast.makeText(getApplicationContext(), testtoSearch , Toast.LENGTH_SHORT).show();
     }
 
     private void hideSoftkeyboard(){
@@ -91,8 +92,8 @@ public class viewallsearchesForUser extends BaseActivity {
 
         mUsersList.clear();
 
-        if(keyword.length() == 0){}
-        else {
+        if(keyword.length() != 0)
+         {
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 

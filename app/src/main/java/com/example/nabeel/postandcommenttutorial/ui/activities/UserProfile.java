@@ -204,7 +204,6 @@ public class UserProfile extends BaseActivity {
         } else if (userType != 3){
 
             isFollowing();
-
         }
 
 
@@ -256,7 +255,7 @@ public class UserProfile extends BaseActivity {
             @Override
             protected void populateViewHolder(final UP_viewholder viewHolder, final Post model, int position) {
 
-                final String post_key = getRef(position).getKey();
+//                final String post_key = getRef(position).getKey();
 
                 SharedPreferences userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
 
@@ -500,11 +499,6 @@ public class UserProfile extends BaseActivity {
                                 return  true;
                             }
                         });
-                        if(userType != 3){
-
-                            PostSeen(model.getPostId());
-
-                        }
 
                         popupMenu.show();
                     }
@@ -512,7 +506,7 @@ public class UserProfile extends BaseActivity {
 
 
 
-                DatabaseReference mDatabaseposts = FirebaseDatabase.getInstance().getReference().child(Constants.POST_KEY).child(post_key);
+                DatabaseReference mDatabaseposts = FirebaseDatabase.getInstance().getReference().child(Constants.POST_KEY).child(model.getPostId());
 
                 mDatabaseposts.child("user").addValueEventListener(new ValueEventListener() {
                     @Override
@@ -641,7 +635,7 @@ public class UserProfile extends BaseActivity {
             @Override
             protected void populateViewHolder(final UP_viewholder viewHolder, final Post model, int position) {
 
-                final String post_key = getRef(position).getKey();
+//                final String post_key = getRef(position).getKey();
 
                 SharedPreferences userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
 
@@ -897,7 +891,7 @@ public class UserProfile extends BaseActivity {
 
 
 
-                DatabaseReference mDatabaseposts = FirebaseDatabase.getInstance().getReference().child(Constants.POST_KEY).child(post_key);
+                DatabaseReference mDatabaseposts = FirebaseDatabase.getInstance().getReference().child(Constants.POST_KEY).child(model.getPostId());
 
                 mDatabaseposts.child("user").addValueEventListener(new ValueEventListener() {
                     @Override
@@ -1041,6 +1035,8 @@ public class UserProfile extends BaseActivity {
                 .child(postId).removeValue();
 
         FirebaseUtils.getPostRef().child(postId).removeValue();
+        FirebaseUtils.postViewRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                .child(postId).removeValue();
 
     }
 

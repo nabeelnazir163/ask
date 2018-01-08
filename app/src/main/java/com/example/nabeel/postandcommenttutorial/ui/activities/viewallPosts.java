@@ -69,8 +69,8 @@ public class viewallPosts extends BaseActivity {
 
         mUsersList.clear();
 
-        if(keyword.length() == 0){}
-        else {
+        if(keyword.length() != 0)
+         {
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 

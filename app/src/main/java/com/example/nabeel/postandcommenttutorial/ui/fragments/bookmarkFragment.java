@@ -111,7 +111,7 @@ public class bookmarkFragment extends Fragment {
             @Override
             protected void populateViewHolder(final bookmarkViewHolder viewHolder, final Post model, int position) {
 
-                final String post_key = getRef(position).getKey();
+//                final String post_key = getRef(position).getKey();
 
                 SharedPreferences userType_sp = getActivity().getSharedPreferences("UserType", Context.MODE_PRIVATE);
 
@@ -185,14 +185,14 @@ public class bookmarkFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
 
-                        FirebaseUtils.getPostRef().child(post_key).addValueEventListener(new ValueEventListener() {
+                        FirebaseUtils.getPostRef().child(model.getPostId()).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
 
                                 Current_User = (String) dataSnapshot.child("user").child("email").getValue();
 
                                 Intent user_profile = new Intent(getContext() , UserProfile.class);
-                                user_profile.putExtra("postkey", post_key);
+                                user_profile.putExtra("postkey", model.getPostId());
                                 user_profile.putExtra("email", Current_User);
                                 startActivity(user_profile);
 
@@ -235,14 +235,14 @@ public class bookmarkFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
 
-                        FirebaseUtils.getPostRef().child(post_key).addValueEventListener(new ValueEventListener() {
+                        FirebaseUtils.getPostRef().child(model.getPostId()).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
 
                                 Current_User = (String) dataSnapshot.child("user").child("email").getValue();
 
                                 Intent user_profile = new Intent(getContext() , UserProfile.class);
-                                user_profile.putExtra("postkey", post_key);
+                                user_profile.putExtra("postkey", model.getPostId());
                                 user_profile.putExtra("email", Current_User);
                                 startActivity(user_profile);
 
@@ -358,11 +358,6 @@ public class bookmarkFragment extends Fragment {
                                 return  true;
                             }
                         });
-                        if(userType != 3){
-
-                            PostSeen(model.getPostId());
-
-                        }
 
                         popupMenu.show();
                     }
@@ -513,6 +508,8 @@ public class bookmarkFragment extends Fragment {
                 .child(postId).removeValue();
 
         FirebaseUtils.getPostRef().child(postId).removeValue();
+        FirebaseUtils.postViewRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                .child(postId).removeValue();
 
     }
 

@@ -41,10 +41,6 @@ import java.util.List;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
-/**
- * Created by Nabeel on 11/7/2017.
- */
-
 public class fragment_post_Search extends Fragment {
 
     private ListView mListview;
@@ -122,12 +118,12 @@ public class fragment_post_Search extends Fragment {
 
         mUsersList.clear();
 
-        if(keyword.length() == 0){}
-        else {
+        if(keyword.length() != 0)
+         {
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
-            Query query = reference.child("posts").orderByChild("postText").startAt(keyword).endAt(keyword + "\uf8ff").limitToLast(5);
+            Query query = reference.child("posts").orderByChild("postText").startAt(keyword).endAt(keyword + "\uf8ff");
 
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -139,29 +135,29 @@ public class fragment_post_Search extends Fragment {
                         mUsersList.add(singlesnapshot.getValue(Post.class));
                         updateUsersListview(singlesnapshot.getValue(Post.class));
 
+                        /*SearchWithTabbedActivity.mSearchParams.setOnKeyListener(new View.OnKeyListener() {
+                            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                                // If the event is a key-down event on the "enter" button
+                                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                                    // Perform action on key press
+
+                                    Intent alluserSearchIntent = new Intent(getContext(), viewallPosts.class);
+                                    alluserSearchIntent.putExtra("textTomatch" , SearchWithTabbedActivity.mSearchParams.getText().toString().trim().toLowerCase() );
+                                    startActivity(alluserSearchIntent);
+
+                                    return true;
+                                }
+                                return false;
+                            }
+                        });*/
+
                     }
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
-
-            SearchWithTabbedActivity.mSearchParams.setOnKeyListener(new View.OnKeyListener() {
-                public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    // If the event is a key-down event on the "enter" button
-                    if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                            (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                        // Perform action on key press
-
-                        Intent alluserSearchIntent = new Intent(getContext(), viewallPosts.class);
-                        alluserSearchIntent.putExtra("textTomatch" , SearchWithTabbedActivity.mSearchParams.getText().toString().trim().toLowerCase() );
-                        startActivity(alluserSearchIntent);
-
-                        return true;
-                    }
-                    return false;
                 }
             });
 

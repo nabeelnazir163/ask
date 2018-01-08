@@ -125,6 +125,14 @@ public class viewallComments extends BaseActivity {
                             .into(viewHolder.commentOwnerDisplay);
                 }
 
+                viewHolder.reply_count_tv.setText(String.valueOf(model.getNumReply()));
+
+                if((model.getNumReply()) > 1){
+                    viewHolder.reply_text_tv.setText(R.string.replies);
+                } else {
+                    viewHolder.reply_text_tv.setText(R.string.reply);
+                }
+
 
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -155,6 +163,8 @@ public class viewallComments extends BaseActivity {
         TextView timeTextView;
         TextView commentTextView;
         RelativeLayout readmore_rel_lay_postactivity;
+        TextView reply_count_tv;
+        TextView reply_text_tv;
 
         public CommentHolder(View itemView) {
 
@@ -168,6 +178,8 @@ public class viewallComments extends BaseActivity {
             timeTextView = (TextView) itemView.findViewById(R.id.tv_time);
             commentTextView = (TextView) itemView.findViewById(R.id.tv_comment);
             readmore_rel_lay_postactivity = (RelativeLayout) mView.findViewById(R.id.readmore_relLayout_postactivity);
+            reply_count_tv = (TextView) itemView.findViewById(R.id.reply_count);
+            reply_text_tv = (TextView) itemView.findViewById(R.id.reply_text);
 
         }
 

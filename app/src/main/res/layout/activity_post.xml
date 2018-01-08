@@ -85,11 +85,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="4dp"
                                 android:layout_marginLeft="4dp"
-                                android:layout_weight="1"
                                 android:textSize="15dp"
                                 android:layout_gravity="center_vertical"
                                 android:singleLine="true"
-                                android:text="Username"
+                                android:text="@string/username"
                                 android:gravity="center_vertical"
                                 />
 
@@ -101,7 +100,7 @@
                                 android:layout_marginRight="4dp"
                                 android:layout_marginLeft="4dp"
                                 android:layout_gravity="center_vertical"
-                                android:text="10h30" />
+                                android:text="@string/time" />
                         </LinearLayout>
 
 
@@ -120,10 +119,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
                             android:layout_marginTop="4dp"
-                            android:text="Most Liked Answer"
+                            android:text="@string/mostlikedanswer"
                             android:textColor="@android:color/black"
                             android:textSize="12sp" />
-
 
                     </LinearLayout>
 
@@ -131,7 +129,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="View All Answers"
+                        android:text="@string/viewallanswers"
                         android:id="@+id/viewallanswer"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="8dp"
@@ -148,7 +146,7 @@
                 android:id="@+id/post_activity_answer_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.001" />
+                 />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -156,7 +154,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:text="COMMENTS" />
+                android:text="@string/comments" />
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -176,7 +174,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Type comment..." />
+                        android:hint="@string/type_comment" />
 
                     <ImageView
                         android:id="@+id/iv_send_comment"
@@ -185,6 +183,7 @@
                         android:layout_gravity="bottom"
                         android:layout_marginBottom="4dp"
                         android:layout_marginLeft="8dp"
+                        android:contentDescription="@string/button_text_send"
                         android:src="@drawable/ic_send_black_24dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -192,13 +191,13 @@
             <android.support.v7.widget.RecyclerView
             android:id="@+id/comment_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5" />
+            android:layout_height="wrap_content"
+             />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="View All Comments"
+                android:text="@string/viewallcomments"
                 android:id="@+id/viewallcomments"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="8dp"
@@ -206,8 +205,6 @@
                 android:background="@drawable/viewallanswers_bg"
                 android:padding="5dp"
                 />
-
-
 
         </LinearLayout>
 

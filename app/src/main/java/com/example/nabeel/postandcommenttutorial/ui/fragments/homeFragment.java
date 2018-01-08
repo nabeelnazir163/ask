@@ -274,9 +274,7 @@ public class homeFragment extends Fragment {
             @Override
             protected void populateViewHolder(final PostHolder viewHolder, final Post model, int position) {
 
-                final String post_key = getRef(position).getKey();
-
-
+//                final String post_key = getRef(position).getKey();
 
                 if(userType != 3) {
 
@@ -405,7 +403,6 @@ public class homeFragment extends Fragment {
                         Dialog dialog = new Dialog(getContext(), android.R.style.Animation);
                         dialog.setContentView(R.layout.dialogpostimage_layout);
                         ImageView myImage = (ImageView) dialog.findViewById(R.id.i);
-
 
                         StorageReference storageReference = FirebaseStorage.getInstance()
                                 .getReference(model.getPostImageUrl());
@@ -543,11 +540,6 @@ public class homeFragment extends Fragment {
                                 return  true;
                             }
                         });
-                        if(userType != 3){
-
-                            PostSeen(model.getPostId());
-
-                        }
 
                         popupMenu.show();
                     }
@@ -555,7 +547,7 @@ public class homeFragment extends Fragment {
 
 
 
-                DatabaseReference mDatabaseposts = FirebaseDatabase.getInstance().getReference().child(Constants.POST_KEY).child(post_key);
+                DatabaseReference mDatabaseposts = FirebaseDatabase.getInstance().getReference().child(Constants.POST_KEY).child(model.getPostId());
 
                 mDatabaseposts.child("user").addValueEventListener(new ValueEventListener() {
                     @Override
@@ -572,14 +564,14 @@ public class homeFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
 
-                        FirebaseUtils.getPostRef().child(post_key).addValueEventListener(new ValueEventListener() {
+                        FirebaseUtils.getPostRef().child(model.getPostId()).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
 
                                 Current_User = (String) dataSnapshot.child("user").child("email").getValue();
 
                                 Intent user_profile = new Intent(getContext() , UserProfile.class);
-                                user_profile.putExtra("postkey", post_key);
+                                user_profile.putExtra("postkey", model.getPostId());
                                 user_profile.putExtra("email", Current_User);
                                 startActivity(user_profile);
 
@@ -605,14 +597,14 @@ public class homeFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
 
-                        FirebaseUtils.getPostRef().child(post_key).addValueEventListener(new ValueEventListener() {
+                        FirebaseUtils.getPostRef().child(model.getPostId()).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
 
                                 Current_User = (String) dataSnapshot.child("user").child("email").getValue();
 
                                 Intent user_profile = new Intent(getContext() , UserProfile.class);
-                                user_profile.putExtra("postkey", post_key);
+                                user_profile.putExtra("postkey", model.getPostId());
                                 user_profile.putExtra("email", Current_User);
                                 startActivity(user_profile);
 
@@ -726,6 +718,8 @@ public class homeFragment extends Fragment {
                 .child(postId).removeValue();
 
         FirebaseUtils.getPostRef().child(postId).removeValue();
+        FirebaseUtils.postViewRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                .child(postId).removeValue();
 
     }
 

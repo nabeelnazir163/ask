@@ -16,7 +16,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    -->
+
     <application
         android:name=".AskApplication"
         android:allowBackup="true"
@@ -121,7 +121,6 @@
         <activity android:name=".ui.activities.answersActivity" />
         <activity android:name=".ui.activities.postNewAnswer" />
         <activity android:name=".ui.activities.Notification" />
-        <activity android:name=".ui.activities.SearchActivity" />
         <activity android:name=".ui.activities.inbox" />
         <activity android:name=".ui.activities.ResetPassword" />
         <activity
@@ -133,7 +132,7 @@
         <activity android:name=".ui.activities.QiblaDirection" />
         <activity android:name=".ui.activities.viewallsearchesForUser" />
         <activity android:name=".ui.activities.viewallPosts" />
-        <activity android:name=".ui.activities.viewallComments"></activity>
+        <activity android:name=".ui.activities.viewallComments"/>
     </application>
 
 </manifest>

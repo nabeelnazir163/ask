@@ -28,12 +28,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
 
         return fragments.get(position);
-      /*  if (position ==0) {
-            return new homeFragment();
-        } else if (position == 1) {
-            return new NotificationFrag();
-        } else
-            return new NewQuestions();*/
+
     }
 
     @Override

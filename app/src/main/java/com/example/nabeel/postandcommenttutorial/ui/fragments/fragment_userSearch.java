@@ -35,10 +35,6 @@ import java.util.List;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
-/**
- * Created by Nabeel on 11/7/2017.
- */
-
 public class fragment_userSearch extends Fragment {
 
     private ListView mListview;
@@ -57,12 +53,14 @@ public class fragment_userSearch extends Fragment {
         mListview = (ListView) mRootview.findViewById(R.id.listview_search_Activity_user);
 
         mUsersList = new ArrayList<>();
-        mAdapter = new UserListAdapter(getContext() , R.layout.layout_user_listenitem, mUsersList);;
+        mAdapter = new UserListAdapter(getContext() , R.layout.layout_user_listenitem, mUsersList);
 
         mAdapter.notifyDataSetChanged();
 
         hideSoftkeyboard();
         initTextListener();
+
+
 
         return mRootview;
     }
@@ -88,6 +86,7 @@ public class fragment_userSearch extends Fragment {
 
                 Intent profile_intent = new Intent(getContext() , UserProfile.class);
                 profile_intent.putExtra("email", mUsersList.get(i).getEmail());
+                getActivity().finish();
                 startActivity(profile_intent);
 
             }
@@ -96,8 +95,6 @@ public class fragment_userSearch extends Fragment {
     }
 
     private void initTextListener(){
-
-
 
         SearchWithTabbedActivity.mSearchParams.addTextChangedListener(new TextWatcher() {
             @Override
@@ -123,36 +120,18 @@ public class fragment_userSearch extends Fragment {
             }
         });
 
-        SearchWithTabbedActivity.mSearchParams.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // If the event is a key-down event on the "enter" button
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    // Perform action on key press
-//                    Toast.makeText(getContext(), SearchWithTabbedActivity.mSearchParams.getText(), Toast.LENGTH_SHORT).show();
-
-                    Intent alluserSearchIntent = new Intent(getContext(), viewallsearchesForUser.class);
-                    alluserSearchIntent.putExtra("textTomatch" , SearchWithTabbedActivity.mSearchParams.getText().toString().trim().toLowerCase() );
-                    startActivity(alluserSearchIntent);
-
-                    return true;
-                }
-                return false;
-            }
-        });
-
     }
 
     private void searchforMatch(String keyword){
 
         mUsersList.clear();
 
-        if(keyword.length() == 0){}
-        else {
+        if(keyword.length() != 0)
+         {
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
-            Query query = reference.child("users").orderByChild("email").startAt(keyword).endAt(keyword + "\uf8ff").limitToFirst(5);
+            Query query = reference.child("users").orderByChild("email").startAt(keyword).endAt(keyword + "\uf8ff");
 
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -162,6 +141,23 @@ public class fragment_userSearch extends Fragment {
 //                        mUsersList.clear();
                         mUsersList.add(singlesnapshot.getValue(User.class));
                         updateUsersListview();
+
+//                        SearchWithTabbedActivity.mSearchParams.setOnKeyListener(new View.OnKeyListener() {
+//                            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                                // If the event is a key-down event on the "enter" button
+//                                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+//                                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+//                                    // Perform action on key press
+//
+//                                    Intent alluserSearchIntent = new Intent(getContext(), viewallsearchesForUser.class);
+//                                    alluserSearchIntent.putExtra("textTomatch" , SearchWithTabbedActivity.mSearchParams.getText().toString().trim().toLowerCase() );
+//                                    startActivity(alluserSearchIntent);
+//
+//                                    return true;
+//                                }
+//                                return false;
+//                            }
+//                        });
 
                     }
                 }

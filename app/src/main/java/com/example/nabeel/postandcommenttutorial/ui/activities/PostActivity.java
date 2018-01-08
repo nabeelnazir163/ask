@@ -150,6 +150,17 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
         }*/
 
+
+        if(mPost.getNumComments() < 3){
+
+            viewallComments_tv.setVisibility(View.GONE);
+
+        } else {
+
+            viewallComments_tv.setVisibility(View.VISIBLE);
+
+        }
+
         userType = userType_sp.getInt("UserType", 0);
 
         if(userType == 2){
@@ -390,9 +401,9 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                 viewHolder.reply_count_tv.setText(String.valueOf(model.getNumReply()));
 
                 if((model.getNumReply()) > 1){
-                    viewHolder.reply_text_tv.setText("Replies");
+                    viewHolder.reply_text_tv.setText(R.string.replies);
                 } else {
-                    viewHolder.reply_text_tv.setText("Reply");
+                    viewHolder.reply_text_tv.setText(R.string.reply);
                 }
 
                 if (model.getUser().getImage() != null) {
@@ -466,8 +477,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         postOwnerDisplayImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                final String post_key = mPost.getPostId();
 
                 FirebaseUtils.getPostRef().child(post_key).addValueEventListener(new ValueEventListener() {
                     @Override
@@ -611,9 +620,9 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onClick(View view) {
 
-                Intent answers_intent = new Intent(PostActivity.this , viewallComments.class);
-                answers_intent.putExtra(Constants.EXTRA_POST , mPost);
-                startActivity(answers_intent);
+                    Intent answers_intent = new Intent(PostActivity.this, viewallComments.class);
+                    answers_intent.putExtra(Constants.EXTRA_POST, mPost);
+                    startActivity(answers_intent);
 
             }
         });
@@ -831,6 +840,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                 .child(postId).removeValue();
 
         FirebaseUtils.getPostRef().child(postId).removeValue();
+        FirebaseUtils.postViewRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                .child(postId).removeValue();
 
     }
 
@@ -860,6 +871,16 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                         FirebaseUtils.getCommentRef(mPost.getPostId())
                                 .child(uid)
                                 .setValue(mComment);
+
+                        if(mPost.getNumComments() < 3){
+
+                            viewallComments_tv.setVisibility(View.GONE);
+
+                        } else {
+
+                            viewallComments_tv.setVisibility(View.VISIBLE);
+
+                        }
 
                         FirebaseUtils.getPostRef().child(mPost.getPostId())
                                 .child(Constants.NUM_COMMENTS_KEY)
