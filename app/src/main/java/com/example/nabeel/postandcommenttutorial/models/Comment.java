@@ -10,17 +10,19 @@ public class Comment implements Serializable {
     private String commentId;
     private long timeCreated;
     private String comment;
+    private long numReply;
    /* private long numCommentLikes;
     private long numReplies;*/
     public Comment() {
     }
 
-    public Comment(User user, String commentId, long timeCreated, String comment/*,  long numCLikes, long numreply*/) {
+    public Comment(User user, String commentId, long timeCreated, String comment/*,  long numCLikes,*/, long numreply) {
 
         this.user = user;
         this.commentId = commentId;
         this.timeCreated = timeCreated;
         this.comment = comment;
+        this.numReply = numreply;
         /*this.numCommentLikes = numCLikes;
         this.numReplies = numreply;*/
     }
@@ -32,6 +34,14 @@ public class Comment implements Serializable {
     public long getNumComments() { return numReplies; }
 
     public void setNumComments(long numComments) { this.numReplies = numComments; }*/
+
+    public long getNumReply() {
+        return numReply;
+    }
+
+    public void setNumReply(long numReply) {
+        this.numReply = numReply;
+    }
 
     public User getUser() { return user; }
 

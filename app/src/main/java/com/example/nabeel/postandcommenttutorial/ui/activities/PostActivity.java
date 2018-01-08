@@ -387,6 +387,13 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                     }
                 });
 
+                viewHolder.reply_count_tv.setText(String.valueOf(model.getNumReply()));
+
+                if((model.getNumReply()) > 1){
+                    viewHolder.reply_text_tv.setText("Replies");
+                } else {
+                    viewHolder.reply_text_tv.setText("Reply");
+                }
 
                 if (model.getUser().getImage() != null) {
                     Glide.with(PostActivity.this)
@@ -394,25 +401,19 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                             .into(viewHolder.commentOwnerDisplay);
                 }
 
-
-                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                viewHolder.reply_layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
                         Intent intent = new Intent(getApplicationContext(), comment_reply_activity.class);
-
                         intent.putExtra(Constants.EXTRA_REPLY, model);
                         intent.putExtra(Constants.EXTRA_POST, mPost);
-
                         startActivity(intent);
 
                     }
                 });
             }
-
         };
-
-
         commentRecyclerView.setAdapter(commentAdapter);
 
     }
@@ -833,7 +834,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
-
     private void sendComment() {
         final ProgressDialog progressDialog = new ProgressDialog(PostActivity.this);
         progressDialog.setMessage("Sending comment..");
@@ -855,6 +855,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                         mComment.setCommentId(uid);
                         mComment.setComment(strComment);
                         mComment.setTimeCreated(System.currentTimeMillis());
+                        mComment.setNumReply(0);
 
                         FirebaseUtils.getCommentRef(mPost.getPostId())
                                 .child(uid)
@@ -1050,8 +1051,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         TextView LikeAnswer_iv;
         TextView LikeAnswer_tv;
 
-
-
         public AnswerHolder(View itemView) {
 
             super(itemView);
@@ -1078,10 +1077,16 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         View mView;
 
         ImageView commentOwnerDisplay;
+
+        TextView reply_text_tv;
+        TextView reply_count_tv;
         TextView usernameTextView;
         TextView timeTextView;
         TextView commentTextView;
+
         RelativeLayout readmore_rel_lay_postactivity;
+
+        LinearLayout reply_layout;
 
         public CommentHolder(View itemView) {
 
@@ -1089,12 +1094,17 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
             mView = itemView;
 
-
             commentOwnerDisplay = (ImageView) itemView.findViewById(R.id.iv_comment_owner_display);
+
             usernameTextView = (TextView) itemView.findViewById(R.id.tv_username);
             timeTextView = (TextView) itemView.findViewById(R.id.tv_time);
             commentTextView = (TextView) itemView.findViewById(R.id.tv_comment);
-            readmore_rel_lay_postactivity = (RelativeLayout) mView.findViewById(R.id.readmore_relLayout_postactivity);
+            reply_text_tv = (TextView) itemView.findViewById(R.id.reply_text);
+            reply_count_tv = (TextView) itemView.findViewById(R.id.reply_count);
+
+            readmore_rel_lay_postactivity = (RelativeLayout) itemView.findViewById(R.id.readmore_relLayout_postactivity);
+
+            reply_layout = (LinearLayout) itemView.findViewById(R.id.reply_layout);
 
         }
 

@@ -39,7 +39,6 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -49,6 +48,7 @@ public class Followers extends Fragment {
     RecyclerView follower_recyc_view;
     String emails;
     private SwipeRefreshLayout mSwipeRef__followers;
+    private TextView follow_tv;
 
     public Followers() {
         // Required empty public constructor
@@ -61,6 +61,7 @@ public class Followers extends Fragment {
         // Inflate the layout for this fragment
         mRootview = inflater.inflate(R.layout.fragment_followers, container, false);
         mSwipeRef__followers = (SwipeRefreshLayout) mRootview.findViewById(R.id.swipe_refresh_layout_followers);
+        follow_tv = (TextView)mRootview.findViewById(R.id.follow_tv);
 
         mSwipeRef__followers.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -88,6 +89,23 @@ public class Followers extends Fragment {
         setupadapter();
 
         return mRootview;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setupadapter();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if(isVisibleToUser){
+
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+
+        }
     }
 
     /*private void initialize() {
@@ -127,8 +145,12 @@ public class Followers extends Fragment {
 
 
 //                viewHolder.email.setText(model.getEmail());
-                viewHolder.username.setText(model.getName());
-
+                if(model == null){
+                    follow_tv.setVisibility(View.VISIBLE);
+                }else {
+                    follow_tv.setVisibility(View.GONE);
+                    viewHolder.username.setText(model.getName());
+                }
                 Glide.with(getActivity())
                         .load(model.getImage())
                         .into(viewHolder.profileimage);

@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,6 +99,7 @@ public class unAnsweredFragment extends Fragment {
 
     private void setupAdapter()
     {
+
         FirebaseRecyclerAdapter<Post, unanswerViewHolder> followeradapteradapter = new FirebaseRecyclerAdapter<Post, unanswerViewHolder>(
                         Post.class,
                         R.layout.row_post,
@@ -111,10 +113,6 @@ public class unAnsweredFragment extends Fragment {
                             FirebaseUtils.getPostRef().addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                    final String post_key = getRef(position).getKey();
-
-//                                    Toast.makeText(getContext(), post_key , Toast.LENGTH_SHORT).show();
 
                                     SharedPreferences userType_sp = getActivity().getSharedPreferences("UserType", Context.MODE_PRIVATE);
 
@@ -173,14 +171,14 @@ public class unAnsweredFragment extends Fragment {
                                         @Override
                                         public void onClick(View view) {
 
-                                            FirebaseUtils.getPostRef().child(post_key).addValueEventListener(new ValueEventListener() {
+                                            FirebaseUtils.getPostRef().child(model.getPostId()).addValueEventListener(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(DataSnapshot dataSnapshot) {
 
                                                     Current_User = (String) dataSnapshot.child("user").child("email").getValue();
 
                                                     Intent user_profile = new Intent(getContext() , UserProfile.class);
-                                                    user_profile.putExtra("postkey", post_key);
+                                                    user_profile.putExtra("postkey", model.getPostId());
                                                     user_profile.putExtra("email", Current_User);
                                                     startActivity(user_profile);
 
@@ -189,8 +187,6 @@ public class unAnsweredFragment extends Fragment {
                                                         PostSeen(model.getPostId());
 
                                                     }
-
-
 
                                                 }
 
@@ -207,14 +203,14 @@ public class unAnsweredFragment extends Fragment {
                                         @Override
                                         public void onClick(View view) {
 
-                                            FirebaseUtils.getPostRef().child(post_key).addValueEventListener(new ValueEventListener() {
+                                            FirebaseUtils.getPostRef().child(model.getPostId()).addValueEventListener(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(DataSnapshot dataSnapshot) {
 
                                                     Current_User = (String) dataSnapshot.child("user").child("email").getValue();
 
                                                     Intent user_profile = new Intent(getContext() , UserProfile.class);
-                                                    user_profile.putExtra("postkey", post_key);
+                                                    user_profile.putExtra("postkey", model.getPostId());
                                                     user_profile.putExtra("email", Current_User);
                                                     startActivity(user_profile);
 
@@ -351,7 +347,20 @@ public class unAnsweredFragment extends Fragment {
                                         public void onClick(View view) {
                                             final PopupMenu popupMenu = new PopupMenu(getContext(), viewHolder.menu_imageview);
 
+//                                            if(userType != 3){
+//
+//                                                PostSeen(model.getPostId());
+//
+//                                            }
+
                                             popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+
+                                            if(!model.getUser().getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))) {
+
+                                                Menu m = popupMenu.getMenu();
+                                                m.removeItem((R.id.delete));
+
+                                            }
 
                                             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
@@ -380,11 +389,7 @@ public class unAnsweredFragment extends Fragment {
                                                     return  true;
                                                 }
                                             });
-                                            if(userType != 3){
 
-                                                PostSeen(model.getPostId());
-
-                                            }
 
                                             popupMenu.show();
                                         }
@@ -479,6 +484,8 @@ public class unAnsweredFragment extends Fragment {
                 .child(postId).removeValue();
 
         FirebaseUtils.getPostRef().child(postId).removeValue();
+        FirebaseUtils.postViewRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                .child(postId).removeValue();
 
     }
 

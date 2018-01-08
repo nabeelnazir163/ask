@@ -4,6 +4,17 @@
     android:layout_height="match_parent"
     tools:context="com.example.nabeel.postandcommenttutorial.ui.fragments.Followers">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Follow Users to See"
+        android:id="@+id/follow_tv"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+
+        />
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

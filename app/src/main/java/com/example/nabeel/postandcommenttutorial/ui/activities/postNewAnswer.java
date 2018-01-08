@@ -532,7 +532,8 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                     }
                 });
 
-        FirebaseUtils.getPostRef().child(mPost.getPostId())
+        FirebaseUtils.getPostRef()
+                .child(mPost.getPostId())
                 .child(Constants.NUM_ANSWWERS_KEY)
                 .runTransaction(new Transaction.Handler() {
                     @Override
@@ -546,7 +547,6 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                     public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
 
                         progressDialog.dismiss();
-
 
                         mAnswerEditText.setText("");
 
@@ -664,8 +664,6 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
                             }
                         });
-
-
 
                     }
                 });

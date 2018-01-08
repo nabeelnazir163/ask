@@ -15,10 +15,9 @@ public class splash extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash);
-
-
 
         final int welcomeScreenDisplay = 2000;
         /** create a thread to show splash up to splash time */

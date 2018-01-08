@@ -71,11 +71,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tab_layout"
-                app:tabMode="fixed"
-                app:tabTextAppearance="@style/ThemeTabText"
+                app:tabMode="scrollable"
+
                 app:tabGravity="fill"
                 >
-
+                <!--app:tabTextAppearance="@style/ThemeTabText"-->
             </android.support.design.widget.TabLayout>
 
         </android.support.design.widget.AppBarLayout>

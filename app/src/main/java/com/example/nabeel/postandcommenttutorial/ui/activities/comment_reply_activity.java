@@ -3,6 +3,7 @@ package com.example.nabeel.postandcommenttutorial.ui.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,8 +27,13 @@ import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
 import com.example.nabeel.postandcommenttutorial.utils.sendNotification;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 public class comment_reply_activity extends AppCompatActivity {
@@ -114,6 +120,7 @@ public class comment_reply_activity extends AppCompatActivity {
                                 .child(uid)
                                 .setValue(mReply);
 
+                        addToMyPostList(mComment.getCommentId());
 
                         /*
                          * SEND NOTIFICATION ON COMMENT REPLY
@@ -187,6 +194,27 @@ public class comment_reply_activity extends AppCompatActivity {
         mReplyEditText.setText("");
 
         progressDialog.dismiss();
+
+    }
+
+    private void addToMyPostList(String uid) {
+
+        FirebaseUtils.getCommentRef(mPost.getPostId())
+                .child(uid)
+                .child(Constants.NUM_REPLY_KEY)
+                .runTransaction(new Transaction.Handler() {
+                    @Override
+                    public Transaction.Result doTransaction(MutableData mutableData) {
+                        long num = (long) mutableData.getValue();
+                        mutableData.setValue(num + 1);
+                        return Transaction.success(mutableData);
+                    }
+
+                    @Override
+                    public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+                    }
+                });
     }
 
     private void initReply() {

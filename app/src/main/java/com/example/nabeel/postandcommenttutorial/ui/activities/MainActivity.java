@@ -77,6 +77,8 @@ public class MainActivity extends BaseActivity
 
     Menu mMenu;
 
+    boolean doubleBackToExitPressedOnce = false;
+
     private static int MY_PERMISSION_ACCESS_COARSE_LOCATION = 0;
     private static int MY_PERMISSION_ACCESS_FINE_LOCATION = 0;
  /*
@@ -425,24 +427,41 @@ public class MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }else{
-            final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
-            alert.setTitle("ASK ALIM");
-            alert.setMessage("Do you want exit?");
-            alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                    System.exit(1);
+//            final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+//            alert.setTitle("ASK ALIM");
+//            alert.setMessage("Do you want exit?");
+//            alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int i) {
+//                    dialogInterface.dismiss();
+//                    System.exit(1);
+//                }
+//            });
+//            alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int i) {
+//                    dialogInterface.dismiss();
+//                }
+//            });
+//            alert.show();
+
+                if (doubleBackToExitPressedOnce) {
+                    super.onBackPressed();
+                    return;
                 }
-            });
-            alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            });
-            alert.show();
-        }
+
+                this.doubleBackToExitPressedOnce = true;
+                Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        doubleBackToExitPressedOnce = false;
+                    }
+                }, 2000);
+            }
+
     }
 
     @Override

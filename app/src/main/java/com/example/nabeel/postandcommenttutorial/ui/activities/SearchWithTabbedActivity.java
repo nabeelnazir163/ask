@@ -1,12 +1,8 @@
 package com.example.nabeel.postandcommenttutorial.ui.activities;
 
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -23,16 +19,11 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.nabeel.postandcommenttutorial.R;
-import com.example.nabeel.postandcommenttutorial.models.User;
 import com.example.nabeel.postandcommenttutorial.ui.fragments.fragment_post_Search;
 import com.example.nabeel.postandcommenttutorial.ui.fragments.fragment_userSearch;
-import com.example.nabeel.postandcommenttutorial.ui.fragments.homeFragment;
-import com.example.nabeel.postandcommenttutorial.utils.UserListAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,9 +71,7 @@ public class SearchWithTabbedActivity extends AppCompatActivity {
         hideSoftkeyboard();
         initTextListener();
 
-
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
         mViewPager = (ViewPager) findViewById(R.id.container_search);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
@@ -90,7 +79,6 @@ public class SearchWithTabbedActivity extends AppCompatActivity {
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-
 
     }
 
@@ -143,7 +131,7 @@ public class SearchWithTabbedActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static class PlaceholderFragment extends Fragment {
+    /*public static class PlaceholderFragment extends Fragment {
 
         private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -167,7 +155,7 @@ public class SearchWithTabbedActivity extends AppCompatActivity {
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
-    }
+    }*/
 
 
     private void hideSoftkeyboard(){
@@ -190,20 +178,19 @@ public class SearchWithTabbedActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
 
+            Fragment search = null;
             switch (position){
 
                 case 0:
-
-                    fragment_post_Search post_search = new fragment_post_Search();
-                    return post_search;
+                    search = new fragment_post_Search();
+                    break;
 
                 case 1:
 
-                    fragment_userSearch userSearch = new fragment_userSearch();
-                    return userSearch;
+                    search = new fragment_userSearch();
+                    break;
             }
-            return null;
-
+            return search;
         }
 
         @Override

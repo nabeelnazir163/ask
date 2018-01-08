@@ -97,7 +97,7 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
         }
         txtPrayerNames = (TextView) findViewById(R.id.txtPrayerNames);
         txtPrayerTimes = (TextView) findViewById(R.id.txtPrayerTimes);
-        partitionLine = (TextView) findViewById(R.id.partitionline);
+//        partitionLine = (TextView) findViewById(R.id.partitionline);
 
         displayLocation();
 
