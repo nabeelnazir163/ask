@@ -105,6 +105,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     String Current_User;
     String Current_UserName;
     String FCM_token;
+    PopupMenu popupMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -751,11 +752,11 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onClick(View view) {
 
-                final PopupMenu popupMenu = new PopupMenu(PostActivity.this, menu_imageview);
+                popupMenu = new PopupMenu(PostActivity.this, menu_imageview);
 
                 popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
 
-                FirebaseUtils.getPostRef().child(mPost.getPostId()).child("user").addValueEventListener(new ValueEventListener() {
+                /*FirebaseUtils.getPostRef().child(mPost.getPostId()).child("user").addValueEventListener(new ValueEventListener() {
 
                     @Override
 
@@ -765,7 +766,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
                         if(!owner_of_post.equals(FirebaseUtils.getCurrentUser().getEmail())){
 
-                            popupMenu.getMenu().findItem(R.id.delete).setVisible(false);
+
 
                         }
 
@@ -775,12 +776,15 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
-                });
+                });*/
 
-                if(!mPost.getUser().getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))) {
+                if(!mPost.getUser().getEmail().replace(".",",")
+                        .equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))) {
 
-                    Menu m = popupMenu.getMenu();
-                    m.removeItem((R.id.delete));
+//                    Menu m = popupMenu.getMenu();
+//                    m.removeItem((R.id.delete));
+
+                    popupMenu.getMenu().findItem(R.id.delete).setVisible(false);
 
                 }
 

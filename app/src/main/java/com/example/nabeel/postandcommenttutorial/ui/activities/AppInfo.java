@@ -1,4 +1,4 @@
-package com.example.nabeel.postandcommenttutorial.ui.fragments;
+package com.example.nabeel.postandcommenttutorial.ui.activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

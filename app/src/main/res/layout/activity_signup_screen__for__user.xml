@@ -219,7 +219,6 @@
                 </LinearLayout>
 
 
-
                 <EditText
                     android:id="@+id/Signup_user_emailfield_confirm"
                     android:layout_width="match_parent"

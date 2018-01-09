@@ -67,11 +67,9 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
 
     private TextView txtPrayerNames;
     private TextView txtPrayerTimes;
-    private TextView partitionLine;
     double latitude;
     double longitude;
 
-    int userType;
 //    Button mGetTime;
 
     //    private Button mGetTime;
@@ -81,9 +79,6 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
         setContentView(R.layout.activity_prayer__time_);
 
 //        mGetTime = (Button) findViewById(R.id.gettimebtn);
-
-        SharedPreferences userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
-        userType = userType_sp.getInt("UserType", 0);
 
         if(getSupportActionBar() != null){
 
@@ -97,16 +92,9 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
         }
         txtPrayerNames = (TextView) findViewById(R.id.txtPrayerNames);
         txtPrayerTimes = (TextView) findViewById(R.id.txtPrayerTimes);
-//        partitionLine = (TextView) findViewById(R.id.partitionline);
 
         displayLocation();
 
-//        mGetTime.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                displayLocation();
-//            }
-//        });
     }
     
     @Override
@@ -129,7 +117,7 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
     protected void onResume() {
         super.onResume();
         checkPlayServices();
-        if (mGoogleApiClient.isConnected() && mRequestLocationUpdates) {
+        if (mGoogleApiClient.isConnected()/* && mRequestLocationUpdates*/) {
             startLocationUpdates();
         }
     }
@@ -152,7 +140,6 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
             else{
                 if(isGPSEnabled == false)
                     showSettingsAlert();
-                //Toast.makeText(this, "COULD NOT ACCESS LOCATION", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -224,6 +211,7 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
     }
 
     protected void stopLocationUpdates() {
+        if(mGoogleApiClient.isConnected())
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
 
@@ -352,8 +340,6 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
             ArrayList prayerNames = prayers.getTimeNames();
 
             for (int i = 0; i < prayerTimes.size(); i++) {
-//            txtPrayerTimes.append("\n" + prayerNames.get(i) + " - "
-//                    + prayerTimes.get(i));
 
                 txtPrayerNames.append("\n" +prayerNames.get(i) + "\n" );
 //                partitionLine.append("\n" + "_________" + "\n");

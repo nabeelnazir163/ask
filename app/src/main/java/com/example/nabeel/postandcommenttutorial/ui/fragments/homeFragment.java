@@ -569,7 +569,7 @@ public class homeFragment extends Fragment {
                                 Current_User = (String) dataSnapshot.child("user").child("email").getValue();
 
                                 Intent user_profile = new Intent(getContext() , UserProfile.class);
-                                user_profile.putExtra("postkey", model.getPostId());
+//                                user_profile.putExtra("postkey", model.getPostId());
                                 user_profile.putExtra("email", Current_User);
                                 startActivity(user_profile);
 

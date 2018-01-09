@@ -64,6 +64,7 @@
                 android:layout_marginBottom="8dp"
                 android:fontFamily="sans-serif"
                 android:paddingBottom="6dp"
+                android:alpha="0.6"
                 android:background="@drawable/prayertimebg"
                 />
 
@@ -80,12 +81,14 @@
                 android:layout_weight="0.5"
                 android:paddingTop="5dp"
                 android:paddingRight="20sp"
+                android:alpha="0.6"
                 android:gravity="right"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:paddingBottom="6dp"
                 android:textSize="18sp"
                 android:id="@+id/txtPrayerTimes"
+                android:textColor="@color/black"
                 android:background="@drawable/prayertimebg"
                 android:layout_marginRight="4dp"
                 />

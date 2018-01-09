@@ -170,17 +170,5 @@ public class QiblaDirection extends BaseActivity implements SensorEventListener 
         return super.onOptionsItemSelected(item);
     }
 
-    /*@Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if(userType == 3){
-
-            mAuth.signOut();
-            startActivity(new Intent(QiblaDirection.this , RegisterActivity.class));
-            finish();
-
-        }
-    }*/
 
 }

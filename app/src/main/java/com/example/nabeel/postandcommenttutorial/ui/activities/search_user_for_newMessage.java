@@ -13,7 +13,7 @@ import android.widget.ListView;
 
 import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.models.User;
-import com.example.nabeel.postandcommenttutorial.utils.UserListAdapter;
+import com.example.nabeel.postandcommenttutorial.ui.adapter.UserListAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

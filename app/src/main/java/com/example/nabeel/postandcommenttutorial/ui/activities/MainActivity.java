@@ -2,11 +2,9 @@ package com.example.nabeel.postandcommenttutorial.ui.activities;
 
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -39,7 +37,6 @@ import com.bumptech.glide.Glide;
 import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.ui.adapter.ViewPagerAdapter;
 import com.example.nabeel.postandcommenttutorial.ui.activities.RegisterActivities.RegisterActivity;
-import com.example.nabeel.postandcommenttutorial.ui.fragments.AppInfo;
 import com.example.nabeel.postandcommenttutorial.ui.fragments.Followers;
 import com.example.nabeel.postandcommenttutorial.ui.fragments.bookmarkFragment;
 import com.example.nabeel.postandcommenttutorial.ui.fragments.homeFragment;
@@ -589,11 +586,11 @@ public class MainActivity extends BaseActivity
             Intent appinfo_intent = new Intent (MainActivity.this , AppInfo.class);
             startActivity(appinfo_intent);
 
-//        }else if( id == R.id.qibladirection){
-//
-////            mAuth.signOut();
-//            startActivity(new Intent(MainActivity.this , QiblaDirection.class));
-//
+        }else if( id == R.id.qibladirection){
+
+//            mAuth.signOut();
+            startActivity(new Intent(MainActivity.this , QiblaDirection.class));
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

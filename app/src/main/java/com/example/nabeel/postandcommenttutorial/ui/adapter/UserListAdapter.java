@@ -1,4 +1,4 @@
-package com.example.nabeel.postandcommenttutorial.utils;
+package com.example.nabeel.postandcommenttutorial.ui.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

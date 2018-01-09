@@ -304,7 +304,7 @@ public class RegisterActivity extends BaseActivity{
             case R.id.radiobtn_alim:
                 if(checke_usertype){
 
-                   /* sh_editor.putInt("usertype", 1);
+                    /*sh_editor.putInt("usertype", 1);
                     sh_editor.apply();*/
                     userType_sh_editor.putInt("UserType", 1);
                     userType_sh_editor.apply();
@@ -317,7 +317,7 @@ public class RegisterActivity extends BaseActivity{
             case R.id.radiobtn_user:
                 if(checke_usertype){
 
-                   /* sh_editor.putInt("usertype", 2);
+                    /*sh_editor.putInt("usertype", 2);
                     sh_editor.apply();*/
 
                     userType_sh_editor.putInt("UserType", 2);
@@ -436,7 +436,7 @@ public class RegisterActivity extends BaseActivity{
     private void startLogging() {
 
         final ProgressDialog progressDialog = new ProgressDialog(RegisterActivity.this);
-        progressDialog.setMessage("Logging-In");
+        progressDialog.setMessage("Logging in");
         progressDialog.setCancelable(true);
         progressDialog.setIndeterminate(true);
         progressDialog.show();
@@ -502,8 +502,6 @@ public class RegisterActivity extends BaseActivity{
 
                         String usertype_from_database = dataSnapshot.child(user_email).child("userType").getValue().toString();
 
-                        //Toast.makeText(getApplicationContext() , check_user_type_from_radio_btn + "and" + usertype_from_database , Toast.LENGTH_LONG).show();
-
 
                         if(check_user_type_from_radio_btn == 2 &&
                                 usertype_from_database.equals("Alim")
@@ -542,37 +540,6 @@ public class RegisterActivity extends BaseActivity{
                             Toast.makeText(getApplicationContext() ,"You are not signed up as User" , Toast.LENGTH_LONG).show();
                             mAuth.signOut();
                         }
-
-
-                   /*     SharedPreferences userInfo_SP = getSharedPreferences("userTypeInfo", Context.MODE_PRIVATE);
-                        final SharedPreferences.Editor sh_editor = userInfo_SP.edit();
-
-                        String check_user_type = dataSnapshot.child("userType").getValue().toString();
-
-                        if(check_user_type == "Alim"){
-
-                            sh_editor.putInt("usertype", 2);
-                            sh_editor.apply();
-
-                            Intent login_intent = new Intent(RegisterActivity.this, MainActivity.class);
-                            login_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(login_intent);
-
-                        } else if(check_user_type == "User"){
-
-                            sh_editor.putInt("usertype", 1);
-                            sh_editor.apply();
-
-                            Intent login_intent = new Intent(RegisterActivity.this, MainActivity.class);
-                            login_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(login_intent);
-
-                        }*/
-
-                       /* Intent login_intent = new Intent(RegisterActivity.this, MainActivity.class);
-                        login_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(login_intent);
-*/
                     } else {
 
                         Toast.makeText(getApplicationContext() , "You Need to Signup again with different email", Toast.LENGTH_LONG).show();
