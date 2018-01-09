@@ -43,36 +43,6 @@ public class Notification extends AppCompatActivity {
 
         init();
 
-        /*mName_Notification = (TextView) findViewById(R.id.name_notification);
-        mMsg_Notification = (TextView) findViewById(R.id.message_notification);*/
-
-        /*FirebaseUtils.getNotificationRef()
-                .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        Map<String, String> map = ( Map<String, String>)dataSnapshot.getValue();
-                        String message = map.get("message").toString();
-                        String userName = map.get("user").toString();
-
-                        mName_Notification.setText(message);
-                        mMsg_Notification.setText(userName);
-
-                        *//*String name = dataSnapshot.child("username").getValue().toString();
-                        String msg = dataSnapshot.child("message").getValue().toString();
-
-                        mName_Notification.setText(name);
-                        mMsg_Notification.setText(msg);*//*
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });*/
-
-
         FirebaseUtils.getNotificationRef().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

@@ -102,7 +102,7 @@ public class FirebaseNotificationServices extends Service {
 
     private void showNotification(Context context, Notification notification,String notification_key){
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.logo24x24)
                 .setContentTitle(notification.getDescription())
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setContentText(Html.fromHtml(notification.getMessage()

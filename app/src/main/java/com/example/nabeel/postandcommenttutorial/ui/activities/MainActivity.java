@@ -4,12 +4,14 @@ package com.example.nabeel.postandcommenttutorial.ui.activities;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -539,12 +541,21 @@ public class MainActivity extends BaseActivity
             profile_intent.putExtra("email" , email_user);
             startActivity(profile_intent);
 
+        } else if (id == R.id.rateus) {
 
+            try{
 
-        /*}  else if(id == R.id.bookmark){
+                Uri uri1 = Uri.parse("market://details?id" + getPackageName());
+                Intent gotoMarket = new Intent(Intent.ACTION_VIEW, uri1);
+                startActivity(gotoMarket);
 
-            Intent bookmark_intent = new Intent(MainActivity.this, BookMark.class);
-            startActivity(bookmark_intent);*/
+            }catch ( ActivityNotFoundException e){
+
+                Uri uri1 = Uri.parse("http://play.google.com/store/apps/details?id" + getPackageName());
+                Intent gotoMarket = new Intent(Intent.ACTION_VIEW, uri1);
+                startActivity(gotoMarket);
+
+            }
 
         } else if( id == R.id.logout){
 

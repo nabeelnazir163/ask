@@ -24,6 +24,9 @@ public class inbox extends AppCompatActivity {
 
 //    DatabaseReference mDatabase;
     TextView newMessage;
+    TextView viewSentMessages;
+    TextView noNewMessage;
+    private  RecyclerView commentRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,8 @@ public class inbox extends AppCompatActivity {
         setContentView(R.layout.activity_inbox);
 
         newMessage = (TextView) findViewById(R.id.newMessageInbox);
+        viewSentMessages = (TextView) findViewById(R.id.sentMessageInbox);
+        noNewMessage = (TextView) findViewById(R.id.no_new_msg);
 
         newMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,7 +45,13 @@ public class inbox extends AppCompatActivity {
             }
         });
 
-//        mDatabase = FirebaseDatabase.getInstance().getReference().child("message").child("inbox");
+        viewSentMessages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(inbox.this , sent_messages.class);
+                startActivity(intent);
+            }
+        });
 
         if(getSupportActionBar() != null){
 
@@ -60,7 +71,7 @@ public class inbox extends AppCompatActivity {
 
     private void initinboxSection() {
 
-        RecyclerView commentRecyclerView = (RecyclerView) findViewById(R.id.inbox_rv);
+        commentRecyclerView = (RecyclerView) findViewById(R.id.inbox_rv);
         commentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         final LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setReverseLayout(true);
@@ -76,23 +87,33 @@ public class inbox extends AppCompatActivity {
             @Override
             protected void populateViewHolder(inboxHolder viewHolder, final inbox_model model, int position) {
 
-                viewHolder.setUsername(model.getSender_name());
-                viewHolder.setMessage(model.getMessage());
-                viewHolder.setTime(DateUtils.getRelativeTimeSpanString(model.getSendingtimeStamp()));
+                if(model.getMessage() != null){
 
-                Glide.with(getApplicationContext()).load(model.getSender_image_url()).into(viewHolder.messageSenderImageView);
+                    commentRecyclerView.setVisibility(View.VISIBLE);
+                    noNewMessage.setVisibility(View.GONE);
+                    viewHolder.setUsername(model.getSender_name());
+                    viewHolder.setMessage(model.getMessage());
+                    viewHolder.setTime(DateUtils.getRelativeTimeSpanString(model.getSendingtimeStamp()));
 
-                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                    Glide.with(getApplicationContext()).load(model.getSender_image_url()).into(viewHolder.messageSenderImageView);
 
-                        Intent chatintent = new Intent(inbox.this , Chat.class);
-                        chatintent.putExtra("emailforchat", model.getSender_email());
-                        chatintent.putExtra("msg_id", model.getMessage_id());
-                        startActivity(chatintent);
+                    viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
 
-                    }
-                });
+                            Intent chatintent = new Intent(inbox.this , Chat.class);
+                            chatintent.putExtra("emailforchat", model.getSender_email());
+                            chatintent.putExtra("msg_id", model.getMessage_id());
+                            chatintent.putExtra("image_url", model.getSender_image_url());
+                            startActivity(chatintent);
+
+                        }
+                    });
+
+                } else if (model == null) {
+                    commentRecyclerView.setVisibility(View.GONE);
+                    noNewMessage.setVisibility(View.VISIBLE);
+                }
 
             }
 

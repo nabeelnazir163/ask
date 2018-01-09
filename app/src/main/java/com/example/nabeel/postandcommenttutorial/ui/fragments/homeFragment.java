@@ -205,8 +205,6 @@ public class homeFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                PostCreateDialog dialog = new PostCreateDialog();
-//                dialog.show(getFragmentManager(), null);
 
                 Intent post_intent = new Intent(getContext(), CreateNewPostActivity.class);
                 startActivity(post_intent);

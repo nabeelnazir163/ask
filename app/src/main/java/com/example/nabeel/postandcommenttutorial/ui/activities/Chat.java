@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,7 @@ public class Chat extends AppCompatActivity {
     EditText messageArea;
     ScrollView scrollView;
     String chatWithEmail;
+    String chatWith_image_url;
     String current_user;
     String current_user_name;
     String current_user_image;
@@ -85,6 +87,13 @@ public class Chat extends AppCompatActivity {
 
         chatWithEmail = (String) getIntent().getSerializableExtra("emailforchat")
                 .toString().trim().replace(".",",");
+
+        if(!getIntent().getSerializableExtra("image_url").toString().equals("")) {
+
+            chatWith_image_url = (String) getIntent().getSerializableExtra("image_url")
+                    .toString();
+
+        }
 
         if(!getIntent().getSerializableExtra("msg_id").toString().equals("")) {
 
@@ -145,151 +154,113 @@ public class Chat extends AppCompatActivity {
             }
         });
 
+        messageArea.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+
+                // If the event is a key-down event on the "enter" button
+                if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (i == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+
+                    send_Message();
+
+                    return true;
+                }
+                return false;
+            }
+        });
+
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                final ProgressDialog progressDialog = new ProgressDialog(Chat.this);
-                progressDialog.setMessage("Sending Message...");
-                progressDialog.setCancelable(true);
-                progressDialog.setIndeterminate(true);
-                progressDialog.show();
-
-                messageText = messageArea.getText().toString();
-                push_id = FirebaseUtils.getUid();
-
-                if(!messageText.equals("")){
-
-                    DatabaseReference mySendDatabase = FirebaseUtils.getMessageRef()
-                            .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                            .child("sentbox").push();
-
-                    mySendDatabase.child("sendtoName").setValue(chatwithName);
-                    mySendDatabase.child("sendtoemail").setValue(chatWithEmail);
-                    mySendDatabase.child("message").setValue(messageText);
-
-//                    Toast.makeText(getApplicationContext(), current_user_image , Toast.LENGTH_SHORT).show();
-
-                    DatabaseReference sendToInboxDb = FirebaseUtils.getMessageRef().child(chatWithEmail)
-                            .child("inbox").child(push_id);
-
-                    sendToInboxDb.child("Sender_name").setValue(current_user_name);
-                    sendToInboxDb.child("sender_image_url").setValue(current_user_image);
-                    sendToInboxDb.child("Sender_email").setValue(FirebaseUtils.getCurrentUser().getEmail().replace(".",","));
-                    sendToInboxDb.child("message").setValue(messageText);
-                    sendToInboxDb.child("message_id").setValue(push_id);
-                    sendToInboxDb.child("SendingtimeStamp").setValue(System.currentTimeMillis()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-
-//                            textview_right.setText(messageText);
-                            textview_right.append("\n"+messageText+"\n");
-                            textview_right.setBackgroundResource(R.drawable.rounded_corner2);
-                            progressDialog.dismiss();
-                            messageArea.setText("");
-//                            finish();
-//                            textView.append(messageText);
-
-                            final String C_Current_user =FirebaseUtils.getCurrentUser().getEmail().replace(".",",");
-
-                            FirebaseUtils.getUserRef(C_Current_user).addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    Current_UserName = dataSnapshot.child("name").getValue().toString();
-
-                                            FirebaseUtils.getUserRef(chatWithEmail.replace(".",",")).addValueEventListener(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                                    FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
-                                                    Current_UserName +=" send you a message";
-                                                    sendNotification notify = new sendNotification(Current_UserName,postID,FCM_token);
-                                                }
-                                                @Override
-                                                public void onCancelled(DatabaseError databaseError) {
-                                                }
-                                            });
-                                        }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
-
-
-                        }
-                    });
-
-                }
+                send_Message();
 
             }
         });
     }
 
-       /* reference1.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map<String, String> map = ( Map<String, String>)dataSnapshot.getValue();
-                String message = map.get("message").toString();
-                String userName = map.get("user").toString();
+    private void send_Message() {
 
-                if(userName.equals(current_user)){
-                    addMessageBox("You:-\n" + message, 1);
+        final ProgressDialog progressDialog = new ProgressDialog(Chat.this);
+        progressDialog.setMessage("Sending Message...");
+        progressDialog.setCancelable(true);
+        progressDialog.setIndeterminate(true);
+        progressDialog.show();
+
+        messageText = messageArea.getText().toString();
+        push_id = FirebaseUtils.getUid();
+
+        if(!messageText.equals("")){
+
+            DatabaseReference mySendDatabase = FirebaseUtils.getMessageRef()
+                    .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                    .child("sentbox").push();
+
+            mySendDatabase.child("receiver_name").setValue(chatwithName);
+            mySendDatabase.child("receiver_email").setValue(chatWithEmail);
+            mySendDatabase.child("message").setValue(messageText);
+            mySendDatabase.child("receiver_image_url").setValue(chatWith_image_url);
+            mySendDatabase.child("message_id").setValue(push_id);
+            mySendDatabase.child("sending_timeStamp").setValue(System.currentTimeMillis());
+
+            DatabaseReference sendToInboxDb = FirebaseUtils.getMessageRef().child(chatWithEmail)
+                    .child("inbox").child(push_id);
+
+            sendToInboxDb.child("Sender_name").setValue(current_user_name);
+            sendToInboxDb.child("sender_image_url").setValue(current_user_image);
+            sendToInboxDb.child("Sender_email").setValue(FirebaseUtils.getCurrentUser().getEmail().replace(".",","));
+            sendToInboxDb.child("message").setValue(messageText);
+            sendToInboxDb.child("message_id").setValue(push_id);
+            sendToInboxDb.child("SendingtimeStamp").setValue(System.currentTimeMillis()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+
+                    textview_right.append("\n"+messageText+"\n");
+                    textview_right.setBackgroundResource(R.drawable.rounded_corner2);
+                    progressDialog.dismiss();
+                    messageArea.setText("");
+
+                    final String C_Current_user =FirebaseUtils.getCurrentUser().getEmail().replace(".",",");
+
+                    FirebaseUtils.getUserRef(C_Current_user).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Current_UserName = dataSnapshot.child("name").getValue().toString();
+
+                            FirebaseUtils.getUserRef(chatWithEmail.replace(".",",")).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                    if(!chatWithEmail.replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))) {
+
+                                        FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
+                                        Current_UserName += " send you a message";
+                                        sendNotification notify = new sendNotification(Current_UserName, postID, FCM_token);
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
                 }
-                else{
-                    addMessageBox(chatwithName + ":-\n" + message, 2);
-                }
-            }
+            });
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+        }
 
-            }
+    }
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError firebaseError) {
-
-            }
-        });
-
-//        scrollView.fullScroll(View.FOCUS_DOWN);
-    }*/
-
-//    public void addMessageBox(String message, int type){
-//        TextView textView = (TextView)findViewById(R.id.text_message_left);
-//        TextView textview_right = (TextView) findViewById(R.id.text_message_right);
-//
-//        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        lp.setMargins(0, 0, 0, 10);
-//        textView.setLayoutParams(lp);
-//
-//
-//        if(type == 1) {
-//            textView.setText(message);
-//            textView.setBackgroundResource(R.drawable.rounded_corner1);
-//
-//        }
-//        else{
-//            textview_right.setText(message);
-//            textView.setBackgroundResource(R.drawable.rounded_corner2);
-//
-//        }
-//
-//        layout.addView(textView);
-//        scrollView.fullScroll(View.FOCUS_DOWN);
-//    }
 
     private void sendNotification(final String cu_user)
     {

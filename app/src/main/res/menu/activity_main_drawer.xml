@@ -54,6 +54,14 @@
             android:title="Prayer Time"/></group>
 
         <group android:checkableBehavior="single"
+            android:id="@+id/group8">
+            <item
+                android:id="@+id/rateus"
+                android:icon="@drawable/rating_stars_logo"
+                android:title="Rate Us" />
+        </group>
+
+        <group android:checkableBehavior="single"
             android:id="@+id/group6">
             <item
                 android:id="@+id/logout"

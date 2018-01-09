@@ -67,11 +67,16 @@ public class search_user_for_newMessage extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Intent profile_intent = new Intent(search_user_for_newMessage.this , Chat.class);
-                profile_intent.putExtra("emailforchat", mUsersList.get(i).getEmail());
-                profile_intent.putExtra("msg_id", "");
-                finish();
-                startActivity(profile_intent);
+                if(mUsersList != null) {
+
+                    Intent profile_intent = new Intent(search_user_for_newMessage.this, Chat.class);
+                    profile_intent.putExtra("emailforchat", mUsersList.get(i).getEmail());
+                    profile_intent.putExtra("msg_id", "");
+                    profile_intent.putExtra("image_url", mUsersList.get(i).getImage().toString());
+                    finish();
+                    startActivity(profile_intent);
+
+                }
 
 //                mSearchParams.setText(mUsersList.get(i).getEmail());
 //                hideSoftkeyboard();

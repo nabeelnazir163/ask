@@ -236,6 +236,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
+
+
         init();
         initPost();
         initAnswerSection();
@@ -264,7 +266,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
-}
+    }
 
     public void setnumberSeen(String seencount){ tv_seenPost.setText(seencount); }
 
@@ -412,7 +414,29 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                             .into(viewHolder.commentOwnerDisplay);
                 }
 
-                viewHolder.reply_layout.setOnClickListener(new View.OnClickListener() {
+                viewHolder.commentOwnerDisplay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent user_profile_intent = new Intent(PostActivity.this, UserProfile.class);
+                        user_profile_intent.putExtra("email", model.getUser().getEmail());
+                        startActivity(user_profile_intent);
+
+                    }
+                });
+
+                viewHolder.usernameTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent user_profile_intent = new Intent(PostActivity.this, UserProfile.class);
+                        user_profile_intent.putExtra("email", model.getUser().getEmail());
+                        startActivity(user_profile_intent);
+
+                    }
+                });
+
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
