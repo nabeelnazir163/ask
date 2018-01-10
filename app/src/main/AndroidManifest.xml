@@ -126,7 +126,8 @@
         <activity android:name=".ui.activities.viewallsearchesForUser" />
         <activity android:name=".ui.activities.viewallPosts" />
         <activity android:name=".ui.activities.viewallComments" />
-        <activity android:name=".ui.activities.sent_messages"></activity>
+        <activity android:name=".ui.activities.sent_messages" />
+        <activity android:name=".ui.activities.edit_profile"></activity>
     </application>
 
 </manifest>

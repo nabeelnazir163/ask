@@ -38,6 +38,8 @@ import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+import static com.google.firebase.crash.FirebaseCrash.log;
+
 
 public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
@@ -110,6 +112,7 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
     @Override
     protected void onPause() {
         super.onPause();
+
         stopLocationUpdates();
     }
 
@@ -117,7 +120,7 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
     protected void onResume() {
         super.onResume();
         checkPlayServices();
-        if (mGoogleApiClient.isConnected()/* && mRequestLocationUpdates*/) {
+        if (mGoogleApiClient.isConnected() && mRequestLocationUpdates) {
             startLocationUpdates();
         }
     }
@@ -142,7 +145,9 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
                     showSettingsAlert();
             }
         }
+
     }
+
     public void showSettingsAlert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
@@ -211,17 +216,20 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
     }
 
     protected void stopLocationUpdates() {
-        if(mGoogleApiClient.isConnected())
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
 
     @Override
     public void onConnected(Bundle bundle) {
-        displayLocation();
 
-        if(mRequestLocationUpdates) {
-            startLocationUpdates();
+        /*if(mGoogleApiClient.isConnected()){
+            log("Google_Api_Client: It was connected on (onConnected) function, working as it should.");
         }
+        else{
+            log("Google_Api_Client: It was NOT connected on (onConnected) function, It is definetly bugged.");
+        }*/
+        displayLocation();
+        startLocationUpdates();
     }
 
     @Override
@@ -231,11 +239,11 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
 
     @Override
     public void onLocationChanged(Location location) {
-        mLastLocation = location;
+//        mLastLocation = location;
 
-        Toast.makeText(getApplicationContext(), "Location changed!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "Location changed!", Toast.LENGTH_SHORT).show();
 
-        displayLocation();
+//        displayLocation();
     }
 
     @Override

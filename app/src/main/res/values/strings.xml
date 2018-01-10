@@ -118,6 +118,7 @@
     <string name="message">Message</string>
     <string name="no_new_messages">No new Messages</string>
     <string name="c_email">Confirm Email</string>
+    <string name="update_profile">Update Profile</string>
 
 
     <string name="FCM_PREF">com.example.nabeel.postandcommenttutorial.fcm_pref</string>

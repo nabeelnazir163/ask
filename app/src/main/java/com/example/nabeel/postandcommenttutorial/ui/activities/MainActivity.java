@@ -154,17 +154,18 @@ public class MainActivity extends BaseActivity
             viewPagerAdapter.addFragments(new bookmarkFragment(), "Bookmarks");
             viewPagerAdapter.addFragments(new unAnsweredFragment(), "Unanswered");
             viewPagerAdapter.addFragments(new Followers(), "Following");
-        }
-
-        if(userType == 2) {
+        } else if(userType == 2) {
             viewPagerAdapter.addFragments(new bookmarkFragment(), "Bookmarks");
            // viewPagerAdapter.addFragments(new NotificationFrag(), "Notification");
             viewPagerAdapter.addFragments(new Followers(), "Following");
+        } else if (userType == 3){
+            tabLayout.setTabMode(TabLayout.MODE_FIXED);
         }
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
         tabLayout.setTabTextColors(Color.BLACK , Color.WHITE);
+
 
         /*mBadge = (NotificationBadge)findViewById(R.id.badge);
         notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);

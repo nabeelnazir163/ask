@@ -58,11 +58,13 @@ public class UserProfile extends BaseActivity {
     private TextView mFollowtv;
     private TextView munfollowtv;
     private TextView mMessage;
+    private TextView update_Profile;
 
     String mUserEmail;
     String email_user;
     String mEmail;
     String userType_;
+    String imageuri;
     int userType;
 
     private RecyclerView userProfile_question;
@@ -89,6 +91,7 @@ public class UserProfile extends BaseActivity {
         fiqah = (TextView) findViewById(R.id.fiqahinuserprofile);
         mFollowtv = (TextView) findViewById(R.id.followText);
         munfollowtv = (TextView) findViewById(R.id.unfollowText);
+        update_Profile = (TextView) findViewById(R.id.update_profile);
 
         mMessage = (TextView) findViewById(R.id.chat);
 
@@ -97,6 +100,20 @@ public class UserProfile extends BaseActivity {
 
         email_user = FirebaseUtils.getCurrentUser().getEmail();
         mEmail = mUserEmail.replace(".",",");
+
+        FirebaseUtils.getUserRef(mEmail).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                imageuri = dataSnapshot.child("image").getValue().toString();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         mSwipeRef_userProfile = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout_userProfile);
 
@@ -120,6 +137,14 @@ public class UserProfile extends BaseActivity {
         mLayoutManager.setStackFromEnd(true);
         userProfile_question.setLayoutManager(mLayoutManager);
 
+        update_Profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(UserProfile.this, edit_profile.class));
+                finish();
+            }
+        });
 
         mMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +153,7 @@ public class UserProfile extends BaseActivity {
                 Intent message_intent = new Intent(UserProfile.this , Chat.class);
                 message_intent.putExtra("emailforchat", mEmail);
                 message_intent.putExtra("msg_id", "");
+                message_intent.putExtra("image_url", imageuri);
                 startActivity(message_intent);
 
             }
@@ -192,6 +218,7 @@ public class UserProfile extends BaseActivity {
         } else if (!mUserEmail.equals(email_user)){
 
             mFollowtv.setVisibility(View.VISIBLE);
+            update_Profile.setVisibility(View.GONE);
 
         }
 
