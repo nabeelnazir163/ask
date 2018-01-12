@@ -15,6 +15,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -71,7 +72,7 @@ public class homeFragment extends Fragment {
 
     private RecyclerView mPostRecyclerView;
 
-    String Current_User;
+//    String Current_User;
 
     private FirebaseAuth mAuth;
 
@@ -85,6 +86,10 @@ public class homeFragment extends Fragment {
     FloatingActionButton fab;
     SharedPreferences userType_sp;
     private int userType;
+
+    private String fiqah;
+    private String image_url;
+    private String name;
 
     public homeFragment() {
         // Required empty public constructor
@@ -296,13 +301,32 @@ public class homeFragment extends Fragment {
                             });
                 }
 
-                if(model.getUser().getFiqah() != null){
+                FirebaseUtils.getUserRef(model.getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    viewHolder.fiqahOfAlim.setVisibility(View.VISIBLE);
-                    viewHolder.setFiqahOfAlim(model.getUser().getFiqah());
+                        fiqah = dataSnapshot.child("fiqah").getValue().toString();
+                        image_url = dataSnapshot.child("image").getValue().toString();
+                        name = dataSnapshot.child("name").getValue().toString();
 
-                }
+                        if(!TextUtils.isEmpty(fiqah)){
 
+                            viewHolder.fiqahOfAlim.setVisibility(View.VISIBLE);
+                            viewHolder.setFiqahOfAlim(fiqah);
+                        }
+
+                        viewHolder.setUsername(name);
+
+                        Glide.with(getActivity())
+                                .load(image_url)
+                                .into(viewHolder.postOwnerDisplayImageView);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
                 if(userType == 2){
 
@@ -332,7 +356,7 @@ public class homeFragment extends Fragment {
                 viewHolder.setNumCOmments(String.valueOf(model.getNumComments()));
                 viewHolder.setNumAnswers(String.valueOf(model.getNumAnswers()));
                 viewHolder.setTIme(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
-                viewHolder.setUsername(model.getUser().getName());
+
                 viewHolder.setPostText(model.getPostText());
                 viewHolder.setnumberSeen(String.valueOf(model.getNumSeen()));
 
@@ -360,11 +384,6 @@ public class homeFragment extends Fragment {
 
                     }
                 });
-
-
-                Glide.with(getActivity())
-                        .load(model.getUser().getImage())
-                        .into(viewHolder.postOwnerDisplayImageView);
 
 
                 if (model.getPostImageUrl() != null) {
@@ -505,7 +524,7 @@ public class homeFragment extends Fragment {
 
                         popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
 
-                        if(!model.getUser().getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))) {
+                        if(!model.getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))) {
 
                             Menu m = popupMenu.getMenu();
                             m.removeItem((R.id.delete));
@@ -521,7 +540,7 @@ public class homeFragment extends Fragment {
 
                                 if(id == R.id.delete){
 
-                                    if(model.getUser().getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))){
+                                    if(model.getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))){
 
                                         Toast.makeText(getContext() , "Delete", Toast.LENGTH_SHORT).show();
 
@@ -562,32 +581,15 @@ public class homeFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
 
-                        FirebaseUtils.getPostRef().child(model.getPostId()).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
+                        Intent user_profile = new Intent(getContext() , UserProfile.class);
+                        user_profile.putExtra("email", model.getEmail());
+                        startActivity(user_profile);
 
-                                Current_User = (String) dataSnapshot.child("user").child("email").getValue();
+                        if(userType != 3) {
 
-                                Intent user_profile = new Intent(getContext() , UserProfile.class);
-//                                user_profile.putExtra("postkey", model.getPostId());
-                                user_profile.putExtra("email", Current_User);
-                                startActivity(user_profile);
+                            PostSeen(model.getPostId());
+                        }
 
-                                if(userType != 3){
-
-                                    PostSeen(model.getPostId());
-
-                                }
-
-
-
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
                     }
                 });
 
@@ -595,30 +597,15 @@ public class homeFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
 
-                        FirebaseUtils.getPostRef().child(model.getPostId()).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
+                        Intent user_profile = new Intent(getContext() , UserProfile.class);
+                        user_profile.putExtra("email", model.getEmail());
+                        startActivity(user_profile);
 
-                                Current_User = (String) dataSnapshot.child("user").child("email").getValue();
+                        if(userType != 3){
 
-                                Intent user_profile = new Intent(getContext() , UserProfile.class);
-                                user_profile.putExtra("postkey", model.getPostId());
-                                user_profile.putExtra("email", Current_User);
-                                startActivity(user_profile);
+                            PostSeen(model.getPostId());
 
-                                if(userType != 3){
-
-                                    PostSeen(model.getPostId());
-
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-
+                        }
                     }
                 });
 

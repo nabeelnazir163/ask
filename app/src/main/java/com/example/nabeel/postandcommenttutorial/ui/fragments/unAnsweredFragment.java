@@ -13,6 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,6 +57,10 @@ public class unAnsweredFragment extends Fragment {
     RecyclerView unanswered_recyc_view;
     String Current_User;
     private SwipeRefreshLayout mSwipeRef_unAnswered;
+
+    private String fiqah;
+    private String image_url;
+    private String name;
 
     public unAnsweredFragment() {
         // Required empty public constructor
@@ -140,12 +145,40 @@ public class unAnsweredFragment extends Fragment {
                                                 });
                                     }
 
-                                    if(model.getUser().getFiqah() != null){
+
+                                    FirebaseUtils.getUserRef(model.getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                            fiqah = dataSnapshot.child("fiqah").getValue().toString();
+                                            image_url = dataSnapshot.child("image").getValue().toString();
+                                            name = dataSnapshot.child("name").getValue().toString();
+
+                                            if(!TextUtils.isEmpty(fiqah)){
+
+                                                viewHolder.fiqahOfAlim.setVisibility(View.VISIBLE);
+                                                viewHolder.setFiqahOfAlim(fiqah);
+                                            }
+
+                                            viewHolder.setUsername(name);
+
+                                            Glide.with(getActivity())
+                                                    .load(image_url)
+                                                    .into(viewHolder.postOwnerDisplayImageView);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                                    /*if(model.getUser().getFiqah() != null){
 
                                         viewHolder.fiqahOfAlim.setVisibility(View.VISIBLE);
                                         viewHolder.setFiqahOfAlim(model.getUser().getFiqah());
 
-                                    }
+                                    }*/
 
 
                                     if(userType == 2){
@@ -163,7 +196,7 @@ public class unAnsweredFragment extends Fragment {
                                     viewHolder.setNumCOmments(String.valueOf(model.getNumComments()));
                                     viewHolder.setNumAnswers(String.valueOf(model.getNumAnswers()));
                                     viewHolder.setTIme(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
-                                    viewHolder.setUsername(model.getUser().getName());
+//                                    viewHolder.setUsername(model.getUser().getName());
                                     viewHolder.setPostText(model.getPostText());
                                     viewHolder.setnumberSeen(String.valueOf(model.getNumSeen()));
 
@@ -355,7 +388,7 @@ public class unAnsweredFragment extends Fragment {
 
                                             popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
 
-                                            if(!model.getUser().getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))) {
+                                            if(!model.getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))) {
 
                                                 Menu m = popupMenu.getMenu();
                                                 m.removeItem((R.id.delete));
@@ -372,7 +405,7 @@ public class unAnsweredFragment extends Fragment {
 
                                                     if(id == R.id.delete){
 
-                                                        if(model.getUser().getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))){
+                                                        if(model.getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))){
 
                                                             Toast.makeText(getContext() , "Delete", Toast.LENGTH_SHORT).show();
 
@@ -440,9 +473,9 @@ public class unAnsweredFragment extends Fragment {
                                         }
                                     });
 
-                                    Glide.with(getActivity())
+                                    /*Glide.with(getActivity())
                                             .load(model.getUser().getImage())
-                                            .into(viewHolder.postOwnerDisplayImageView);
+                                            .into(viewHolder.postOwnerDisplayImageView);*/
 
                                     if (model.getPostImageUrl() != null) {
                                         viewHolder.postDisplayImageVIew.setVisibility(View.VISIBLE);

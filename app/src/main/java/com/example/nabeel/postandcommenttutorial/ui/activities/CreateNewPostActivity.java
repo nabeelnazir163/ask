@@ -159,7 +159,7 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        User user = dataSnapshot.getValue(User.class);
+//                        User user = dataSnapshot.getValue(User.class);
 
                         final String postId = FirebaseUtils.getUid();
 
@@ -167,7 +167,7 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
 
                         String text = postDialogTextView.getText().toString();
 
-                        mPost.setUser(user);
+                        mPost.setEmail(FirebaseUtils.getCurrentUser().getEmail());
                         mPost.setNumComments(0);
                         mPost.setNumAnswers(0);
                         mPost.setNumSeen(0);

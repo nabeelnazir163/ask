@@ -467,7 +467,6 @@ public class signupScreenForAlim extends BaseActivity {
                         FirebaseUtils.getUserRef(email).child("fcmtoken").setValue(token);
                         FirebaseUtils.getUserRef(email).child("uid").setValue(FirebaseUtils.getCurrentUser().getUid());
 
-
                         if(!TextUtils.isEmpty(State_Alim)){
 
                             FirebaseUtils.getUserRef(email).child("state").setValue(State_Alim);

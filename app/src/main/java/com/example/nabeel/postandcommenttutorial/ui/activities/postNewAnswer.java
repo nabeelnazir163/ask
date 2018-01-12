@@ -433,11 +433,12 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
 
-                        User user = dataSnapshot.getValue(User.class);
+//                        User user = dataSnapshot.getValue(User.class);
                         final String uid = FirebaseUtils.getUid();
                         String strAnswer = mAnswerEditText.getText().toString();
 
-                        mAnswer.setUser(user);
+//                        mAnswer.setUser(user);
+                        mAnswer.setEmail(FirebaseUtils.getCurrentUser().getEmail());
                         mAnswer.setanswerId(uid);
                         mAnswer.setanswer(strAnswer);
                         mAnswer.setNumLikes(0);
@@ -567,28 +568,14 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                             }
                         });
 
-                        String postid = mPost.getPostId();
-
-                        DatabaseReference mDatabase = FirebaseUtils.getPostRef().child(postid).child("user");
-
-                        mDatabase.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                email = dataSnapshot.child("email").getValue().toString();
-
-                                String updated_email = email.replace(".",",");
+                                String updated_email = mPost.getEmail().replace(".",",");
 
                                 if(!C_Current_user.equals(updated_email)){
 
-//                                    sendNotification();
 
                                     /**
                                      * Send notification on answer post
                                      */
-
-
-                                    final String C_Current_user =FirebaseUtils.getCurrentUser().getEmail().replace(".",",");
 
                                     FirebaseUtils.getUserRef(C_Current_user).addValueEventListener(new ValueEventListener() {
                                         @Override
@@ -618,8 +605,6 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                                                         }
                                                     });
 
-                                                    //notify.send(Current_UserName,postId,FCM_token);
-                                                    // asy n
                                                 }
 
                                                 @Override
@@ -640,30 +625,7 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                                      *  NOTIFICATION WORK ENDS HERE
                                      */
 
-
-//                                    /*FirebaseUtils.getNotificationRef().child(updated_email)
-//                                            .child("username").setValue(C_Current_user);
-//
-//                                    FirebaseUtils.getNotificationRef().child(updated_email)
-//                                            .child("message").setValue( " Send you a Message");
-//
-//                                    Toast.makeText(getApplicationContext(), C_Current_user , Toast.LENGTH_SHORT).show();*/
-//
-//                                    Map<String, String> map = new HashMap<String, String>();
-//                                    map.put("notification", "answer on your post");
-//                                    map.put("name", name);
-//                                    map.put("imageurl" , image_current_user);
-//                                    FirebaseUtils.getNotificationRef().child(updated_email).push().setValue(map);
-
                                 }
-
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
 
                     }
                 });

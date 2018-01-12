@@ -8,10 +8,11 @@ import java.io.Serializable;
  */
 
 public class Post implements Serializable {
-    private User user = new User();
     private String postText;
     private String postImageUrl;
     private String postId;
+//    private User user;
+    private String Email;
     private long numSeen;
     private long numLikes;
     private long numComments;
@@ -22,9 +23,9 @@ public class Post implements Serializable {
     public Post() {
     }
 
-    public Post(User user, String postText, String postImageUrl, String postId, long numLikes, long numComments, long timeCreated, long numAnswers, long numSeen/*, String FCM_TOKEN*/) {
+    public Post(String email,/*User user,*/ String postText, String postImageUrl, String postId, long numLikes, long numComments, long timeCreated, long numAnswers, long numSeen/*, String FCM_TOKEN*/) {
 
-        this.user = user;
+        this.Email = email;
         this.postText = postText;
         this.postImageUrl = postImageUrl;
         this.postId = postId;
@@ -33,6 +34,7 @@ public class Post implements Serializable {
         this.timeCreated = timeCreated;
         this.numAnswers = numAnswers;
         this.numSeen = numSeen;
+//        this.user = user;
 //        this.FCM_TOKEN = FCM_TOKEN;
     }
 
@@ -50,12 +52,6 @@ public class Post implements Serializable {
 
     public void setNumSeen(long numSeen) {
         this.numSeen = numSeen;
-    }
-
-    public User getUser() { return user; }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public String getPostText() {
@@ -106,11 +102,19 @@ public class Post implements Serializable {
         this.timeCreated = timeCreated;
     }
 
-    /*public String getFCM_TOKEN() {
-        return FCM_TOKEN;
+    public String getEmail() {
+        return Email;
     }
 
-    public void setFCM_TOKEN(String FCM_TOKEN) {
-        this.FCM_TOKEN = FCM_TOKEN;
-    }*/
+    public void setEmail(String email) {
+        Email = email;
+    }
+
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 }

@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -73,30 +74,9 @@ public class answersActivity extends BaseActivity{
     int userType;
 
     String tosendNotifemail;
-//    Answer mAnswer;
-//    String email;
-//
-//    LinearLayout audiobtnLayout;
-//
-//    SeekBar seekBar;
-//
-//    private Button Start, Stop, Play, Ok, cancel;
-//
-//    private String OutPutFile;
-//
-//    private MediaRecorder myAudioRecorder;
-//
-//    Handler handler;
-//
-//    MediaPlayer mediaPlayer;
-//
-//    TextView audiotv;
-//
-//    private StorageReference mStorage;
-//
-//    private EditText mAnswerEditTextView;
-//
-//    Runnable runnable;
+
+    private String image_url;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,15 +121,7 @@ public class answersActivity extends BaseActivity{
 
                final String audiokey = getRef(position).getKey();
 
-                FirebaseUtils.getAnswerRef()
-                        .child(mPost.getPostId())
-                        .child(model.getanswerId())
-                        .child("user").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        String email = dataSnapshot.child("email").getValue().toString();
-//                        Toast.makeText(getApplicationContext(), email , Toast.LENGTH_SHORT).show();
+                        String email = model.getEmail();
 
                         if(email.equals(FirebaseUtils.getCurrentUser().getEmail())){
 
@@ -160,6 +132,25 @@ public class answersActivity extends BaseActivity{
                             viewHolder.edit_answer_iv.setVisibility(View.GONE);
 
                         }
+
+
+                FirebaseUtils.getUserRef(model.getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        image_url = dataSnapshot.child("image").getValue().toString();
+                        name = dataSnapshot.child("name").getValue().toString();
+
+                        if(!TextUtils.isEmpty(name)){
+                            viewHolder.setanswerUsername(name);
+                        }
+
+                        if (!TextUtils.isEmpty(image_url)) {
+                            Glide.with(answersActivity.this)
+                                    .load(image_url)
+                                    .into(viewHolder.AnswerOwnerDisplay);
+                        }
+
                     }
 
                     @Override
@@ -167,10 +158,6 @@ public class answersActivity extends BaseActivity{
 
                     }
                 });
-
-               if(model.getUser().getName() != null){
-                   viewHolder.setanswerUsername(model.getUser().getName());
-               }
 
                viewHolder.setAnswer(model.getanswer());
                viewHolder.setAnswerTime(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
@@ -240,12 +227,6 @@ public class answersActivity extends BaseActivity{
                     viewHolder.answerDispalyImageview.setVisibility(View.GONE);
                 }
 
-               if (model.getUser().getImage() != null) {
-                   Glide.with(answersActivity.this)
-                           .load(model.getUser().getImage())
-                           .into(viewHolder.AnswerOwnerDisplay);
-               }
-
                if(model.getAudio() != null){
 
                    viewHolder.playaudio.setVisibility(View.VISIBLE);
@@ -258,7 +239,7 @@ public class answersActivity extends BaseActivity{
 
                        if(userType != 3){
 
-                           LikeAnswer(model.getanswerId(), mPost.getPostId(), viewHolder);
+                           LikeAnswer(model.getanswerId(), mPost.getPostId(), viewHolder, model);
 
                        } else if ( userType == 3 ){
 
@@ -364,7 +345,7 @@ public class answersActivity extends BaseActivity{
 
     }
 
-    private void LikeAnswer(final String answerId, final String postID, final AnswerHolder v) {
+    private void LikeAnswer(final String answerId, final String postID, final AnswerHolder v, final Answer model) {
 
         v.LikeAnswer_iv.setClickable(false);
         v.LikeAnswer_iv.setEnabled(false);
@@ -428,35 +409,25 @@ public class answersActivity extends BaseActivity{
                                                 @Override
                                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                                     Current_UserName = dataSnapshot.child("name").getValue().toString();
-                                                    FirebaseUtils.getAnswerRef().child(postID).child(answerId)
-                                                            .child("user").addValueEventListener(new ValueEventListener() {
-                                                        @Override
-                                                        public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                                            tosendNotifemail = dataSnapshot.child("email").getValue().toString();
+                                                        tosendNotifemail = model.getEmail();
 
-                                                            FirebaseUtils.getUserRef(tosendNotifemail.replace(".",",")).addValueEventListener(new ValueEventListener() {
-                                                                @Override
-                                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                        FirebaseUtils.getUserRef(tosendNotifemail.replace(".",",")).addValueEventListener(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                                                    if(!C_Current_user.equals(tosendNotifemail.replace(".",","))) {
+                                                                if(!C_Current_user.equals(tosendNotifemail.replace(".",","))) {
 
-                                                                        FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
-                                                                        Current_UserName += " liked your answer";
-                                                                        sendNotification notify = new sendNotification(Current_UserName, postID, FCM_token);
-                                                                    }
+                                                                    FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
+                                                                    Current_UserName += " liked your answer";
+                                                                    sendNotification notify = new sendNotification(Current_UserName, postID, FCM_token);
                                                                 }
-                                                                @Override
-                                                                public void onCancelled(DatabaseError databaseError) {
-                                                                }
-                                                            });
-                                                        }
+                                                            }
+                                                            @Override
+                                                            public void onCancelled(DatabaseError databaseError) {
+                                                            }
+                                                        });
 
-                                                        @Override
-                                                        public void onCancelled(DatabaseError databaseError) {
-
-                                                        }
-                                                    });
                                                 }
 
                                                 @Override

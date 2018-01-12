@@ -14,6 +14,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -73,7 +74,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     private EditText mCommentEditTextView;
     private Comment mComment;
     int userType;
-    String email;
+//    String email;
 
     ImageView mostLikedanswer_iv;
     TextView mostlikedanswer_name_tv;
@@ -106,6 +107,16 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     String Current_UserName;
     String FCM_token;
     PopupMenu popupMenu;
+
+    private String fiqah;
+    private String image_url;
+    private String name;
+
+    private String image_url_ans;
+    private String name_ans;
+
+    private String image_url_comment;
+    private String name_comment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -334,7 +345,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
            @Override
            protected void populateViewHolder(final AnswerHolder viewHolder, final Answer model, int position) {
 
-                   mostLikedanseer(model.getanswer());
+                   /*mostLikedanseer(model.getanswer());
                    setMostlikedanswer_name_tv(model.getUser().getName());
                    setMostlikedanswer_time_tv(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
 
@@ -342,7 +353,35 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                        Glide.with(PostActivity.this)
                                .load(model.getUser().getImage())
                                .into(mostLikedanswer_iv);
+                   }*/
+
+               FirebaseUtils.getUserRef(mPost.getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
+                   @Override
+                   public void onDataChange(DataSnapshot dataSnapshot) {
+
+                       image_url_ans = dataSnapshot.child("image").getValue().toString();
+                       name_ans = dataSnapshot.child("name").getValue().toString();
+                       mostLikedanseer(model.getanswer());
+                       setMostlikedanswer_time_tv(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
+
+                       if(!TextUtils.isEmpty(name_ans)){
+                           mostlikedanswer_name_tv.setText(name_ans);
+
+                       }
+
+                       if (!TextUtils.isEmpty(image_url_ans)) {
+                           Glide.with(PostActivity.this)
+                                   .load(image_url_ans)
+                                   .into(mostLikedanswer_iv);
+                       }
+
                    }
+
+                   @Override
+                   public void onCancelled(DatabaseError databaseError) {
+
+                   }
+               });
            }
        };
 
@@ -367,87 +406,95 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             @Override
             protected void populateViewHolder(final CommentHolder viewHolder, final Comment model, int position) {
 
-                if (model.getUser().getName() != null) {
+            FirebaseUtils.getUserRef(model.getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    viewHolder.setUsername(model.getUser().getName());
+                    image_url_comment = dataSnapshot.child("image").getValue().toString();
+                    name_comment = dataSnapshot.child("name").getValue().toString();
 
+                    viewHolder.setUsername(name_comment);
+
+                    Glide.with(PostActivity.this)
+                            .load(image_url_comment)
+                            .into(viewHolder.commentOwnerDisplay);
+
+                    viewHolder.setComment(model.getComment());
+                    viewHolder.setTime(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
                 }
 
-                viewHolder.setComment(model.getComment());
-                viewHolder.setTime(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-                viewHolder.commentTextView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(viewHolder.commentTextView.getLineCount() <= 3){
+                }
+            });
 
-                            viewHolder.readmore_rel_lay_postactivity.setVisibility(View.GONE);
+            viewHolder.commentTextView.post(new Runnable() {
+                @Override
+                public void run() {
+                    if(viewHolder.commentTextView.getLineCount() <= 3){
 
-                        } else if(viewHolder.commentTextView.getLineCount() >3){
-
-                            viewHolder.readmore_rel_lay_postactivity.setVisibility((View.VISIBLE));
-
-                        }
-                    }
-                });
-
-                viewHolder.readmore_rel_lay_postactivity.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        viewHolder.commentTextView.setMaxLines(Integer.MAX_VALUE);
                         viewHolder.readmore_rel_lay_postactivity.setVisibility(View.GONE);
 
+                    } else if(viewHolder.commentTextView.getLineCount() >3){
+
+                        viewHolder.readmore_rel_lay_postactivity.setVisibility((View.VISIBLE));
+
                     }
-                });
-
-                viewHolder.reply_count_tv.setText(String.valueOf(model.getNumReply()));
-
-                if((model.getNumReply()) > 1){
-                    viewHolder.reply_text_tv.setText(R.string.replies);
-                } else {
-                    viewHolder.reply_text_tv.setText(R.string.reply);
                 }
+            });
 
-                if (model.getUser().getImage() != null) {
-                    Glide.with(PostActivity.this)
-                            .load(model.getUser().getImage())
-                            .into(viewHolder.commentOwnerDisplay);
+            viewHolder.readmore_rel_lay_postactivity.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    viewHolder.commentTextView.setMaxLines(Integer.MAX_VALUE);
+                    viewHolder.readmore_rel_lay_postactivity.setVisibility(View.GONE);
+
                 }
+            });
 
-                viewHolder.commentOwnerDisplay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+            viewHolder.reply_count_tv.setText(String.valueOf(model.getNumReply()));
 
-                        Intent user_profile_intent = new Intent(PostActivity.this, UserProfile.class);
-                        user_profile_intent.putExtra("email", model.getUser().getEmail());
-                        startActivity(user_profile_intent);
+            if((model.getNumReply()) > 1){
+                viewHolder.reply_text_tv.setText(R.string.replies);
+            } else {
+                viewHolder.reply_text_tv.setText(R.string.reply);
+            }
 
-                    }
-                });
+            viewHolder.commentOwnerDisplay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                viewHolder.usernameTextView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                    Intent user_profile_intent = new Intent(PostActivity.this, UserProfile.class);
+                    user_profile_intent.putExtra("email", model.getEmail());
+                    startActivity(user_profile_intent);
 
-                        Intent user_profile_intent = new Intent(PostActivity.this, UserProfile.class);
-                        user_profile_intent.putExtra("email", model.getUser().getEmail());
-                        startActivity(user_profile_intent);
+                }
+            });
 
-                    }
-                });
+            viewHolder.usernameTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                    Intent user_profile_intent = new Intent(PostActivity.this, UserProfile.class);
+                    user_profile_intent.putExtra("email", model.getEmail());
+                    startActivity(user_profile_intent);
 
-                        Intent intent = new Intent(getApplicationContext(), comment_reply_activity.class);
-                        intent.putExtra(Constants.EXTRA_REPLY, model);
-                        intent.putExtra(Constants.EXTRA_POST, mPost);
-                        startActivity(intent);
+                }
+            });
 
-                    }
-                });
+            viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent = new Intent(getApplicationContext(), comment_reply_activity.class);
+                    intent.putExtra(Constants.EXTRA_REPLY, model);
+                    intent.putExtra(Constants.EXTRA_POST, mPost);
+                    startActivity(intent);
+
+                }
+            });
             }
         };
         commentRecyclerView.setAdapter(commentAdapter);
@@ -484,20 +531,47 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
-           if(mPost.getUser().getFiqah() != null){
+        FirebaseUtils.getUserRef(mPost.getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                fiqah = dataSnapshot.child("fiqah").getValue().toString();
+                image_url = dataSnapshot.child("image").getValue().toString();
+                name = dataSnapshot.child("name").getValue().toString();
+
+                if(!TextUtils.isEmpty(fiqah)){
+
+                    fiqahOfAlim.setVisibility(View.VISIBLE);
+                    fiqahOfAlim.setText(fiqah);
+                }
+
+                postOwnerUsernameTextView.setText(name);
+
+                Glide.with(PostActivity.this)
+                        .load(image_url)
+                        .into(postOwnerDisplayImageView);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+           /*if(mPost.getUser().getFiqah() != null){
 
                fiqahOfAlim.setVisibility(View.VISIBLE);
                fiqahOfAlim.setText(mPost.getUser().getFiqah());
-       }
+       }*/
 
-        postOwnerUsernameTextView.setText(mPost.getUser().getName());
+//        postOwnerUsernameTextView.setText(mPost.getUser().getName());
         postTimeCreatedTextView.setText(DateUtils.getRelativeTimeSpanString(mPost.getTimeCreated()));
         postTextTextView.setText(mPost.getPostText());
         postNumCommentsTextView.setText(String.valueOf(mPost.getNumAnswers()));
 
-        Glide.with(PostActivity.this)
-                .load(mPost.getUser().getImage())
-                .into(postOwnerDisplayImageView);
+//        Glide.with(PostActivity.this)
+//                .load(mPost.getUser().getImage())
+//                .into(postOwnerDisplayImageView);
 
         postOwnerDisplayImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -778,7 +852,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                     }
                 });*/
 
-                if(!mPost.getUser().getEmail().replace(".",",")
+                if(!mPost.getEmail().replace(".",",")
                         .equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))) {
 
 //                    Menu m = popupMenu.getMenu();
@@ -796,7 +870,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
                         if(id == R.id.delete){
 
-                            if(mPost.getUser().getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))){
+                            if(mPost.getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))){
 
                                 Toast.makeText(getApplicationContext() , "Delete", Toast.LENGTH_SHORT).show();
 
@@ -890,7 +964,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                         final String uid = FirebaseUtils.getUid();
                         String strComment = mCommentEditTextView.getText().toString();
 
-                        mComment.setUser(user);
+                        mComment.setEmail(FirebaseUtils.getCurrentUser().getEmail());
                         mComment.setCommentId(uid);
                         mComment.setComment(strComment);
                         mComment.setTimeCreated(System.currentTimeMillis());
@@ -931,51 +1005,30 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
                                         final String C_Current_user =FirebaseUtils.getCurrentUser().getEmail().replace(".",",");
 
-                                        String postid = mPost.getPostId();
+                                        String updated_email = mPost.getEmail().replace(".",",");
 
-                                        DatabaseReference mDatabase = FirebaseUtils.getPostRef().child(postid).child("user");
+                                        if(!C_Current_user.equals(updated_email)){
 
-                                        mDatabase.addValueEventListener(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                            FirebaseUtils.getUserRef(C_Current_user).addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    Current_UserName = dataSnapshot.child("name").getValue().toString();
 
-                                                email = dataSnapshot.child("email").getValue().toString();
-
-                                                String updated_email = email.replace(".",",");
-
-                                                if(!C_Current_user.equals(updated_email)){
-
-
-                                                    FirebaseUtils.getUserRef(C_Current_user).addValueEventListener(new ValueEventListener() {
+                                                    FirebaseUtils.getPostRef().child(mPost.getPostId())
+                                                            .child("user").addValueEventListener(new ValueEventListener() {
                                                         @Override
                                                         public void onDataChange(DataSnapshot dataSnapshot) {
-                                                            Current_UserName = dataSnapshot.child("name").getValue().toString();
 
-                                                            FirebaseUtils.getPostRef().child(mPost.getPostId())
-                                                                    .child("user").addValueEventListener(new ValueEventListener() {
+                                                            String email = dataSnapshot.child("email").getValue().toString();
+
+                                                            FirebaseUtils.getUserRef(email.replace(".",",")).addValueEventListener(new ValueEventListener() {
                                                                 @Override
                                                                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                                                    String email = dataSnapshot.child("email").getValue().toString();
+                                                                    FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
+                                                                    Current_UserName +=" commented on your post";
+                                                                    sendNotification notify = new sendNotification(Current_UserName,mPost.getPostId(),FCM_token);
 
-                                                                    FirebaseUtils.getUserRef(email.replace(".",",")).addValueEventListener(new ValueEventListener() {
-                                                                        @Override
-                                                                        public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                                                            FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
-                                                                            Current_UserName +=" commented on your post";
-                                                                            sendNotification notify = new sendNotification(Current_UserName,mPost.getPostId(),FCM_token);
-
-                                                                        }
-
-                                                                        @Override
-                                                                        public void onCancelled(DatabaseError databaseError) {
-
-                                                                        }
-                                                                    });
-
-                                                                   //notify.send(Current_UserName,postId,FCM_token);
-                                                                    // asy n
                                                                 }
 
                                                                 @Override
@@ -984,6 +1037,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                                                                 }
                                                             });
 
+                                                           //notify.send(Current_UserName,postId,FCM_token);
+                                                            // asy n
                                                         }
 
                                                         @Override
@@ -991,18 +1046,15 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
                                                         }
                                                     });
+
                                                 }
 
-                                            }
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
 
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
-
-                                            }
-                                        });
-
-
-
+                                                }
+                                            });
+                                        }
                                     }
                                 });
 
@@ -1176,89 +1228,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         super.onSaveInstanceState(outState);
     }
 
-
-    private void sendNotification()
-    {
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                int SDK_INT = android.os.Build.VERSION.SDK_INT;
-                if (SDK_INT > 8) {
-                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                            .permitAll().build();
-                    StrictMode.setThreadPolicy(policy);
-                    String send_email;
-
-                    //This is a Simple Logic to Send Notification different Device Programmatically....
-                    /*if (homeFragment.Loggedin_user_email.equals(email)) {
-                        send_email = "nabeelnazir163@gmail.com";
-                    } else {
-                        send_email = "nabeelnazir163@yahoo.com";
-                    }*/
-
-                    send_email = email;
-
-                    String user_name = homeFragment.login_user_name;
-
-//                    Toast.makeText(getApplicationContext() , "e" , Toast.LENGTH_LONG).show();
-
-                    Log.d("AppInfo", "Checking");
-
-                    try {
-
-
-                        String jsonResponse;
-
-                        URL url = new URL("https://onesignal.com/api/v1/notifications");
-                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                        con.setUseCaches(false);
-                        con.setDoOutput(true);
-                        con.setDoInput(true);
-
-                        con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-                        con.setRequestProperty("Authorization", "Basic NTgxNWU0OTItMmIxZS00OWM5LWJhYWEtN2NhZGViNTg1OTFk");
-                        con.setRequestMethod("POST");
-
-                        String strJsonBody = "{"
-                                + "\"app_id\": \"989e3989-b3e5-46e5-9cf9-8dae56df8bec\","
-
-                                + "\"filters\": [{\"field\": \"tag\", \"key\": \"User_ID\", \"relation\": \"=\", \"value\": \"" + send_email + "\"}],"
-
-                                + "\"data\": {\"foo\": \"bar\"},"
-                                + "\"contents\": {\"en\":\"" + user_name + " Commented on your post\"}"
-                                + "}";
-
-
-                        System.out.println("strJsonBody:\n" + strJsonBody);
-
-                        byte[] sendBytes = strJsonBody.getBytes("UTF-8");
-                        con.setFixedLengthStreamingMode(sendBytes.length);
-
-                        OutputStream outputStream = con.getOutputStream();
-                        outputStream.write(sendBytes);
-
-                        int httpResponse = con.getResponseCode();
-                        System.out.println("httpResponse: " + httpResponse);
-
-                        if (httpResponse >= HttpURLConnection.HTTP_OK
-                                && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST) {
-                            Scanner scanner = new Scanner(con.getInputStream(), "UTF-8");
-                            jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
-                            scanner.close();
-                        } else {
-                            Scanner scanner = new Scanner(con.getErrorStream(), "UTF-8");
-                            jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
-                            scanner.close();
-                        }
-                        System.out.println("jsonResponse:\n" + jsonResponse);
-
-                    } catch (Throwable t) {
-                        t.printStackTrace();
-                    }
-                }
-            }
-        });
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

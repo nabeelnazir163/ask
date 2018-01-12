@@ -44,6 +44,9 @@ public class viewallComments extends BaseActivity {
     Post mPost;
     int userType;
 
+    private String image_url_comment;
+    private String name_comment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,14 +87,29 @@ public class viewallComments extends BaseActivity {
             @Override
             protected void populateViewHolder(final CommentHolder viewHolder, final Comment model, int position) {
 
-                if (model.getUser().getName() != null) {
+                FirebaseUtils.getUserRef(model.getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    viewHolder.setUsername(model.getUser().getName());
+                        image_url_comment = dataSnapshot.child("image").getValue().toString();
+                        name_comment = dataSnapshot.child("name").getValue().toString();
 
-                }
+                        viewHolder.setUsername(name_comment);
+                        viewHolder.setComment(model.getComment());
+                        viewHolder.setTime(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
+                        Glide.with(viewallComments.this)
+                                .load(image_url_comment)
+                                .into(viewHolder.commentOwnerDisplay);
+                    }
 
-                viewHolder.setComment(model.getComment());
-                viewHolder.setTime(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+//                viewHolder.setComment(model.getComment());
+//                viewHolder.setTime(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
 
                 viewHolder.commentTextView.post(new Runnable() {
                     @Override
@@ -119,11 +137,11 @@ public class viewallComments extends BaseActivity {
                 });
 
 
-                if (model.getUser().getImage() != null) {
+                /*if (model.getUser().getImage() != null) {
                     Glide.with(viewallComments.this)
                             .load(model.getUser().getImage())
                             .into(viewHolder.commentOwnerDisplay);
-                }
+                }*/
 
                 viewHolder.reply_count_tv.setText(String.valueOf(model.getNumReply()));
 

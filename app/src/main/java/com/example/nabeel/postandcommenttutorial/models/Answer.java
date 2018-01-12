@@ -8,20 +8,21 @@ import java.io.Serializable;
 
 public class Answer implements Serializable {
 
-    private User user = new User();
+//    private User user = new User();
     private String answerId;
     private long timeCreated;
     private String answer;
     private String audio;
     private String answerImgUrl;
+    private String Email;
     private long numLikes;
 
     public Answer() {
     }
 
-    public Answer(User user, String answerId, long timeCreated, String answer , String answerAudiUrl, long numLikes, String answerImgUrl) {
+    public Answer(String email, String answerId, long timeCreated, String answer , String answerAudiUrl, long numLikes, String answerImgUrl) {
 
-        this.user = user;
+        this.Email = email;
         this.answerId = answerId;
         this.timeCreated = timeCreated;
         this.answer = answer;
@@ -50,13 +51,7 @@ public class Answer implements Serializable {
 
     public void setAudio(String answerAudiUrl) { this.audio = answerAudiUrl; }
 
-    public User getUser() { return user; }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getanswerId() {
+   public String getanswerId() {
         return answerId;
     }
 
@@ -76,5 +71,13 @@ public class Answer implements Serializable {
 
     public void setanswer(String answer) {
         this.answer = answer;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
     }
 }

@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class reply implements Serializable {
 
-    private User user = new User();
+    private String Email;
     private String replyId;
     private long timeCreated;
     private String reply_text;
@@ -16,19 +16,19 @@ public class reply implements Serializable {
     public reply() {
     }
 
-    public reply(User user, String replyId, long timeCreated, String reply_text) {
-        this.user = user;
+    public reply(String email, String replyId, long timeCreated, String reply_text) {
+        this.Email = email;
         this.replyId = replyId;
         this.timeCreated = timeCreated;
         this.reply_text = reply_text;
     }
 
-    public User getUser() {
-        return user;
+    public String getEmail() {
+        return Email;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setEmail(String email) {
+        Email = email;
     }
 
     public String getReplyId() {

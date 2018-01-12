@@ -6,7 +6,7 @@ import java.io.Serializable;
  */
 
 public class Comment implements Serializable {
-    private User user = new User();
+    private String Email;
     private String commentId;
     private long timeCreated;
     private String comment;
@@ -16,9 +16,9 @@ public class Comment implements Serializable {
     public Comment() {
     }
 
-    public Comment(User user, String commentId, long timeCreated, String comment/*,  long numCLikes,*/, long numreply) {
+    public Comment(String email, String commentId, long timeCreated, String comment/*,  long numCLikes,*/, long numreply) {
 
-        this.user = user;
+        this.Email = email;
         this.commentId = commentId;
         this.timeCreated = timeCreated;
         this.comment = comment;
@@ -43,12 +43,6 @@ public class Comment implements Serializable {
         this.numReply = numReply;
     }
 
-    public User getUser() { return user; }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public String getCommentId() {
         return commentId;
     }
@@ -69,5 +63,13 @@ public class Comment implements Serializable {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
     }
 }

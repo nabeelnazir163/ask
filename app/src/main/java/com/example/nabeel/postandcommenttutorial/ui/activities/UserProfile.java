@@ -67,6 +67,10 @@ public class UserProfile extends BaseActivity {
     String imageuri;
     int userType;
 
+    private String fiqah_string;
+    private String image_url;
+    private String name;
+
     private RecyclerView userProfile_question;
 
     private SwipeRefreshLayout mSwipeRef_userProfile;
@@ -117,19 +121,6 @@ public class UserProfile extends BaseActivity {
 
         mSwipeRef_userProfile = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout_userProfile);
 
-        mSwipeRef_userProfile.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        setupAdapterProfile();
-                        mSwipeRef_userProfile.setRefreshing(false);
-                    }
-                },5000);
-            }
-        });
-
         userProfile_question = (RecyclerView) findViewById(R.id.recyclerview_userprofile);
         userProfile_question.setLayoutManager(new LinearLayoutManager(this));
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -176,9 +167,35 @@ public class UserProfile extends BaseActivity {
 
                     setupAdapterProfileAlim();
 
+                    mSwipeRef_userProfile.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    setupAdapterProfileAlim();
+                                    mSwipeRef_userProfile.setRefreshing(false);
+                                }
+                            },5000);
+                        }
+                    });
+
                 } else if (userType_.equals("User")){
 
                     setupAdapterProfile();
+
+                    mSwipeRef_userProfile.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    setupAdapterProfile();
+                                    mSwipeRef_userProfile.setRefreshing(false);
+                                }
+                            },5000);
+                        }
+                    });
 
                 }
 
@@ -310,12 +327,39 @@ public class UserProfile extends BaseActivity {
                             });
                 }
 
-                if(model.getUser().getFiqah() != null){
+                FirebaseUtils.getUserRef(model.getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        fiqah_string = dataSnapshot.child("fiqah").getValue().toString();
+                        image_url = dataSnapshot.child("image").getValue().toString();
+                        name = dataSnapshot.child("name").getValue().toString();
+
+                        if(!TextUtils.isEmpty(fiqah_string)){
+
+                            viewHolder.fiqahOfAlim.setVisibility(View.VISIBLE);
+                            viewHolder.setFiqahOfAlim(fiqah_string);
+                        }
+
+                        viewHolder.setUsername(name);
+
+                        Glide.with(UserProfile.this)
+                                .load(image_url)
+                                .into(viewHolder.postOwnerDisplayImageView);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                /*if(model.getUser().getFiqah() != null){
 
                     viewHolder.fiqahOfAlim.setVisibility(View.VISIBLE);
                     viewHolder.setFiqahOfAlim(model.getUser().getFiqah());
 
-                }
+                }*/
 
 
                 if(userType == 2){
@@ -333,7 +377,7 @@ public class UserProfile extends BaseActivity {
                 viewHolder.setNumCOmments(String.valueOf(model.getNumComments()));
                 viewHolder.setNumAnswers(String.valueOf(model.getNumAnswers()));
                 viewHolder.setTIme(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
-                viewHolder.setUsername(model.getUser().getName());
+//                viewHolder.setUsername(model.getUser().getName());
                 viewHolder.setPostText(model.getPostText());
                 viewHolder.setnumberSeen(String.valueOf(model.getNumSeen()));
 
@@ -363,9 +407,9 @@ public class UserProfile extends BaseActivity {
                 });
 
 
-                Glide.with(UserProfile.this)
+                /*Glide.with(UserProfile.this)
                         .load(model.getUser().getImage())
-                        .into(viewHolder.postOwnerDisplayImageView);
+                        .into(viewHolder.postOwnerDisplayImageView);*/
 
 
                 if (model.getPostImageUrl() != null) {
@@ -493,7 +537,7 @@ public class UserProfile extends BaseActivity {
 
                         popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
 
-                        if(!model.getUser().getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))) {
+                        if(!model.getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))) {
 
                             Menu m = popupMenu.getMenu();
                             m.removeItem((R.id.delete));
@@ -509,7 +553,7 @@ public class UserProfile extends BaseActivity {
 
                                 if(id == R.id.delete){
 
-                                    if(model.getUser().getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))){
+                                    if(model.getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))){
 
                                         Toast.makeText(UserProfile.this , "Delete", Toast.LENGTH_SHORT).show();
 
@@ -575,38 +619,6 @@ public class UserProfile extends BaseActivity {
                         }
                     }
                 });
-                /*viewHolder.setNumCOmments(String.valueOf(model.getNumComments()));
-                viewHolder.setTIme(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
-                viewHolder.setUsername(model.getUser().getName());
-                viewHolder.setPostText(model.getPostText());
-
-                Glide.with(UserProfile.this)
-                        .load(model.getUser().getImage())
-                        .into(viewHolder.postOwnerDisplayImageView);
-
-                if (model.getPostImageUrl() != null) {
-                    viewHolder.postDisplayImageVIew.setVisibility(View.VISIBLE);
-                    StorageReference storageReference = FirebaseStorage.getInstance()
-                            .getReference(model.getPostImageUrl());
-                    Glide.with(UserProfile.this)
-                            .using(new FirebaseImageLoader())
-                            .load(storageReference)
-                            .into(viewHolder.postDisplayImageVIew);
-                } else {
-                    viewHolder.postDisplayImageVIew.setImageBitmap(null);
-                    viewHolder.postDisplayImageVIew.setVisibility(View.GONE);
-                }
-
-                viewHolder.postCommentLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(UserProfile.this, PostActivity.class);
-                        intent.putExtra(Constants.EXTRA_POST, model);
-                        startActivity(intent);
-                    }
-                });*/
-
-
             }
         };
 
@@ -690,12 +702,39 @@ public class UserProfile extends BaseActivity {
                             });
                 }
 
-                if(model.getUser().getFiqah() != null){
+                FirebaseUtils.getUserRef(model.getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        fiqah_string = dataSnapshot.child("fiqah").getValue().toString();
+                        image_url = dataSnapshot.child("image").getValue().toString();
+                        name = dataSnapshot.child("name").getValue().toString();
+
+                        if(!TextUtils.isEmpty(fiqah_string)){
+
+                            viewHolder.fiqahOfAlim.setVisibility(View.VISIBLE);
+                            viewHolder.setFiqahOfAlim(fiqah_string);
+                        }
+
+                        viewHolder.setUsername(name);
+
+                        Glide.with(UserProfile.this)
+                                .load(image_url)
+                                .into(viewHolder.postOwnerDisplayImageView);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                /*if(model.getUser().getFiqah() != null){
 
                     viewHolder.fiqahOfAlim.setVisibility(View.VISIBLE);
                     viewHolder.setFiqahOfAlim(model.getUser().getFiqah());
 
-                }
+                }*/
 
 
                 if(userType == 2){
@@ -713,7 +752,7 @@ public class UserProfile extends BaseActivity {
                 viewHolder.setNumCOmments(String.valueOf(model.getNumComments()));
                 viewHolder.setNumAnswers(String.valueOf(model.getNumAnswers()));
                 viewHolder.setTIme(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
-                viewHolder.setUsername(model.getUser().getName());
+//                viewHolder.setUsername(model.getUser().getName());
                 viewHolder.setPostText(model.getPostText());
                 viewHolder.setnumberSeen(String.valueOf(model.getNumSeen()));
 
@@ -743,9 +782,9 @@ public class UserProfile extends BaseActivity {
                 });
 
 
-                Glide.with(UserProfile.this)
+               /* Glide.with(UserProfile.this)
                         .load(model.getUser().getImage())
-                        .into(viewHolder.postOwnerDisplayImageView);
+                        .into(viewHolder.postOwnerDisplayImageView);*/
 
 
                 if (model.getPostImageUrl() != null) {
@@ -873,7 +912,7 @@ public class UserProfile extends BaseActivity {
 
                         popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
 
-                        if(!model.getUser().getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))) {
+                        if(!model.getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))) {
 
                             Menu m = popupMenu.getMenu();
                             m.removeItem((R.id.delete));
@@ -889,7 +928,7 @@ public class UserProfile extends BaseActivity {
 
                                 if(id == R.id.delete){
 
-                                    if(model.getUser().getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))){
+                                    if(model.getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))){
 
                                         Toast.makeText(UserProfile.this , "Delete", Toast.LENGTH_SHORT).show();
 
@@ -960,38 +999,6 @@ public class UserProfile extends BaseActivity {
                         }
                     }
                 });
-                /*viewHolder.setNumCOmments(String.valueOf(model.getNumComments()));
-                viewHolder.setTIme(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
-                viewHolder.setUsername(model.getUser().getName());
-                viewHolder.setPostText(model.getPostText());
-
-                Glide.with(UserProfile.this)
-                        .load(model.getUser().getImage())
-                        .into(viewHolder.postOwnerDisplayImageView);
-
-                if (model.getPostImageUrl() != null) {
-                    viewHolder.postDisplayImageVIew.setVisibility(View.VISIBLE);
-                    StorageReference storageReference = FirebaseStorage.getInstance()
-                            .getReference(model.getPostImageUrl());
-                    Glide.with(UserProfile.this)
-                            .using(new FirebaseImageLoader())
-                            .load(storageReference)
-                            .into(viewHolder.postDisplayImageVIew);
-                } else {
-                    viewHolder.postDisplayImageVIew.setImageBitmap(null);
-                    viewHolder.postDisplayImageVIew.setVisibility(View.GONE);
-                }
-
-                viewHolder.postCommentLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(UserProfile.this, PostActivity.class);
-                        intent.putExtra(Constants.EXTRA_POST, model);
-                        startActivity(intent);
-                    }
-                });*/
-
-
             }
         };
 

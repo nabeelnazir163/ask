@@ -50,6 +50,9 @@ public class comment_reply_activity extends AppCompatActivity {
     private TextView commentTime;
     String Current_UserName,FCM_token;
 
+    private String image_url_comment;
+    private String name_comment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +113,8 @@ public class comment_reply_activity extends AppCompatActivity {
 
                         final String uid = FirebaseUtils.getUid();
 
-                        mReply.setUser(user);
+//                        mReply.setUser(user);
+                        mReply.setEmail(FirebaseUtils.getCurrentUser().getEmail());
                         mReply.setReplyId(uid);
                         mReply.setReply_text(Strreply);
                         mReply.setTimeCreated(System.currentTimeMillis());
@@ -125,38 +129,29 @@ public class comment_reply_activity extends AppCompatActivity {
                         /*
                          * SEND NOTIFICATION ON COMMENT REPLY
                          */
-                        final String C_Current_user =FirebaseUtils.getCurrentUser().getEmail().replace(".",",");
+                        final String C_Current_user = FirebaseUtils.getCurrentUser().getEmail().replace(".",",");
                         FirebaseUtils.getUserRef(C_Current_user).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 Current_UserName = dataSnapshot.child("name").getValue().toString();
 
-                                FirebaseUtils.getCommentRef(mPost.getPostId()).child(mComment.getCommentId())
-                                        .child("user").addValueEventListener(new ValueEventListener() {
+                                final String email = mComment.getEmail();
+
+                                FirebaseUtils.getUserRef(email.replace(".",",")).addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                        final String email = dataSnapshot.child("email").getValue().toString();
-
-                                        FirebaseUtils.getUserRef(email.replace(".",",")).addValueEventListener(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                                FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
-                                                Current_UserName +=" replied to your comment";
-                                                if(!FirebaseUtils.getCurrentUser().getEmail().equals(email)){
-                                                    sendNotification notify = new sendNotification(Current_UserName,mPost.getPostId(),FCM_token);
-                                                }
-                                            }
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
-                                            }
-                                        });
+                                        FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
+                                        Current_UserName +=" replied to your comment";
+                                        if(!FirebaseUtils.getCurrentUser().getEmail().equals(email)){
+                                            sendNotification notify = new sendNotification(Current_UserName,mPost.getPostId(),FCM_token);
+                                        }
                                     }
                                     @Override
                                     public void onCancelled(DatabaseError databaseError) {
                                     }
                                 });
+
                             }
                             @Override
                             public void onCancelled(DatabaseError databaseError) {
@@ -224,13 +219,26 @@ public class comment_reply_activity extends AppCompatActivity {
 
         commentTime = (TextView) findViewById(R.id.tv_time_reply);
 
-        Com_user_Display_name.setText(mComment.getUser().getName());
-        Comment.setText(mComment.getComment());
-        commentTime.setText(DateUtils.getRelativeTimeSpanString(mComment.getTimeCreated()));
+        FirebaseUtils.getUserRef(mComment.getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-        Glide.with(comment_reply_activity.this)
-                .load(mComment.getUser().getImage())
-                .into(ComUserDisplayImageView);
+                image_url_comment = dataSnapshot.child("image").getValue().toString();
+                name_comment = dataSnapshot.child("name").getValue().toString();
+
+                Com_user_Display_name.setText(name_comment);
+                Comment.setText(mComment.getComment());
+                commentTime.setText(DateUtils.getRelativeTimeSpanString(mComment.getTimeCreated()));
+                Glide.with(comment_reply_activity.this)
+                        .load(image_url_comment)
+                        .into(ComUserDisplayImageView);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
@@ -250,13 +258,29 @@ public class comment_reply_activity extends AppCompatActivity {
                 FirebaseUtils.getC_ReplyRef(mPost.getPostId()).child(mComment.getCommentId())
         ) {
             @Override
-            protected void populateViewHolder(final reply_holder viewHolder, reply model, int position) {
+            protected void populateViewHolder(final reply_holder viewHolder, final reply model, int position) {
 
-                viewHolder.setComUsername(model.getUser().getName());
-                viewHolder.setReply(model.getReply_text());
-                viewHolder.setReplyTime(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
+                FirebaseUtils.getUserRef(model.getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-                Glide.with(comment_reply_activity.this).load(model.getUser().getImage()).into(viewHolder.mCommentIv);
+                        image_url_comment = dataSnapshot.child("image").getValue().toString();
+                        name_comment = dataSnapshot.child("name").getValue().toString();
+
+                        viewHolder.setComUsername(name_comment);
+                        viewHolder.setReply(model.getReply_text());
+                        viewHolder.setReplyTime(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
+
+                        Glide.with(comment_reply_activity.this).load(image_url_comment).into(viewHolder.mCommentIv);
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
 
                 viewHolder.reply_tv.post(new Runnable() {
                     @Override
