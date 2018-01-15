@@ -361,7 +361,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
                        image_url_ans = dataSnapshot.child("image").getValue().toString();
                        name_ans = dataSnapshot.child("name").getValue().toString();
-                       mostLikedanseer(model.getanswer());
+                       mostLikedanseer(model.getAnswer());
                        setMostlikedanswer_time_tv(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
 
                        if(!TextUtils.isEmpty(name_ans)){

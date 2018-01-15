@@ -12,7 +12,7 @@ public class Post implements Serializable {
     private String postImageUrl;
     private String postId;
 //    private User user;
-    private String Email;
+    private String email;
     private long numSeen;
     private long numLikes;
     private long numComments;
@@ -23,35 +23,16 @@ public class Post implements Serializable {
     public Post() {
     }
 
-    public Post(String email,/*User user,*/ String postText, String postImageUrl, String postId, long numLikes, long numComments, long timeCreated, long numAnswers, long numSeen/*, String FCM_TOKEN*/) {
-
-        this.Email = email;
+    public Post(String postText, String postImageUrl, String postId, String email, long numSeen, long numLikes, long numComments, long timeCreated, long numAnswers) {
         this.postText = postText;
         this.postImageUrl = postImageUrl;
         this.postId = postId;
+        this.email = email;
+        this.numSeen = numSeen;
         this.numLikes = numLikes;
         this.numComments = numComments;
         this.timeCreated = timeCreated;
         this.numAnswers = numAnswers;
-        this.numSeen = numSeen;
-//        this.user = user;
-//        this.FCM_TOKEN = FCM_TOKEN;
-    }
-
-    public long getNumAnswers() {
-        return numAnswers;
-    }
-
-    public void setNumAnswers(long numAnswers) {
-        this.numAnswers = numAnswers;
-    }
-
-    public long getNumSeen() {
-        return numSeen;
-    }
-
-    public void setNumSeen(long numSeen) {
-        this.numSeen = numSeen;
     }
 
     public String getPostText() {
@@ -78,6 +59,22 @@ public class Post implements Serializable {
         this.postId = postId;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public long getNumSeen() {
+        return numSeen;
+    }
+
+    public void setNumSeen(long numSeen) {
+        this.numSeen = numSeen;
+    }
+
     public long getNumLikes() {
         return numLikes;
     }
@@ -102,19 +99,11 @@ public class Post implements Serializable {
         this.timeCreated = timeCreated;
     }
 
-    public String getEmail() {
-        return Email;
+    public long getNumAnswers() {
+        return numAnswers;
     }
 
-    public void setEmail(String email) {
-        Email = email;
+    public void setNumAnswers(long numAnswers) {
+        this.numAnswers = numAnswers;
     }
-
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
 }

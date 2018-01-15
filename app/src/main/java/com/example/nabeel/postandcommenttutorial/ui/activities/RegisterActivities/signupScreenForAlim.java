@@ -312,6 +312,8 @@ public class signupScreenForAlim extends BaseActivity {
             mSignupCityAlim.setHint(R.string.urdu_city);
             mSignupAddressAlim.setHint(R.string.urdu_cmplt_address);
             mSignupQualificationAlim.setHint(R.string.urdu_education);
+            mConfirmEmailAlim.setHint(R.string.U_C_email);
+            mSignupUsernameAlim.setHint(R.string.Urdu_username);
 
             mChosePP_Tv.setText(R.string.urdu_choose_dp);
             mGender_tv.setText(R.string.urdu_gender);
@@ -642,8 +644,6 @@ public class signupScreenForAlim extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-
 
         if (requestCode == GALLERY_REQ && resultCode == RESULT_OK) {
             Uri imageuri = data.getData();

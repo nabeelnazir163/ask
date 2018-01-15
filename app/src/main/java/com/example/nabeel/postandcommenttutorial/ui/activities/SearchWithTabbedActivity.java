@@ -30,8 +30,8 @@ import java.util.List;
 public class SearchWithTabbedActivity extends AppCompatActivity {
 
 //    public static TextView mSearchParams;
-    public static EditText mSearchParams;
-    public static ImageView backbutton;
+//    public static EditText mSearchParams;
+//    public static ImageView backbutton;
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -51,25 +51,25 @@ public class SearchWithTabbedActivity extends AppCompatActivity {
 
         }
 
-        mSearchParams = (EditText) findViewById(R.id.search);
-        backbutton = (ImageView) findViewById(R.id.back_button);
+//        mSearchParams = (EditText) findViewById(R.id.search);
+//        backbutton = (ImageView) findViewById(R.id.back_button);
 
-        mSearchParams.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                backbutton.setVisibility(View.VISIBLE);
-            }
-        });
+//        mSearchParams.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                backbutton.setVisibility(View.VISIBLE);
+//            }
+//        });
 
-        backbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+//        backbutton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                finish();
+//            }
+//        });
 
-        hideSoftkeyboard();
-        initTextListener();
+//        hideSoftkeyboard();
+//        initTextListener();
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.container_search);
@@ -82,54 +82,54 @@ public class SearchWithTabbedActivity extends AppCompatActivity {
 
     }
 
-    private void initTextListener(){
+//    private void initTextListener(){
+//
+////        mUsersList = new ArrayList<>();
+//
+//        mSearchParams.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//                backbutton.setVisibility(View.VISIBLE);
+//                String text = mSearchParams.getText().toString().trim().toLowerCase();
+////                searchforMatch(text);
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//
+//                /*String text = mSearchParams.getText().toString().trim().toLowerCase();
+//                searchforMatch(text);*/
+//
+//            }
+//        });
+//
+//    }
 
-//        mUsersList = new ArrayList<>();
 
-        mSearchParams.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                backbutton.setVisibility(View.VISIBLE);
-                String text = mSearchParams.getText().toString().trim().toLowerCase();
-//                searchforMatch(text);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-                /*String text = mSearchParams.getText().toString().trim().toLowerCase();
-                searchforMatch(text);*/
-
-            }
-        });
-
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_search_with_tabbed, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_search_with_tabbed, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        int id = item.getItemId();
+//
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     /*public static class PlaceholderFragment extends Fragment {
 
@@ -158,16 +158,16 @@ public class SearchWithTabbedActivity extends AppCompatActivity {
     }*/
 
 
-    private void hideSoftkeyboard(){
-
-        if( getCurrentFocus() != null){
-
-            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-
-        }
-
-    }
+//    private void hideSoftkeyboard(){
+//
+//        if( getCurrentFocus() != null){
+//
+//            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+//            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+//
+//        }
+//
+//    }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 

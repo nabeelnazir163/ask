@@ -216,6 +216,7 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
     }
 
     protected void stopLocationUpdates() {
+        if (mGoogleApiClient.isConnected())
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
 

@@ -119,7 +119,7 @@ public class edit_profile extends BaseActivity {
                         .child("name")
                         .setValue(chnage_name.getText().toString());
 
-                if (new_image_uri != old_image_uri) {
+                if (!new_image_uri.equals(old_image_uri)) {
 
                     StorageReference filepath = mSignup_Stor_ref_user.child(new_image_uri.getLastPathSegment());
 
@@ -128,13 +128,18 @@ public class edit_profile extends BaseActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                             String downloaduri = taskSnapshot.getDownloadUrl().toString();
-                            FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).child("image").setValue(downloaduri);
-
+                            FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).child("image").setValue(downloaduri)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    finish();
+                                }
+                            });
                         }
                     });
+                } else {
+                    finish();
                 }
-
-                finish();
 
             }
         });
@@ -167,10 +172,12 @@ public class edit_profile extends BaseActivity {
                         @Override
                         public void onClick(View view) {
 
-                            AuthCredential credentials = EmailAuthProvider
-                                    .getCredential(FirebaseUtils.getCurrentUser().getEmail(),  old_pwd_et.getText().toString());
+                            if(!(TextUtils.isEmpty(old_pwd_et.getText().toString()))){
 
-                            if(!TextUtils.isEmpty(old_pwd_et.getText().toString())) {
+                            AuthCredential credentials = EmailAuthProvider
+                                    .getCredential(FirebaseUtils.getCurrentUser().getEmail(), old_pwd_et.getText().toString());
+
+                            if (!TextUtils.isEmpty(old_pwd_et.getText().toString())) {
 
 
                                 if (!TextUtils.isEmpty((newPass.getText().toString()))) {
@@ -183,7 +190,7 @@ public class edit_profile extends BaseActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
 
-                                                    if (task.isSuccessful()){
+                                                    if (task.isSuccessful()) {
 
                                                         user.updatePassword(newPass.getText().toString())
                                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -232,7 +239,9 @@ public class edit_profile extends BaseActivity {
                                 Toast.makeText(edit_profile.this, "Enter Old Password", Toast.LENGTH_SHORT).show();
 
                             }
-
+                        } else {
+                                dialog.dismiss();
+                            }
                         }
                     });
 

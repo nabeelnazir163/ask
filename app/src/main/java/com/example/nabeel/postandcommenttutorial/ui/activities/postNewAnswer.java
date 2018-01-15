@@ -3,6 +3,8 @@ package com.example.nabeel.postandcommenttutorial.ui.activities;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -68,7 +70,7 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
     SeekBar seekBar;
 
-    private ImageView Start, Stop, Play, Ok, cancel;
+    private Button Start, Stop, Play, Ok, cancel;
 
     private String OutPutFile;
 
@@ -84,12 +86,12 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
     Runnable runnable;
 
-    ImageView cross_imageview;
+//    ImageView cross_imageview;
     ImageView ref_answer_iv;
     ImageView select_image_from_gall_iv;
     ImageView post_answer_record_audio_mic;
 
-    TextView submit_answer_tv;
+//    TextView submit_answer_tv;
 
     private EditText mAnswerEditText;
 
@@ -130,20 +132,20 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
         Intent intent = getIntent();
         mPost = (Post) intent.getSerializableExtra(Constants.EXTRA_POST);
 
-        cross_imageview = (ImageView) findViewById(R.id.post_Answer_cross_iv);
+//        cross_imageview = (ImageView) findViewById(R.id.post_Answer_cross_iv);
         ref_answer_iv = (ImageView) findViewById(R.id.postanswer_reference_image);
         select_image_from_gall_iv = (ImageView) findViewById(R.id.post_Answer_select_imageview);
         post_answer_record_audio_mic = (ImageView) findViewById(R.id.postanswer_mic_iv);
 
-        submit_answer_tv = (TextView) findViewById(R.id.post_answer_submit_tv);
+//        submit_answer_tv = (TextView) findViewById(R.id.post_answer_submit_tv);
         audiotv = (TextView) findViewById(R.id.audiotxt_answer);
 
         mAnswerEditText = (EditText) findViewById(R.id.post_ansswer_question_tv);
 
         mStorage = FirebaseStorage.getInstance().getReference();
 
-        findViewById(R.id.post_answer_submit_tv).setOnClickListener(this);
-        findViewById(R.id.post_Answer_cross_iv).setOnClickListener(this);
+        findViewById(R.id.done_ripple_view_answer).setOnClickListener(this);
+        findViewById(R.id.more_cross_answer).setOnClickListener(this);
         findViewById(R.id.postanswer_mic_iv).setOnClickListener(this);
         findViewById(R.id.post_Answer_select_imageview).setOnClickListener(this);
 
@@ -156,11 +158,11 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
         switch (view.getId()){
 
-            case R.id.post_Answer_cross_iv:
+            case R.id.more_cross_answer:
                 finish();
                 break;
 
-            case R.id.post_answer_submit_tv:
+            case R.id.done_ripple_view_answer:
                 sendAnswer();
                 uploadAudio();
                 break;
@@ -207,7 +209,7 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
                     String downloaduri = taskSnapshot.getDownloadUrl().toString();
 
-                    FirebaseUtils.getAnswerRef().child(mPost.getPostId()).child(mAnswer.getanswerId()).child("audio").setValue(downloaduri);
+                    FirebaseUtils.getAnswerRef().child(mPost.getPostId()).child(mAnswer.getAnswerId()).child("audio").setValue(downloaduri);
 
                 }
             });
@@ -225,11 +227,11 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
         seekBar.setVisibility(View.VISIBLE);
         audiobtnLayout.setVisibility(View.VISIBLE);
 
-        Play = (ImageView)findViewById(R.id.post_answer_play);
-        Stop = (ImageView)findViewById(R.id.post_answer_stop);
-        Start = (ImageView)findViewById(R.id.post_answer_record);
-        Ok = (ImageView) findViewById(R.id.post_answer_okay);
-        cancel = (ImageView) findViewById(R.id.post_answer_cancel);
+        Play = (Button) findViewById(R.id.post_answer_play);
+        Stop = (Button) findViewById(R.id.post_answer_stop);
+        Start = (Button) findViewById(R.id.post_answer_record);
+        Ok = (Button) findViewById(R.id.post_answer_okay);
+        cancel = (Button) findViewById(R.id.post_answer_cancel);
 
         /*Stop.setEnabled(false);
         Play.setEnabled(false);*/
@@ -300,7 +302,7 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                 Stop.setVisibility(View.GONE);
                 Play.setVisibility(View.VISIBLE);
                 Ok.setVisibility(View.GONE);
-                cancel.setVisibility(View.GONE);
+                cancel.setVisibility(View.VISIBLE);
                 Ok.setVisibility(View.VISIBLE);
 
                 Toast.makeText(getApplicationContext(), "Recording Finished", Toast.LENGTH_SHORT).show();
@@ -439,8 +441,8 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
 //                        mAnswer.setUser(user);
                         mAnswer.setEmail(FirebaseUtils.getCurrentUser().getEmail());
-                        mAnswer.setanswerId(uid);
-                        mAnswer.setanswer(strAnswer);
+                        mAnswer.setAnswerId(uid);
+                        mAnswer.setAnswer(strAnswer);
                         mAnswer.setNumLikes(0);
                         mAnswer.setTimeCreated(System.currentTimeMillis());
 

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     <!--
 
@@ -83,186 +82,233 @@
         </LinearLayout>
     -->
 
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/mainRel_layout_ask_question"
-        android:orientation="horizontal"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
+        android:background="@color/white"
         >
 
-        <ImageView
-            android:id="@+id/post_question_cross_iv"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:padding="5dp"
-            />
-
-        <TextView
-            android:id="@+id/askaquestiontv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            android:padding="5dp"
-            android:textSize="18sp"
-            android:layout_weight="0.5"
-            android:text="Ask Your Question"
-            />
-
-        <TextView
-            android:id="@+id/post_dialog_send_imageview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Submit"
-            android:textSize="18sp"
-            android:gravity="right"
-            android:padding="5dp"
-            />
-
-    </LinearLayout>
-
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
         <LinearLayout
-            android:id="@+id/userdisplay_linearlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:id="@+id/mainRel_layout_ask_question"
+            android:orientation="horizontal"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/post_create_user_iv"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/facebook" />
-
-            <TextView
-                android:id="@+id/post_create_user_name_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="@string/username"
-                android:textSize="16sp"
-                android:paddingLeft="10dp" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/userdisplay_linearlayout"
-            android:gravity="center"
-            android:id="@+id/ask_question_linearLayout"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/post_dialog_select_imageview"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginLeft="15dp"
-                android:src="@drawable/ic_add_a_photo_black_24dp"
-
-                />
-
-            <EditText
-                android:id="@+id/post_dialog_edittext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:hint="@string/question"
-                android:textColor="@color/colorAccent"
-                android:textSize="18dp"
-                android:textStyle="bold"
-
-                />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="25dp"
-            android:layout_below="@+id/ask_question_linearLayout"
-            android:gravity="center_horizontal"
+            android:layout_marginTop="10dp"
             >
 
-        <ImageView
-            android:id="@+id/post_dialog_display"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxHeight="200dp" />
+            <com.andexert.library.RippleView
+                android:id="@+id/more_cross"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:rv_framerate="150"
+                app:rv_color="@color/white"
+                rv_centered="true"
+                android:layout_weight="0.1"
+                >
+
+                <ImageView
+                    android:id="@+id/post_question_cross_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/close_icon"
+                    />
+
+            </com.andexert.library.RippleView>
+
+
+
+            <TextView
+                android:id="@+id/askaquestiontv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:padding="5dp"
+                android:textSize="18sp"
+                android:textColor="@color/colorAccent"
+                android:layout_weight="0.8"
+                android:text="Ask Your Question"
+                />
+
+            <com.andexert.library.RippleView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/done_ripple_view"
+                android:layout_weight="0.1"
+                app:rv_color="@color/white"
+                rv_centered="true"
+                >
+
+                <ImageView
+                    android:id="@+id/post_dialog_send_imageview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/submit_icon"
+                    />
+
+            </com.andexert.library.RippleView>
+
         </LinearLayout>
 
+    </android.support.v7.widget.Toolbar>
 
-        <LinearLayout
-            android:id="@+id/recordingStartLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/record"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Record" />
-
-            <Button
-                android:id="@+id/stop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Stop" />
-
-            <Button
-                android:id="@+id/play"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Play" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/seekbar_layout"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:layout_height="match_parent">
 
-            <SeekBar
+
+            <LinearLayout
+                android:id="@+id/userdisplay_linearlayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:layout_marginTop="15dp"
-                android:layout_weight="0.75" />
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/post_create_user_iv"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/facebook" />
+
+                <TextView
+                    android:id="@+id/post_create_user_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/username"
+                    android:textSize="16sp"
+                    android:paddingLeft="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/userdisplay_linearlayout"
+                android:gravity="center_horizontal"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:id="@+id/ask_question_linearLayout"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/post_dialog_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:hint="@string/question"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18dp"
+                    android:padding="10dp"
+                    android:maxLines="6"
+                    android:gravity="top|left"
+                    android:layout_gravity="top"
+                    android:textStyle="bold"
+                    android:background="@drawable/input_text_for_post_bg"
+                    />
+
+            </LinearLayout>
+
 
             <ImageView
-                android:id="@+id/stopAudioBtn"
+                android:id="@+id/post_dialog_display"
+                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0.25"
-                android:src="@drawable/ic_stop_black_24dp" />
-        </LinearLayout>
+                android:layout_below="@+id/ask_question_linearLayout"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                />
 
-    </RelativeLayout>
+            <com.andexert.library.RippleView
+                android:id="@+id/more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:rv_framerate="150"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/post_dialog_display"
+                android:layout_marginLeft="15dp"
+                android:layout_centerHorizontal="true"
+                rv_centered="true">
+
+                <Button
+                    android:id="@+id/post_dialog_select_imageview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#015A35"
+                    android:text="@string/upload_img"
+                    android:textColor="@color/white"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+
+                    />
+
+            </com.andexert.library.RippleView>
+
+
+            <!--<LinearLayout
+                android:id="@+id/recordingStartLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/record"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Record" />
+
+                <Button
+                    android:id="@+id/stop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Stop" />
+
+                <Button
+                    android:id="@+id/play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Play" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/seekbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <SeekBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="0.75" />
+
+                <ImageView
+                    android:id="@+id/stopAudioBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.25"
+                    android:src="@drawable/ic_stop_black_24dp" />
+            </LinearLayout>-->
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 
 </LinearLayout>

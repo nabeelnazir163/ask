@@ -1,62 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="15dp"
         >
 
-
-        <LinearLayout
+        <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/mainRel_layout"
-            android:orientation="horizontal"
+            android:background="@color/white"
+            android:id="@+id/mainRel_layout_ask_question"
             >
 
-            <ImageView
-                android:id="@+id/post_Answer_cross_iv"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
-                android:padding="5dp"
-                />
-
-            <TextView
-                android:id="@+id/postquestiontv"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:padding="5dp"
-                android:layout_weight="0.5"
-                android:text="Post Answer"
-                />
+                android:orientation="horizontal"
+                >
 
-            <TextView
-                android:id="@+id/post_answer_submit_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Submit"
-                android:gravity="right"
-                android:padding="5dp"
-                android:textSize="18sp"
-                />
+                <com.andexert.library.RippleView
+                    android:id="@+id/more_cross_answer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:rv_framerate="150"
+                    app:rv_color="@color/white"
+                    rv_centered="true"
+                    android:layout_weight="0.1"
+                    >
 
-        </LinearLayout>
+                    <ImageView
+                        android:id="@+id/post_question_cross_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/close_icon"
+                        />
+
+                </com.andexert.library.RippleView>
+
+                <TextView
+                    android:id="@+id/postquestiontv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:padding="5dp"
+                    android:layout_weight="0.8"
+                    android:text="Post Answer"
+                    />
+
+                <com.andexert.library.RippleView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/done_ripple_view_answer"
+                    android:layout_weight="0.1"
+                    app:rv_color="@color/white"
+                    rv_centered="true"
+                    >
+
+                    <ImageView
+                        android:id="@+id/post_dialog_send_imageview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/submit_icon"
+                        />
+
+                </com.andexert.library.RippleView>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/mainRel_layout"-->
+            <!--android:layout_below="@id/mainRel_layout_ask_question"-->
+            <!--android:orientation="horizontal"-->
+            <!--&gt;-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/post_Answer_cross_iv"-->
+                <!--android:layout_width="35dp"-->
+                <!--android:layout_height="35dp"-->
+                <!--android:src="@android:drawable/ic_menu_close_clear_cancel"-->
+                <!--android:padding="5dp"-->
+                <!--/>-->
+
+            <!---->
+
+            <!--<TextView-->
+                <!--android:id="@+id/post_answer_submit_tv"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Submit"-->
+                <!--android:gravity="right"-->
+                <!--android:padding="5dp"-->
+                <!--android:textSize="18sp"-->
+                <!--/>-->
+
+        <!--</LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/mainRel_layout"
+            android:layout_below="@+id/mainRel_layout_ask_question"
             android:gravity="center"
+            android:layout_margin="15dp"
             android:id="@+id/post_answer_linearLayout"
             android:orientation="horizontal">
 
@@ -64,10 +120,14 @@
             <EditText
                 android:id="@+id/post_ansswer_question_tv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
+                android:maxLines="6"
                 android:hint="Write your answer..."
+                android:padding="10dp"
+                android:gravity="top|left"
                 android:textColor="@color/colorAccent"
-                android:textSize="18dp"
+                android:textSize="18sp"
+                android:background="@drawable/input_text_for_post_bg"
                 android:paddingTop="5dp"
                 />
 
@@ -127,6 +187,17 @@
                     android:layout_gravity="bottom"
                     />
 
+                <ImageView
+                    android:id="@+id/postanswer_attachment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="8dp"
+                    android:src="@drawable/attachment"
+                    android:layout_gravity="bottom"
+                    />
+
             </LinearLayout>
 
         <SeekBar
@@ -136,6 +207,7 @@
             android:layout_above="@+id/postanswer_record_layout"
             android:visibility="gone"
              />
+        <!--android:visibility="gone"-->
 
         <LinearLayout
             android:id="@+id/postanswer_record_layout"
@@ -143,9 +215,10 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            android:visibility="gone"
             android:layout_above="@+id/select_image_mic_layout"
+            android:visibility="gone"
             >
+            <!--android:visibility="gone"-->
 
             <!--<Button
                 android:id="@+id/post_answer_record"
@@ -153,13 +226,14 @@
                 android:layout_height="wrap_content"
                 android:text="Record" />-->
 
-            <ImageView
+            <Button
                 android:id="@+id/post_answer_record"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/voice_recorder"
+                android:drawableTop="@drawable/voice_recorder"
                 android:layout_gravity="center"
                 android:layout_weight="0.2"
+                android:background="@android:color/transparent"
                 android:text="Record" />
 
             <!--<Button
@@ -168,13 +242,14 @@
                 android:layout_height="wrap_content"
                 android:text="Stop" />-->
 
-            <ImageView
+            <Button
                 android:id="@+id/post_answer_stop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="0.2"
-                android:src="@drawable/stop_record"
+                android:background="@android:color/transparent"
+                android:drawableTop="@drawable/stop_record"
                 android:text="Stop" />
 
             <!--<Button
@@ -183,13 +258,14 @@
                 android:layout_height="wrap_content"
                 android:text="Play" />-->
 
-            <ImageView
+            <Button
                 android:id="@+id/post_answer_play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
                 android:layout_gravity="center"
-                android:src="@drawable/play_audio"
+                android:background="@android:color/transparent"
+                android:drawableTop="@drawable/play_audio"
                 android:text="Play" />
 
             <!--<Button
@@ -199,13 +275,14 @@
                 android:layout_gravity="right"
                 android:text="Ok" />-->
 
-            <ImageView
+            <Button
                 android:id="@+id/post_answer_okay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
                 android:layout_gravity="center"
-                android:src="@drawable/done_record"
+                android:drawableTop="@drawable/done_record"
+                android:background="@android:color/transparent"
                 android:text="Ok" />
 
             <!--<Button
@@ -215,13 +292,14 @@
                 android:layout_gravity="right"
                 android:text="Cancel" />-->
 
-            <ImageView
+            <Button
                 android:id="@+id/post_answer_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
                 android:layout_gravity="center"
-                android:src="@drawable/cancel_record"
+                android:background="@android:color/transparent"
+                android:drawableTop="@drawable/cancel_record"
                 android:text="Cancel" />
 
         </LinearLayout>

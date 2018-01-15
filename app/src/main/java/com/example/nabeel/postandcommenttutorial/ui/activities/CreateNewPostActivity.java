@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.bumptech.glide.Glide;
 import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.models.Post;
@@ -48,7 +50,8 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
     private Uri mSelectedUri;
 
     private ImageView mPostDisplay;
-    private ImageView mCross;
+    private RippleView mCross;
+    RippleView rippleView;
 
     private CircleImageView m_User_display;
 
@@ -75,11 +78,14 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
 
         mPostDisplay = (ImageView) findViewById(R.id.post_dialog_display);
 
-        mCross = (ImageView) findViewById(R.id.post_question_cross_iv);
+        mCross = (RippleView) findViewById(R.id.more_cross);
 
         m_User_display = (CircleImageView) findViewById(R.id.post_create_user_iv);
 
         mUsername = (TextView) findViewById(R.id.post_create_user_name_tv);
+
+        rippleView = (RippleView) findViewById(R.id.more);
+        rippleView.setOnClickListener(this);
 
         mCreateDataRef = FirebaseDatabase.getInstance().getReference().child(Constants.USERS_KEY);
 
@@ -131,18 +137,17 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
 
 
 
-        findViewById(R.id.post_dialog_send_imageview).setOnClickListener(this);
-        findViewById(R.id.post_dialog_select_imageview).setOnClickListener(this);
+        findViewById(R.id.done_ripple_view).setOnClickListener(this);
+        findViewById(R.id.more).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.post_dialog_send_imageview:
-
+            case R.id.done_ripple_view:
                 sendPost();
                 break;
-            case R.id.post_dialog_select_imageview:
+            case R.id.more:
                 selectImage();
                 break;
         }
@@ -150,9 +155,8 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
 
     private void sendPost() {
         mProgressDialog.setMessage("Sending post...");
-        mProgressDialog.setCancelable(false);
+        mProgressDialog.setCancelable(true);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.show();
 
         FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".", ","))
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -167,31 +171,41 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
 
                         String text = postDialogTextView.getText().toString();
 
-                        mPost.setEmail(FirebaseUtils.getCurrentUser().getEmail());
-                        mPost.setNumComments(0);
-                        mPost.setNumAnswers(0);
-                        mPost.setNumSeen(0);
-                        mPost.setTimeCreated(System.currentTimeMillis());
-                        mPost.setPostId(postId);
-                        mPost.setPostText(text);
+                        if(!TextUtils.isEmpty(text)){
 
-                        if (mSelectedUri != null) {
-                            FirebaseUtils.getImageSRef()
-                                    .child(mSelectedUri.getLastPathSegment())
-                                    .putFile(mSelectedUri)
-                                    .addOnSuccessListener(
-                                            new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                                @Override
-                                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                    String url = Constants.POST_IMAGES + "/" + mSelectedUri.getLastPathSegment();
-                                                    mPost.setPostImageUrl(url);
-                                                    finish();
-                                                    addToMyPostList(postId);
-                                                }
-                                            });
+                            mProgressDialog.show();
+                            mPost.setEmail(FirebaseUtils.getCurrentUser().getEmail());
+                            mPost.setNumComments(0);
+                            mPost.setNumAnswers(0);
+                            mPost.setNumSeen(0);
+                            mPost.setTimeCreated(System.currentTimeMillis());
+                            mPost.setPostId(postId);
+                            mPost.setPostText(text);
+
+                            if (mSelectedUri != null) {
+                                FirebaseUtils.getImageSRef()
+                                        .child(mSelectedUri.getLastPathSegment())
+                                        .putFile(mSelectedUri)
+                                        .addOnSuccessListener(
+                                                new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                        String url = Constants.POST_IMAGES + "/" + mSelectedUri.getLastPathSegment();
+                                                        mPost.setPostImageUrl(url);
+                                                        finish();
+                                                        addToMyPostList(postId);
+                                                    }
+                                                });
+                            } else {
+                                addToMyPostList(postId);
+                            }
+
                         } else {
-                            addToMyPostList(postId);
+
+                            Toast.makeText(CreateNewPostActivity.this, "You have to enter some text", Toast.LENGTH_SHORT).show();
+
                         }
+
                     }
 
                     @Override
@@ -232,6 +246,7 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
             if (resultCode == RESULT_OK) {
                 mSelectedUri = data.getData();
                 mPostDisplay.setImageURI(mSelectedUri);
+                rippleView.setVisibility(View.GONE);
             }
         }
     }

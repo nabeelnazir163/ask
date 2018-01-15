@@ -14,21 +14,52 @@ public class Answer implements Serializable {
     private String answer;
     private String audio;
     private String answerImgUrl;
-    private String Email;
+    private String email;
     private long numLikes;
 
     public Answer() {
     }
 
-    public Answer(String email, String answerId, long timeCreated, String answer , String answerAudiUrl, long numLikes, String answerImgUrl) {
-
-        this.Email = email;
+    public Answer(String answerId, long timeCreated, String answer, String audio, String answerImgUrl, String email, long numLikes) {
         this.answerId = answerId;
         this.timeCreated = timeCreated;
         this.answer = answer;
-        this.audio = answerAudiUrl;
-        this.numLikes = numLikes;
+        this.audio = audio;
         this.answerImgUrl = answerImgUrl;
+        this.email = email;
+        this.numLikes = numLikes;
+    }
+
+    public String getAnswerId() {
+        return answerId;
+    }
+
+    public void setAnswerId(String answerId) {
+        this.answerId = answerId;
+    }
+
+    public long getTimeCreated() {
+        return timeCreated;
+    }
+
+    public void setTimeCreated(long timeCreated) {
+        this.timeCreated = timeCreated;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public String getAudio() {
+        return audio;
+    }
+
+    public void setAudio(String audio) {
+        this.audio = audio;
     }
 
     public String getAnswerImgUrl() {
@@ -39,45 +70,19 @@ public class Answer implements Serializable {
         this.answerImgUrl = answerImgUrl;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public long getNumLikes() {
         return numLikes;
     }
 
     public void setNumLikes(long numLikes) {
         this.numLikes = numLikes;
-    }
-
-    public String getAudio() { return audio; }
-
-    public void setAudio(String answerAudiUrl) { this.audio = answerAudiUrl; }
-
-   public String getanswerId() {
-        return answerId;
-    }
-
-    public void setanswerId(String answerId) { this.answerId = answerId; }
-
-    public long getTimeCreated() {
-        return timeCreated;
-    }
-
-    public void setTimeCreated(long timeCreated) {
-        this.timeCreated = timeCreated;
-    }
-
-    public String getanswer() {
-        return answer;
-    }
-
-    public void setanswer(String answer) {
-        this.answer = answer;
-    }
-
-    public String getEmail() {
-        return Email;
-    }
-
-    public void setEmail(String email) {
-        Email = email;
     }
 }

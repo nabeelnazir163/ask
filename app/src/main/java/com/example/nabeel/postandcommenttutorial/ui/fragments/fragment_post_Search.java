@@ -7,17 +7,22 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.models.Post;
 import com.example.nabeel.postandcommenttutorial.ui.activities.PostActivity;
 import com.example.nabeel.postandcommenttutorial.ui.activities.SearchWithTabbedActivity;
+import com.example.nabeel.postandcommenttutorial.ui.activities.viewallPosts;
 import com.example.nabeel.postandcommenttutorial.ui.adapter.PostListadapter;
 import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.google.firebase.database.DataSnapshot;
@@ -31,13 +36,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
+//import static com.example.nabeel.postandcommenttutorial.ui.activities.SearchWithTabbedActivity.backbutton;
 
 public class fragment_post_Search extends Fragment {
 
     private ListView mListview;
 
-    private List<Post> mUsersList;
+    private ArrayList<Post> mPostList;
     private PostListadapter mAdapter;
+    ImageView backbutton;
+
+    public static EditText mSearchParams;
 
     View mRootview;
 
@@ -46,19 +55,27 @@ public class fragment_post_Search extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mRootview = inflater.inflate(R.layout.fragment_postsearch, container , false);
 
-//        mSearchParams = (EditText) mRootview.findViewById(R.id.search);
-//        backbutton = (ImageView) mRootview.findViewById(R.id.back_button);
+        mSearchParams = (EditText) mRootview.findViewById(R.id.search);
+        backbutton = (ImageView) mRootview.findViewById(R.id.back_button);
 
-        mUsersList = new ArrayList<>();
+        mPostList = new ArrayList<>();
 
-        mAdapter = new PostListadapter(getContext() , R.layout.layout_post_listenitem, mUsersList);
+        mAdapter = new PostListadapter(getContext() , R.layout.layout_post_listenitem, mPostList);
 
         mAdapter.notifyDataSetChanged();
 
         mListview = (ListView) mRootview.findViewById(R.id.listview_search_Activity_post);
+        mSearchParams = (EditText) mRootview.findViewById(R.id.search);
 
         hideSoftkeyboard();
-        initTextListener();
+        initTextListenerPost();
+
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+            }
+        });
 
         return mRootview;
     }
@@ -73,23 +90,28 @@ public class fragment_post_Search extends Fragment {
         }
     }
 
-    private void initTextListener(){
+    private void initTextListenerPost(){
 
-        SearchWithTabbedActivity.mSearchParams.addTextChangedListener(new TextWatcher() {
+        mSearchParams.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                mPostList.clear();
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                SearchWithTabbedActivity.backbutton.setVisibility(View.VISIBLE);
-                String text = SearchWithTabbedActivity.mSearchParams.getText().toString();
+                backbutton.setVisibility(View.VISIBLE);
+                String text = mSearchParams.getText().toString();
 
                 if(!TextUtils.isEmpty(text)){
 
-                    searchforMatch(text);
+                    searchforMatchingPost(text);
+
+                } else if( TextUtils.isEmpty(text)){
+
+                    mPostList.clear();
+
                 }
 
             }
@@ -105,16 +127,15 @@ public class fragment_post_Search extends Fragment {
 
     }
 
-    private void searchforMatch(String keyword){
+    private void searchforMatchingPost(String keyword){
 
-        mUsersList.clear();
+        mPostList.clear();
 
         if(keyword.length() != 0)
          {
-
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
-            Query query = reference.child("posts").orderByChild("postText").startAt(keyword).endAt(keyword + "\uf8ff");
+            Query query = reference.child("posts").orderByChild("postText").startAt(keyword).endAt(keyword + "\uf8ff").limitToFirst(5);
 
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -123,10 +144,10 @@ public class fragment_post_Search extends Fragment {
 
 //                        Toast.makeText(getContext(), singlesnapshot.child("postText").getValue(Post.class).toString(), Toast.LENGTH_SHORT).show();
 //                        mUsersList.clear();
-                        mUsersList.add(singlesnapshot.getValue(Post.class));
-                        updateUsersListview(singlesnapshot.getValue(Post.class));
+                        mPostList.add(singlesnapshot.getValue(Post.class));
+                        updatePostListview(singlesnapshot.getValue(Post.class));
 
-                        /*SearchWithTabbedActivity.mSearchParams.setOnKeyListener(new View.OnKeyListener() {
+                        mSearchParams.setOnKeyListener(new View.OnKeyListener() {
                             public boolean onKey(View v, int keyCode, KeyEvent event) {
                                 // If the event is a key-down event on the "enter" button
                                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
@@ -134,14 +155,16 @@ public class fragment_post_Search extends Fragment {
                                     // Perform action on key press
 
                                     Intent alluserSearchIntent = new Intent(getContext(), viewallPosts.class);
-                                    alluserSearchIntent.putExtra("textTomatch" , SearchWithTabbedActivity.mSearchParams.getText().toString().trim().toLowerCase() );
+                                    alluserSearchIntent.putExtra("textTomatch" , mSearchParams.getText().toString().trim().toLowerCase() );
                                     startActivity(alluserSearchIntent);
+
+//                                    Toast.makeText(getContext(), "post", Toast.LENGTH_SHORT).show();
 
                                     return true;
                                 }
                                 return false;
                             }
-                        });*/
+                        });
 
                     }
                 }
@@ -152,11 +175,15 @@ public class fragment_post_Search extends Fragment {
                 }
             });
 
+        } else {
+
+            mPostList.clear();
+
         }
 
     }
 
-    private void updateUsersListview(final Post model){
+    private void updatePostListview(final Post model){
 
         mListview.setAdapter(mAdapter);
 

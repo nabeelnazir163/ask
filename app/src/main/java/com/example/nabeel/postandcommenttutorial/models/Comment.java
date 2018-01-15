@@ -6,7 +6,7 @@ import java.io.Serializable;
  */
 
 public class Comment implements Serializable {
-    private String Email;
+    private String email;
     private String commentId;
     private long timeCreated;
     private String comment;
@@ -16,38 +16,29 @@ public class Comment implements Serializable {
     public Comment() {
     }
 
-    public Comment(String email, String commentId, long timeCreated, String comment/*,  long numCLikes,*/, long numreply) {
-
-        this.Email = email;
+    public Comment(String email, String commentId, long timeCreated, String comment, long numReply) {
+        this.email = email;
         this.commentId = commentId;
         this.timeCreated = timeCreated;
         this.comment = comment;
-        this.numReply = numreply;
-        /*this.numCommentLikes = numCLikes;
-        this.numReplies = numreply;*/
-    }
-
-   /* public long getNumLikes() { return numCommentLikes; }
-
-    public void setNumLikes(long numLikes) { this.numCommentLikes = numLikes; }
-
-    public long getNumComments() { return numReplies; }
-
-    public void setNumComments(long numComments) { this.numReplies = numComments; }*/
-
-    public long getNumReply() {
-        return numReply;
-    }
-
-    public void setNumReply(long numReply) {
         this.numReply = numReply;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getCommentId() {
         return commentId;
     }
 
-    public void setCommentId(String commentId) { this.commentId = commentId; }
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
+    }
 
     public long getTimeCreated() {
         return timeCreated;
@@ -65,11 +56,11 @@ public class Comment implements Serializable {
         this.comment = comment;
     }
 
-    public String getEmail() {
-        return Email;
+    public long getNumReply() {
+        return numReply;
     }
 
-    public void setEmail(String email) {
-        Email = email;
+    public void setNumReply(long numReply) {
+        this.numReply = numReply;
     }
 }

@@ -159,7 +159,7 @@ public class answersActivity extends BaseActivity{
                     }
                 });
 
-               viewHolder.setAnswer(model.getanswer());
+               viewHolder.setAnswer(model.getAnswer());
                viewHolder.setAnswerTime(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
                viewHolder.setNumLikes(String.valueOf(model.getNumLikes()));
 
@@ -172,7 +172,7 @@ public class answersActivity extends BaseActivity{
                         TextView done = (TextView) findViewById(R.id.done_textview);
 
                         edittext_layout.setVisibility(View.VISIBLE);
-                        answer_Edittext.setText(model.getanswer());
+                        answer_Edittext.setText(model.getAnswer());
                         viewHolder.AnswerTextView.setVisibility(View.GONE);
 
                         /*FirebaseUtils.getAnswerLikedRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
@@ -201,7 +201,7 @@ public class answersActivity extends BaseActivity{
 
                                 FirebaseUtils.getAnswerRef()
                                         .child(mPost.getPostId())
-                                        .child(model.getanswerId())
+                                        .child(model.getAnswerId())
                                         .child("answer")
                                         .setValue(update);
 
@@ -239,7 +239,7 @@ public class answersActivity extends BaseActivity{
 
                        if(userType != 3){
 
-                           LikeAnswer(model.getanswerId(), mPost.getPostId(), viewHolder, model);
+                           LikeAnswer(model.getAnswerId(), mPost.getPostId(), viewHolder, model);
 
                        } else if ( userType == 3 ){
 

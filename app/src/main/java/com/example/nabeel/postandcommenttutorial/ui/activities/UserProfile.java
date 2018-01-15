@@ -132,8 +132,8 @@ public class UserProfile extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(UserProfile.this, edit_profile.class));
-                finish();
+                Intent edit_intent = (new Intent(UserProfile.this, edit_profile.class));
+                startActivity(edit_intent);
             }
         });
 

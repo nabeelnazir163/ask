@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -55,7 +56,7 @@ public class RegisterActivity extends BaseActivity{
 
     private TextView mSign_up;
     private TextView mForgot_pass;
-    private TextView mLogin_tv;
+    private Button mLogin_tv;
     private TextView mGuestLogin;
 
     private DatabaseReference mDataBaseUsers;
@@ -95,7 +96,7 @@ public class RegisterActivity extends BaseActivity{
 
         mSign_up = (TextView) findViewById(R.id.signup_tv);
         mForgot_pass = (TextView) findViewById(R.id.forgotPass_tv);
-        mLogin_tv = (TextView) findViewById(R.id.login_tv);
+        mLogin_tv = (Button) findViewById(R.id.login_tv);
         mGuestLogin = (TextView) findViewById(R.id.guest_login);
 
         memailfield = (EditText) findViewById(R.id.login_email);
@@ -116,7 +117,8 @@ public class RegisterActivity extends BaseActivity{
 
                 if(firebaseAuth.getCurrentUser() != null){
 
-                    *//*Intent intent = new Intent(RegisterActivity.this , MainActivity.class);
+                    *//*Intent inte
+                    * nt = new Intent(RegisterActivity.this , MainActivity.class);
 
                     startActivity(intent);*//*
 
@@ -183,7 +185,7 @@ public class RegisterActivity extends BaseActivity{
         /**
          * SIGNING UP WITH FACEBOOK
          */
-        loginButton = (LoginButton)findViewById(R.id.facebookLoginBtn);
+        /*loginButton = (LoginButton)findViewById(R.id.facebookLoginBtn);
         callbackManager = CallbackManager.Factory.create();
         loginButton.setReadPermissions("email","public_profile");
 
@@ -249,7 +251,7 @@ public class RegisterActivity extends BaseActivity{
             public void onError(FacebookException error) {
                 Toast.makeText(getApplicationContext(),"AUTHENTICATION FAILED",Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
         //SIGNING UP WORK TILL HERE
     }
 
