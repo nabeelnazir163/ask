@@ -1,6 +1,5 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -20,10 +19,6 @@
                 android:gravity="center_vertical"
                 >
 
-                <!--<RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></RelativeLayout>-->
-
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="wrap_content"
@@ -40,7 +35,7 @@
                     android:textSize="20dp"
                     android:textColor="@color/tw__composer_black"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginRight="15dp"
                     android:inputType="text"
                     android:ems="10"
                     android:id="@+id/search"

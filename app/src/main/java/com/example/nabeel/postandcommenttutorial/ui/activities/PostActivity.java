@@ -234,7 +234,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if(!dataSnapshot.hasChild(mPost.getPostId())){
+                if(dataSnapshot.hasChild(mPost.getPostId())){
 
                     max_layout.setVisibility(View.GONE);
 

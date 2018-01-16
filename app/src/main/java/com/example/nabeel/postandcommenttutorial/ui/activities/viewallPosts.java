@@ -118,17 +118,4 @@ public class viewallPosts extends BaseActivity {
 
     }
 
-    /*@Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if(userType == 3){
-
-            mAuth.signOut();
-            startActivity(new Intent(viewallPosts.this , RegisterActivity.class));
-            finish();
-
-        }
-    }*/
-
 }

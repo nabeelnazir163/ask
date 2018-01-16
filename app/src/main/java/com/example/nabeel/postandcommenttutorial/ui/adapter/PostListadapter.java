@@ -3,16 +3,24 @@ package com.example.nabeel.postandcommenttutorial.ui.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.models.Post;
+import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Nabeel on 11/9/2017.
@@ -36,6 +44,8 @@ public class PostListadapter extends ArrayAdapter<Post> {
     private static class ViewHolder{
 
         TextView Post;
+        TextView username;
+        CircleImageView profile_img;
 
     }
 
@@ -50,7 +60,8 @@ public class PostListadapter extends ArrayAdapter<Post> {
             viewHolder = new ViewHolder();
 
             viewHolder.Post = (TextView) convertView.findViewById(R.id.post_search);
-
+            viewHolder.username = (TextView) convertView.findViewById(R.id.username_post_srch);
+            viewHolder.profile_img = (CircleImageView) convertView.findViewById(R.id.profile_image_post_srch);
 
             convertView.setTag(viewHolder);
 
@@ -61,7 +72,28 @@ public class PostListadapter extends ArrayAdapter<Post> {
         }
 
         viewHolder.Post.setText(getItem(position).getPostText());
+        FirebaseUtils.getUserRef(getItem(position).getEmail().replace(".",","))
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String name = dataSnapshot.child("name").getValue().toString();
+                        String img = dataSnapshot.child("image").getValue().toString();
 
+                        if(!TextUtils.isEmpty(name)){
+                            viewHolder.username.setText(name);
+                        }
+
+                        if(!TextUtils.isEmpty(img)){
+                            Glide.with(mContext).load(img).into(viewHolder.profile_img);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+//        viewHolder.username.setText(getItem(position).);
 
         return convertView;
     }

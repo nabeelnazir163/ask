@@ -82,6 +82,7 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
     MediaPlayer mediaPlayer;
 
     TextView audiotv;
+    TextView question;
 
     private StorageReference mStorage;
 
@@ -98,6 +99,8 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
     String email;
     String name;
+
+    Dialog dialog;
 
     private static final int RC_PHOTO_PICKER = 1;
     private Uri mSelectedUri;
@@ -133,13 +136,13 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
         Intent intent = getIntent();
         mPost = (Post) intent.getSerializableExtra(Constants.EXTRA_POST);
 
-//        cross_imageview = (ImageView) findViewById(R.id.post_Answer_cross_iv);
         ref_answer_iv = (ImageView) findViewById(R.id.postanswer_reference_image);
         select_image_from_gall_iv = (ImageView) findViewById(R.id.post_Answer_select_imageview);
         post_answer_record_audio_mic = (ImageView) findViewById(R.id.postanswer_mic_iv);
 
-//        submit_answer_tv = (TextView) findViewById(R.id.post_answer_submit_tv);
         audiotv = (TextView) findViewById(R.id.audiotxt_answer);
+        question = (TextView) findViewById(R.id.questiontext_new_answer);
+        question.setText(mPost.getPostText());
 
         mAnswerEditText = (EditText) findViewById(R.id.post_ansswer_question_tv);
 
@@ -169,7 +172,23 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.postanswer_mic_iv:
+//                showRecordbuttons();
+                dialog = new Dialog(postNewAnswer.this, android.R.style.Widget_PopupWindow);
+                dialog.setCancelable(true);
+                dialog.setContentView(R.layout.dialog_for_audio);
+
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                dialog.setCancelable(true);
+                dialog.getWindow().setAttributes(lp);
+
                 showRecordbuttons();
+
+                dialog.show();
                 break;
 
             case R.id.post_Answer_select_imageview:
@@ -192,6 +211,7 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
         if (requestCode == RC_PHOTO_PICKER) {
             if (resultCode == RESULT_OK) {
                 mSelectedUri = data.getData();
+                ref_answer_iv.setVisibility(View.VISIBLE);
                 ref_answer_iv.setImageURI(mSelectedUri);
             }
         }
@@ -221,19 +241,17 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
     private void showRecordbuttons() {
 
-        audiobtnLayout = (LinearLayout) findViewById(R.id.postanswer_record_layout);
-        seekBar = (SeekBar) findViewById(R.id.post_answer_seekbar);
+        audiobtnLayout = (LinearLayout) dialog.findViewById(R.id.postanswer_record_layout);
+        seekBar = (SeekBar) dialog.findViewById(R.id.post_answer_seekbar);
         seekBar.setVisibility(View.VISIBLE);
         audiobtnLayout.setVisibility(View.VISIBLE);
 
-        Play = (Button) findViewById(R.id.post_answer_play);
-        Stop = (Button) findViewById(R.id.post_answer_stop);
-        Start = (Button) findViewById(R.id.post_answer_record);
-        Ok = (Button) findViewById(R.id.post_answer_okay);
-        cancel = (Button) findViewById(R.id.post_answer_cancel);
+        Play = (Button) dialog.findViewById(R.id.post_answer_play);
+        Stop = (Button) dialog.findViewById(R.id.post_answer_stop);
+        Start = (Button) dialog.findViewById(R.id.post_answer_record);
+        Ok = (Button) dialog.findViewById(R.id.post_answer_okay);
+        cancel = (Button) dialog.findViewById(R.id.post_answer_cancel);
 
-        /*Stop.setEnabled(false);
-        Play.setEnabled(false);*/
         Stop.setVisibility(View.GONE);
         Play.setVisibility(View.GONE);
         Ok.setVisibility(View.GONE);
@@ -243,6 +261,8 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
         Start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                seekBar.setProgress(0);
 
                 myAudioRecorder = new MediaRecorder();
 
@@ -269,10 +289,6 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                 } catch (Exception e){
                     e.printStackTrace();
                 }
-                /*Start.setEnabled(false);
-                Stop.setEnabled(true);
-                Ok.setEnabled(false);
-                cancel.setEnabled(false);*/
 
                 Start.setVisibility(View.GONE);
                 Stop.setVisibility(View.VISIBLE);
@@ -291,12 +307,6 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                 myAudioRecorder.release();
                 myAudioRecorder = null;
 
-                /*Start.setEnabled(true);
-                Stop.setEnabled(false);
-                Play.setEnabled(true);
-                Ok.setEnabled(false);
-                cancel.setEnabled(false);*/
-
                 Start.setVisibility(View.VISIBLE);
                 Stop.setVisibility(View.GONE);
                 Play.setVisibility(View.VISIBLE);
@@ -312,14 +322,9 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View view) {
 
-                /*Ok.setEnabled(true);
-                cancel.setEnabled(true);*/
-
                 cancel.setVisibility(View.VISIBLE);
 
                 handler = new Handler();
-
-                //MediaPlayer mediaPlayer = MediaPlayer.create()
 
                 mediaPlayer = new MediaPlayer();
                 try {
@@ -391,6 +396,7 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
                     audiotv.setText("Audio File included");
                     audiotv.setVisibility(View.VISIBLE);
+                    dialog.dismiss();
                 }
 
             }
@@ -406,15 +412,13 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
                     outFile.delete();
 
-                    //myAudioRecorder.stop();
-
                 }
 
                 audiotv.setText(null);
                 audiotv.setVisibility(View.GONE);
                 audiobtnLayout.setVisibility(View.GONE);
                 seekBar.setVisibility(View.GONE);
-
+                dialog.dismiss();
             }
         });
 
@@ -459,26 +463,21 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                                                 @Override
                                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                                     String url = Constants.ANSWER_IMAGES + "/" + mSelectedUri.getLastPathSegment();
-                                                    Toast.makeText(getApplicationContext(), url, Toast.LENGTH_SHORT).show();
+//                                                    Toast.makeText(getApplicationContext(), url, Toast.LENGTH_SHORT).show();
                                                     mAnswer.setAnswerImgUrl(url);
-//                                                    finish();
                                                     addToMyPostList(uid);
+                                                    progressDialog.dismiss();
+                                                    finish();
                                                 }
                                             });
                         } else {
 
                             addToMyPostList(uid);
-
+                            progressDialog.dismiss();
+                            finish();
                         }
 
                         Boolean checktoclose = getSharedPreferences("firstAnsPref", MODE_PRIVATE).getBoolean("isFirstAnswer", true);
-
-//                        if(!checktoclose){
-//
-//                            finish();
-//
-//                        }
-
 
                         Boolean isFirtanswer = getSharedPreferences("firstAnsPref", MODE_PRIVATE).getBoolean("isFirstAnswer", true);
 
@@ -508,15 +507,14 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                                         getSharedPreferences("firstAnsPref", MODE_PRIVATE).edit().putBoolean("isFirstAnswer", false).commit();
 
                                     }
-                                    finish();
                                     dialog_first_answer.dismiss();
                                 }
                             });
-                        } else {
-                            finish();
                         }
 
-                    }
+                    } else {
+                            Toast.makeText(postNewAnswer.this, "You cannot post an empty answer", Toast.LENGTH_LONG).show();
+                        }
                     }
 
                     @Override
@@ -545,7 +543,6 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-//                        finish();
                     }
                 });
 
@@ -563,9 +560,9 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
 
-                        progressDialog.dismiss();
-
                         mAnswerEditText.setText("");
+                        ref_answer_iv.setVisibility(View.GONE);
+                        mSelectedUri = null;
 
                         audiotv.setText(null);
 

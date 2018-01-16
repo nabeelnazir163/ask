@@ -119,7 +119,9 @@ public class search_user_for_newMessage extends AppCompatActivity {
 
         mUsersList.clear();
 
-        if(keyword.length() == 0){}
+        if(keyword.length() == 0){
+            mUsersList.clear();
+        }
         else {
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();

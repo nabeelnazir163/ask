@@ -231,6 +231,7 @@ public class MainActivity extends BaseActivity
            final Dialog dialog = new Dialog(MainActivity.this, android.R.style.Widget_PopupWindow);
            dialog.setContentView(R.layout.dialogfirstruninstructions);
            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+           dialog.setTitle("Confirmation Dialog");
 
            lp.copyFrom(dialog.getWindow().getAttributes());
            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;

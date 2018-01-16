@@ -1,33 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:padding="10dp"
+    android:background="@drawable/dialog_background"
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
+        android:padding="10dp"
         >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="SOME INSTRUCTIONS FOR ANSWERS TO BE DISPLAYED HERE "/>
+            android:textSize="18sp"
+            android:text="Some instructions for answer to be displayed here "/>
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Don't show again"
             android:id="@+id/dont_show_checkbox_answer"
+            android:textSize="15sp"
             />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Close"
             android:id="@+id/ins_close_b_answer"
+            android:background="@android:color/transparent"
             />
     </LinearLayout>
 

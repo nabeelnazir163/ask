@@ -137,9 +137,9 @@
             android:id="@+id/fab_answer"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:clickable="true"
-            android:layout_marginLeft="-6dp"
+            android:visibility="gone"
+            android:layout_marginLeft="56dp"
             app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
 
         <ImageView

@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.andexert.library.RippleView;
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
 import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.models.Post;
@@ -50,8 +50,8 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
     private Uri mSelectedUri;
 
     private ImageView mPostDisplay;
-    private RippleView mCross;
-    RippleView rippleView;
+    private MaterialRippleLayout mCross;
+    MaterialRippleLayout rippleView;
 
     private CircleImageView m_User_display;
 
@@ -78,13 +78,13 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
 
         mPostDisplay = (ImageView) findViewById(R.id.post_dialog_display);
 
-        mCross = (RippleView) findViewById(R.id.more_cross);
+        mCross = (MaterialRippleLayout) findViewById(R.id.more_cross);
 
         m_User_display = (CircleImageView) findViewById(R.id.post_create_user_iv);
 
         mUsername = (TextView) findViewById(R.id.post_create_user_name_tv);
 
-        rippleView = (RippleView) findViewById(R.id.more);
+        rippleView = (MaterialRippleLayout) findViewById(R.id.more);
         rippleView.setOnClickListener(this);
 
         mCreateDataRef = FirebaseDatabase.getInstance().getReference().child(Constants.USERS_KEY);
@@ -139,6 +139,7 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
 
         findViewById(R.id.done_ripple_view).setOnClickListener(this);
         findViewById(R.id.more).setOnClickListener(this);
+        findViewById(R.id.create_post_ask_quest_tv).setOnClickListener(this);
     }
 
     @Override
@@ -149,6 +150,9 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
                 break;
             case R.id.more:
                 selectImage();
+                break;
+            case R.id.create_post_ask_quest_tv:
+                sendPost();
                 break;
         }
     }
@@ -245,6 +249,7 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
         if (requestCode == RC_PHOTO_PICKER) {
             if (resultCode == RESULT_OK) {
                 mSelectedUri = data.getData();
+                mPostDisplay.setVisibility(View.VISIBLE);
                 mPostDisplay.setImageURI(mSelectedUri);
                 rippleView.setVisibility(View.GONE);
             }

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="15dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <SeekBar
+        android:id="@+id/post_answer_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/postanswer_record_layout"
+        />
+
+    <LinearLayout
+        android:id="@+id/postanswer_record_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_above="@+id/select_image_mic_layout"
+        >
+
+        <Button
+            android:id="@+id/post_answer_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/voice_recorder"
+            android:layout_gravity="center"
+            android:layout_weight="0.2"
+            android:background="@android:color/transparent"
+            android:text="Record" />
+
+        <Button
+            android:id="@+id/post_answer_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.2"
+            android:background="@android:color/transparent"
+            android:drawableTop="@drawable/stop_record"
+            android:text="Stop" />
+
+        <Button
+            android:id="@+id/post_answer_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:drawableTop="@drawable/play_audio"
+            android:text="Play" />
+
+        <Button
+            android:id="@+id/post_answer_okay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:layout_gravity="center"
+            android:drawableTop="@drawable/done_record"
+            android:background="@android:color/transparent"
+            android:text="Ok" />
+
+        <Button
+            android:id="@+id/post_answer_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:drawableTop="@drawable/cancel_record"
+            android:text="Cancel" />
+
+    </LinearLayout>
+
+</LinearLayout>

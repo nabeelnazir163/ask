@@ -223,12 +223,12 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
     @Override
     public void onConnected(Bundle bundle) {
 
-        /*if(mGoogleApiClient.isConnected()){
-            log("Google_Api_Client: It was connected on (onConnected) function, working as it should.");
+        if(mGoogleApiClient.isConnected()){
+            Log.e("Google_Api_Client: .", "DS");
         }
         else{
-            log("Google_Api_Client: It was NOT connected on (onConnected) function, It is definetly bugged.");
-        }*/
+            Log.d("Google_Api_Client: NOT ", "SDzsd");
+        }
         displayLocation();
         startLocationUpdates();
     }
@@ -253,11 +253,14 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
     }
 
     public void getCoarsePermission(){
+
         //check if permission is granted
+
         if(ContextCompat.checkSelfPermission(Prayer_Time_Activity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){
 
             //should we show description?
+
             if(ActivityCompat.shouldShowRequestPermissionRationale(Prayer_Time_Activity.this, Manifest.permission.ACCESS_COARSE_LOCATION)){
                 /*
                 DESCRIBE WHY THE PERMISSION IS REQUIRED
@@ -376,58 +379,5 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
 
         return super.onOptionsItemSelected(item);
     }
-
-
-    /*public void getTime(View v) {
-        Toast.makeText(
-                getApplicationContext(),
-                "Your Location is -\nLat: " + latitude + "\nLong: "
-                        + longitude, Toast.LENGTH_LONG).show();
-
-        double m_latitude = latitude;
-        double m_longitude = longitude;
-        double timezone = (Calendar.getInstance().getTimeZone()
-                .getOffset(Calendar.getInstance().getTimeInMillis()))
-                / (1000 * 60 * 60);
-        PrayTime prayers = new PrayTime();
-
-        prayers.setTimeFormat(prayers.Time12);
-        prayers.setCalcMethod(prayers.Makkah);
-        prayers.setAsrJuristic(prayers.Shafii);
-        prayers.setAdjustHighLats(prayers.AngleBased);
-        int[] offsets = { 0, 0, 0, 0, 0, 0, 0 }; // {Fajr,Sunrise,Dhuhr,Asr,Sunset,Maghrib,Isha}
-        prayers.tune(offsets);
-
-        Date now = new Date();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(now);
-
-        ArrayList prayerTimes = prayers.getPrayerTimes(cal, m_latitude,
-                m_longitude, timezone);
-        ArrayList prayerNames = prayers.getTimeNames();
-
-        for (int i = 0; i < prayerTimes.size(); i++) {
-//            txtPrayerTimes.append("\n" + prayerNames.get(i) + " - "
-//                    + prayerTimes.get(i));
-
-            txtPrayerNames.append("\n" +prayerNames.get(i));
-            txtPrayerTimes.append("\n" +prayerTimes.get(i));
-        }
-
-        mGetTime.setVisibility(View.GONE);
-    }*/
-
-    /*@Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if(userType == 3){
-
-            mAuth.signOut();
-            startActivity(new Intent(Prayer_Time_Activity.this , RegisterActivity.class));
-            finish();
-
-        }
-    }*/
 
 }
