@@ -16,11 +16,9 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.nabeel.postandcommenttutorial.R;
 import com.example.nabeel.postandcommenttutorial.models.User;
-import com.example.nabeel.postandcommenttutorial.ui.activities.SearchWithTabbedActivity;
 import com.example.nabeel.postandcommenttutorial.ui.activities.UserProfile;
 import com.example.nabeel.postandcommenttutorial.ui.activities.viewallsearchesForUser;
 import com.example.nabeel.postandcommenttutorial.ui.adapter.UserListAdapter;
@@ -32,10 +30,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
-//import static com.example.nabeel.postandcommenttutorial.ui.activities.SearchWithTabbedActivity.backbutton;
 
 public class fragment_userSearch extends Fragment {
 

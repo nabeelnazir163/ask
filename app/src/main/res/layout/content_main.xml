@@ -73,6 +73,7 @@
                 android:id="@+id/tab_layout"
                 app:tabMode="scrollable"
                 app:tabGravity="center"
+                android:layout_gravity="center"
                 app:tabTextAppearance="@style/ThemeTabText"
                 >
                 <!---->

@@ -58,6 +58,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -65,18 +67,21 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class answersActivity extends BaseActivity{
 
     String FCM_token,Current_UserName;
     Post mPost;
     TextView question_tv;
-    RelativeLayout readmore;
     int userType;
 
     String tosendNotifemail;
 
     private String image_url;
     private String name;
+    CircleImageView userImage;
+    TextView username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,13 +96,31 @@ public class answersActivity extends BaseActivity{
         }
 
         question_tv = (TextView) findViewById(R.id.questiontext_answeractivity);
+        userImage = (CircleImageView) findViewById(R.id.userImage_answeractivity);
+        username = (TextView) findViewById(R.id.username_answeractivity);
+
         question_tv.setMaxLines(Integer.MAX_VALUE);
 
         Intent intent = getIntent();
         mPost = (Post) intent.getSerializableExtra(Constants.EXTRA_POST);
 
-
         question_tv.setText(mPost.getPostText());
+
+        FirebaseUtils.getUserRef(mPost.getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String image = dataSnapshot.child("image").getValue().toString();
+                String name = dataSnapshot.child("name").getValue().toString();
+
+                username.setText(name);
+                Glide.with(answersActivity.this).load(image).into(userImage);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         SharedPreferences userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
         userType = userType_sp.getInt("UserType", 0);

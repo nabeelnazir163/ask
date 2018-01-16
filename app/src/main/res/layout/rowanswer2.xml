@@ -29,14 +29,44 @@
             android:layout_weight="0.9"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_username_answer"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Username"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:textStyle="bold" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:id="@+id/tv_username_answer"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.6"
+                    android:layout_height="wrap_content"
+                    android:text="Username"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_time_answer"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.3"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:gravity="right"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="10h30" />
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="0.1"
+                    android:src="@mipmap/ic_edit_black_24dp"
+                    android:id="@+id/edit_answer_iv"
+                    android:visibility="gone"
+                    />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_answer"
@@ -46,6 +76,33 @@
                 android:maxLines="3"
                 android:text="@string/answer"
                 android:textColor="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/edittext_layout"
+                android:visibility="gone"
+                >
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edittext_answer"
+                    android:layout_weight="0.8"
+                    android:layout_marginRight="5dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Done"
+                    android:layout_weight="0.2"
+                    android:id="@+id/done_textview"
+                    android:gravity="center_horizontal"
+                    />
+
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -65,27 +122,7 @@
 
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/tv_time_answer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textSize="12sp"
-                android:gravity="center_vertical"
-                android:text="10h30" />
-
-
-
         </LinearLayout>
-
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:src="@mipmap/ic_edit_black_24dp"
-            android:id="@+id/edit_answer_iv"
-            android:visibility="gone"
-            />
-
 
     </LinearLayout>
 
@@ -114,33 +151,6 @@
             android:maxHeight="200dp"
             android:visibility="gone"
             />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/edittext_layout"
-            android:visibility="gone"
-            >
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/edittext_answer"
-                android:layout_weight="0.8"
-                android:layout_marginRight="5dp"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Done"
-                android:layout_weight="0.2"
-                android:id="@+id/done_textview"
-                android:gravity="center_horizontal"
-                />
-
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/like_layout_answer"

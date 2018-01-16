@@ -39,7 +39,7 @@
                     android:id="@+id/username_search"
                     />
 
-                <!--<TextView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/username_search"
@@ -47,8 +47,8 @@
                     android:textSize="15dp"
                     android:layout_centerVertical="true"
                     android:textColor="@color/tw__composer_black"
-                    android:id="@+id/email_search"
-                    />-->
+                    android:id="@+id/usertype_search"
+                    />
 
             </RelativeLayout>
 

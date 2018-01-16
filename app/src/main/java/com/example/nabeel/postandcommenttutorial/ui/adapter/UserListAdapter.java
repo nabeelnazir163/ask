@@ -41,6 +41,7 @@ public class UserListAdapter extends ArrayAdapter<User> {
     private static class ViewHolder{
 
         TextView username;
+        TextView userType;
         CircleImageView profileimage;
 
     }
@@ -56,7 +57,7 @@ public class UserListAdapter extends ArrayAdapter<User> {
             viewHolder = new ViewHolder();
 
             viewHolder.username = (TextView) convertView.findViewById(R.id.username_search);
-//            viewHolder.email = (TextView) convertView.findViewById(R.id.email_search);
+            viewHolder.userType = (TextView) convertView.findViewById(R.id.usertype_search);
 
             viewHolder.profileimage = (CircleImageView) convertView.findViewById(R.id.profile_image);
 
@@ -69,7 +70,7 @@ public class UserListAdapter extends ArrayAdapter<User> {
         }
 
         viewHolder.username.setText(getItem(position).getName());
-//        viewHolder.email.setText(getItem(position).getEmail());
+        viewHolder.userType.setText(getItem(position).getUserType());
 
         Glide.with(mContext).load(getItem(position).getImage()).into(viewHolder.profileimage);
 

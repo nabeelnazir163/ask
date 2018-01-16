@@ -315,11 +315,11 @@ public class homeFragment extends Fragment {
                             viewHolder.setFiqahOfAlim(fiqah);
                         }
 
+                        if( !TextUtils.isEmpty(name))
                         viewHolder.setUsername(name);
 
-                        Glide.with(getActivity())
-                                .load(image_url)
-                                .into(viewHolder.postOwnerDisplayImageView);
+                        if( !TextUtils.isEmpty(image_url))
+                        Glide.with(getContext()).load(image_url).into(viewHolder.postOwnerDisplayImageView);
                     }
 
                     @Override

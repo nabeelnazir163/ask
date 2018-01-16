@@ -149,6 +149,7 @@ public class edit_profile extends BaseActivity {
             public void onClick(View view) {
 
                 final Dialog dialog = new Dialog(edit_profile.this, android.R.style.Widget_PopupWindow);
+                dialog.setCancelable(true);
                 dialog.setContentView(R.layout.change_password_dialog);
                 old_pwd_et = (EditText) dialog.findViewById(R.id.old_password_et);
                 newPass = (EditText) dialog.findViewById(R.id.new_password_et);

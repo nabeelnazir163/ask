@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -164,7 +165,7 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
             case R.id.done_ripple_view_answer:
                 sendAnswer();
-                uploadAudio();
+
                 break;
 
             case R.id.postanswer_mic_iv:
@@ -219,8 +220,6 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
     }
 
     private void showRecordbuttons() {
-
-        //Toast.makeText(getApplicationContext(), "Dds" , Toast.LENGTH_SHORT).show();
 
         audiobtnLayout = (LinearLayout) findViewById(R.id.postanswer_record_layout);
         seekBar = (SeekBar) findViewById(R.id.post_answer_seekbar);
@@ -426,7 +425,7 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
         progressDialog.setMessage("Sending Answer..");
         progressDialog.setCancelable(true);
         progressDialog.setIndeterminate(true);
-        progressDialog.show();
+
         mAnswer = new Answer();
 
         FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".", ","))
@@ -439,7 +438,12 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                         final String uid = FirebaseUtils.getUid();
                         String strAnswer = mAnswerEditText.getText().toString();
 
+                        if(!TextUtils.isEmpty(strAnswer)){
+
 //                        mAnswer.setUser(user);
+
+                        progressDialog.show();
+
                         mAnswer.setEmail(FirebaseUtils.getCurrentUser().getEmail());
                         mAnswer.setAnswerId(uid);
                         mAnswer.setAnswer(strAnswer);
@@ -455,9 +459,9 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                                                 @Override
                                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                                     String url = Constants.ANSWER_IMAGES + "/" + mSelectedUri.getLastPathSegment();
-                                                    Toast.makeText(getApplicationContext() , url , Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getApplicationContext(), url, Toast.LENGTH_SHORT).show();
                                                     mAnswer.setAnswerImgUrl(url);
-                                                    finish();
+//                                                    finish();
                                                     addToMyPostList(uid);
                                                 }
                                             });
@@ -467,18 +471,18 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
                         }
 
-                        Boolean checktoclose = getSharedPreferences("firstAnsPref",  MODE_PRIVATE).getBoolean("isFirstAnswer", true);
+                        Boolean checktoclose = getSharedPreferences("firstAnsPref", MODE_PRIVATE).getBoolean("isFirstAnswer", true);
 
-                        if(!checktoclose){
+//                        if(!checktoclose){
+//
+//                            finish();
+//
+//                        }
 
-                            finish();
 
-                        }
+                        Boolean isFirtanswer = getSharedPreferences("firstAnsPref", MODE_PRIVATE).getBoolean("isFirstAnswer", true);
 
-
-                        Boolean isFirtanswer = getSharedPreferences("firstAnsPref",  MODE_PRIVATE).getBoolean("isFirstAnswer", true);
-
-                        if(isFirtanswer){
+                        if (isFirtanswer) {
 
                             final Dialog dialog_first_answer = new Dialog(postNewAnswer.this, android.R.style.Widget_PopupWindow);
                             dialog_first_answer.setContentView(R.layout.dialogfirstanswerinstructions);
@@ -499,17 +503,20 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                             close.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    if(dont_show.isChecked()){
+                                    if (dont_show.isChecked()) {
 
-                                        getSharedPreferences("firstAnsPref",  MODE_PRIVATE).edit().putBoolean("isFirstAnswer", false).commit();
+                                        getSharedPreferences("firstAnsPref", MODE_PRIVATE).edit().putBoolean("isFirstAnswer", false).commit();
 
                                     }
                                     finish();
                                     dialog_first_answer.dismiss();
                                 }
                             });
+                        } else {
+                            finish();
                         }
 
+                    }
                     }
 
                     @Override
@@ -525,13 +532,20 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
         FirebaseUtils.getAnswerRef()
                 .child(mPost.getPostId())
                 .child(uid)
-                .setValue(mAnswer);
+                .setValue(mAnswer).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                uploadAudio();
+            }
+        });
+
+
 
         FirebaseUtils.getMyAnsRef().child(mPost.getPostId()).setValue(true)
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        finish();
+//                        finish();
                     }
                 });
 

@@ -242,7 +242,7 @@ public class  AppInfo extends BaseActivity {
 
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 14);
-            calendar.set(Calendar.MINUTE, 36);
+            calendar.set(Calendar.MINUTE, 50);
 
             Intent intent = new Intent(getApplicationContext(), Notification_receiver_unAnsweredQues.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);

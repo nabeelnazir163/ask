@@ -587,11 +587,11 @@ public class MainActivity extends BaseActivity
             Intent appinfo_intent = new Intent (MainActivity.this , AppInfo.class);
             startActivity(appinfo_intent);
 
-        }else if( id == R.id.qibladirection){
+        /*}else if( id == R.id.qibladirection){
 
 //            mAuth.signOut();
             startActivity(new Intent(MainActivity.this , QiblaDirection.class));
-
+*/
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

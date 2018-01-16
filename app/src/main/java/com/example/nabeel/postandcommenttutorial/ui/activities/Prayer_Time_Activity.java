@@ -98,7 +98,7 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
         displayLocation();
 
     }
-    
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -138,6 +138,7 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
             if (mLastLocation != null) {
                 latitude = mLastLocation.getLatitude();
                 longitude = mLastLocation.getLongitude();
+                Toast.makeText(getApplicationContext(), "D", Toast.LENGTH_LONG).show();
                 init();
             }
             else{
@@ -216,7 +217,6 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
     }
 
     protected void stopLocationUpdates() {
-        if (mGoogleApiClient.isConnected())
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
 

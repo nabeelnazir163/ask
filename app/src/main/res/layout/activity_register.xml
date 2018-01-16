@@ -55,6 +55,7 @@
                 <RadioGroup
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
                     android:layout_gravity="center_horizontal"
                     android:orientation="horizontal">
 
@@ -64,6 +65,7 @@
                         android:layout_height="wrap_content"
                         android:onClick="selectUserType"
                         android:paddingRight="5dp"
+                        android:textSize="20dp"
                         android:text="As Alim" />
 
                     <RadioButton
@@ -72,6 +74,7 @@
                         android:layout_height="wrap_content"
                         android:onClick="selectUserType"
                         android:paddingLeft="5dp"
+                        android:textSize="20dp"
                         android:text="As User" />
 
                     <!--android:checked="true"-->
@@ -88,7 +91,7 @@
                     android:hint="@string/eng_email"
                     android:inputType="textEmailAddress"
                     android:padding="5dp"
-                    android:maxLines="2"
+                    android:maxLines="1"
                     />
 
                 <View
@@ -127,7 +130,8 @@
                     android:layout_margin="5dp"
                     android:background="#015A35"
                     android:fontFamily="serif"
-                    android:text="@string/enter"
+                    android:text="@string/login"
+                    android:textSize="20dp"
                     android:id="@+id/login_tv"
                     android:textColor="#ffffff" />
 
@@ -144,6 +148,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/register_now"
                         android:textSize="17dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimary"
                         android:id="@+id/signup_tv"
                         />
 

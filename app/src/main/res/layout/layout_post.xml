@@ -61,8 +61,6 @@
 
         </LinearLayout>
 
-
-
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
@@ -127,7 +125,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:maxHeight="200dp"
-            android:src="@drawable/placeholder" />
+            android:src="@drawable/browseimg" />
 
 
     </LinearLayout>
@@ -142,9 +140,10 @@
             android:id="@+id/answer_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="horizontal"
             android:layout_marginTop="8dp"
+            android:padding="6dp"
             android:layout_marginBottom="8dp"
             android:layout_marginRight="8dp"
             android:paddingLeft="4sp"
@@ -174,10 +173,11 @@
             android:id="@+id/comment_layout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="horizontal"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:padding="6dp"
             android:layout_marginRight="8dp"
             android:paddingLeft="4sp"
             android:paddingRight="4sp"
@@ -206,9 +206,10 @@
             android:id="@+id/seen_layout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="horizontal"
             android:layout_marginTop="8dp"
+            android:padding="6dp"
             android:layout_marginBottom="8dp"
             android:layout_marginRight="8dp"
             >
@@ -235,7 +236,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="right|center_vertical"
+            android:gravity="right"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
@@ -251,6 +252,7 @@
                 android:layout_marginRight="8dp"
                 android:background="@drawable/viewallanswers_bg"
                 android:paddingLeft="4sp"
+                android:padding="6dp"
                 android:paddingRight="4sp"
                 android:id="@+id/newanswer_layout_post"
                 >
@@ -261,30 +263,32 @@
                     android:text="Answer"
                     android:layout_marginRight="4dp"
                     android:textSize="11sp"
+                    android:drawablePadding="4dp"
+                    android:drawableRight="@drawable/editanswer"
                     />
 
-                <ImageView
+                <!--<ImageView
                     android:layout_width="12dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="4dp"
                     android:src="@drawable/editanswer"
-                    />
+                    />-->
             </LinearLayout>
 
 
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="18dp"
+                android:layout_width="20dp"
+                android:layout_height="24dp"
                 android:layout_gravity="right|center_vertical"
                 android:src="@drawable/bookmark"
                 android:id="@+id/bookmark_iv"
                 />
 
             <ImageView
-                android:layout_width="17dp"
-                android:layout_height="18dp"
-                android:layout_gravity="right"
+                android:layout_width="20dp"
+                android:layout_height="24dp"
+                android:layout_gravity="right|center_vertical"
                 android:src="@drawable/bookmark_after"
                 android:id="@+id/bookmark_iv_after"
                 android:visibility="gone"
