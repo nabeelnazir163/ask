@@ -137,18 +137,18 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
 
 
 
-        findViewById(R.id.done_ripple_view).setOnClickListener(this);
-        findViewById(R.id.more).setOnClickListener(this);
+        findViewById(R.id.post_dialog_send_imageview).setOnClickListener(this);
+        findViewById(R.id.post_dialog_select_imageview).setOnClickListener(this);
         findViewById(R.id.create_post_ask_quest_tv).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.done_ripple_view:
+            case R.id.post_dialog_send_imageview:
                 sendPost();
                 break;
-            case R.id.more:
+            case R.id.post_dialog_select_imageview:
                 selectImage();
                 break;
             case R.id.create_post_ask_quest_tv:

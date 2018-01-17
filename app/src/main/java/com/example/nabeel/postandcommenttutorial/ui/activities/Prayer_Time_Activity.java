@@ -138,7 +138,7 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
             if (mLastLocation != null) {
                 latitude = mLastLocation.getLatitude();
                 longitude = mLastLocation.getLongitude();
-                Toast.makeText(getApplicationContext(), "D", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "D", Toast.LENGTH_LONG).show();
                 init();
             }
             else{
@@ -186,7 +186,7 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(UPDATE_INTERVAL);
         mLocationRequest.setFastestInterval(FATEST_INTERVAL);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+//        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setSmallestDisplacement(DISPLACEMENT);
     }
 
@@ -217,6 +217,7 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
     }
 
     protected void stopLocationUpdates() {
+        if(mGoogleApiClient.isConnected())
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
 

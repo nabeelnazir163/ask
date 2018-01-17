@@ -10,9 +10,18 @@
     <android.support.v7.widget.RecyclerView
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/inbox_rv"
         android:layout_below="@+id/newMessageInbox"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_new_messages"
+        android:layout_gravity="center"
+        android:textSize="18sp"
+        android:id="@+id/no_new_msg_sb"
         />
 
 </LinearLayout>

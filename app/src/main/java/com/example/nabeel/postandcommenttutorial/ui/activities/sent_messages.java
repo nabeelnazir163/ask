@@ -19,10 +19,13 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 
 public class sent_messages extends AppCompatActivity {
 
+    TextView noNewMessage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sent_messages);
+
+        noNewMessage = (TextView) findViewById(R.id.no_new_msg_sb);
 
         if(getSupportActionBar() != null){
 
@@ -59,12 +62,20 @@ public class sent_messages extends AppCompatActivity {
             @Override
             protected void populateViewHolder(sentboxHolder viewHolder, final sentbox_model model, int position) {
 
-                viewHolder.setUsername(model.getReceiver_name());
-                viewHolder.setMessage(model.getMessage());
-                viewHolder.setTime(DateUtils.getRelativeTimeSpanString(model.getSending_timeStamp()));
+                if(model.getMessage() != null) {
 
-                Glide.with(getApplicationContext()).load(model.getReceiver_image_url()).into(viewHolder.messageSenderImageView);
+                    noNewMessage.setVisibility(View.GONE);
+                    viewHolder.setUsername(model.getReceiver_name());
+                    viewHolder.setMessage(model.getMessage());
+                    viewHolder.setTime(DateUtils.getRelativeTimeSpanString(model.getSending_timeStamp()));
 
+                    Glide.with(getApplicationContext()).load(model.getReceiver_image_url()).into(viewHolder.messageSenderImageView);
+
+                } else {
+
+                    noNewMessage.setVisibility(View.VISIBLE);
+
+                }
             }
 
         };
