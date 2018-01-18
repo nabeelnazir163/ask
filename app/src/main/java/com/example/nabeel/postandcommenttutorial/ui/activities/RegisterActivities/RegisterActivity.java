@@ -280,6 +280,7 @@ public class RegisterActivity extends BaseActivity{
                 }
                 else{
                     Toast.makeText(getApplicationContext(),"UNSUCCESSFUL",Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
                 }
             }
         });

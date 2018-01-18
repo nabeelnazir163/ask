@@ -452,7 +452,7 @@ public class MainActivity extends BaseActivity
                 }
 
                 this.doubleBackToExitPressedOnce = true;
-                Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Press again to exit application", Toast.LENGTH_SHORT).show();
 
                 new Handler().postDelayed(new Runnable() {
 

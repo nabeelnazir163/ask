@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.nabeel.postandcommenttutorial.ui.activities.UserProfile"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -45,16 +44,48 @@
                         android:orientation="vertical"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="20sp"
-
                         >
-                        <TextView
+
+                        <com.lid.lib.LabelTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Username Goes Here"
                             android:textSize="20sp"
                             android:textStyle="bold"
+                            android:paddingRight="20dp"
+                            app:label_backgroundColor="@color/colorPrimary"
+                            app:label_distance="7dp"
+                            app:label_orientation="RIGHT_TOP"
+                            app:label_text="type"
+                            app:label_textSize="8sp"
                             android:id="@+id/userprofile_display_name"
                             />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="5dp"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:text="Fiqah : "
+
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:text=""
+                                android:id="@+id/fiqahinuserprofile"
+
+                                />
+
+                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -73,7 +104,6 @@
                                 android:text="Address"
                                 android:textSize="16dp"
                                 android:id="@+id/userprofile_add"
-
                                 />
 
                         </LinearLayout>
@@ -83,28 +113,57 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginBottom="10dp"
+                    android:padding="5dp"
+                    android:id="@+id/institute_layout"
                     >
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:text="Fiqah : "
-
+                        android:text="Institute"
+                        android:layout_weight="0.3"
                         />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:text=""
-                        android:id="@+id/fiqahinuserprofile"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="0.7"
+                        android:maxLines="2"
+                        android:padding="3dp"
+                        android:id="@+id/institute_textview"
+                        />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="20dp"
+                    android:padding="5dp"
+                    android:id="@+id/description_layout"
+                    >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:text="About Alim" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="0.7"
+                        android:maxLines="2"
+                        android:padding="3dp"
+                        android:text="Description"
+                        android:id="@+id/description_tv"
                         />
 
                 </LinearLayout>

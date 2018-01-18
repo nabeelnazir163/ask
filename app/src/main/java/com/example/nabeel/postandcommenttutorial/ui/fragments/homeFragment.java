@@ -256,16 +256,16 @@ public class homeFragment extends Fragment {
         });*/
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-
-        if(isVisibleToUser){
-
-            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
-
-        }
-    }
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//
+//        if(isVisibleToUser){
+//
+//            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+//
+//        }
+//    }
 
     private void setupAdapter() {
         mPostAdapter = new FirebaseRecyclerAdapter<Post, PostHolder>(
@@ -387,27 +387,34 @@ public class homeFragment extends Fragment {
 
 
                 if (model.getPostImageUrl() != null) {
+//                    viewHolder.postDisplayImageVIew.setVisibility(View.VISIBLE);
+//                    StorageReference storageReference = FirebaseStorage.getInstance()
+//                            .getReference(model.getPostImageUrl());
+//                    Glide.with(getContext())
+//                            .load(model.getPostImageUrl())
+//                            .into(viewHolder.postDisplayImageVIew);
+
                     viewHolder.postDisplayImageVIew.setVisibility(View.VISIBLE);
                     StorageReference storageReference = FirebaseStorage.getInstance()
                             .getReference(model.getPostImageUrl());
-                    /*Glide.with(getActivity())
+                    Glide.with(getActivity())
                             .using(new FirebaseImageLoader())
                             .load(storageReference)
-                            .into(viewHolder.postDisplayImageVIew);*/
+                            .into(viewHolder.postDisplayImageVIew);
 
-                    Picasso.with(getContext()).load(model.getPostImageUrl()).networkPolicy(NetworkPolicy.OFFLINE).into(viewHolder.postDisplayImageVIew, new Callback() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onError() {
-
-                            Picasso.with(getContext()).load(model.getPostImageUrl()).into(viewHolder.postDisplayImageVIew);
-
-                        }
-                    });
+//                    Picasso.with(getContext()).load(model.getPostImageUrl()).networkPolicy(NetworkPolicy.OFFLINE).into(viewHolder.postDisplayImageVIew, new Callback() {
+//                        @Override
+//                        public void onSuccess() {
+//
+//                        }
+//
+//                        @Override
+//                        public void onError() {
+//
+//                            Picasso.with(getContext()).load(model.getPostImageUrl()).into(viewHolder.postDisplayImageVIew);
+//
+//                        }
+//                    });
                 } else {
                     viewHolder.postDisplayImageVIew.setImageBitmap(null);
                     viewHolder.postDisplayImageVIew.setVisibility(View.GONE);

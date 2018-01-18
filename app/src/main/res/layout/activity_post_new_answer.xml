@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
 
@@ -24,25 +23,26 @@
                 android:orientation="horizontal"
                 >
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <!--<com.balysv.materialripple.MaterialRippleLayout
                     android:id="@+id/more_cross_answer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.1"
-                    >
+                    >-->
 
                     <ImageView
                         android:id="@+id/post_question_cross_iv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/close_icon"
+                        android:contentDescription="@string/upload_img"
                         />
 
-                </com.balysv.materialripple.MaterialRippleLayout>
+                <!--</com.balysv.materialripple.MaterialRippleLayout>-->
 
                 <TextView
                     android:id="@+id/postquestiontv"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
@@ -51,6 +51,7 @@
                     android:layout_weight="0.8"
                     android:text="Post Answer"
                     />
+<!--
 
                 <com.balysv.materialripple.MaterialRippleLayout
                     android:layout_width="wrap_content"
@@ -58,15 +59,17 @@
                     android:id="@+id/done_ripple_view_answer"
                     android:layout_weight="0.1"
                     >
+-->
 
                     <ImageView
                         android:id="@+id/post_dialog_send_imageview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/submit_icon"
+                        android:contentDescription="@string/button_done"
                         />
 
-                </com.balysv.materialripple.MaterialRippleLayout>
+                <!--</com.balysv.materialripple.MaterialRippleLayout>-->
 
             </LinearLayout>
 
@@ -118,7 +121,6 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:layout_below="@+id/mainRel_layout_ask_question"
                 android:id="@+id/post_answer_linearLayout"
                 android:orientation="vertical">
 
@@ -155,7 +157,6 @@
                     android:layout_marginTop="15dp"
                     android:layout_gravity="left"
                     android:visibility="gone"
-                    android:layout_below="@+id/post_answer_linearLayout"
                     />
 
                 <ImageView
@@ -197,21 +198,22 @@
                     android:layout_height="24dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="4dp"
+                    android:visibility="gone"
                     android:src="@drawable/ic_mic_black_24dp"
                     android:layout_gravity="bottom"
                     android:layout_toRightOf="@+id/post_Answer_select_imageview"
                     />
 
-                <ImageView
-                    android:id="@+id/postanswer_attachment"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="4dp"
-                    android:src="@drawable/attachment"
-                    android:layout_gravity="bottom"
-                    android:layout_toRightOf="@+id/postanswer_mic_iv"
-                    />
+                <!--<ImageView-->
+                    <!--android:id="@+id/postanswer_attachment"-->
+                    <!--android:layout_width="24dp"-->
+                    <!--android:layout_height="24dp"-->
+                    <!--android:layout_marginLeft="8dp"-->
+                    <!--android:layout_marginTop="4dp"-->
+                    <!--android:src="@drawable/attachment"-->
+                    <!--android:layout_gravity="bottom"-->
+                    <!--android:layout_toRightOf="@+id/postanswer_mic_iv"-->
+                    <!--/>-->
 
             </RelativeLayout>
 

@@ -45,6 +45,7 @@ import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.lid.lib.LabelTextView;
 
 import java.util.ArrayList;
 
@@ -52,13 +53,15 @@ public class UserProfile extends BaseActivity {
 
     private ImageView mUserProfile_Iv;
 
-    private TextView mUserProfile_name_tv;
+    private LabelTextView mUserProfile_name_tv;
     private TextView mUser_add;
     private TextView fiqah;
     private TextView mFollowtv;
     private TextView munfollowtv;
     private TextView mMessage;
     private TextView update_Profile;
+    private TextView institute_userprofile;
+    private TextView about_alim;
 
     String mUserEmail;
     String email_user;
@@ -71,10 +74,15 @@ public class UserProfile extends BaseActivity {
     private String image_url;
     private String name;
 
+    String description = "";
+    String institute_name = "";
+
     private RecyclerView userProfile_question;
 
     private SwipeRefreshLayout mSwipeRef_userProfile;
 
+    private LinearLayout institute_layout;
+    private LinearLayout description_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,12 +98,17 @@ public class UserProfile extends BaseActivity {
 
         mUserProfile_Iv = (ImageView) findViewById(R.id.userprofile_displayImage);
 
-        mUserProfile_name_tv = (TextView) findViewById(R.id.userprofile_display_name);
+        mUserProfile_name_tv = (LabelTextView) findViewById(R.id.userprofile_display_name);
         mUser_add = (TextView) findViewById(R.id.userprofile_add);
         fiqah = (TextView) findViewById(R.id.fiqahinuserprofile);
         mFollowtv = (TextView) findViewById(R.id.followText);
         munfollowtv = (TextView) findViewById(R.id.unfollowText);
         update_Profile = (TextView) findViewById(R.id.update_profile);
+        institute_userprofile = (TextView) findViewById(R.id.institute_textview);
+        about_alim = (TextView) findViewById(R.id.description_tv);
+
+        institute_layout = (LinearLayout) findViewById(R.id.institute_layout);
+        description_layout = (LinearLayout) findViewById(R.id.description_layout);
 
         mMessage = (TextView) findViewById(R.id.chat);
 
@@ -157,13 +170,24 @@ public class UserProfile extends BaseActivity {
 
                 String user_profile_image = (String) dataSnapshot.child("image").getValue();
                 String user_name = (String) dataSnapshot.child("name").getValue();
-                String address = (String) dataSnapshot.child("address").getValue();
+                String country = (String) dataSnapshot.child("country").getValue();
                 String fiqh = dataSnapshot.child("fiqah").getValue().toString();
                 String city = dataSnapshot.child("city").getValue().toString();
                 userType_ = dataSnapshot.child("userType").getValue().toString();
 //                String country = dataSnapshot.child("country").getValue().toString();
 
+                if(dataSnapshot.hasChild("institute")) {
+                    institute_name = dataSnapshot.child("institute").getValue().toString();
+                }
+
+                if(dataSnapshot.hasChild("about_alim")){
+                    description = dataSnapshot.child("about_alim").getValue().toString();
+                }
                 if(userType_.equals("Alim")){
+
+                    mUserProfile_name_tv.setLabelText("Alim");
+                    institute_layout.setVisibility(View.VISIBLE);
+                    description_layout.setVisibility(View.VISIBLE);
 
                     setupAdapterProfileAlim();
 
@@ -181,6 +205,10 @@ public class UserProfile extends BaseActivity {
                     });
 
                 } else if (userType_.equals("User")){
+
+                    mUserProfile_name_tv.setLabelText("User");
+                    institute_layout.setVisibility(View.GONE);
+                    description_layout.setVisibility(View.GONE);
 
                     setupAdapterProfile();
 
@@ -205,13 +233,21 @@ public class UserProfile extends BaseActivity {
 
                 mUserProfile_name_tv.setText(user_name);
 
-                if(!TextUtils.isEmpty(address)) {
+                if(!TextUtils.isEmpty(country) && !TextUtils.isEmpty(city)) {
 
-                    mUser_add.setText(address + " ," + city);
+                    mUser_add.setText(city + ", " + country);
 
                 }
 
                 fiqah.setText(fiqh);
+
+                if(!description.equals("")){
+                    about_alim.setText(description);
+                }
+
+                if(!institute_name.equals("")){
+                    institute_userprofile.setText(institute_name);
+                }
 
             }
 
@@ -224,7 +260,6 @@ public class UserProfile extends BaseActivity {
         SharedPreferences userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
 
         userType = userType_sp.getInt("UserType", 0);
-
 
         if(mUserEmail.equals(email_user) ) {
 
@@ -335,7 +370,7 @@ public class UserProfile extends BaseActivity {
                         image_url = dataSnapshot.child("image").getValue().toString();
                         name = dataSnapshot.child("name").getValue().toString();
 
-                        if(!TextUtils.isEmpty(fiqah_string)){
+                        if (!TextUtils.isEmpty(fiqah_string)) {
 
                             viewHolder.fiqahOfAlim.setVisibility(View.VISIBLE);
                             viewHolder.setFiqahOfAlim(fiqah_string);
@@ -343,9 +378,12 @@ public class UserProfile extends BaseActivity {
 
                         viewHolder.setUsername(name);
 
-                        Glide.with(UserProfile.this)
-                                .load(image_url)
-                                .into(viewHolder.postOwnerDisplayImageView);
+                        if (!TextUtils.isEmpty(image_url)) {
+
+                            Glide.with(UserProfile.this)
+                                    .load(image_url)
+                                    .into(viewHolder.postOwnerDisplayImageView);
+                        }
                     }
 
                     @Override

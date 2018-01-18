@@ -50,8 +50,8 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
     private Uri mSelectedUri;
 
     private ImageView mPostDisplay;
-    private MaterialRippleLayout mCross;
-    MaterialRippleLayout rippleView;
+    private Button mCross;
+    Button rippleView;
 
     private CircleImageView m_User_display;
 
@@ -78,14 +78,14 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
 
         mPostDisplay = (ImageView) findViewById(R.id.post_dialog_display);
 
-        mCross = (MaterialRippleLayout) findViewById(R.id.more_cross);
+//        mCross = (Button) findViewById(R.id.post_dialog_select_imageview);
 
         m_User_display = (CircleImageView) findViewById(R.id.post_create_user_iv);
 
         mUsername = (TextView) findViewById(R.id.post_create_user_name_tv);
 
-        rippleView = (MaterialRippleLayout) findViewById(R.id.more);
-        rippleView.setOnClickListener(this);
+//        rippleView = (Button) findViewById(R.id.more);
+//        rippleView.setOnClickListener(this);
 
         mCreateDataRef = FirebaseDatabase.getInstance().getReference().child(Constants.USERS_KEY);
 
@@ -110,12 +110,12 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
             }
         });
 
-        mCross.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+//        mCross.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                finish();
+//            }
+//        });
 
        /* String photourl = mAuth.getCurrentUser().getPhotoUrl().toString();
         String username = mAuth.getCurrentUser().getDisplayName();
@@ -140,6 +140,7 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
         findViewById(R.id.post_dialog_send_imageview).setOnClickListener(this);
         findViewById(R.id.post_dialog_select_imageview).setOnClickListener(this);
         findViewById(R.id.create_post_ask_quest_tv).setOnClickListener(this);
+        findViewById(R.id.post_question_cross_iv).setOnClickListener(this);
     }
 
     @Override
@@ -154,6 +155,10 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
             case R.id.create_post_ask_quest_tv:
                 sendPost();
                 break;
+            case R.id.post_question_cross_iv:
+                finish();
+                break;
+
         }
     }
 

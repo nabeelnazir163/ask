@@ -1,6 +1,7 @@
 package com.example.nabeel.postandcommenttutorial.ui.activities;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,8 +42,11 @@ public class edit_profile extends BaseActivity {
     private ImageView chnage_image;
 
     private EditText chnage_name;
+    private EditText institute;
+    private EditText Description;
 
     private Button done;
+    private Button close;
 
     private TextView change_password;
 
@@ -58,6 +63,12 @@ public class edit_profile extends BaseActivity {
     Button done_resettinG_pwd;
     FirebaseUser user;
 
+    String institute_name;
+    String description;
+
+    private LinearLayout institute_layout_editProfile;
+    private LinearLayout description_layout_editProfile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +83,57 @@ public class edit_profile extends BaseActivity {
         chnage_image = (ImageView) findViewById(R.id.edit_image_iv);
 
         chnage_name = (EditText) findViewById(R.id.edit_name_edit_text);
+        institute = (EditText) findViewById(R.id.institute_edittext);
+        Description = (EditText) findViewById(R.id.desc_editProfile);
 
         done = (Button) findViewById(R.id.done_button_edit_profile);
+        close = (Button) findViewById(R.id.close_button_edit_profile);
+
+        institute_layout_editProfile = (LinearLayout) findViewById(R.id.institute_layout_editprofile);
+        description_layout_editProfile = (LinearLayout) findViewById(R.id.description_layout_edit_profile);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        if(dataSnapshot.hasChild("institute")){
+                            institute_name = dataSnapshot.child("institute").getValue().toString();
+                        }
+                        if (dataSnapshot.hasChild("about_alim")){
+                            description = dataSnapshot.child("about_alim").getValue().toString();
+                        }
+
+                        if (!TextUtils.isEmpty(institute_name)){
+                            institute.setText(institute_name);
+                        }
+                        if(!TextUtils.isEmpty(description)){
+                            Description.setText(description);
+                        }
+
+                        String userType = dataSnapshot.child("userType").getValue().toString();
+
+                        if(userType.equals("Alim")){
+                            institute_layout_editProfile.setVisibility(View.VISIBLE);
+                            description_layout_editProfile.setVisibility(View.VISIBLE);
+                        } else if( userType.equals("User")){
+                            institute_layout_editProfile.setVisibility(View.GONE);
+                            description_layout_editProfile.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
         change_password = (TextView) findViewById(R.id.chnage_pass_textview);
 
@@ -115,11 +175,75 @@ public class edit_profile extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                        .child("name")
-                        .setValue(chnage_name.getText().toString());
+//                FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+//                        .child("name")
+//                        .setValue(chnage_name.getText().toString());
+//                        Toast.makeText(edit_profile.this, institute_name + " and " + description, Toast.LENGTH_SHORT).show();
 
+                if(!TextUtils.isEmpty(institute.getText().toString())) {
+
+                    if ((institute.getText().toString()).length() > 5 && (institute.getText().toString()).length() < 100) {
+
+                        if(!institute.getText().toString().equals(institute_name))
+                        {
+                            final ProgressDialog progressDialog_institute = new ProgressDialog(edit_profile.this);
+                            progressDialog_institute.setMessage("Updating your institute name");
+                            progressDialog_institute.setCancelable(false);
+                            progressDialog_institute.show();
+                            FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".", ","))
+                                    .child("institute")
+                                    .setValue(institute.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                    progressDialog_institute.dismiss();
+                                    Toast.makeText(edit_profile.this, "Institute Updated", Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
+
+                        }
+                    } else {
+
+                        Toast.makeText(edit_profile.this, "Institute name should be between 5 to 100 characters", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                if(!TextUtils.isEmpty(Description.getText().toString())) {
+
+                    if ((Description.getText().toString()).length() > 5 && (institute.getText().toString()).length() < 300) {
+
+                      if(!Description.getText().toString().equals(description)){
+
+                          final ProgressDialog progressDialog_Desc = new ProgressDialog(edit_profile.this);
+                          progressDialog_Desc.setMessage("Updating your description");
+                          progressDialog_Desc.setCancelable(false);
+                          progressDialog_Desc.show();
+
+                          FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".", ","))
+                                  .child("about_alim")
+                                  .setValue(Description.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                              @Override
+                              public void onSuccess(Void aVoid) {
+
+                                  progressDialog_Desc.dismiss();
+                                  Toast.makeText(edit_profile.this, "Description Updated", Toast.LENGTH_SHORT).show();
+
+                              }
+                          });
+                      }
+
+                    } else {
+
+                        Toast.makeText(edit_profile.this, "Description should be between 5 to 300 characters", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
                 if (!new_image_uri.equals(old_image_uri)) {
+
+                    final ProgressDialog progressDialog = new ProgressDialog(edit_profile.this);
+                    progressDialog.setMessage("Updating Image");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
 
                     StorageReference filepath = mSignup_Stor_ref_user.child(new_image_uri.getLastPathSegment());
 
@@ -128,19 +252,18 @@ public class edit_profile extends BaseActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                             String downloaduri = taskSnapshot.getDownloadUrl().toString();
-                            FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).child("image").setValue(downloaduri)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                                    .child("image").setValue(downloaduri).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    finish();
+                                    progressDialog.dismiss();
+                                    Toast.makeText(edit_profile.this, "Profile Image Updated", Toast.LENGTH_SHORT).show();
+
                                 }
                             });
                         }
                     });
-                } else {
-                    finish();
                 }
-
             }
         });
 

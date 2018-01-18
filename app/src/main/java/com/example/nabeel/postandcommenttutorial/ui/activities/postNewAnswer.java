@@ -148,8 +148,8 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
         mStorage = FirebaseStorage.getInstance().getReference();
 
-        findViewById(R.id.done_ripple_view_answer).setOnClickListener(this);
-        findViewById(R.id.more_cross_answer).setOnClickListener(this);
+        findViewById(R.id.post_dialog_send_imageview).setOnClickListener(this);
+        findViewById(R.id.post_question_cross_iv).setOnClickListener(this);
         findViewById(R.id.postanswer_mic_iv).setOnClickListener(this);
         findViewById(R.id.post_Answer_select_imageview).setOnClickListener(this);
 
@@ -162,11 +162,11 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
         switch (view.getId()){
 
-            case R.id.more_cross_answer:
+            case R.id.post_question_cross_iv:
                 finish();
                 break;
 
-            case R.id.done_ripple_view_answer:
+            case R.id.post_dialog_send_imageview:
                 sendAnswer();
 
                 break;
@@ -273,6 +273,7 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                 myAudioRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
                 myAudioRecorder.setOutputFile(OutPutFile);
+
                 File outFile = new File(OutPutFile);
 
                 if(outFile.exists()){
