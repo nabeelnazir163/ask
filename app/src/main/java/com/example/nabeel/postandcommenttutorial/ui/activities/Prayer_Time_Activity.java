@@ -95,7 +95,7 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
         txtPrayerNames = (TextView) findViewById(R.id.txtPrayerNames);
         txtPrayerTimes = (TextView) findViewById(R.id.txtPrayerTimes);
 
-        displayLocation();
+//        displayLocation();
 
     }
 
@@ -162,6 +162,7 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -365,10 +366,11 @@ public class Prayer_Time_Activity extends BaseActivity implements GoogleApiClien
     @Override
     protected void onStart() {
         super.onStart();
+
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
         }
-        displayLocation();
+//        displayLocation();
     }
 
     @Override
