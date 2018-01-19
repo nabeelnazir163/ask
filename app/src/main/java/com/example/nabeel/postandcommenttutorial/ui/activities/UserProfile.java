@@ -189,7 +189,7 @@ public class UserProfile extends BaseActivity {
                     institute_layout.setVisibility(View.VISIBLE);
                     description_layout.setVisibility(View.VISIBLE);
 
-                    setupAdapterProfileAlim();
+                    setupAdapterProfileAlim(); // NabEel's task
 
                     mSwipeRef_userProfile.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                         @Override

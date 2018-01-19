@@ -60,6 +60,7 @@ public class Followers extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mRootview = inflater.inflate(R.layout.fragment_followers, container, false);
+
         mSwipeRef__followers = (SwipeRefreshLayout) mRootview.findViewById(R.id.swipe_refresh_layout_followers);
         follow_tv = (TextView)mRootview.findViewById(R.id.follow_tv);
 
@@ -143,8 +144,6 @@ public class Followers extends Fragment {
             @Override
             protected void populateViewHolder(final followerViewHolder viewHolder, final User model, final int position) {
 
-
-//                viewHolder.email.setText(model.getEmail());
                 if(model == null){
                     follow_tv.setVisibility(View.VISIBLE);
                 }else {
@@ -166,42 +165,6 @@ public class Followers extends Fragment {
                     }
                 });
 
-                /*FirebaseUtils.getPostRef().addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        viewHolder.setPostText(model.getPostText());
-
-                        viewHolder.setPostText(model.getPostText());
-                        viewHolder.setUsername(model.getUser().getName());
-                        viewHolder.setNumCOmments(String.valueOf(model.getNumAnswers()));
-                        viewHolder.setTIme(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
-
-                        Glide.with(getActivity())
-                                .load(model.getUser().getImage())
-                                .into(viewHolder.postOwnerDisplayImageView);
-
-                        if (model.getPostImageUrl() != null) {
-                            viewHolder.postDisplayImageVIew.setVisibility(View.VISIBLE);
-                            StorageReference storageReference = FirebaseStorage.getInstance()
-                                    .getReference(model.getPostImageUrl());
-                            Glide.with(getActivity())
-                                    .using(new FirebaseImageLoader())
-                                    .load(storageReference)
-                                    .into(viewHolder.postDisplayImageVIew);
-                        } else {
-                            viewHolder.postDisplayImageVIew.setImageBitmap(null);
-                            viewHolder.postDisplayImageVIew.setVisibility(View.GONE);
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });*/
             }
         };
 
@@ -215,15 +178,6 @@ public class Followers extends Fragment {
 
         TextView username;
         CircleImageView profileimage;
-//        ImageView postOwnerDisplayImageView;
-//        TextView postOwnerUsernameTextView;
-//        TextView postTimeCreatedTextView;
-//        ImageView postDisplayImageVIew;
-//        TextView postTextTextView;
-//        LinearLayout postCommentLayout;
-//        TextView postNumCommentsTextView;
-//        LinearLayout mPostView;
-//        ImageView menu_imageview;
 
         public followerViewHolder(View itemView) {
             super(itemView);
@@ -235,32 +189,7 @@ public class Followers extends Fragment {
 
             profileimage = (CircleImageView) itemView.findViewById(R.id.profile_image);
 
-//            postOwnerDisplayImageView = (ImageView) itemView.findViewById(R.id.iv_post_owner_display);
-//            postOwnerUsernameTextView = (TextView) itemView.findViewById(R.id.tv_post_username);
-//            postTimeCreatedTextView = (TextView) itemView.findViewById(R.id.tv_time);
-//            postDisplayImageVIew = (ImageView) itemView.findViewById(R.id.iv_post_display);
-//            postCommentLayout = (LinearLayout) itemView.findViewById(R.id.answer_layout);
-//            postNumCommentsTextView = (TextView) itemView.findViewById(R.id.tv_answers);
-//            postTextTextView = (TextView) itemView.findViewById(R.id.tv_post_text);
-//            mPostView = (LinearLayout) itemView.findViewById(R.id.postview);
-//            menu_imageview = (ImageView) itemView.findViewById(R.id.menuPopup_imageview);
         }
-
-//        public void setUsername(String username) {
-//            postOwnerUsernameTextView.setText(username);
-//        }
-//
-//        public void setTIme(CharSequence time) {
-//            postTimeCreatedTextView.setText(time);
-//        }
-//
-//        public void setNumCOmments(String numComments) {
-//            postNumCommentsTextView.setText(numComments);
-//        }
-//
-//        public void setPostText(String text) {
-//            postTextTextView.setText(text);
-//        }
     }
 
 }

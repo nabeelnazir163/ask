@@ -55,8 +55,10 @@ public class bookmarkFragment extends Fragment {
     View mRootView;
 
     RecyclerView bookmark_recyc_view;
-    String Current_User;
+
     private SwipeRefreshLayout mSwipeRef_bookmark;
+
+    String Current_User;
     private String fiqah;
     private String image_url;
     private String name;
@@ -88,10 +90,11 @@ public class bookmarkFragment extends Fragment {
             }
         });
 
-        bookmark_recyc_view.setLayoutManager(new LinearLayoutManager(getContext()));
+//        bookmark_recyc_view.setLayoutManager(new LinearLayoutManager(getContext()));
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
+
         bookmark_recyc_view.setLayoutManager(mLayoutManager);
 
         if(FirebaseUtils.getCurrentUser() != null) {
@@ -114,8 +117,6 @@ public class bookmarkFragment extends Fragment {
 
             @Override
             protected void populateViewHolder(final bookmarkViewHolder viewHolder, final Post model, int position) {
-
-//                final String post_key = getRef(position).getKey();
 
                 SharedPreferences userType_sp = getActivity().getSharedPreferences("UserType", Context.MODE_PRIVATE);
 
@@ -187,7 +188,7 @@ public class bookmarkFragment extends Fragment {
                 viewHolder.setNumAnswers(String.valueOf(model.getNumAnswers()));
 //                viewHolder.setUsername(model.getUser().getName());
                 viewHolder.setnumberSeen(String.valueOf(model.getNumSeen()));
-                viewHolder.setNumCOmments(String.valueOf(model.getNumAnswers()));
+                viewHolder.setNumCOmments(String.valueOf(model.getNumComments()));
                 viewHolder.setTIme(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
 
                 viewHolder.postTextTextView.post(new Runnable() {
@@ -209,32 +210,15 @@ public class bookmarkFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
 
-                        FirebaseUtils.getPostRef().child(model.getPostId()).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                Current_User = (String) dataSnapshot.child("user").child("email").getValue();
-
                                 Intent user_profile = new Intent(getContext() , UserProfile.class);
-                                user_profile.putExtra("postkey", model.getPostId());
-                                user_profile.putExtra("email", Current_User);
+//                                user_profile.putExtra("postkey", model.getPostId());
+                                user_profile.putExtra("email", model.getEmail());
                                 startActivity(user_profile);
 
                                 if(userType != 3){
-
                                     PostSeen(model.getPostId());
-
-                                }
-
-
-
                             }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
                     }
                 });
 
@@ -259,15 +243,8 @@ public class bookmarkFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
 
-                        FirebaseUtils.getPostRef().child(model.getPostId()).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                Current_User = (String) dataSnapshot.child("user").child("email").getValue();
-
                                 Intent user_profile = new Intent(getContext() , UserProfile.class);
-                                user_profile.putExtra("postkey", model.getPostId());
-                                user_profile.putExtra("email", Current_User);
+                                user_profile.putExtra("email", model.getEmail());
                                 startActivity(user_profile);
 
                                 if(userType != 3){
@@ -277,13 +254,6 @@ public class bookmarkFragment extends Fragment {
                                 }
                             }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-
-                    }
                 });
 
                 viewHolder.readmore_rel_layout.setOnClickListener(new View.OnClickListener() {
@@ -367,9 +337,9 @@ public class bookmarkFragment extends Fragment {
 
                                     if(model.getEmail().replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))){
 
-                                        Toast.makeText(getContext() , "Delete", Toast.LENGTH_SHORT).show();
-
                                         DeletePost(model.getPostId());
+
+                                        Toast.makeText(getContext() , "Deleted", Toast.LENGTH_SHORT).show();
 
                                     }
 
@@ -394,11 +364,10 @@ public class bookmarkFragment extends Fragment {
                         dialog.setContentView(R.layout.dialogpostimage_layout);
                         ImageView myImage = (ImageView) dialog.findViewById(R.id.i);
 
-
                         StorageReference storageReference = FirebaseStorage.getInstance()
                                 .getReference(model.getPostImageUrl());
 
-                        Glide.with(getContext())
+                        Glide.with(getActivity())
                                 .using(new FirebaseImageLoader()).load(storageReference).into(myImage);
 
                         if(userType != 3){
