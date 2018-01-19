@@ -48,11 +48,18 @@ public class ResetPassword extends AppCompatActivity {
                 if(emailAddress.equals("")){
                     Toast.makeText(ResetPassword.this,"ENTER EMAIL ADDRESS",Toast.LENGTH_SHORT).show();
                 }
-                if(emailAddress!= "" && android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()==false){
-                    Toast.makeText(ResetPassword.this,"ENTER VALID EMAIL ADDRESS",Toast.LENGTH_SHORT).show();
-                }
                 else{
-                    sendResetEmail();
+                    if(emailAddress!= "" && android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()==false){
+                        Toast.makeText(ResetPassword.this,"ENTER VALID EMAIL ADDRESS",Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        if(emailAddress.contains("@askaalim.com")){
+                            Toast.makeText(ResetPassword.this, "YOU CAN NOT RESET PASSWORD AS IT IS DEFINED IN THE TERMS AND CONDITIONS", Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            sendResetEmail();
+                        }
+                    }
                 }
             }
         });
