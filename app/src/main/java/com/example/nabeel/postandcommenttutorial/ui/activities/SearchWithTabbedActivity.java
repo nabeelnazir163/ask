@@ -180,13 +180,11 @@ public class SearchWithTabbedActivity extends AppCompatActivity {
 
             Fragment search = null;
             switch (position){
-
                 case 0:
                     search = new fragment_post_Search();
                     break;
 
                 case 1:
-
                     search = new fragment_userSearch();
                     break;
             }

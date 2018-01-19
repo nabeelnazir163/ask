@@ -22,10 +22,6 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-/**
- * Created by Nabeel on 11/9/2017.
- */
-
 public class PostListadapter extends ArrayAdapter<Post> {
     private LayoutInflater mInflater;
     private List<Post> mUsers = null;

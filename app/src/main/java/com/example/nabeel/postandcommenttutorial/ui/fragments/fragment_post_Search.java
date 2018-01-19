@@ -142,8 +142,6 @@ public class fragment_post_Search extends Fragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for(DataSnapshot singlesnapshot : dataSnapshot.getChildren()){
 
-//                        Toast.makeText(getContext(), singlesnapshot.child("postText").getValue(Post.class).toString(), Toast.LENGTH_SHORT).show();
-//                        mUsersList.clear();
                         mPostList.add(singlesnapshot.getValue(Post.class));
                         updatePostListview(singlesnapshot.getValue(Post.class));
 
@@ -155,7 +153,7 @@ public class fragment_post_Search extends Fragment {
                                     // Perform action on key press
 
                                     Intent alluserSearchIntent = new Intent(getContext(), viewallPosts.class);
-                                    alluserSearchIntent.putExtra("textTomatch" , mSearchParams.getText().toString().trim().toLowerCase() );
+                                    alluserSearchIntent.putExtra("textTomatch" , mSearchParams.getText().toString() );
                                     startActivity(alluserSearchIntent);
 
 //                                    Toast.makeText(getContext(), "post", Toast.LENGTH_SHORT).show();

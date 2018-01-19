@@ -113,7 +113,7 @@ public class fragment_userSearch extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
                 backbutton.setVisibility(View.VISIBLE);
-                String text = mSearchParams.getText().toString().trim().toLowerCase();
+                String text = mSearchParams.getText().toString();
                 if(!TextUtils.isEmpty(text)){
 
                     searchforMatch(text);

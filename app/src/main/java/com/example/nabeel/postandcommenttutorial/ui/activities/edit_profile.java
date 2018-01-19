@@ -48,7 +48,7 @@ public class edit_profile extends BaseActivity {
     private Button done;
     private Button close;
 
-    private TextView change_password;
+    private Button change_password;
 
     private static final int GALLERY_REQ_2 = 2;
     private Uri new_image_uri;
@@ -135,7 +135,7 @@ public class edit_profile extends BaseActivity {
                     }
                 });
 
-        change_password = (TextView) findViewById(R.id.chnage_pass_textview);
+        change_password = (Button) findViewById(R.id.chnage_pass_textview);
 
         mSignup_Stor_ref_user = FirebaseStorage.getInstance().getReference().child("profile_images/");
 
@@ -149,7 +149,7 @@ public class edit_profile extends BaseActivity {
 
                         chnage_name.setText(old_name);
                         Glide.with(edit_profile.this).load(old_image_uri).into(chnage_image);
-//                        Toast.makeText(getApplicationContext(), "old uri" + old_image_uri, Toast.LENGTH_LONG).show();
+
                         new_image_uri = old_image_uri;
 //                        Toast.makeText(getApplicationContext(), "new uri" + new_image_uri, Toast.LENGTH_LONG).show();
                     }
@@ -302,7 +302,6 @@ public class edit_profile extends BaseActivity {
                                     .getCredential(FirebaseUtils.getCurrentUser().getEmail(), old_pwd_et.getText().toString());
 
                             if (!TextUtils.isEmpty(old_pwd_et.getText().toString())) {
-
 
                                 if (!TextUtils.isEmpty((newPass.getText().toString()))) {
 
