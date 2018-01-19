@@ -1,6 +1,7 @@
 package com.example.nabeel.postandcommenttutorial.ui.activities.RegisterActivities;
 
 
+import android.os.Handler;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -63,6 +64,8 @@ public class RegisterActivity extends BaseActivity{
 
     private EditText memailfield;
     private EditText mpasswordfield;
+
+    boolean doubleBackToExitPressedOnce = false;
 
     //FOR FACEBOOK INTEGRATION
 
@@ -561,23 +564,21 @@ public class RegisterActivity extends BaseActivity{
 
     @Override
     public void onBackPressed() {
-            final AlertDialog.Builder alert = new AlertDialog.Builder(RegisterActivity.this);
-            alert.setTitle("ASK AALIM");
-            alert.setMessage("Do you want exit?");
-            alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                    System.exit(1);
-                }
-            });
-            alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            });
-            alert.show();
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Press again to exit application", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
 
     }
 }

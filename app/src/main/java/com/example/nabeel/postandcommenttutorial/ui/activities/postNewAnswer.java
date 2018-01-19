@@ -39,6 +39,7 @@ import com.example.nabeel.postandcommenttutorial.utils.Constants;
 import com.example.nabeel.postandcommenttutorial.utils.FirebaseUtils;
 import com.example.nabeel.postandcommenttutorial.utils.sendNotification;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -58,6 +59,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 
 public class postNewAnswer extends AppCompatActivity implements View.OnClickListener {
@@ -167,6 +169,7 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.post_dialog_send_imageview:
+
                 sendAnswer();
 
                 break;
@@ -219,9 +222,18 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
     private void uploadAudio() {
 
+        String SALTCHARS = "abcdefghijklmnopqrstuvwxyz1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 18) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+
         if(OutPutFile != null){
 
-            StorageReference filepath = mStorage.child("Audio").child("new_audio.3gp");
+            StorageReference filepath = mStorage.child("Audio").child("audio" + saltStr +".3gp");
 
             Uri uri = Uri.fromFile(new File(OutPutFile));
             filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -234,7 +246,6 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
                 }
             });
-
         }
 
     }
@@ -455,6 +466,39 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                         mAnswer.setNumLikes(0);
                         mAnswer.setTimeCreated(System.currentTimeMillis());
 
+                           /* Boolean isFirtanswer = getSharedPreferences("firstAnsPref", MODE_PRIVATE).getBoolean("isFirstAnswer", true);
+
+                            if (isFirtanswer) {
+
+                                final Dialog dialog_first_answer = new Dialog(postNewAnswer.this, android.R.style.Widget_PopupWindow);
+                                dialog_first_answer.setContentView(R.layout.dialogfirstanswerinstructions);
+
+                                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+
+                                lp.copyFrom(dialog_first_answer.getWindow().getAttributes());
+                                lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                                dialog_first_answer.setCancelable(true);
+                                dialog_first_answer.show();
+                                dialog_first_answer.getWindow().setAttributes(lp);
+
+                                final CheckBox dont_show = (CheckBox) dialog_first_answer.findViewById(R.id.dont_show_checkbox_answer);
+                                Button close = (Button) dialog_first_answer.findViewById(R.id.ins_close_b_answer);
+
+                                close.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        if (dont_show.isChecked()) {
+
+                                            getSharedPreferences("firstAnsPref", MODE_PRIVATE).edit().putBoolean("isFirstAnswer", false).commit();
+
+                                        }
+                                        dialog_first_answer.dismiss();
+                                    }
+                                });*/
+//                            }
+
                         if (mSelectedUri != null) {
                             FirebaseUtils.getAnswerImageSRef()
                                     .child(mSelectedUri.getLastPathSegment())
@@ -467,50 +511,11 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 //                                                    Toast.makeText(getApplicationContext(), url, Toast.LENGTH_SHORT).show();
                                                     mAnswer.setAnswerImgUrl(url);
                                                     addToMyPostList(uid);
-                                                    progressDialog.dismiss();
-                                                    finish();
                                                 }
                                             });
                         } else {
 
                             addToMyPostList(uid);
-                            progressDialog.dismiss();
-                            finish();
-                        }
-
-                        Boolean checktoclose = getSharedPreferences("firstAnsPref", MODE_PRIVATE).getBoolean("isFirstAnswer", true);
-
-                        Boolean isFirtanswer = getSharedPreferences("firstAnsPref", MODE_PRIVATE).getBoolean("isFirstAnswer", true);
-
-                        if (isFirtanswer) {
-
-                            final Dialog dialog_first_answer = new Dialog(postNewAnswer.this, android.R.style.Widget_PopupWindow);
-                            dialog_first_answer.setContentView(R.layout.dialogfirstanswerinstructions);
-
-                            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-
-                            lp.copyFrom(dialog_first_answer.getWindow().getAttributes());
-                            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-                            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-                            dialog_first_answer.setCancelable(true);
-                            dialog_first_answer.show();
-                            dialog_first_answer.getWindow().setAttributes(lp);
-
-                            final CheckBox dont_show = (CheckBox) dialog_first_answer.findViewById(R.id.dont_show_checkbox_answer);
-                            Button close = (Button) dialog_first_answer.findViewById(R.id.ins_close_b_answer);
-
-                            close.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    if (dont_show.isChecked()) {
-
-                                        getSharedPreferences("firstAnsPref", MODE_PRIVATE).edit().putBoolean("isFirstAnswer", false).commit();
-
-                                    }
-                                    dialog_first_answer.dismiss();
-                                }
-                            });
                         }
 
                     } else {
@@ -520,7 +525,6 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Error while answer", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -535,10 +539,16 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
             @Override
             public void onSuccess(Void aVoid) {
                 uploadAudio();
+                progressDialog.dismiss();
+                finish();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
+                Toast.makeText(postNewAnswer.this, "Unable to post answer", Toast.LENGTH_SHORT).show();
             }
         });
-
-
 
         FirebaseUtils.getMyAnsRef().child(mPost.getPostId()).setValue(true)
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
@@ -596,8 +606,7 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             Current_UserName = dataSnapshot.child("name").getValue().toString();
 
-                                            FirebaseUtils.getPostRef().child(mPost.getPostId())
-                                                    .child("user").addValueEventListener(new ValueEventListener() {
+                                            FirebaseUtils.getPostRef().child(mPost.getPostId()).addValueEventListener(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(DataSnapshot dataSnapshot) {
 

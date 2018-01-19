@@ -660,7 +660,7 @@
                 android:layout_height="150dp"
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/Signup_Alim_certificate_imageView"
-                android:src="@drawable/placeholder"
+                android:src="@drawable/browseimg"
                 android:layout_marginTop="20dp"
                 />
 

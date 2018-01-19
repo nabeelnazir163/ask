@@ -243,10 +243,16 @@ public class UserProfile extends BaseActivity {
 
                 if(!description.equals("")){
                     about_alim.setText(description);
+                } else {
+                    description_layout.setVisibility(View.GONE);
                 }
 
                 if(!institute_name.equals("")){
                     institute_userprofile.setText(institute_name);
+                } else {
+
+                    institute_layout.setVisibility(View.GONE);
+
                 }
 
             }

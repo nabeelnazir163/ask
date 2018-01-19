@@ -195,7 +195,7 @@ public class SignupScreen_For_User extends BaseActivity {
 
                                 } else if (TextUtils.isEmpty(mEmailFieldUser)){
 
-                                    mEmailFieldUser = mUsername_User.toLowerCase().trim() + "@askalim.com";
+                                    mEmailFieldUser = mUsername_User.toLowerCase().trim() + "@askaalim.com";
 
                                     StartRegistering();
                                 }

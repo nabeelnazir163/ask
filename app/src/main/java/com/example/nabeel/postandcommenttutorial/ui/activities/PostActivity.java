@@ -118,6 +118,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     private String image_url_comment;
     private String name_comment;
 
+    RelativeLayout readmore_Rel_layout_mostLiked;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,6 +144,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         viewallanswers_tv = (TextView) findViewById(R.id.viewallanswer);
         viewallComments_tv = (TextView) findViewById(R.id.viewallcomments);
 
+        readmore_Rel_layout_mostLiked = (RelativeLayout) findViewById(R.id.readmore_relLayout_mostLiked);
+
         max_layout =  (CardView)findViewById(R.id.answerlayoutpostactivity);
         comment_cardview = (CardView) findViewById(R.id.cardview_for_comment);
 
@@ -161,7 +165,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             postString = intent.getSerializableExtra(Constants.EXTRA_POST);
 
         }*/
-
 
         if(mPost.getNumComments() < 3){
 
@@ -355,7 +358,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                                .into(mostLikedanswer_iv);
                    }*/
 
-               FirebaseUtils.getUserRef(mPost.getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
+               FirebaseUtils.getUserRef(model.getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
                    @Override
                    public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -368,6 +371,31 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                            mostlikedanswer_name_tv.setText(name_ans);
 
                        }
+
+                       mostLikedanswer_text_tv.post(new Runnable() {
+                           @Override
+                           public void run() {
+                               if(mostLikedanswer_text_tv.getLineCount() <= 5){
+
+                                   readmore_Rel_layout_mostLiked.setVisibility(View.GONE);
+
+                               } else if(mostLikedanswer_text_tv.getLineCount() >5){
+
+                                   readmore_Rel_layout_mostLiked.setVisibility((View.VISIBLE));
+
+                               }
+                           }
+                       });
+
+                       readmore_Rel_layout_mostLiked.setOnClickListener(new View.OnClickListener() {
+                           @Override
+                           public void onClick(View view) {
+
+                               mostLikedanswer_text_tv.setMaxLines(Integer.MAX_VALUE);
+                               readmore_Rel_layout_mostLiked.setVisibility(View.GONE);
+
+                           }
+                       });
 
                        if (!TextUtils.isEmpty(image_url_ans)) {
                            Glide.with(PostActivity.this)
@@ -1015,7 +1043,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                                                     Current_UserName = dataSnapshot.child("name").getValue().toString();
 
                                                     FirebaseUtils.getPostRef().child(mPost.getPostId())
-                                                            .child("user").addValueEventListener(new ValueEventListener() {
+                                                            .addValueEventListener(new ValueEventListener() {
                                                         @Override
                                                         public void onDataChange(DataSnapshot dataSnapshot) {
 

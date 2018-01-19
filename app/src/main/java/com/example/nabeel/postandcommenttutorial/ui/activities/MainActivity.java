@@ -158,6 +158,7 @@ public class MainActivity extends BaseActivity
             viewPagerAdapter.addFragments(new bookmarkFragment(), "Bookmarks");
            // viewPagerAdapter.addFragments(new NotificationFrag(), "Notification");
             viewPagerAdapter.addFragments(new Followers(), "Following");
+            tabLayout.setTabMode(TabLayout.MODE_FIXED);
         } else if (userType == 3){
             tabLayout.setTabMode(TabLayout.MODE_FIXED);
         }

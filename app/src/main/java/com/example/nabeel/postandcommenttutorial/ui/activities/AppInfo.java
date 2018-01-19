@@ -2,6 +2,7 @@ package com.example.nabeel.postandcommenttutorial.ui.activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -9,6 +10,7 @@ import android.os.StrictMode;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
@@ -43,6 +45,9 @@ public class  AppInfo extends BaseActivity {
 
     SharedPreferences.Editor Hadeeseditor , CalEditor , PrayerTimeEditor , unAnsQuesEditor;
 
+    SharedPreferences userType_sp;
+    private int userType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +64,14 @@ public class  AppInfo extends BaseActivity {
         HijriCal = (Switch) findViewById(R.id.hijriCalUpdateswitch);
         PrayerTime = (Switch) findViewById(R.id.prayertimeswitch);
         unAnsweredQues = (Switch) findViewById(R.id.unansweredQuestion);
+
+        userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
+        userType = userType_sp.getInt("UserType", 0);
+
+        if(userType == 3 || userType == 2){
+            unAnsweredQues.setVisibility(View.GONE);
+            unAnsweredQues.setChecked(false);
+        }
 
         hadeesPrefs = getSharedPreferences(HADEES_PREFS,0);
         Hadeeseditor = hadeesPrefs.edit();

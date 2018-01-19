@@ -23,7 +23,7 @@
                 android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
-                android:src="@drawable/logo120x120" />
+                android:src="@drawable/ask_alim_150x150_logo" />
 
             <TextView
                 android:layout_width="wrap_content"

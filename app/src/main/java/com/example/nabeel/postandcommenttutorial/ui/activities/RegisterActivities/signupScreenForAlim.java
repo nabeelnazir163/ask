@@ -267,7 +267,7 @@ public class signupScreenForAlim extends BaseActivity {
 
                                 } else if (TextUtils.isEmpty(mEmailFieldAlim)) {
 
-                                mEmailFieldAlim = mUsernameAlim.toLowerCase().trim() + "@askalim.com";
+                                mEmailFieldAlim = mUsernameAlim.toLowerCase().trim() + "@askaalim.com";
 
                                 StartRegistering();
                             }

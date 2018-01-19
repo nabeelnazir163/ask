@@ -2,15 +2,16 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://E:\Android studio Projects\ask\Postandcommenttutorial.iml" filepath="E:\Android studio Projects\ask\Postandcommenttutorial.iml" />
       <module fileurl="file://C:\Users\haide\AndroidStudioProjects\ask1\Postandcommenttutorial.iml" filepath="C:\Users\haide\AndroidStudioProjects\ask1\Postandcommenttutorial.iml" />
+      <module fileurl="file://E:\Android studio Projects\ask\Postandcommenttutorial.iml" filepath="E:\Android studio Projects\ask\Postandcommenttutorial.iml" />
       <module fileurl="file://C:\Users\haide\AndroidStudioProjects\ask\Postandcommenttutorial.iml" filepath="C:\Users\haide\AndroidStudioProjects\ask\Postandcommenttutorial.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\Postandcommenttutorial\ask.iml" filepath="D:\Postandcommenttutorial\ask.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ask.iml" filepath="$PROJECT_DIR$/ask.iml" />
       <module fileurl="file://C:\Users\haide\AndroidStudioProjects\ask1\ask.iml" filepath="C:\Users\haide\AndroidStudioProjects\ask1\ask.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ask1.iml" filepath="$PROJECT_DIR$/ask1.iml" />
-      <module fileurl="file://D:\Postandcommenttutorial\ask1.iml" filepath="D:\Postandcommenttutorial\ask1.iml" />
+      <module fileurl="file://D:\Postandcommenttutorial\ask.iml" filepath="D:\Postandcommenttutorial\ask.iml" />
       <module fileurl="file://D:\Postandcommenttutorial\.idea\ask1.iml" filepath="D:\Postandcommenttutorial\.idea\ask1.iml" />
+      <module fileurl="file://E:\Android studio Projects\ask\ask1.iml" filepath="E:\Android studio Projects\ask\ask1.iml" />
+      <module fileurl="file://D:\Postandcommenttutorial\ask1.iml" filepath="D:\Postandcommenttutorial\ask1.iml" />
     </modules>
   </component>
 </project>
