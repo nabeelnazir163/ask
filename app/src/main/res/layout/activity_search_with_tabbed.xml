@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    tools:context="com.example.nabeel.postandcommenttutorial.ui.activities.SearchWithTabbedActivity">
+    tools:context="com.zillion.nabeel.postandcommenttutorial.ui.activities.SearchWithTabbedActivity">
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"

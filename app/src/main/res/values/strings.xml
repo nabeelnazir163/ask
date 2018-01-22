@@ -124,8 +124,8 @@
     <string name="update_profile">Update Profile</string>
 
 
-    <string name="FCM_PREF">com.example.nabeel.postandcommenttutorial.fcm_pref</string>
-    <string name="FCM_TOEKN">com.example.nabeel.postandcommenttutorial.fcm_token</string>
+    <string name="FCM_PREF">com.zillion.nabeel.postandcommenttutorial.fcm_pref</string>
+    <string name="FCM_TOEKN">com.zillion.nabeel.postandcommenttutorial.fcm_token</string>
 
 
 </resources>

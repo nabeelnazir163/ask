@@ -15,11 +15,63 @@
       },
       "oauth_client": [
         {
+          "client_id": "568222930825-bgahpaierm3dtjtpf0fj15mmrunuu0va.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nabeel.postandcommenttutorial",
+            "certificate_hash": "50468b128876363acb0acf3296f6e1051e852615"
+          }
+        },
+        {
           "client_id": "568222930825-5tcajcroo8pae40c8f4t0p22rvc0i9uv.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.nabeel.postandcommenttutorial",
             "certificate_hash": "f416dcfe94f182acae1d4b584122b781c8315610"
+          }
+        },
+        {
+          "client_id": "568222930825-pgnkmh9g26i0be0a7v5ba1305c2l9tnm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvl2Xy9QbwH97zM9m0yQ9uWn3iq5Gn-XI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "568222930825-pgnkmh9g26i0be0a7v5ba1305c2l9tnm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:568222930825:android:abab57c976bdbbca",
+        "android_client_info": {
+          "package_name": "com.zillion.nabeel.postandcommenttutorial"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "568222930825-2v0f76tukkv5cjt7e97lhqikvuf6v1he.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zillion.nabeel.postandcommenttutorial",
+            "certificate_hash": "50468b128876363acb0acf3296f6e1051e852615"
           }
         },
         {

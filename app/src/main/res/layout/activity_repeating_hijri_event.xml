@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.nabeel.postandcommenttutorial.ui.activities.repeatingActivities.Repeating_activity_hijriEvent">
+    tools:context="com.zillion.nabeel.postandcommenttutorial.ui.activities.repeatingActivities.Repeating_activity_hijriEvent">
 
     <TextView
         android:layout_width="wrap_content"

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.nabeel.postandcommenttutorial">
+    package="com.zillion.nabeel.postandcommenttutorial"
+    >
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -55,7 +56,7 @@
 
         <!--
         <service
-            android:name="com.example.nabeel.postandcommenttutorial.ui.activities.FirebaseNotificationServices"
+            android:name="com.zillion.nabeel.postandcommenttutorial.ui.activities.FirebaseNotificationServices"
             android:enabled="true" >
         </service>
         -->

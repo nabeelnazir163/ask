@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context="com.example.nabeel.postandcommenttutorial.ui.activities.RegisterActivities.RegisterActivity">
+    tools:context="com.zillion.nabeel.postandcommenttutorial.ui.activities.RegisterActivities.RegisterActivity">
 
     <ScrollView
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.example.nabeel.postandcommenttutorial;
+package com.zillion.nabeel.postandcommenttutorial;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -15,12 +15,12 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class ExampleInstrumentedTest {
+public class zillionInstrumentedTest {
     @Test
     public void useAppContext() throws Exception {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.nabeel.postandcommenttutorial", appContext.getPackageName());
+        assertEquals("com.zillion.nabeel.postandcommenttutorial", appContext.getPackageName());
     }
 }
