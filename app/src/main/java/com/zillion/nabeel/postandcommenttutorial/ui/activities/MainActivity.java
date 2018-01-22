@@ -594,6 +594,12 @@ public class MainActivity extends BaseActivity
 //            mAuth.signOut();
             startActivity(new Intent(MainActivity.this , QiblaDirection.class));
 */
+        }else if ( id == R.id.askWazaif){
+
+            Intent main_intent = new Intent(MainActivity.this , search_user_for_newMessage.class);
+            main_intent.putExtra("askFor", "khuwab");
+            startActivity(main_intent);
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

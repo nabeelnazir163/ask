@@ -106,8 +106,12 @@ public class signupScreenForAlim extends BaseActivity {
 
     private TextView mEmailValidation;
 
-    private String final_speci_cat;
+//    private String final_speci_cat;
     private String final_language;
+
+    private boolean wazaif_cb;
+    private boolean istekhara_cb;
+    private boolean khuwab_cb;
 
     private StorageReference mSignup_Stor_ref;
     private StorageReference mCertificate_stor_ref;
@@ -464,7 +468,18 @@ public class signupScreenForAlim extends BaseActivity {
                         FirebaseUtils.getUserRef(email).child("fiqah").setValue(selected_fiqah);
                         FirebaseUtils.getUserRef(email).child("userType").setValue("Alim");
                         FirebaseUtils.getUserRef(email).child("qualification").setValue(qualification);
-                        FirebaseUtils.getUserRef(email).child("Interested_in_catrgoires").setValue(final_speci_cat);
+                        if(wazaif_cb)
+                        {
+                            FirebaseUtils.getUserRef(email).child("wazaif").setValue(true);
+                        }
+                        if(khuwab_cb)
+                        {
+                            FirebaseUtils.getUserRef(email).child("khuwab").setValue(true);
+                        }
+                        if(istekhara_cb)
+                        {
+                            FirebaseUtils.getUserRef(email).child("istekhara").setValue(true);
+                        }
                         FirebaseUtils.getUserRef(email).child("known_languages").setValue(final_language);
                         FirebaseUtils.getUserRef(email).child("fcmtoken").setValue(token);
                         FirebaseUtils.getUserRef(email).child("uid").setValue(FirebaseUtils.getCurrentUser().getUid());
@@ -528,11 +543,14 @@ public class signupScreenForAlim extends BaseActivity {
 
                 if(cat_check){
 
-                    cat_cb_selection.add("Khuwab");
+//                    cat_cb_selection.add("Khuwab");
+
+                    khuwab_cb = true;
 
                 } else {
 
-                    cat_cb_selection.remove("Khuwab");
+//                    cat_cb_selection.remove("Khuwab");
+                    khuwab_cb = false;
                 }
 
                 break;
@@ -541,11 +559,13 @@ public class signupScreenForAlim extends BaseActivity {
 
                 if(cat_check){
 
-                    cat_cb_selection.add("Istekhara");
+//                    cat_cb_selection.add("Istekhara");
+                    istekhara_cb =  true;
 
                 } else {
 
-                    cat_cb_selection.remove("Istekhara");
+//                    cat_cb_selection.remove("Istekhara");
+                    istekhara_cb = false;
                 }
 
                 break;
@@ -553,26 +573,26 @@ public class signupScreenForAlim extends BaseActivity {
 
                 if(cat_check){
 
-                    cat_cb_selection.add("Wazaif");
+//                    cat_cb_selection.add("Wazaif");
+                    wazaif_cb = true;
 
                 } else {
 
-                    cat_cb_selection.remove("Wazaif");
+//                    cat_cb_selection.remove("Wazaif");
+                    wazaif_cb = false;
                 }
 
                 break;
         }
 
 
-        final_speci_cat = "";
-
-        for(String selections : cat_cb_selection){
-
-            final_speci_cat = final_speci_cat + selections + " ,";
+//        final_speci_cat = "";
+//
+//        for(String selections : cat_cb_selection){
+//
+//            final_speci_cat = final_speci_cat + selections + " ,";
 
         }
-
-    }
 
 
     public void selectLanguage(View v) {

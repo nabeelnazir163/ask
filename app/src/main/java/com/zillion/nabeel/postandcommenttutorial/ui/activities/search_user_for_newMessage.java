@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.zillion.nabeel.postandcommenttutorial.R;
+import com.zillion.nabeel.postandcommenttutorial.models.Post;
 import com.zillion.nabeel.postandcommenttutorial.models.User;
 import com.zillion.nabeel.postandcommenttutorial.ui.adapter.UserListAdapter;
 import com.google.firebase.database.DataSnapshot;
@@ -20,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.zillion.nabeel.postandcommenttutorial.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,8 @@ public class search_user_for_newMessage extends AppCompatActivity {
     private List<User> mUsersList;
     private UserListAdapter mAdapter;
 
+    String askfor;
+
     EditText mSearchParams;
 
     @Override
@@ -41,6 +45,16 @@ public class search_user_for_newMessage extends AppCompatActivity {
 
         mListview = (ListView) findViewById(R.id.search_user_for_message_listview);
         mSearchParams = (EditText) findViewById(R.id.search_user_for_message);
+
+        Intent intent = getIntent();
+
+        if(intent.getStringExtra("askFor") != null) {
+
+            askfor = intent.getStringExtra("askFor").toString();
+
+        }
+
+        mSearchParams.setHint("Search User to ask for "+ askfor);
 
         hideSoftkeyboard();
         initTextListener();
@@ -134,9 +148,10 @@ public class search_user_for_newMessage extends AppCompatActivity {
                     for(DataSnapshot singlesnapshot : dataSnapshot.getChildren()){
 
 //                        mUsersList.clear();
-                        mUsersList.add(singlesnapshot.getValue(User.class));
-                        updateUsersListview();
-
+                        if(singlesnapshot.hasChild(askfor)) {
+                            mUsersList.add(singlesnapshot.getValue(User.class));
+                            updateUsersListview();
+                        }
                     }
                 }
 

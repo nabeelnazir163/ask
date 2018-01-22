@@ -18,7 +18,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Search User"
+            android:hint="Search User "
             android:id="@+id/search_user_for_message"
             />
         <ListView

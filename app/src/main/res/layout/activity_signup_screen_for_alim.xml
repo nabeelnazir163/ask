@@ -92,6 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:ems="10"
+                    android:inputType="text"
                     android:background="@drawable/input_background"
                     android:hint="@string/eng_name"
                     />
@@ -252,6 +253,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:ems="10"
+                    android:inputType="text"
                     android:background="@drawable/input_background"
                     android:hint="@string/username"
                     />

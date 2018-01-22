@@ -84,6 +84,9 @@ public class UserProfile extends BaseActivity {
     private LinearLayout institute_layout;
     private LinearLayout description_layout;
 
+    String country;
+    String city;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -170,9 +173,13 @@ public class UserProfile extends BaseActivity {
 
                 String user_profile_image = (String) dataSnapshot.child("image").getValue();
                 String user_name = (String) dataSnapshot.child("name").getValue();
-                String country = (String) dataSnapshot.child("country").getValue();
+                if(dataSnapshot.hasChild("country")) {
+                    country = (String) dataSnapshot.child("country").getValue();
+                }
                 String fiqh = dataSnapshot.child("fiqah").getValue().toString();
-                String city = dataSnapshot.child("city").getValue().toString();
+                if(dataSnapshot.hasChild("city")) {
+                    city = dataSnapshot.child("city").getValue().toString();
+                }
                 userType_ = dataSnapshot.child("userType").getValue().toString();
 //                String country = dataSnapshot.child("country").getValue().toString();
 
