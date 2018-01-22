@@ -609,7 +609,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        Current_User = (String) dataSnapshot.child("user").child("email").getValue();
+                        Current_User = (String) dataSnapshot.child("email").getValue();
 
                         Intent user_profile = new Intent(getApplicationContext() , UserProfile.class);
                         user_profile.putExtra("postkey", post_key);
@@ -705,7 +705,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        Current_User = (String) dataSnapshot.child("user").child("email").getValue();
+                        Current_User = (String) dataSnapshot.child("email").getValue();
 
                         Intent user_profile = new Intent(getApplicationContext() , UserProfile.class);
                         user_profile.putExtra("postkey", post_key);

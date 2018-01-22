@@ -72,7 +72,7 @@ import com.squareup.picasso.Picasso;
 public class homeFragment extends Fragment {
     private View mRootVIew;
 
-    private FirebaseRecyclerAdapter<Post, PostHolder> mPostAdapter;
+    FirebaseRecyclerAdapter<Post, PostHolder> mPostAdapter;
 
     private RecyclerView mPostRecyclerView;
 
@@ -339,7 +339,7 @@ public class homeFragment extends Fragment {
                         viewHolder.setUsername(name);
 
                         if( !TextUtils.isEmpty(image_url))
-                        Glide.with(getActivity()).load(image_url).into(viewHolder.postOwnerDisplayImageView);
+                        Picasso.with(getActivity()).load(image_url).into(viewHolder.postOwnerDisplayImageView);
                     }
 
                     @Override

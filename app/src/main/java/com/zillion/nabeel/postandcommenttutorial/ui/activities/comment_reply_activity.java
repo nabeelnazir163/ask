@@ -2,10 +2,13 @@
 package com.zillion.nabeel.postandcommenttutorial.ui.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
@@ -13,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,10 +52,14 @@ public class comment_reply_activity extends AppCompatActivity {
     private TextView Com_user_Display_name;
     private TextView Comment;
     private TextView commentTime;
+
+    private CardView comment_layout;
     String Current_UserName,FCM_token;
 
     private String image_url_comment;
     private String name_comment;
+
+    private int userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +73,9 @@ public class comment_reply_activity extends AppCompatActivity {
 
         }
 
+        SharedPreferences userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
+        userType = userType_sp.getInt("UserType", 0);
+
         Intent intent = getIntent();
         mComment = (Comment) intent.getSerializableExtra(Constants.EXTRA_REPLY);
 
@@ -77,6 +88,14 @@ public class comment_reply_activity extends AppCompatActivity {
         mSendReply = (ImageView) findViewById(R.id.iv_send_reply);
 
         mReplyEditText = (EditText) findViewById(R.id.edittext_reply);
+
+        comment_layout = (CardView) findViewById(R.id.linearLayout_for_comment);
+
+        if(userType == 3){
+
+            comment_layout.setVisibility(View.GONE);
+
+        }
 
         Comment.setMaxLines(Integer.MAX_VALUE);
 

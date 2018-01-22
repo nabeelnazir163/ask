@@ -667,7 +667,7 @@ public class signupScreenForAlim extends BaseActivity {
             }
         }
 
-        if (requestCode == GALLERY_REQ_2){
+        if (requestCode == GALLERY_REQ_2 && resultCode == RESULT_OK){
 
             certificate_image_uri = data.getData();
 
