@@ -506,8 +506,6 @@ public class MainActivity extends BaseActivity
 
         } else*/ if(id == R.id.action_search){
 
-//            startActivity(new Intent(MainActivity.this , SearchActivity.class));
-
             startActivity(new Intent(MainActivity.this , SearchWithTabbedActivity.class));
 
         } else if (id == R.id.chat_inbox){
@@ -584,16 +582,15 @@ public class MainActivity extends BaseActivity
             Intent main_intent = new Intent(MainActivity.this , Prayer_Time_Activity.class);
             startActivity(main_intent);
 
-        } else if(id == R.id.appinfo){
+        } /*else if(id == R.id.appinfo){
 
             Intent appinfo_intent = new Intent (MainActivity.this , AppInfo.class);
             startActivity(appinfo_intent);
 
-        /*}else if( id == R.id.qibladirection){
+        }*/else if( id == R.id.qibladirection){
 
 //            mAuth.signOut();
             startActivity(new Intent(MainActivity.this , QiblaDirection.class));
-*/
         }else if ( id == R.id.askWazaif){
 
             Intent main_intent = new Intent(MainActivity.this , search_user_for_newMessage.class);

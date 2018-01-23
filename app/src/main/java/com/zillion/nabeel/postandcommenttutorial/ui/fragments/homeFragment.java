@@ -359,7 +359,7 @@ public class homeFragment extends Fragment {
                         viewHolder.setUsername(name);
 
                         if( !TextUtils.isEmpty(image_url))
-                        Picasso.with(getActivity()).load(image_url).into(viewHolder.postOwnerDisplayImageView);
+                        Glide.with(getContext()).load(image_url).into(viewHolder.postOwnerDisplayImageView);
                     }
 
                     @Override

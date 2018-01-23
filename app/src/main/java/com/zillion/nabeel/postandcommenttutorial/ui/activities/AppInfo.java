@@ -109,13 +109,24 @@ public class  AppInfo extends BaseActivity {
 
                 if(isChecked) {
 
-                    Hadeeseditor.putBoolean("hadees", true);
-                    Hadeeseditor.commit();
+//                    Hadeeseditor.putBoolean("hadees", true);
+//                    Hadeeseditor.commit();
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(Calendar.HOUR_OF_DAY, 6);
+                    calendar.set(Calendar.MINUTE, 0);
+
+                    Intent intent = new Intent(getApplicationContext(), Notification_receiver_hadees.class);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
 
                 } else if (!isChecked){
 
-                    Hadeeseditor.putBoolean("hadees", false);
-                    Hadeeseditor.commit();
+//                    Hadeeseditor.putBoolean("hadees", false);
+//                    Hadeeseditor.commit();
 
                 }
             }
@@ -126,13 +137,24 @@ public class  AppInfo extends BaseActivity {
 
                 if(isChecked){
 
-                    CalEditor.putBoolean("calender", true);
-                    CalEditor.commit();
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(Calendar.HOUR_OF_DAY, 7);
+                    calendar.set(Calendar.MINUTE, 00);
+
+                    Intent intent = new Intent(getApplicationContext(), Notification_receiver_hijriEvent.class);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+
+//                    CalEditor.putBoolean("calender", true);
+//                    CalEditor.commit();
 
                 } else if (!isChecked){
 
-                    CalEditor.putBoolean("calender", false);
-                    CalEditor.commit();
+//                    CalEditor.putBoolean("calender", false);
+//                    CalEditor.commit();
 
                 }
 
@@ -145,13 +167,24 @@ public class  AppInfo extends BaseActivity {
 
                 if(isChecked) {
 
-                    PrayerTimeEditor.putBoolean("prayertime", true);
-                    PrayerTimeEditor.commit();
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(Calendar.HOUR_OF_DAY, 14);
+                    calendar.set(Calendar.MINUTE, 30);
+
+                    Intent intent = new Intent(getApplicationContext(), Notification_receiver_prayerTime.class);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+
+//                    PrayerTimeEditor.putBoolean("prayertime", true);
+//                    PrayerTimeEditor.commit();
 
                 } else if (!isChecked){
 
-                    PrayerTimeEditor.putBoolean("prayertime", false);
-                    PrayerTimeEditor.commit();
+//                    PrayerTimeEditor.putBoolean("prayertime", false);
+//                    PrayerTimeEditor.commit();
 
                 }
             }
@@ -163,13 +196,24 @@ public class  AppInfo extends BaseActivity {
 
                 if(isChecked) {
 
-                    unAnsQuesEditor.putBoolean("unAnsweredQues", true);
-                    unAnsQuesEditor.commit();
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(Calendar.HOUR_OF_DAY, 15);
+                    calendar.set(Calendar.MINUTE, 00);
+
+                    Intent intent = new Intent(getApplicationContext(), Notification_receiver_unAnsweredQues.class);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+
+//                    unAnsQuesEditor.putBoolean("unAnsweredQues", true);
+//                    unAnsQuesEditor.commit();
 
                 } else if (!isChecked){
 
-                    unAnsQuesEditor.putBoolean("unAnsweredQues", false);
-                    unAnsQuesEditor.commit();
+//                    unAnsQuesEditor.putBoolean("unAnsweredQues", false);
+//                    unAnsQuesEditor.commit();
 
                 }
 
@@ -197,19 +241,19 @@ public class  AppInfo extends BaseActivity {
 //            }
 //        });
 
-        hadeesPrefs = getSharedPreferences(HADEES_PREFS, 0);
-        hadeesState = hadeesPrefs.getBoolean("hadees", false);
+//        hadeesPrefs = getSharedPreferences(HADEES_PREFS, 0);
+//        hadeesState = hadeesPrefs.getBoolean("hadees", false);
+//
+//        calPrefs = getSharedPreferences(CAL_PREFS, 0);
+//        calState = calPrefs.getBoolean("calender", false);
+//
+//        prayerTimePrefs = getSharedPreferences(PRAYER_TIME_PREFS, 0);
+//        prayertimeState = prayerTimePrefs.getBoolean("prayertime", false);
+//
+//        unAnsweredQuestionPrefs = getSharedPreferences(UNANSWERED_QUES_PREFS, 0);
+//        unAnsweredState = unAnsweredQuestionPrefs.getBoolean("unAnsweredQues", false);
 
-        calPrefs = getSharedPreferences(CAL_PREFS, 0);
-        calState = calPrefs.getBoolean("calender", false);
-
-        prayerTimePrefs = getSharedPreferences(PRAYER_TIME_PREFS, 0);
-        prayertimeState = prayerTimePrefs.getBoolean("prayertime", false);
-
-        unAnsweredQuestionPrefs = getSharedPreferences(UNANSWERED_QUES_PREFS, 0);
-        unAnsweredState = unAnsweredQuestionPrefs.getBoolean("unAnsweredQues", false);
-
-        if (hadeesState == true) {
+        /*if (hadeesState == true) {
 
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 14);
@@ -263,7 +307,7 @@ public class  AppInfo extends BaseActivity {
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
-        }
+        }*/
     }
 
     /*private void sendNotification()

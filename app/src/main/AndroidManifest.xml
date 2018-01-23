@@ -64,6 +64,7 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
+
         <activity android:name=".ui.activities.repeatingActivities.Repeating_activity_hadees" />
 
         <receiver android:name=".NotificationReceiever.Notification_receiver_hadees" />

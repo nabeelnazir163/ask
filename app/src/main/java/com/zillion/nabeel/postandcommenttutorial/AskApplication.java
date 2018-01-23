@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.zillion.nabeel.postandcommenttutorial.NotificationReceiever.Notification_receiver_hadees;
 import com.zillion.nabeel.postandcommenttutorial.NotificationReceiever.Notification_receiver_hijriEvent;
@@ -48,6 +49,10 @@ public class AskApplication extends Application {
 
     FirebaseAuth mAuth;
 
+//    Calendar rightNow;
+//    int currentHour;
+//    int current_min;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -57,7 +62,11 @@ public class AskApplication extends Application {
 
         mAuth = FirebaseAuth.getInstance();
 
-        /*hadeesPrefs = getSharedPreferences(HADEES_PREFS, 0);
+//        rightNow = Calendar.getInstance();
+//        currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+//        current_min = rightNow.get(Calendar.MINUTE);
+
+       /* hadeesPrefs = getSharedPreferences(HADEES_PREFS, 0);
         hadeesState = hadeesPrefs.getBoolean("hadees", false);
 
         calPrefs = getSharedPreferences(CAL_PREFS, 0);
@@ -67,19 +76,19 @@ public class AskApplication extends Application {
         prayertimeState = prayerTimePrefs.getBoolean("prayertime", false);
 
         unAnsweredQuestionPrefs = getSharedPreferences(UNANSWERED_QUES_PREFS, 0);
-        unAnsweredState = unAnsweredQuestionPrefs.getBoolean("unAnsweredQues", false);*/
+        unAnsweredState = unAnsweredQuestionPrefs.getBoolean("unAnsweredQues", false);
 
-        /*if (hadeesState == true) {
+        if (hadeesState == true) {
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, 22);
-            calendar.set(Calendar.MINUTE, 20);
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.HOUR_OF_DAY, 12);
+                calendar.set(Calendar.MINUTE, 50);
 
-            Intent intent = new Intent(getApplicationContext(), Notification_receiver_hadees.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                Intent intent = new Intent(getApplicationContext(), Notification_receiver_hadees.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
         }
 
