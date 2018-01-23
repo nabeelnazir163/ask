@@ -549,7 +549,7 @@ public class MainActivity extends BaseActivity
 
             }catch ( ActivityNotFoundException e){
 
-                Uri uri1 = Uri.parse("http://play.google.com/store/apps/details?id" + getPackageName());
+                Uri uri1 = Uri.parse("https://play.google.com/store/apps/details?id" + getPackageName());
                 Intent gotoMarket = new Intent(Intent.ACTION_VIEW, uri1);
                 startActivity(gotoMarket);
 

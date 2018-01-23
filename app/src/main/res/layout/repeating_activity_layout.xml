@@ -1,12 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_margin="20dp"
+    android:gravity="center_horizontal"
     android:layout_height="match_parent">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Repeating Activity"
+        android:text="HADEES"
+        android:layout_marginBottom="20dp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="رسول ﷺ نے فرمایا، اے عائشہ رضي اللہ تعالی عنہ! کیا تم نے کبھی مجھے بری یا گندی زبان میں بات کرتے سنا ؟ یاد رکھو قیامت کے دن وہ لوگ الله کی نظر میں سب سے برے ہوں گے جنھیں لوگ علیحدہ کر دیں یا ان سے کنارہ کر لیں تا کے انکی فحش زبان یا گناہ سے اپنے آپ کومحفوظ رکھ سکیں"
+        android:padding="5dp"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TRANSLATION"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hadees"
+        android:padding="5dp"
+        android:textColor="@color/black"
         />
 
 </LinearLayout>
