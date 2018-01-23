@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     tools:context="com.zillion.nabeel.postandcommenttutorial.ui.fragments.homeFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -21,7 +22,33 @@
                 android:orientation="vertical"
                 >
 
-                <include layout="@layout/home_question_display"/>
+                <include layout="@layout/home_question_display"
+                    android:id="@+id/layout_home_ques"
+                    />
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_view_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    shimmer:duration="800">
+
+                    <!-- Adding 3 rows of placeholders -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <include layout="@layout/recipe_placeholder_item" />
+
+                        <include layout="@layout/recipe_placeholder_item" />
+
+                        <include layout="@layout/recipe_placeholder_item" />
+
+                    </LinearLayout>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview_post"

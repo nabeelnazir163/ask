@@ -70,6 +70,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:11.0.4'
     compile 'com.google.android.gms:play-services-ads:11.0.4'
     compile 'com.github.linger1216:labelview:v1.1.2'
+    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
     testCompile 'junit:junit:4.12'
     android {
         useLibrary 'org.apache.http.legacy'

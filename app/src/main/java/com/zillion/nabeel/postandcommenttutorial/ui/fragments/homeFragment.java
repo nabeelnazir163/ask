@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.zillion.nabeel.postandcommenttutorial.ui.activities.CreateNewPostActivity;
 import com.zillion.nabeel.postandcommenttutorial.R;
 import com.zillion.nabeel.postandcommenttutorial.ui.activities.PostActivity;
@@ -102,6 +103,8 @@ public class homeFragment extends Fragment {
     TextView toast_text;
     ImageView toast_imageView;
 
+    private ShimmerFrameLayout mShimmerViewContainer;
+
     public homeFragment() {
         // Required empty public constructor
     }
@@ -113,6 +116,9 @@ public class homeFragment extends Fragment {
         // Inflate the layout for this fragment
         mRootVIew = inflater.inflate(R.layout.fragment_home, container, false);
         mAuth = FirebaseAuth.getInstance();
+
+        mShimmerViewContainer = mRootVIew.findViewById(R.id.shimmer_view_container);
+        mShimmerViewContainer.startShimmerAnimation();
 
         FirebaseUtils.getPostRef().keepSynced(true);
 
@@ -243,6 +249,18 @@ public class homeFragment extends Fragment {
         return mRootVIew;
     }
 
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        mShimmerViewContainer.startShimmerAnimation();
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        mShimmerViewContainer.stopShimmerAnimation();
+//        super.onPause();
+//    }
+
     private void init() {
 
         mPostRecyclerView = (RecyclerView) mRootVIew.findViewById(R.id.recyclerview_post);
@@ -298,6 +316,8 @@ public class homeFragment extends Fragment {
             protected void populateViewHolder(final PostHolder viewHolder, final Post model, int position) {
 
 //                final String post_key = getRef(position).getKey();
+
+                mShimmerViewContainer.setVisibility(View.GONE);
 
                 if(userType != 3) {
 
