@@ -36,6 +36,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/username"
+                android:textSize="16sp"
+                android:textColor="@color/colorPrimary"
                 android:layout_marginLeft="16dp"
                 android:id="@+id/inbox_sender_name_tv"
                 />

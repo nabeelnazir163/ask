@@ -179,7 +179,9 @@ public class RegisterActivity extends BaseActivity{
                 } else {
 
                     Toast.makeText(RegisterActivity.this , "Empty Email or Password Field", Toast.LENGTH_SHORT).show();
-
+//
+//                    mpasswordfield.setError("Invalid");
+//                    mLogin_tv.setError("Check");
                 }
             }
         });

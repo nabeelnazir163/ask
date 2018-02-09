@@ -24,6 +24,7 @@ import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by brad on 2017/02/05.
@@ -49,7 +50,7 @@ public class AskApplication extends Application {
 
     FirebaseAuth mAuth;
 
-//    Calendar rightNow;
+    Calendar rightNow;
 //    int currentHour;
 //    int current_min;
 
@@ -62,11 +63,16 @@ public class AskApplication extends Application {
 
         mAuth = FirebaseAuth.getInstance();
 
-//        rightNow = Calendar.getInstance();
+        rightNow = Calendar.getInstance();
 //        currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
 //        current_min = rightNow.get(Calendar.MINUTE);
 
-       /* hadeesPrefs = getSharedPreferences(HADEES_PREFS, 0);
+//        if(rightNow.getTime().compareTo(new Date()) < 0)
+//            rightNow.add(Calendar.DAY_OF_MONTH, 1);
+//
+//        Toast.makeText(AskApplication.this, rightNow.get(Calendar.DAY_OF_MONTH), Toast.LENGTH_SHORT).show();
+
+        hadeesPrefs = getSharedPreferences(HADEES_PREFS, 0);
         hadeesState = hadeesPrefs.getBoolean("hadees", false);
 
         calPrefs = getSharedPreferences(CAL_PREFS, 0);
@@ -80,15 +86,18 @@ public class AskApplication extends Application {
 
         if (hadeesState == true) {
 
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.HOUR_OF_DAY, 12);
-                calendar.set(Calendar.MINUTE, 50);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 12);
+            calendar.set(Calendar.MINUTE, 50);
 
-                Intent intent = new Intent(getApplicationContext(), Notification_receiver_hadees.class);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            Intent intent = new Intent(getApplicationContext(), Notification_receiver_hadees.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+            if(calendar.getTime().compareTo(new Date()) < 0)
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
 
         }
 
@@ -132,7 +141,7 @@ public class AskApplication extends Application {
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
-        }*/
+        }
 
         if (mAuth.getCurrentUser() != null) {
 

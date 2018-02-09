@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_register"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -80,51 +81,67 @@
 
                 </RadioGroup>
 
-                <EditText
-                    android:id="@+id/login_email"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@drawable/input_background"
-                    android:ems="10"
-                    android:hint="@string/eng_email"
-                    android:drawableLeft="@drawable/email_icon"
-                    android:drawablePadding="5dp"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:padding="5dp" />
+                    app:errorTextAppearance="@string/app_name"
+                    android:layout_marginTop="10dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@android:color/darker_gray" />
+                    <EditText
+                        android:id="@+id/login_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/input_background"
+                        android:ems="10"
+                        android:hint="@string/eng_email"
+                        android:drawableLeft="@drawable/email_icon"
+                        android:drawablePadding="5dp"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:padding="5dp" />
 
-                <EditText
-                    android:id="@+id/login_pass"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@drawable/input_background"
-                    android:ems="10"
-                    android:hint="@string/eng_pass"
-                    android:inputType="textPassword"
-                    android:maxLines="2"
-                    android:drawableLeft="@drawable/password_lock"
-                    android:drawablePadding="5dp"
-                    android:padding="4dp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@android:color/darker_gray" />
 
-                <View
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@android:color/darker_gray" />
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/login_pass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/input_background"
+                        android:ems="10"
+                        android:hint="@string/eng_pass"
+                        android:inputType="textPassword"
+                        android:maxLines="2"
+                        android:drawableLeft="@drawable/password_lock"
+                        android:drawablePadding="5dp"
+                        android:padding="4dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@android:color/darker_gray" />
+
+
+                </android.support.design.widget.TextInputLayout>
+
 
                 <Button
                     android:id="@+id/login_tv"
