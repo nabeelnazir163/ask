@@ -541,6 +541,7 @@ public class signupScreenForAlim extends BaseActivity {
 
                         Intent main_intent = new Intent(signupScreenForAlim.this , MainActivity.class);
                         main_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        finish();
                         startActivity(main_intent);
 
                     } else{

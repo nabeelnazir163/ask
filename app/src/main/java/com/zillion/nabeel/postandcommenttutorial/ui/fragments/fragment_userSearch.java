@@ -16,6 +16,8 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zillion.nabeel.postandcommenttutorial.R;
 import com.zillion.nabeel.postandcommenttutorial.models.User;
@@ -38,6 +40,7 @@ public class fragment_userSearch extends Fragment {
     private ListView mListview;
     public static EditText mSearchParams;
     ImageView backbutton;
+//    private TextView noSearchFound;
 
     // vars
     private ArrayList<User> mUsersList;
@@ -53,6 +56,7 @@ public class fragment_userSearch extends Fragment {
         mListview = (ListView) mRootview.findViewById(R.id.listview_search_Activity_user);
         mSearchParams = (EditText) mRootview.findViewById(R.id.search);
         backbutton = (ImageView) mRootview.findViewById(R.id.back_button);
+//        noSearchFound = mRootview.findViewById(R.id.noUserfound);
 
         mUsersList = new ArrayList<>();
         mAdapter = new UserListAdapter(getContext() , R.layout.layout_user_listenitem, mUsersList);
@@ -103,6 +107,8 @@ public class fragment_userSearch extends Fragment {
 
     private void initTextListener(){
 
+//        mUsersList.clear();
+
         mSearchParams.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -113,7 +119,7 @@ public class fragment_userSearch extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
                 backbutton.setVisibility(View.VISIBLE);
-                String text = mSearchParams.getText().toString();
+               /* String text = mSearchParams.getText().toString();
                 if(!TextUtils.isEmpty(text)){
 
                     searchforMatch(text);
@@ -123,71 +129,113 @@ public class fragment_userSearch extends Fragment {
                     mUsersList.clear();
 
                 }
+*/
+//               mListview.setVisibility(View.VISIBLE);
+//               noSearchFound.setVisibility(View.GONE);
+
 
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable s) {
 
-                /*String text = mSearchParams.getText().toString().trim().toLowerCase();
-                searchforMatch(text);*/
+                if(!s.toString().isEmpty()){
+                    setAdapter(s.toString());
+                }
+            }
+        });
+
+    }
+
+    private void setAdapter(final String s) {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users");
+
+        reference.orderByChild("email").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot singlesnapshot : dataSnapshot.getChildren()){
+
+                    String email = singlesnapshot.child("email").getValue().toString().toLowerCase();
+                    String name = singlesnapshot.child("name").getValue().toString().toLowerCase();
+
+                    if (email.contains(s)) {
+
+//                        Toast.makeText(getContext(), "No user" + mUsersList.size(), Toast.LENGTH_SHORT).show();
+                        mUsersList.add(singlesnapshot.getValue(User.class));
+                        updateUsersListview();
+
+
+                    } else if( name.contains(s)){
+
+                        mUsersList.add(singlesnapshot.getValue(User.class));
+                        updateUsersListview();
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
 
     }
 
-    private void searchforMatch(String keyword){
-
-        mUsersList.clear();
-
-        if(keyword.length() != 0)
-         {
-
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-
-            Query query = reference.child("users").orderByChild("email").startAt(keyword).endAt(keyword + "\uf8ff").limitToFirst(5);
-
-            query.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for(DataSnapshot singlesnapshot : dataSnapshot.getChildren()){
-
-                        mUsersList.add(singlesnapshot.getValue(User.class));
-                        updateUsersListview();
-
-                        mSearchParams.setOnKeyListener(new View.OnKeyListener() {
-                            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                                // If the event is a key-down event on the "enter" button
-                                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                                    // Perform action on key press
-
-                                    Intent alluserSearchIntent = new Intent(getContext(), viewallsearchesForUser.class);
-                                    alluserSearchIntent.putExtra("textTomatch" , mSearchParams.getText().toString().trim().toLowerCase() );
-                                    startActivity(alluserSearchIntent);
-//                                    Toast.makeText(getContext(), "User", Toast.LENGTH_SHORT).show();
-
-                                    return true;
-                                }
-                                return false;
-                            }
-                        });
-
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-        } else {
-
-            mUsersList.clear();
-
-        }
-
-    }
+//    private void searchforMatch(String keyword){
+//
+//        mUsersList.clear();
+//
+//        if(keyword.length() != 0)
+//         {
+//
+//            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+//
+//            Query query = reference.child("users").orderByChild("email").startAt(keyword).endAt(keyword + "\uf8ff").limitToFirst(5);
+//
+//            query.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                    for(DataSnapshot singlesnapshot : dataSnapshot.getChildren()){
+//
+//                        mUsersList.add(singlesnapshot.getValue(User.class));
+//                        updateUsersListview();
+//
+//                        mSearchParams.setOnKeyListener(new View.OnKeyListener() {
+//                            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                                // If the event is a key-down event on the "enter" button
+//                                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+//                                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+//                                    // Perform action on key press
+//
+//                                    Intent alluserSearchIntent = new Intent(getContext(), viewallsearchesForUser.class);
+//                                    alluserSearchIntent.putExtra("textTomatch" , mSearchParams.getText().toString().trim().toLowerCase() );
+//                                    startActivity(alluserSearchIntent);
+////                                    Toast.makeText(getContext(), "User", Toast.LENGTH_SHORT).show();
+//
+//                                    return true;
+//                                }
+//                                return false;
+//                            }
+//                        });
+//
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//
+//                }
+//            });
+//
+//        } else {
+//
+//            mUsersList.clear();
+//
+//        }
+//
+//    }
 }

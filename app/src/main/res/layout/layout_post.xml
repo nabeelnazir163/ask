@@ -93,9 +93,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:layout_marginLeft="16dp"
+            android:longClickable="true"
             android:layout_marginRight="16dp"
             android:fontFamily="serif"
             android:maxLines="3"
+            android:textIsSelectable="true"
             android:text="Post text has some words that I could use for a place holder like this"
             android:textColor="@android:color/black"
             android:textSize="16sp"
@@ -139,7 +141,7 @@
         <LinearLayout
             android:id="@+id/answer_layout"
             android:layout_weight="0.2"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
@@ -171,7 +173,7 @@
         <LinearLayout
             android:id="@+id/comment_layout"
             android:layout_weight="0.2"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="horizontal"
@@ -204,8 +206,7 @@
 
         <LinearLayout
             android:id="@+id/seen_layout"
-            android:layout_weight="0.15"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="horizontal"
@@ -234,8 +235,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="0.3"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="right"
             android:layout_gravity="center_vertical"

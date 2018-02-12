@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.zillion.nabeel.postandcommenttutorial.R;
 import com.zillion.nabeel.postandcommenttutorial.models.Post;
+import com.zillion.nabeel.postandcommenttutorial.models.User;
 import com.zillion.nabeel.postandcommenttutorial.ui.activities.PostActivity;
 import com.zillion.nabeel.postandcommenttutorial.ui.activities.SearchWithTabbedActivity;
 import com.zillion.nabeel.postandcommenttutorial.ui.activities.viewallPosts;
@@ -101,6 +102,7 @@ public class fragment_post_Search extends Fragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+/*
                 backbutton.setVisibility(View.VISIBLE);
                 String text = mSearchParams.getText().toString();
 
@@ -113,73 +115,114 @@ public class fragment_post_Search extends Fragment {
                     mPostList.clear();
 
                 }
+*/
 
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable s) {
 
                 /*String text = SearchWithTabbedActivity.mSearchParams.getText().toString().trim().toLowerCase();
                 searchforMatch(text);*/
+
+                if(!s.toString().isEmpty()){
+                    setAdapter(s.toString());
+                }
 
             }
         });
 
     }
 
-    private void searchforMatchingPost(String keyword){
+    private void setAdapter(final String s) {
 
-        mPostList.clear();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("posts");
 
-        if(keyword.length() != 0)
-         {
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.orderByChild("postText").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-            Query query = reference.child("posts").orderByChild("postText").startAt(keyword).endAt(keyword + "\uf8ff").limitToFirst(5);
+                for(DataSnapshot singlesnapshot : dataSnapshot.getChildren()) {
 
-            query.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for(DataSnapshot singlesnapshot : dataSnapshot.getChildren()){
+                    String postText = singlesnapshot.child("postText").getValue().toString().toLowerCase();
+
+                    if (postText.contains(s)) {
 
                         mPostList.add(singlesnapshot.getValue(Post.class));
                         updatePostListview(singlesnapshot.getValue(Post.class));
 
-                        mSearchParams.setOnKeyListener(new View.OnKeyListener() {
-                            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                                // If the event is a key-down event on the "enter" button
-                                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                                    // Perform action on key press
+                    }else if(!postText.contains(s) && mPostList.isEmpty()){
 
-                                    Intent alluserSearchIntent = new Intent(getContext(), viewallPosts.class);
-                                    alluserSearchIntent.putExtra("textTomatch" , mSearchParams.getText().toString() );
-                                    startActivity(alluserSearchIntent);
+                        mPostList.clear();
+//                        noSearchFound.setVisibility(View.VISIBLE);
 
-//                                    Toast.makeText(getContext(), "post", Toast.LENGTH_SHORT).show();
-
-                                    return true;
-                                }
-                                return false;
-                            }
-                        });
-
+                        Toast.makeText(getContext(), "No user found", Toast.LENGTH_SHORT).show();
                     }
                 }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            }
 
-                }
-            });
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-        } else {
-
-            mPostList.clear();
-
-        }
+            }
+        });
 
     }
+
+//    private void searchforMatchingPost(String keyword){
+//
+//        mPostList.clear();
+//
+//        if(keyword.length() != 0)
+//         {
+//            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+//
+//            Query query = reference.child("posts").orderByChild("postText").startAt(keyword).endAt(keyword + "\uf8ff").limitToFirst(5);
+//
+//            query.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                    for(DataSnapshot singlesnapshot : dataSnapshot.getChildren()){
+//
+//                        mPostList.add(singlesnapshot.getValue(Post.class));
+//                        updatePostListview(singlesnapshot.getValue(Post.class));
+//
+//                        mSearchParams.setOnKeyListener(new View.OnKeyListener() {
+//                            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                                // If the event is a key-down event on the "enter" button
+//                                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+//                                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+//                                    // Perform action on key press
+//
+//                                    Intent alluserSearchIntent = new Intent(getContext(), viewallPosts.class);
+//                                    alluserSearchIntent.putExtra("textTomatch" , mSearchParams.getText().toString() );
+//                                    startActivity(alluserSearchIntent);
+//
+////                                    Toast.makeText(getContext(), "post", Toast.LENGTH_SHORT).show();
+//
+//                                    return true;
+//                                }
+//                                return false;
+//                            }
+//                        });
+//
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//
+//                }
+//            });
+//
+//        } else {
+//
+//            mPostList.clear();
+//
+//        }
+//
+//    }
 
     private void updatePostListview(final Post model){
 

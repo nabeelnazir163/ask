@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -45,6 +46,13 @@ public class search_user_for_newMessage extends AppCompatActivity {
 
         mListview = (ListView) findViewById(R.id.search_user_for_message_listview);
         mSearchParams = (EditText) findViewById(R.id.search_user_for_message);
+
+        if(getSupportActionBar() != null){
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        }
 
         Intent intent = getIntent();
 
@@ -112,25 +120,71 @@ public class search_user_for_newMessage extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+                mUsersList.clear();
+
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                String text = mSearchParams.getText().toString().trim().toLowerCase();
-                searchforMatch(text);
+//                String text = mSearchParams.getText().toString().trim().toLowerCase();
+//                searchforMatch(text);
 
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
 
-                mListview.setVisibility(View.GONE);
+                if(!editable.toString().isEmpty()){
+                    setAdapter(editable.toString());
+                }
+
+//                mListview.setVisibility(View.GONE);
                 /*String text = mSearchParams.getText().toString().trim().toLowerCase();
                 searchforMatch(text);*/
 
             }
         });
+    }
+
+    private void setAdapter(final String s) {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users");
+
+        reference.orderByChild("email").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot singlesnapshot : dataSnapshot.getChildren()){
+
+                    String email = singlesnapshot.child("email").getValue().toString().toLowerCase();
+                    String name = singlesnapshot.child("name").getValue().toString().toLowerCase();
+
+                    if (email.contains(s)) {
+
+                        if(singlesnapshot.hasChild(askfor)) {
+                            mUsersList.add(singlesnapshot.getValue(User.class));
+                            updateUsersListview();
+                        }
+
+                    } else if( name.contains(s)){
+
+                        if(singlesnapshot.hasChild(askfor)) {
+                            mUsersList.add(singlesnapshot.getValue(User.class));
+                            updateUsersListview();
+                        }
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private void searchforMatch(String keyword){
@@ -166,6 +220,15 @@ public class search_user_for_newMessage extends AppCompatActivity {
             });
 
         }
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == android.R.id.home)
+
+            finish();
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -354,6 +354,7 @@ public class SignupScreen_For_User extends BaseActivity {
 
                         Intent main_intent = new Intent(SignupScreen_For_User.this , MainActivity.class);
                         main_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        finish();
                         startActivity(main_intent);
 
                     } else{

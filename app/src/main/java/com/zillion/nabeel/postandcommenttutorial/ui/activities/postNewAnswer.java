@@ -267,7 +267,7 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
         Play.setVisibility(View.GONE);
         Ok.setVisibility(View.GONE);
 
-        OutPutFile = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/recording.3gp";
+        OutPutFile = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/" + System.currentTimeMillis() + ".3gp";
 
         Start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -319,7 +319,7 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                 myAudioRecorder.release();
                 myAudioRecorder = null;
 
-                Start.setVisibility(View.VISIBLE);
+                Start.setVisibility(View.GONE);
                 Stop.setVisibility(View.GONE);
                 Play.setVisibility(View.VISIBLE);
                 Ok.setVisibility(View.GONE);

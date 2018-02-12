@@ -18,6 +18,18 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/relLayout1"
         android:id="@+id/listview_search_Activity_user"
-        ></ListView>
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/noUserfound"
+        android:visibility="gone"
+        android:text="No search found"
+        android:fontFamily="sans-serif-smallcaps"
+        android:textSize="18sp"
+        android:padding="5dp"
+        />
 
 </RelativeLayout>
