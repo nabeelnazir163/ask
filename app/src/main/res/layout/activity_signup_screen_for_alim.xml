@@ -233,7 +233,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp"
-                        android:text="@string/username"
+                        android:text="User-Id"
                         android:textColor="#015A35" />
 
                     <TextView
@@ -255,7 +255,7 @@
                     android:ems="10"
                     android:inputType="text"
                     android:background="@drawable/input_background"
-                    android:hint="@string/username"
+                    android:hint="User-Id"
                     />
 
                 <View

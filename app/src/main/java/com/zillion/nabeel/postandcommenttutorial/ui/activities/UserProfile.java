@@ -83,6 +83,7 @@ public class UserProfile extends BaseActivity {
 
     private LinearLayout institute_layout;
     private LinearLayout description_layout;
+    private LinearLayout livesin_Lin_layout;
 
     String country;
     String city;
@@ -112,6 +113,7 @@ public class UserProfile extends BaseActivity {
 
         institute_layout = (LinearLayout) findViewById(R.id.institute_layout);
         description_layout = (LinearLayout) findViewById(R.id.description_layout);
+        livesin_Lin_layout = findViewById(R.id.lives_in_lin_layout);
 
         mMessage = (TextView) findViewById(R.id.chat);
 
@@ -244,6 +246,8 @@ public class UserProfile extends BaseActivity {
 
                     mUser_add.setText(city + ", " + country);
 
+                } else {
+                    livesin_Lin_layout.setVisibility(View.GONE);
                 }
 
                 fiqah.setText(fiqh);
@@ -295,6 +299,11 @@ public class UserProfile extends BaseActivity {
 
         } else if (userType != 3){
 
+            if(userType == 2){
+
+                mMessage.setVisibility(View.GONE);
+
+            }
             isFollowing();
         }
 

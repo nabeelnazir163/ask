@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.zillion.nabeel.postandcommenttutorial.R;
 import com.zillion.nabeel.postandcommenttutorial.ui.activities.MainActivity;
 import com.zillion.nabeel.postandcommenttutorial.utils.BaseActivity;
@@ -271,9 +272,16 @@ public class signupScreenForAlim extends BaseActivity {
 
                                 } else if (TextUtils.isEmpty(mEmailFieldAlim)) {
 
-                                mEmailFieldAlim = mUsernameAlim.toLowerCase().trim() + "@askaalim.com";
+                                    if(!TextUtils.isEmpty(mUsernameAlim)) {
 
-                                StartRegistering();
+                                        mEmailFieldAlim = mUsernameAlim.toLowerCase().trim() + "@askaalim.com";
+                                        StartRegistering();
+
+                                    } else {
+
+                                        Toast.makeText(signupScreenForAlim.this, "Enter Email Address or userid", Toast.LENGTH_SHORT).show();
+                                    }
+
                             }
 
                         } else {
@@ -295,7 +303,27 @@ public class signupScreenForAlim extends BaseActivity {
 
             }else {
 
-                    Toast.makeText(getApplicationContext(),"Some Required Fields are empty" , Toast.LENGTH_LONG).show();
+                    if(TextUtils.isEmpty(mNameFieldAlim)){
+
+                        Toast.makeText(getApplicationContext(),"Name field is empty" , Toast.LENGTH_LONG).show();
+
+                    } else if ( TextUtils.isEmpty(mPassFieldAlim)){
+
+                        Toast.makeText(getApplicationContext(),"Password field is empty" , Toast.LENGTH_LONG).show();
+
+                    } else if( TextUtils.isEmpty(mCon_pass_Alim)){
+
+                        Toast.makeText(getApplicationContext(),"Confirm password field is empty" , Toast.LENGTH_LONG).show();
+
+                    } else if ( TextUtils.isEmpty(phonenumberAlim)){
+
+                        Toast.makeText(getApplicationContext(),"Phone number is not provided" , Toast.LENGTH_LONG).show();
+
+                    } else if ( TextUtils.isEmpty(select_gender_alim)){
+
+                        Toast.makeText(getApplicationContext(),"Gender is not selected" , Toast.LENGTH_LONG).show();
+
+                    }
 
                 }
             }
@@ -517,16 +545,27 @@ public class signupScreenForAlim extends BaseActivity {
 
                     } else{
 
-                        Toast.makeText(getApplicationContext(), "Unable to Signup" , Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Try Again with different email" , Toast.LENGTH_LONG).show();
                         progressDialog.dismiss();
                     }
 
                 }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                    Toast.makeText(getApplicationContext(), "Check your internet connection and try again" , Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
+
+                }
             });
 
-        } else{
+        } else if ( certificate_image_uri == null){
 
-            Toast.makeText(getApplicationContext(), "Check Your Fields and Try Again" , Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Certificate Image is not attached" , Toast.LENGTH_LONG).show();
+            progressDialog.dismiss();
+        } else if ( mImageUriAlim == null){
+            Toast.makeText(getApplicationContext(), "Profile Image is not attached" , Toast.LENGTH_LONG).show();
             progressDialog.dismiss();
         }
     }

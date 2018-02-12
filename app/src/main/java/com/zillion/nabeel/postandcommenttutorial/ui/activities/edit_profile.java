@@ -5,9 +5,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -44,30 +46,36 @@ public class edit_profile extends BaseActivity {
     private EditText chnage_name;
     private EditText institute;
     private EditText Description;
+    private EditText phone_number;
+    private EditText address;
+    private EditText date_of_birth;
+    private EditText newPass;
+    private EditText confirm_newPass;
+    private EditText old_pwd_et;
 
     private Button done;
-    private Button close;
-
     private Button change_password;
+    private Button done_resettinG_pwd;
 
     private static final int GALLERY_REQ_2 = 2;
+
     private Uri new_image_uri;
-
     private Uri old_image_uri;
-    private String old_name;
-    private StorageReference mSignup_Stor_ref_user;
 
-    EditText newPass;
-    EditText confirm_newPass;
-    EditText old_pwd_et;
-    Button done_resettinG_pwd;
+    private StorageReference mSignup_Stor_ref_user;
     FirebaseUser user;
 
-    String institute_name;
-    String description;
+    private String institute_name;
+    private String description;
+    private String old_name;
+    private String phone_number_string;
+    private String addresss_string;
+    private String dob_string;
 
-    private LinearLayout institute_layout_editProfile;
-    private LinearLayout description_layout_editProfile;
+    private TextInputLayout institute_layout_editProfile;
+    private TextInputLayout description_layout_editProfile;
+
+    Dialog reset_pass_dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +84,8 @@ public class edit_profile extends BaseActivity {
 
         if(getSupportActionBar() != null){
 
-            getSupportActionBar().hide();
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         }
 
@@ -85,19 +94,14 @@ public class edit_profile extends BaseActivity {
         chnage_name = (EditText) findViewById(R.id.edit_name_edit_text);
         institute = (EditText) findViewById(R.id.institute_edittext);
         Description = (EditText) findViewById(R.id.desc_editProfile);
+        address = (EditText) findViewById(R.id.edit_address_edit_text);
+        phone_number = (EditText) findViewById(R.id.edit_phone_number_edit_text);
+        date_of_birth = (EditText) findViewById(R.id.edit_date_of_birth_edit_text);
 
         done = (Button) findViewById(R.id.done_button_edit_profile);
-        close = (Button) findViewById(R.id.close_button_edit_profile);
 
-        institute_layout_editProfile = (LinearLayout) findViewById(R.id.institute_layout_editprofile);
-        description_layout_editProfile = (LinearLayout) findViewById(R.id.description_layout_edit_profile);
-
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        institute_layout_editProfile = (TextInputLayout) findViewById(R.id.institute_layout_editprofile);
+        description_layout_editProfile = (TextInputLayout) findViewById(R.id.description_layout_edit_profile);
 
         FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
                 .addValueEventListener(new ValueEventListener() {
@@ -110,12 +114,31 @@ public class edit_profile extends BaseActivity {
                         if (dataSnapshot.hasChild("about_alim")){
                             description = dataSnapshot.child("about_alim").getValue().toString();
                         }
+                        if (dataSnapshot.hasChild("phone")){
+                            phone_number_string = dataSnapshot.child("phone").getValue().toString();
+                        }
+                        if (dataSnapshot.hasChild("dateOfBirth")){
+                            dob_string = dataSnapshot.child("dateOfBirth").getValue().toString();
+                        }
+                        if (dataSnapshot.hasChild("address")){
+                            addresss_string = dataSnapshot.child("address").getValue().toString();
+                        }
+
 
                         if (!TextUtils.isEmpty(institute_name)){
                             institute.setText(institute_name);
                         }
                         if(!TextUtils.isEmpty(description)){
                             Description.setText(description);
+                        }
+                        if(!TextUtils.isEmpty(addresss_string)){
+                            address.setText(addresss_string);
+                        }
+                        if(!TextUtils.isEmpty(phone_number_string)){
+                            phone_number.setText(phone_number_string);
+                        }
+                        if(!TextUtils.isEmpty(dob_string)){
+                            date_of_birth.setText(dob_string);
                         }
 
                         String userType = dataSnapshot.child("userType").getValue().toString();
@@ -148,7 +171,7 @@ public class edit_profile extends BaseActivity {
                         old_name = dataSnapshot.child("name").getValue().toString();
 
                         chnage_name.setText(old_name);
-                        Glide.with(edit_profile.this).load(old_image_uri).into(chnage_image);
+                        Glide.with(getApplicationContext()).load(old_image_uri).into(chnage_image);
 
                         new_image_uri = old_image_uri;
 //                        Toast.makeText(getApplicationContext(), "new uri" + new_image_uri, Toast.LENGTH_LONG).show();
@@ -175,10 +198,100 @@ public class edit_profile extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-//                FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-//                        .child("name")
-//                        .setValue(chnage_name.getText().toString());
-//                        Toast.makeText(edit_profile.this, institute_name + " and " + description, Toast.LENGTH_SHORT).show();
+                if(!TextUtils.isEmpty(address.getText().toString())) {
+
+                    if(!address.getText().toString().equals(addresss_string))
+                    {
+                        final ProgressDialog progressDialog_address = new ProgressDialog(edit_profile.this);
+                        progressDialog_address.setMessage("Updating your address");
+                        progressDialog_address.setCancelable(false);
+                        progressDialog_address.show();
+                        FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".", ","))
+                                .child("address")
+                                .setValue(address.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+
+                                progressDialog_address.dismiss();
+                                Toast.makeText(edit_profile.this, "address Updated", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+
+                    }
+                }
+
+                if(!TextUtils.isEmpty(phone_number.getText().toString())) {
+
+                    if(!phone_number.getText().toString().equals(phone_number_string))
+                    {
+                        final ProgressDialog progressDialog_nmbr = new ProgressDialog(edit_profile.this);
+                        progressDialog_nmbr.setMessage("Updating your Phone number");
+                        progressDialog_nmbr.setCancelable(false);
+                        progressDialog_nmbr.show();
+                        FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".", ","))
+                                .child("phone")
+                                .setValue(phone_number.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+
+                                progressDialog_nmbr.dismiss();
+                                Toast.makeText(edit_profile.this, "Number Updated", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+
+                    }
+                }
+
+                if(!TextUtils.isEmpty(date_of_birth.getText().toString())) {
+
+                    if(!date_of_birth.getText().toString().equals(dob_string))
+                    {
+                        final ProgressDialog progressDialog_dob = new ProgressDialog(edit_profile.this);
+                        progressDialog_dob.setMessage("Updating date of birth");
+                        progressDialog_dob.setCancelable(false);
+                        progressDialog_dob.show();
+                        FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".", ","))
+                                .child("dateOfBirth")
+                                .setValue(date_of_birth.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+
+                                progressDialog_dob.dismiss();
+                                Toast.makeText(edit_profile.this, "Date of birth Updated", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+
+                    }
+                }
+
+                if(!TextUtils.isEmpty(chnage_name.getText().toString())) {
+
+                    if(!chnage_name.getText().toString().equals(old_name))
+                    {
+                        final ProgressDialog progressDialog_name = new ProgressDialog(edit_profile.this);
+                        progressDialog_name.setMessage("Updating your name");
+                        progressDialog_name.setCancelable(false);
+                        progressDialog_name.show();
+                        FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".", ","))
+                                .child("name")
+                                .setValue(chnage_name.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+
+                                progressDialog_name.dismiss();
+                                Toast.makeText(edit_profile.this, "Name Updated", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+
+                    }
+                }
+
+
+
 
                 if(!TextUtils.isEmpty(institute.getText().toString())) {
 
@@ -271,22 +384,20 @@ public class edit_profile extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                final Dialog dialog = new Dialog(edit_profile.this, android.R.style.Widget_PopupWindow);
-                dialog.setCancelable(true);
-                dialog.setContentView(R.layout.change_password_dialog);
-                old_pwd_et = (EditText) dialog.findViewById(R.id.old_password_et);
-                newPass = (EditText) dialog.findViewById(R.id.new_password_et);
-                confirm_newPass = (EditText) dialog.findViewById(R.id.confirm_new_password_et);
-                done_resettinG_pwd = (Button) dialog.findViewById(R.id.done_reseting_pwd);
+                reset_pass_dialog = new Dialog(edit_profile.this, android.R.style.Theme_Holo_NoActionBar_TranslucentDecor);
+                reset_pass_dialog.setTitle("Reset Password");
+                reset_pass_dialog.setCancelable(true);
+                reset_pass_dialog.setContentView(R.layout.change_password_dialog);
+                old_pwd_et = (EditText) reset_pass_dialog.findViewById(R.id.old_password_et);
+                newPass = (EditText) reset_pass_dialog.findViewById(R.id.new_password_et);
+                confirm_newPass = (EditText) reset_pass_dialog.findViewById(R.id.confirm_new_password_et);
+                done_resettinG_pwd = (Button) reset_pass_dialog.findViewById(R.id.done_reseting_pwd);
 
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
 
-                lp.copyFrom(dialog.getWindow().getAttributes());
-                lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-                dialog.setCancelable(true);
-                dialog.getWindow().setAttributes(lp);
+                lp.copyFrom(reset_pass_dialog.getWindow().getAttributes());
+                reset_pass_dialog.setCancelable(true);
+                reset_pass_dialog.getWindow().setAttributes(lp);
 
                 user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -323,7 +434,7 @@ public class edit_profile extends BaseActivity {
                                                                         if (task.isSuccessful()) {
 
                                                                             Toast.makeText(edit_profile.this, "Password updated", Toast.LENGTH_SHORT).show();
-                                                                            dialog.dismiss();
+                                                                            reset_pass_dialog.dismiss();
                                                                         } else {
 
                                                                             Toast.makeText(edit_profile.this, "Unable to update password", Toast.LENGTH_SHORT).show();
@@ -363,14 +474,14 @@ public class edit_profile extends BaseActivity {
 
                             }
                         } else {
-                                dialog.dismiss();
+                                reset_pass_dialog.dismiss();
                             }
                         }
                     });
 
                 }
 
-                dialog.show();
+                reset_pass_dialog.show();
 
             }
         });
@@ -384,9 +495,17 @@ public class edit_profile extends BaseActivity {
             if (resultCode == RESULT_OK) {
                 new_image_uri = data.getData();
                 chnage_image.setImageURI(new_image_uri);
-
-//                Toast.makeText(getApplicationContext(), "newest uri" + new_image_uri, Toast.LENGTH_LONG).show();
             }
         }
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == android.R.id.home)
+
+            finish();
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

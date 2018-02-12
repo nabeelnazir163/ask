@@ -472,7 +472,7 @@ public class MainActivity extends BaseActivity
 
         if(userType == 2){
 
-            menu.findItem(R.id.chat_inbox).setVisible(false);
+            menu.findItem(R.id.chat_inbox).setVisible(true);
 
         } else if (userType == 3){
 
@@ -510,8 +510,11 @@ public class MainActivity extends BaseActivity
 
         } else if (id == R.id.chat_inbox){
 
-            startActivity(new Intent(MainActivity.this, inbox.class));
-
+            if(userType == 2){
+                Toast.makeText(MainActivity.this, "You have to purchase our app in order to use this feature", Toast.LENGTH_SHORT).show();
+            } else {
+                startActivity(new Intent(MainActivity.this, inbox.class));
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -625,38 +628,6 @@ public class MainActivity extends BaseActivity
             mAuth.removeAuthStateListener(mAuthStateListener);
         if (mUserRef != null)
             mUserRef.removeEventListener(mUserValueEventListener);
-
-        /*if(userType == 3){
-
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-
-                    if(task.isSuccessful()){
-
-                        mAuth.signOut();
-                        startActivity(new Intent(MainActivity.this , RegisterActivity.class));
-                        finish();
-
-                    }
-
-                }
-            });
-
-        }*/
     }
-
-    /*@Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if(userType == 3){
-
-            mAuth.signOut();
-
-        }
-
-    }*/
 
 }

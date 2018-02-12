@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.zillion.nabeel.postandcommenttutorial.R;
 import com.zillion.nabeel.postandcommenttutorial.ui.activities.MainActivity;
 import com.zillion.nabeel.postandcommenttutorial.utils.BaseActivity;
@@ -195,9 +196,15 @@ public class SignupScreen_For_User extends BaseActivity {
 
                                 } else if (TextUtils.isEmpty(mEmailFieldUser)){
 
-                                    mEmailFieldUser = mUsername_User.toLowerCase().trim() + "@askaalim.com";
+                                    if(!TextUtils.isEmpty(mUsername_User)) {
 
-                                    StartRegistering();
+                                        mEmailFieldUser = mUsername_User.toLowerCase().trim() + "@askaalim.com";
+                                        StartRegistering();
+
+                                    } else {
+
+                                        Toast.makeText(SignupScreen_For_User.this, "Enter Email Address or userid", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             } else {
 
@@ -218,7 +225,27 @@ public class SignupScreen_For_User extends BaseActivity {
                 }
                 }else {
 
-                    Toast.makeText(getApplicationContext(),"Missing Some Required Fields", Toast.LENGTH_LONG).show();
+                    if(TextUtils.isEmpty(mNameFieldUser)){
+
+                        Toast.makeText(getApplicationContext(),"Name field is empty" , Toast.LENGTH_LONG).show();
+
+                    } else if ( TextUtils.isEmpty(mPassFieldUser)){
+
+                        Toast.makeText(getApplicationContext(),"Password field is empty" , Toast.LENGTH_LONG).show();
+
+                    } else if( TextUtils.isEmpty(mCon_pass_user)){
+
+                        Toast.makeText(getApplicationContext(),"Confirm password field is empty" , Toast.LENGTH_LONG).show();
+
+                    } else if ( TextUtils.isEmpty(phonenumberUser)){
+
+                        Toast.makeText(getApplicationContext(),"Phone number is not provided" , Toast.LENGTH_LONG).show();
+
+                    } else if ( TextUtils.isEmpty(select_gender_user)){
+
+                        Toast.makeText(getApplicationContext(),"Gender is not selected" , Toast.LENGTH_LONG).show();
+
+                    }
 
                 }
             }
@@ -336,11 +363,18 @@ public class SignupScreen_For_User extends BaseActivity {
                     }
 
                 }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                    Toast.makeText(getApplicationContext(), "Check your internet connection and try again" , Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
+
+                }
             });
 
-        } else{
-
-            Toast.makeText(getApplicationContext(), "Check Your Fields and Try Again" , Toast.LENGTH_LONG).show();
+        }  else if ( mImageUri_user == null){
+            Toast.makeText(getApplicationContext(), "Profile Image is not attached" , Toast.LENGTH_LONG).show();
             progressDialog.dismiss();
         }
 

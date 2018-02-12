@@ -180,7 +180,7 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
 
                         String text = postDialogTextView.getText().toString();
 
-                        if(!TextUtils.isEmpty(text)){
+                        if(text.length() >= 10){
 
                             mProgressDialog.show();
                             mPost.setEmail(FirebaseUtils.getCurrentUser().getEmail());
@@ -211,7 +211,7 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
 
                         } else {
 
-                            Toast.makeText(CreateNewPostActivity.this, "You have to enter some text", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CreateNewPostActivity.this, "Your question must have atleast 10 characters", Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -256,7 +256,7 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
                 mSelectedUri = data.getData();
                 mPostDisplay.setVisibility(View.VISIBLE);
                 mPostDisplay.setImageURI(mSelectedUri);
-                rippleView.setVisibility(View.GONE);
+//                rippleView.setVisibility(View.GONE);
             }
         }
     }

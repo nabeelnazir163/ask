@@ -10,6 +10,7 @@ import android.os.StrictMode;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -188,12 +189,12 @@ public class Chat extends AppCompatActivity {
         progressDialog.setMessage("Sending Message...");
         progressDialog.setCancelable(true);
         progressDialog.setIndeterminate(true);
-        progressDialog.show();
 
         messageText = messageArea.getText().toString();
         push_id = FirebaseUtils.getUid();
 
-        if(!messageText.equals("")){
+        if(!TextUtils.isEmpty(messageText)){
+            progressDialog.show();
 
             DatabaseReference mySendDatabase = FirebaseUtils.getMessageRef()
                     .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))

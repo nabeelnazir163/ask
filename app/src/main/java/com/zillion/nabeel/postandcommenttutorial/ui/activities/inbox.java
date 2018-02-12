@@ -41,6 +41,7 @@ public class inbox extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(inbox.this , search_user_for_newMessage.class);
+                intent.putExtra("askFor", "");
                 startActivity(intent);
             }
         });

@@ -1,135 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_centerHorizontal="true"
-    android:orientation="vertical"
-    tools:context="com.zillion.nabeel.postandcommenttutorial.ui.activities.edit_profile">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/edit_image_iv"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:contentDescription="@string/upload_img"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp" />
-
-        <LinearLayout
-            android:id="@+id/institute_layout_editprofile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:orientation="horizontal"
-            android:padding="5dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"
-                android:text="Institute :-"
-                android:textSize="18sp" />
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.6"
-                android:padding="5dp"
-                android:maxLines="2"
-                android:background="@drawable/input_text_for_post_bg"
-                android:id="@+id/institute_edittext"
-                android:hint="last institute" />
-
-        </LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        tools:context="com.zillion.nabeel.postandcommenttutorial.ui.activities.edit_profile">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:id="@+id/description_layout_edit_profile"
-            android:orientation="horizontal"
-            android:padding="5dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"
-                android:text="About You :-"
-                android:textSize="18sp" />
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.6"
-                android:background="@drawable/input_text_for_post_bg"
-                android:hint="Description"
-                android:maxLines="4"
-                android:maxLength="300"
-                android:id="@+id/desc_editProfile"
-                android:padding="5dp" />
-
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/edit_name_edit_text"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:inputType="text"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:layout_margin="15dp"
-            android:layout_gravity="bottom">
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/edit_image_iv"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/facebook"
+                android:contentDescription="@string/upload_img"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/chng_image"
+                android:layout_marginTop="2dp"
+                />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/input_text_for_post_bg"
+                android:id="@+id/institute_layout_editprofile"
+                android:padding="5dp"
+                >
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:inputType="text"
+                    android:background="@drawable/input_background"
+                    android:maxLines="2"
+                    android:id="@+id/institute_edittext"
+                    android:hint="last institute" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:id="@+id/description_layout_edit_profile"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/input_text_for_post_bg"
+                >
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Description"
+                    android:maxLines="4"
+                    android:maxLength="300"
+                    android:inputType="text"
+                    android:background="@drawable/input_background"
+                    android:id="@+id/desc_editProfile"
+                    android:padding="5dp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/input_text_for_post_bg"
+                >
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_name_edit_text"
+                    android:padding="5dp"
+                    android:hint="@string/eng_name"
+                    android:inputType="text"
+                    android:background="@drawable/input_background"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/input_text_for_post_bg"
+                >
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_phone_number_edit_text"
+                    android:padding="5dp"
+                    android:hint="@string/eng_phone"
+                    android:inputType="phone"
+                    android:background="@drawable/input_background"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/input_text_for_post_bg"
+                >
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_address_edit_text"
+                    android:padding="5dp"
+                    android:inputType="text"
+                    android:hint="@string/eng_address"
+                    android:background="@drawable/input_background"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/input_text_for_post_bg"
+                >
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_date_of_birth_edit_text"
+                    android:padding="5dp"
+                    android:hint="@string/date_of_birth"
+                    android:inputType="text"
+                    android:background="@drawable/input_background"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/chnage_pass_textview"
-                android:layout_width="0dp"
-                android:layout_weight="0.3"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="left"
+                android:gravity="center"
+                android:padding="5dp"
+                android:layout_margin="15dp"
+                android:textColor="@color/colorPrimary"
+                android:background="@android:color/transparent"
+                android:text="@string/reset_pwd" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
                 android:layout_marginRight="15dp"
-                android:gravity="center"
-                android:background="@android:color/transparent"
-                android:text="Reset Password" />
-
-            <Button
-                android:id="@+id/done_button_edit_profile"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:text="@string/update_profile" />
-
-            <Button
-                android:id="@+id/close_button_edit_profile"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_weight="0.3"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:background="@android:color/transparent"
-                android:text="Close" />
+                android:layout_marginBottom="15dp"
+                android:layout_gravity="bottom">
+
+                <Button
+                    android:id="@+id/done_button_edit_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center"
+                    android:background="@drawable/background_ask_button"
+                    android:text="@string/update_profile" />
+
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
+    </ScrollView>
 
-    </LinearLayout>
+</RelativeLayout>
 
-</ScrollView>
+

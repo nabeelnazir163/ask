@@ -1047,19 +1047,21 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                                                         @Override
                                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                                            String email = dataSnapshot.child("email").getValue().toString();
+                                                            final String email = dataSnapshot.child("email").getValue().toString();
 
                                                             FirebaseUtils.getUserRef(email.replace(".",",")).addValueEventListener(new ValueEventListener() {
                                                                 @Override
                                                                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                                                    FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
-                                                                    Current_UserName +=" commented on your post";
+//                                                                    Toast.makeText(PostActivity.this, email, Toast.LENGTH_SHORT).show();
 
-                                                                    Toast.makeText(PostActivity.this, FCM_token, Toast.LENGTH_SHORT).show();
-                                                                    sendNotification notify = new sendNotification(Current_UserName,mPost.getPostId(),FCM_token);
-                                                                    notify.send(Current_UserName,mPost.getPostId(),FCM_token);
+                                                                    if(dataSnapshot.hasChild("fcmtoken")) {
+                                                                        FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
+                                                                        Current_UserName += " commented on your post";
 
+                                                                        sendNotification notify = new sendNotification(Current_UserName,mPost.getPostId(),FCM_token);
+                                                                        notify.send(Current_UserName,mPost.getPostId(),FCM_token);
+                                                                    }
                                                                 }
 
                                                                 @Override

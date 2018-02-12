@@ -319,6 +319,10 @@ public class homeFragment extends Fragment {
 
 //                final String post_key = getRef(position).getKey();
 
+                if(model == null){
+                    mShimmerViewContainer.setVisibility(View.GONE);
+                }
+
                 mShimmerViewContainer.setVisibility(View.GONE);
 
                 if(userType != 3) {

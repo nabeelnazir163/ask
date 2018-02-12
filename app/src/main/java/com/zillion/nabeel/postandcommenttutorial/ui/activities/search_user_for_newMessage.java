@@ -54,8 +54,12 @@ public class search_user_for_newMessage extends AppCompatActivity {
 
         }
 
-        mSearchParams.setHint("Search User to ask for "+ askfor);
+        if(askfor.isEmpty()){
+            mSearchParams.setHint("Search User");
 
+        }else {
+            mSearchParams.setHint("Search User to ask for " + askfor);
+        }
         hideSoftkeyboard();
         initTextListener();
     }

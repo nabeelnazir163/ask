@@ -454,7 +454,7 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                         final String uid = FirebaseUtils.getUid();
                         String strAnswer = mAnswerEditText.getText().toString();
 
-                        if(!TextUtils.isEmpty(strAnswer)){
+                        if(strAnswer.length() >= 10){
 
 //                        mAnswer.setUser(user);
 
@@ -519,7 +519,7 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                         }
 
                     } else {
-                            Toast.makeText(postNewAnswer.this, "You cannot post an empty answer", Toast.LENGTH_LONG).show();
+                            Toast.makeText(postNewAnswer.this, "Your answer must have atleast 10 characters", Toast.LENGTH_LONG).show();
                         }
                     }
 

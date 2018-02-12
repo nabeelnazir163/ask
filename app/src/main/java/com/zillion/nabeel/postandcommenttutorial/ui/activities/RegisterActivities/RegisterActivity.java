@@ -21,6 +21,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.zillion.nabeel.postandcommenttutorial.R;
 import com.zillion.nabeel.postandcommenttutorial.inApp_purchaser;
 import com.zillion.nabeel.postandcommenttutorial.ui.activities.MainActivity;
@@ -447,12 +448,13 @@ public class RegisterActivity extends BaseActivity{
         progressDialog.setMessage("Logging in");
         progressDialog.setCancelable(true);
         progressDialog.setIndeterminate(true);
-        progressDialog.show();
 
         final String email = memailfield.getText().toString();
         String password = mpasswordfield.getText().toString();
 
         if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)){
+
+            progressDialog.show();
 
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
@@ -462,7 +464,9 @@ public class RegisterActivity extends BaseActivity{
 
                         if(check_user_type_from_radio_btn == 1 || check_user_type_from_radio_btn == 2) {
 
-                            FirebaseUtils.getUserRef(email.replace(".",",")).child("fcmtoken").setValue(token);
+                            if(!TextUtils.isEmpty(token)){
+                                FirebaseUtils.getUserRef(email.replace(".",",")).child("fcmtoken").setValue(token);
+                            }
 
                             checkUserExist();
 
@@ -477,9 +481,18 @@ public class RegisterActivity extends BaseActivity{
 
                     } else {
                         progressDialog.dismiss();
-                        Toast.makeText(RegisterActivity.this, "Error Login", Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this, "Email or Password Not found, Please Try Again", Toast.LENGTH_LONG).show();
                         mAuth.signOut();
                     }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                    Toast.makeText(RegisterActivity.this, "Check your internet connection and try again later", Toast.LENGTH_LONG).show();
+                    mAuth.signOut();
+                    progressDialog.dismiss();
+
                 }
             });
         }
