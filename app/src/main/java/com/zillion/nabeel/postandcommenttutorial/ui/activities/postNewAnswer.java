@@ -616,10 +616,11 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                                                         @Override
                                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                                            FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
-                                                            Current_UserName +=" answered your question";
-                                                            sendNotification notify = new sendNotification(Current_UserName,mPost.getPostId(),FCM_token);
+                                                            if(dataSnapshot.hasChild("fcmtoken")) {
 
+                                                                FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
+                                                                sendNotification notify = new sendNotification(Current_UserName + " answered your question", mPost.getPostId(), FCM_token);
+                                                            }
                                                         }
 
                                                         @Override

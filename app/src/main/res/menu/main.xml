@@ -9,10 +9,8 @@
 
     <item
         android:id="@+id/action_search"
-        android:orderInCategory="200"
         android:title="Search"
-        android:icon="@mipmap/ic_search_black_24dp"
-        app:showAsAction="ifRoom|collapseActionView"/>
+        app:showAsAction="always"/>
 
 
     <!--<item android:id="@+id/menu_series_cab_search"
@@ -35,12 +33,12 @@
         <!--android:icon="@mipmap/ic_add_white_24dp"-->
         <!--app:showAsAction="ifRoom|collapseActionView"/>-->
 
-    <item
+   <!-- <item
         android:id="@+id/chat_inbox"
         android:orderInCategory="200"
         android:icon="@drawable/chatinbox"
-        app:showAsAction="always"
-        android:title="Notification" />
+        app:showAsAction="ifRoom|collapseActionView"
+        android:title="Notification" />-->
 
 
 </menu>

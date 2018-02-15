@@ -160,10 +160,12 @@ public class comment_reply_activity extends AppCompatActivity {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                        FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
-                                        Current_UserName +=" replied to your comment";
-                                        if(!FirebaseUtils.getCurrentUser().getEmail().equals(email)){
-                                            sendNotification notify = new sendNotification(Current_UserName,mPost.getPostId(),FCM_token);
+                                        if(dataSnapshot.hasChild("fcmtoken")) {
+
+                                            FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
+                                            if (!FirebaseUtils.getCurrentUser().getEmail().equals(email)) {
+                                                sendNotification notify = new sendNotification(Current_UserName + " replied to your comment", mPost.getPostId(), FCM_token);
+                                            }
                                         }
                                     }
                                     @Override

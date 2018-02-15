@@ -265,6 +265,8 @@ public class homeFragment extends Fragment {
 
     private void init() {
 
+        getActivity().invalidateOptionsMenu();
+
         mPostRecyclerView = (RecyclerView) mRootVIew.findViewById(R.id.recyclerview_post);
         mPostRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         final LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -350,10 +352,17 @@ public class homeFragment extends Fragment {
                 FirebaseUtils.getUserRef(model.getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.hasChild("fiqah")) {
+                            fiqah = dataSnapshot.child("fiqah").getValue().toString();
+                        }
 
-                        fiqah = dataSnapshot.child("fiqah").getValue().toString();
-                        image_url = dataSnapshot.child("image").getValue().toString();
-                        name = dataSnapshot.child("name").getValue().toString();
+                        if(dataSnapshot.hasChild("image")) {
+                            image_url = dataSnapshot.child("image").getValue().toString();
+                        }
+
+                        if(dataSnapshot.hasChild("name")) {
+                            name = dataSnapshot.child("name").getValue().toString();
+                        }
 
                         if(!TextUtils.isEmpty(fiqah)){
 
@@ -365,7 +374,7 @@ public class homeFragment extends Fragment {
                         viewHolder.setUsername(name);
 
                         if( !TextUtils.isEmpty(image_url))
-                        Glide.with(getContext()).load(image_url).into(viewHolder.postOwnerDisplayImageView);
+                        Glide.with(getActivity()).load(image_url).into(viewHolder.postOwnerDisplayImageView);
                     }
 
                     @Override

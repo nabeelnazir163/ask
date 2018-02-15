@@ -38,7 +38,7 @@ public class sendNotification {
         message = name;
         pID = postID;
         fcm_token = fcm;
-        String send_notification_url = "https://pggl.pk/app/send_notification.php";
+        String send_notification_url = "http://pggl.pk/app/send_notification.php";
 
         sendNotification.AsyncDataClass asyncRequestObject = new sendNotification.AsyncDataClass();
         asyncRequestObject.execute(send_notification_url,message,title,fcm_token,pID);

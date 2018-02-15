@@ -3,6 +3,7 @@ package com.zillion.nabeel.postandcommenttutorial.ui.activities;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -17,12 +18,16 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,10 +35,12 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.nex3z.notificationbadge.NotificationBadge;
 import com.zillion.nabeel.postandcommenttutorial.R;
 import com.zillion.nabeel.postandcommenttutorial.ui.adapter.ViewPagerAdapter;
 import com.zillion.nabeel.postandcommenttutorial.ui.activities.RegisterActivities.RegisterActivity;
@@ -73,22 +80,35 @@ public class MainActivity extends BaseActivity
     DatabaseReference mDatabase;
 
     NavigationView nv;
+    RelativeLayout notificationCount1;
 
+    public static int cou = 0;
     Menu mMenu;
 
     boolean doubleBackToExitPressedOnce = false;
 
     private static int MY_PERMISSION_ACCESS_COARSE_LOCATION = 0;
     private static int MY_PERMISSION_ACCESS_FINE_LOCATION = 0;
- /*
-    NotificationManager notificationManager;
-    NotificationBadge mBadge;
-    int Count = 0;*/
 
+    public static final String HADEES_PREFS = "hadeesPrefs";
+    public static final String CAL_PREFS = "calPrefs";
+    public static final String PRAYER_TIME_PREFS = "prayertimePrefs";
+    public static final String UNANSWERED_QUES_PREFS = "unAnsweredQuestionPrefs";
+
+    SharedPreferences hadeesPrefs , calPrefs , prayerTimePrefs, unAnsweredQuestionPrefs;
+
+    SharedPreferences.Editor Hadeeseditor , CalEditor , PrayerTimeEditor , unAnsQuesEditor;
+
+    TextView tv;
+//    NotificationManager notificationManager;
+//    private static NotificationBadge mBadge;
+    int Count = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        notificationCount1 = (RelativeLayout) findViewById(R.id.content_main);
 
         getPermissions();
 
@@ -168,10 +188,11 @@ public class MainActivity extends BaseActivity
         tabLayout.setTabTextColors(Color.BLACK , Color.WHITE);
 
 
-        /*mBadge = (NotificationBadge)findViewById(R.id.badge);
-        notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+//        mBadge = (NotificationBadge)findViewById(R.id.badge);
 
-        findViewById(R.id.count).setOnClickListener(new View.OnClickListener() {
+//        notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+
+       /* findViewById(R.id.count).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -185,7 +206,6 @@ public class MainActivity extends BaseActivity
 
                 notificationManager.notify(0,notification);
 
-                mBadge.setNumber(Count);
 
                 ImageView notification_iv = (ImageView)findViewById(R.id.notification_home);
                 notification_iv.setOnClickListener(new View.OnClickListener() {
@@ -197,9 +217,8 @@ public class MainActivity extends BaseActivity
                 });
 
             }
-        });
+        });*/
 
-*/
        /* findViewById(R.id.set_alarm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -228,6 +247,27 @@ public class MainActivity extends BaseActivity
        Boolean isFirtR = getSharedPreferences("firstRunPref",  MODE_PRIVATE).getBoolean("isFrtR", true);
 
        if(isFirtR){
+
+           hadeesPrefs = getSharedPreferences(HADEES_PREFS, 0);
+           Hadeeseditor = hadeesPrefs.edit();
+           Hadeeseditor.putBoolean("hadees", true);
+           Hadeeseditor.commit();
+
+           calPrefs = getSharedPreferences(CAL_PREFS,0);
+           CalEditor = calPrefs.edit();
+           CalEditor.putBoolean("calender", true);
+           CalEditor.commit();
+
+           prayerTimePrefs = getSharedPreferences(PRAYER_TIME_PREFS,0);
+           PrayerTimeEditor = prayerTimePrefs.edit();
+           PrayerTimeEditor.putBoolean("prayertime", true);
+           PrayerTimeEditor.commit();
+
+           unAnsweredQuestionPrefs = getSharedPreferences(UNANSWERED_QUES_PREFS,0);
+           unAnsQuesEditor = unAnsweredQuestionPrefs.edit();
+           unAnsQuesEditor.putBoolean("unAnsweredQues", true);
+           unAnsQuesEditor.commit();
+
 
            final Dialog dialog = new Dialog(MainActivity.this, android.R.style.Widget_PopupWindow);
            dialog.setContentView(R.layout.dialogfirstruninstructions);
@@ -287,6 +327,13 @@ public class MainActivity extends BaseActivity
             hideItemforGuest();
 
         }
+    }
+
+    public static void setValue(int val){
+        cou = val;
+        Log.d("counter_main", "" + cou);
+//        mBadge.setNumber(cou);
+
     }
 
     public void getPermissions() {
@@ -470,27 +517,54 @@ public class MainActivity extends BaseActivity
     public boolean onPrepareOptionsMenu(Menu menu) {
         // if nav drawer is opened, hide the action items
 
-        if(userType == 2){
-
-            menu.findItem(R.id.chat_inbox).setVisible(true);
-
-        } else if (userType == 3){
-
-            menu.findItem(R.id.chat_inbox).setVisible(false);
-//            menu.findItem(R.id.notification).setVisible(false);
-
-        }
+//        if(userType == 2){
+//
+//            menu.findItem(R.id.chat_inbox).setVisible(true);
+//
+//        } else if (userType == 3){
+//
+//            menu.findItem(R.id.chat_inbox).setVisible(false);
+////            menu.findItem(R.id.notification).setVisible(false);
+//
+//        }
 
         return super.onPrepareOptionsMenu(menu);
     }
 
+    public void goToInbox(View v){
+
+        if(userType == 2){
+            Toast.makeText(MainActivity.this, "You have to purchase our app in order to use this feature", Toast.LENGTH_SHORT).show();
+        } else {
+            startActivity(new Intent(MainActivity.this, inbox.class));
+            tv.setText(""+0);
+            tv.setVisibility(View.GONE);
+        }
+
+    }
+
+
+    public void goTosearch(View v){
+
+        startActivity(new Intent(MainActivity.this , SearchWithTabbedActivity.class));
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         mMenu = menu;
         getMenuInflater().inflate(R.menu.main, menu);
 
-        return true;
+
+        MenuItem item1 = menu.findItem(R.id.action_search);
+        MenuItemCompat.setActionView(item1, R.layout.notification_update_count_layout);
+        notificationCount1 = (RelativeLayout) MenuItemCompat.getActionView(item1);
+
+        tv = notificationCount1.findViewById(R.id.badge_notification_2);
+        tv.setVisibility(View.VISIBLE);
+        tv.setText(""+3);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
 
@@ -508,14 +582,14 @@ public class MainActivity extends BaseActivity
 
             startActivity(new Intent(MainActivity.this , SearchWithTabbedActivity.class));
 
-        } else if (id == R.id.chat_inbox){
+        }/* else if (id == R.id.chat_inbox){
 
             if(userType == 2){
                 Toast.makeText(MainActivity.this, "You have to purchase our app in order to use this feature", Toast.LENGTH_SHORT).show();
             } else {
                 startActivity(new Intent(MainActivity.this, inbox.class));
             }
-        }
+        }*/
         return super.onOptionsItemSelected(item);
     }
 
@@ -576,9 +650,7 @@ public class MainActivity extends BaseActivity
                         }
                     }
                 });
-
             }
-
 
         } else if ( id == R.id.prayertime){
 

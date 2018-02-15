@@ -38,11 +38,6 @@ public class  AppInfo extends BaseActivity {
 
     SharedPreferences hadeesPrefs , calPrefs , prayerTimePrefs, unAnsweredQuestionPrefs;
 
-    boolean hadeesState;
-    boolean calState;
-    boolean prayertimeState;
-    boolean unAnsweredState;
-
     SharedPreferences.Editor Hadeeseditor , CalEditor , PrayerTimeEditor , unAnsQuesEditor;
 
     SharedPreferences userType_sp;
@@ -77,20 +72,6 @@ public class  AppInfo extends BaseActivity {
         Hadeeseditor = hadeesPrefs.edit();
         hadees.setChecked(hadeesPrefs.getBoolean("hadees", false));
 
-        /*if(hadeesPrefs.getBoolean("hadees", false) == true){
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, 22);
-            calendar.set(Calendar.MINUTE, 20);
-
-            Intent intent = new Intent(getApplicationContext(), Notification_receiver_hadees.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-
-        }*/
-
         calPrefs = getSharedPreferences(CAL_PREFS,0);
         CalEditor = calPrefs.edit();
         HijriCal.setChecked(calPrefs.getBoolean("calender", false));
@@ -109,8 +90,8 @@ public class  AppInfo extends BaseActivity {
 
                 if(isChecked) {
 
-//                    Hadeeseditor.putBoolean("hadees", true);
-//                    Hadeeseditor.commit();
+                    Hadeeseditor.putBoolean("hadees", true);
+                    Hadeeseditor.commit();
 
                     Calendar calendar = Calendar.getInstance();
                     calendar.set(Calendar.HOUR_OF_DAY, 6);
@@ -125,8 +106,8 @@ public class  AppInfo extends BaseActivity {
 
                 } else if (!isChecked){
 
-//                    Hadeeseditor.putBoolean("hadees", false);
-//                    Hadeeseditor.commit();
+                    Hadeeseditor.putBoolean("hadees", false);
+                    Hadeeseditor.commit();
 
                 }
             }
@@ -148,13 +129,13 @@ public class  AppInfo extends BaseActivity {
                     alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
 
-//                    CalEditor.putBoolean("calender", true);
-//                    CalEditor.commit();
+                    CalEditor.putBoolean("calender", true);
+                    CalEditor.commit();
 
                 } else if (!isChecked){
 
-//                    CalEditor.putBoolean("calender", false);
-//                    CalEditor.commit();
+                    CalEditor.putBoolean("calender", false);
+                    CalEditor.commit();
 
                 }
 
@@ -178,13 +159,13 @@ public class  AppInfo extends BaseActivity {
                     alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
 
-//                    PrayerTimeEditor.putBoolean("prayertime", true);
-//                    PrayerTimeEditor.commit();
+                    PrayerTimeEditor.putBoolean("prayertime", true);
+                    PrayerTimeEditor.commit();
 
                 } else if (!isChecked){
 
-//                    PrayerTimeEditor.putBoolean("prayertime", false);
-//                    PrayerTimeEditor.commit();
+                    PrayerTimeEditor.putBoolean("prayertime", false);
+                    PrayerTimeEditor.commit();
 
                 }
             }
@@ -207,13 +188,13 @@ public class  AppInfo extends BaseActivity {
                     alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
 
-//                    unAnsQuesEditor.putBoolean("unAnsweredQues", true);
-//                    unAnsQuesEditor.commit();
+                    unAnsQuesEditor.putBoolean("unAnsweredQues", true);
+                    unAnsQuesEditor.commit();
 
                 } else if (!isChecked){
 
-//                    unAnsQuesEditor.putBoolean("unAnsweredQues", false);
-//                    unAnsQuesEditor.commit();
+                    unAnsQuesEditor.putBoolean("unAnsweredQues", false);
+                    unAnsQuesEditor.commit();
 
                 }
 

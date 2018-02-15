@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,7 +50,7 @@ public class Chat extends AppCompatActivity {
     ScrollView scrollView;
     String chatWithEmail;
     String chatWith_image_url;
-    String current_user;
+//    String current_user;
     String current_user_name;
     String current_user_image;
     String chatwithName;
@@ -65,6 +66,8 @@ public class Chat extends AppCompatActivity {
 
     String FCM_token,Current_UserName;
     String postID = null;
+    DatabaseReference firebaseDatabase1;
+    DatabaseReference firebaseDatabase2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +81,12 @@ public class Chat extends AppCompatActivity {
 
         }
 
+/*
         layout = (LinearLayout)findViewById(R.id.layout1);
         sendButton = (ImageView)findViewById(R.id.sendButton);
         messageArea = (EditText)findViewById(R.id.messageArea);
         scrollView = (ScrollView)findViewById(R.id.scrollView);
+*/
 
         textView = (TextView)findViewById(R.id.text_message_left);
         textview_right = (TextView) findViewById(R.id.text_message_right);
@@ -122,7 +127,7 @@ public class Chat extends AppCompatActivity {
 
         final ActionBar actionBar = getSupportActionBar();
 
-        current_user = FirebaseUtils.getCurrentUser().getEmail().toString().replace(".",",");
+//        current_user = FirebaseUtils.getCurrentUser().getEmail().toString().replace(".",",");
 
         FirebaseUtils.getUserRef(chatWithEmail).addValueEventListener(new ValueEventListener() {
             @Override
@@ -140,7 +145,7 @@ public class Chat extends AppCompatActivity {
             }
         });
 
-        FirebaseUtils.getUserRef(current_user).addValueEventListener(new ValueEventListener() {
+        FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -155,7 +160,7 @@ public class Chat extends AppCompatActivity {
             }
         });
 
-        messageArea.setOnKeyListener(new View.OnKeyListener() {
+        /*messageArea.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
 
@@ -170,8 +175,14 @@ public class Chat extends AppCompatActivity {
                 }
                 return false;
             }
-        });
+        }); */
 
+
+        layout = (LinearLayout) findViewById(R.id.layout1);
+//        layout_2 = (RelativeLayout)findViewById(R.id.layout2);
+        sendButton = (ImageView)findViewById(R.id.sendButton);
+        messageArea = (EditText)findViewById(R.id.messageArea);
+        scrollView = (ScrollView)findViewById(R.id.scrollView);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,7 +192,102 @@ public class Chat extends AppCompatActivity {
 
             }
         });
+
+//        Firebase.setAndroidContext(this);
+//        reference1 = new Firebase("https://androidchatapp-76776.firebaseio.com/messages/" + UserDetails.username + "_" + UserDetails.chatWith);
+//        reference2 = new Firebase("https://androidchatapp-76776.firebaseio.com/messages/" + UserDetails.chatWith + "_" + UserDetails.username);
+
+     /*   firebaseDatabase1 = FirebaseDatabase.getInstance().getReference().child("message")
+                .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).child(chatWithEmail.replace(".",","));
+        firebaseDatabase2 = FirebaseDatabase.getInstance().getReference().child("message")
+                .child(chatWithEmail.replace(".",",")).child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","));
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String messageText = messageArea.getText().toString();
+
+                if(!messageText.equals("")){
+                    Map map = new HashMap();
+                    map.put("message", messageText);
+                    map.put("Sender_name", current_user_name);
+                    map.put("receiver_name", chatwithName );
+                    map.put("receiver_email",chatWithEmail);
+                    map.put("sender_image_url", current_user_image);
+                    map.put("receiver_image_uri", chatWith_image_url);
+                    map.put("sender_email", FirebaseUtils.getCurrentUser().getEmail());
+                    map.put("sending_timeStamp", System.currentTimeMillis());
+
+                    if(!FirebaseUtils.getCurrentUser().getEmail().replace(".",",").equals(chatWithEmail.replace(".",","))) {
+                        firebaseDatabase1.push().setValue(map);
+                        firebaseDatabase2.push().setValue(map);
+                    }else {
+                        firebaseDatabase1.push().setValue(map);
+                    }
+                    messageArea.setText("");
+                }
+            }
+        });
+
+        firebaseDatabase1.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Map map = (Map) dataSnapshot.getValue();
+                String message = map.get("message").toString();
+                String userName = map.get("Sender_name").toString();
+
+//                Toast.makeText(getApplicationContext(), userName, Toast.LENGTH_SHORT).show();
+
+                if(userName.equals(FirebaseUtils.getCurrentUser().getEmail())){
+                    addMessageBox("You:-\n" + message, 1);
+                }
+                else{
+                    addMessageBox(chatWithEmail+ ":-\n" + message, 2);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+        });*/
+
     }
+
+//    public void addMessageBox(String message, int type){
+//        TextView textView = new TextView(Chat.this);
+//        textView.setPadding(15,15,15,15);
+//        textView.setText(message);
+//
+//        LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        lp2.weight = 1.0f;
+//
+//        if(type == 1) {
+//            lp2.gravity = Gravity.RIGHT;
+//        }
+//        else{
+//            lp2.gravity = Gravity.LEFT;
+//        }
+//        textView.setLayoutParams(lp2);
+//        layout.addView(textView);
+//        scrollView.fullScroll(View.FOCUS_DOWN);
+//    }
 
     private void send_Message() {
 
@@ -212,10 +318,10 @@ public class Chat extends AppCompatActivity {
 
             sendToInboxDb.child("Sender_name").setValue(current_user_name);
             sendToInboxDb.child("sender_image_url").setValue(current_user_image);
-            sendToInboxDb.child("Sender_email").setValue(FirebaseUtils.getCurrentUser().getEmail().replace(".",","));
+            sendToInboxDb.child("sender_email").setValue(FirebaseUtils.getCurrentUser().getEmail().replace(".",","));
             sendToInboxDb.child("message").setValue(messageText);
             sendToInboxDb.child("message_id").setValue(push_id);
-            sendToInboxDb.child("SendingtimeStamp").setValue(System.currentTimeMillis()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            sendToInboxDb.child("sending_timeStamp").setValue(System.currentTimeMillis()).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
 
@@ -237,9 +343,12 @@ public class Chat extends AppCompatActivity {
 
                                     if(!chatWithEmail.replace(".",",").equals(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))) {
 
-                                        FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
-                                        Current_UserName += " send you a message";
-                                        sendNotification notify = new sendNotification(Current_UserName, postID, FCM_token);
+                                        if (dataSnapshot.hasChild("fcmtoken")) {
+
+                                            FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
+
+                                            sendNotification notify = new sendNotification(Current_UserName + " send you a message", postID, FCM_token);
+                                        }
                                     }
                                 }
                                 @Override
@@ -263,82 +372,81 @@ public class Chat extends AppCompatActivity {
     }
 
 
-    private void sendNotification(final String cu_user)
-    {
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                int SDK_INT = android.os.Build.VERSION.SDK_INT;
-                if (SDK_INT > 8) {
-                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                            .permitAll().build();
-                    StrictMode.setThreadPolicy(policy);
-
-                    String send_email;
-
-                    send_email = chatWithEmail;
-
-                    //String user_name = homeFragment.login_user_name;
-
-//                    Toast.makeText(getApplicationContext() , "e" , Toast.LENGTH_LONG).show();
-
-                    Log.d("AppInfo", "Checking");
-
-                    try {
-
-
-                        String jsonResponse;
-
-                        URL url = new URL("https://onesignal.com/api/v1/notifications");
-                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                        con.setUseCaches(false);
-                        con.setDoOutput(true);
-                        con.setDoInput(true);
-
-                        con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-                        con.setRequestProperty("Authorization", "Basic NTgxNWU0OTItMmIxZS00OWM5LWJhYWEtN2NhZGViNTg1OTFk");
-                        con.setRequestMethod("POST");
-
-                        String strJsonBody = "{"
-                                + "\"app_id\": \"989e3989-b3e5-46e5-9cf9-8dae56df8bec\","
-
-                                + "\"filters\": [{\"field\": \"tag\", \"key\": \"User_ID\", \"relation\": \"=\", \"value\": \"" + send_email + "\"}],"
-
-                                + "\"data\": {\"foo\": \"bar\"},"
-                                + "\"contents\": {\"en\":\"" + cu_user + " Send You a message\"}"
-                                + "}";
-
-
-                        System.out.println("strJsonBody:\n" + strJsonBody);
-
-                        byte[] sendBytes = strJsonBody.getBytes("UTF-8");
-                        con.setFixedLengthStreamingMode(sendBytes.length);
-
-                        OutputStream outputStream = con.getOutputStream();
-                        outputStream.write(sendBytes);
-
-                        int httpResponse = con.getResponseCode();
-                        System.out.println("httpResponse: " + httpResponse);
-
-                        if (httpResponse >= HttpURLConnection.HTTP_OK
-                                && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST) {
-                            Scanner scanner = new Scanner(con.getInputStream(), "UTF-8");
-                            jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
-                            scanner.close();
-                        } else {
-                            Scanner scanner = new Scanner(con.getErrorStream(), "UTF-8");
-                            jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
-                            scanner.close();
-                        }
-                        System.out.println("jsonResponse:\n" + jsonResponse);
-
-                    } catch (Throwable t) {
-                        t.printStackTrace();
-                    }
-                }
-            }
-        });
-    }
+//    private void sendNotification(final String cu_user) {
+//        AsyncTask.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                int SDK_INT = android.os.Build.VERSION.SDK_INT;
+//                if (SDK_INT > 8) {
+//                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+//                            .permitAll().build();
+//                    StrictMode.setThreadPolicy(policy);
+//
+//                    String send_email;
+//
+//                    send_email = chatWithEmail;
+//
+//                    //String user_name = homeFragment.login_user_name;
+//
+////                    Toast.makeText(getApplicationContext() , "e" , Toast.LENGTH_LONG).show();
+//
+//                    Log.d("AppInfo", "Checking");
+//
+//                    try {
+//
+//
+//                        String jsonResponse;
+//
+//                        URL url = new URL("https://onesignal.com/api/v1/notifications");
+//                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+//                        con.setUseCaches(false);
+//                        con.setDoOutput(true);
+//                        con.setDoInput(true);
+//
+//                        con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+//                        con.setRequestProperty("Authorization", "Basic NTgxNWU0OTItMmIxZS00OWM5LWJhYWEtN2NhZGViNTg1OTFk");
+//                        con.setRequestMethod("POST");
+//
+//                        String strJsonBody = "{"
+//                                + "\"app_id\": \"989e3989-b3e5-46e5-9cf9-8dae56df8bec\","
+//
+//                                + "\"filters\": [{\"field\": \"tag\", \"key\": \"User_ID\", \"relation\": \"=\", \"value\": \"" + send_email + "\"}],"
+//
+//                                + "\"data\": {\"foo\": \"bar\"},"
+//                                + "\"contents\": {\"en\":\"" + cu_user + " Send You a message\"}"
+//                                + "}";
+//
+//
+//                        System.out.println("strJsonBody:\n" + strJsonBody);
+//
+//                        byte[] sendBytes = strJsonBody.getBytes("UTF-8");
+//                        con.setFixedLengthStreamingMode(sendBytes.length);
+//
+//                        OutputStream outputStream = con.getOutputStream();
+//                        outputStream.write(sendBytes);
+//
+//                        int httpResponse = con.getResponseCode();
+//                        System.out.println("httpResponse: " + httpResponse);
+//
+//                        if (httpResponse >= HttpURLConnection.HTTP_OK
+//                                && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST) {
+//                            Scanner scanner = new Scanner(con.getInputStream(), "UTF-8");
+//                            jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+//                            scanner.close();
+//                        } else {
+//                            Scanner scanner = new Scanner(con.getErrorStream(), "UTF-8");
+//                            jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+//                            scanner.close();
+//                        }
+//                        System.out.println("jsonResponse:\n" + jsonResponse);
+//
+//                    } catch (Throwable t) {
+//                        t.printStackTrace();
+//                    }
+//                }
+//            }
+//        });
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

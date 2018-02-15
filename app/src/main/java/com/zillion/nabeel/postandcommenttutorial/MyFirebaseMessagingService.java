@@ -1,6 +1,6 @@
 package com.zillion.nabeel.postandcommenttutorial;
 
-
+import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -8,16 +8,21 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
+import com.zillion.nabeel.postandcommenttutorial.ui.activities.MainActivity;
 import com.zillion.nabeel.postandcommenttutorial.ui.activities.PostActivity;
+import com.zillion.nabeel.postandcommenttutorial.ui.activities.inbox;
 import com.zillion.nabeel.postandcommenttutorial.ui.fragments.homeFragment;
 import com.zillion.nabeel.postandcommenttutorial.utils.Constants;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-
-
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
+    Intent intent;
+//    public int counter = 0;
+
+    @SuppressLint("WrongThread")
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         long[] vPattern = {0,100,1000};
@@ -26,7 +31,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String title = remoteMessage.getNotification().getTitle();
         String message = remoteMessage.getNotification().getBody();
         String postID = remoteMessage.getData().get("postID");
-        Intent intent = new Intent(getApplicationContext(), homeFragment.class);
+
+        if(message.contains("message")){
+            intent = new Intent(getApplicationContext(), inbox.class);
+//            counter++;
+//            MainActivity m = new MainActivity();
+//            MainActivity.setValue(counter);
+//            Log.d("counter", "" + counter);
+//            MainActivity.tv.setText(""+2);
+        }else {
+            intent = new Intent(getApplicationContext(), MainActivity.class);
+        }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),0,intent, PendingIntent.FLAG_ONE_SHOT);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
