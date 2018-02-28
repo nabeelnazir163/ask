@@ -176,7 +176,8 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
             case R.id.postanswer_mic_iv:
 //                showRecordbuttons();
-                dialog = new Dialog(postNewAnswer.this, android.R.style.Widget_PopupWindow);
+                dialog = new Dialog(postNewAnswer.this, android.R.style.Theme_Material_Light);
+                dialog.setTitle("Record Audio");
                 dialog.setCancelable(true);
                 dialog.setContentView(R.layout.dialog_for_audio);
 
@@ -677,8 +678,7 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private void sendNotification()
-    {
+    private void sendNotification() {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {

@@ -126,7 +126,7 @@ public class signupScreenForAlim extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_screen_for_alim);
 
-        /**
+        /*
          * getting the fcm token here
          */
         token = FirebaseInstanceId.getInstance().getToken();
@@ -489,7 +489,6 @@ public class signupScreenForAlim extends BaseActivity {
                     if(task.isSuccessful()){
 
                         FirebaseUtils.getUserRef(email).child("name").setValue(mNameFieldAlim);
-                        FirebaseUtils.getUserRef(email).child("email").setValue(getCurrentUser().getEmail());
                         FirebaseUtils.getUserRef(email).child("gender").setValue(select_gender_alim);
                         FirebaseUtils.getUserRef(email).child("phone").setValue(phonenumberAlim);
                         FirebaseUtils.getUserRef(email).child("country").setValue(countryname_Alim);
@@ -530,19 +529,25 @@ public class signupScreenForAlim extends BaseActivity {
 
                         }
 
+                        FirebaseUtils.getUserRef(email).child("email").setValue(getCurrentUser().getEmail()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
 
-                        progressDialog.dismiss();
+                                progressDialog.dismiss();
 
-                        userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
-                        userType_sh_editor = userType_sp.edit();
+                                userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
+                                userType_sh_editor = userType_sp.edit();
 
-                        userType_sh_editor.putInt("UserType", 1);
-                        userType_sh_editor.apply();
+                                userType_sh_editor.putInt("UserType", 1);
+                                userType_sh_editor.apply();
 
-                        Intent main_intent = new Intent(signupScreenForAlim.this , MainActivity.class);
-                        main_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        finish();
-                        startActivity(main_intent);
+                                Intent main_intent = new Intent(signupScreenForAlim.this , MainActivity.class);
+                                main_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                finish();
+                                startActivity(main_intent);
+
+                            }
+                        });
 
                     } else{
 

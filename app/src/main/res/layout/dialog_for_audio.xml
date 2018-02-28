@@ -10,6 +10,7 @@
         android:id="@+id/post_answer_seekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:progressDrawable="@drawable/custom_progress"
         android:layout_above="@+id/postanswer_record_layout"
         />
 

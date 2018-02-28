@@ -5,6 +5,7 @@ import android.Manifest;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,7 +41,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.nex3z.notificationbadge.NotificationBadge;
+//import com.nex3z.notificationbadge.NotificationBadge;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.zillion.nabeel.postandcommenttutorial.BootCompleteReceiver;
+import com.zillion.nabeel.postandcommenttutorial.MyFirebaseMessagingService;
 import com.zillion.nabeel.postandcommenttutorial.R;
 import com.zillion.nabeel.postandcommenttutorial.ui.adapter.ViewPagerAdapter;
 import com.zillion.nabeel.postandcommenttutorial.ui.activities.RegisterActivities.RegisterActivity;
@@ -115,6 +119,12 @@ public class MainActivity extends BaseActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        startService(new Intent(getBaseContext(), MyFirebaseMessagingService.class));
+
+        ComponentName rec = new ComponentName(MainActivity.this, BootCompleteReceiver.class);
+        PackageManager pm = getPackageManager();
+        pm.setComponentEnabledSetting(rec, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -150,6 +160,7 @@ public class MainActivity extends BaseActivity
 
         }*/
 
+//        FirebaseMessaging.getInstance().subscribeToTopic("ABC");
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);

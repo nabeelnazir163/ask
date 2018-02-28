@@ -61,8 +61,6 @@ public class fragment_userSearch extends Fragment {
         mUsersList = new ArrayList<>();
         mAdapter = new UserListAdapter(getContext() , R.layout.layout_user_listenitem, mUsersList);
 
-        mAdapter.notifyDataSetChanged();
-
         hideSoftkeyboard();
         initTextListener();
 
@@ -89,6 +87,7 @@ public class fragment_userSearch extends Fragment {
 
     private void updateUsersListview(){
 
+        mAdapter.notifyDataSetChanged();
         mListview.setAdapter(mAdapter);
 
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

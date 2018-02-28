@@ -202,6 +202,7 @@ public class homeFragment extends Fragment {
                         if(photo_url != null) {
 
                              Glide.with(getActivity()).load(photo_url).into(m_current_user_display_image);
+//                            Toast.makeText(getContext(), "Image  : " + photo_url, Toast.LENGTH_SHORT).show();
                         }
                         m_current_user_display_name.setText(name);
 

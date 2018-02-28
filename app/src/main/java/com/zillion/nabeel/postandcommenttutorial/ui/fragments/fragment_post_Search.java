@@ -63,7 +63,7 @@ public class fragment_post_Search extends Fragment {
 
         mAdapter = new PostListadapter(getContext() , R.layout.layout_post_listenitem, mPostList);
 
-        mAdapter.notifyDataSetChanged();
+//        mAdapter.notifyDataSetChanged();
 
         mListview = (ListView) mRootview.findViewById(R.id.listview_search_Activity_post);
         mSearchParams = (EditText) mRootview.findViewById(R.id.search);
@@ -226,6 +226,7 @@ public class fragment_post_Search extends Fragment {
 
     private void updatePostListview(final Post model){
 
+        mAdapter.notifyDataSetChanged();
         mListview.setAdapter(mAdapter);
 
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

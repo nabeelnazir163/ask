@@ -82,8 +82,7 @@ public class SignupScreen_For_User extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_screen__for__user);
 
-
-        /**
+        /*
          * getting the fcm token here
          */
         token = FirebaseInstanceId.getInstance().getToken();
@@ -303,7 +302,6 @@ public class SignupScreen_For_User extends BaseActivity {
                     if(task.isSuccessful()){
 
                         FirebaseUtils.getUserRef(email).child("name").setValue(mNameFieldUser);
-                        FirebaseUtils.getUserRef(email).child("email").setValue(FirebaseUtils.getCurrentUser().getEmail());
                         FirebaseUtils.getUserRef(email).child("gender").setValue(select_gender_user);
                         FirebaseUtils.getUserRef(email).child("phone").setValue(phonenumberUser);
                         FirebaseUtils.getUserRef(email).child("country").setValue(countryname_user);
@@ -343,19 +341,25 @@ public class SignupScreen_For_User extends BaseActivity {
 
                         }
 
+                        FirebaseUtils.getUserRef(email).child("email").setValue(FirebaseUtils.getCurrentUser().getEmail()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
 
-                        progressDialog.dismiss();
+                                progressDialog.dismiss();
 
-                        userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
-                        userType_sh_editor = userType_sp.edit();
+                                userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
+                                userType_sh_editor = userType_sp.edit();
 
-                        userType_sh_editor.putInt("UserType", 2);
-                        userType_sh_editor.apply();
+                                userType_sh_editor.putInt("UserType", 2);
+                                userType_sh_editor.apply();
 
-                        Intent main_intent = new Intent(SignupScreen_For_User.this , MainActivity.class);
-                        main_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        finish();
-                        startActivity(main_intent);
+                                Intent main_intent = new Intent(SignupScreen_For_User.this , MainActivity.class);
+                                main_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                finish();
+                                startActivity(main_intent);
+
+                            }
+                        });
 
                     } else{
 

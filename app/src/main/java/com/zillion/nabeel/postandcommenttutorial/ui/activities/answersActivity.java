@@ -2,44 +2,28 @@ package com.zillion.nabeel.postandcommenttutorial.ui.activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.MediaRecorder;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.StrictMode;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.zillion.nabeel.postandcommenttutorial.R;
 import com.zillion.nabeel.postandcommenttutorial.models.Answer;
 import com.zillion.nabeel.postandcommenttutorial.models.Post;
-import com.zillion.nabeel.postandcommenttutorial.models.User;
-import com.zillion.nabeel.postandcommenttutorial.ui.activities.RegisterActivities.RegisterActivity;
-import com.zillion.nabeel.postandcommenttutorial.ui.fragments.homeFragment;
 import com.zillion.nabeel.postandcommenttutorial.utils.BaseActivity;
 import com.zillion.nabeel.postandcommenttutorial.utils.Constants;
 import com.zillion.nabeel.postandcommenttutorial.utils.FirebaseUtils;
@@ -56,17 +40,7 @@ import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
-import org.w3c.dom.Text;
-
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Scanner;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class answersActivity extends BaseActivity{
@@ -82,6 +56,8 @@ public class answersActivity extends BaseActivity{
     private String name;
     CircleImageView userImage;
     TextView username;
+
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,11 +85,24 @@ public class answersActivity extends BaseActivity{
         FirebaseUtils.getUserRef(mPost.getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String image = dataSnapshot.child("image").getValue().toString();
-                String name = dataSnapshot.child("name").getValue().toString();
 
-                username.setText(name);
-                Glide.with(answersActivity.this).load(image).into(userImage);
+                String image;
+                String name;
+
+                if(dataSnapshot.hasChild("image")) {
+
+                    image = dataSnapshot.child("image").getValue().toString();
+                    Glide.with(answersActivity.this).load(image).into(userImage);
+
+                }
+
+                if(dataSnapshot.hasChild("name")) {
+
+                    name = dataSnapshot.child("name").getValue().toString();
+                    username.setText(name);
+
+                }
+
             }
 
             @Override
@@ -161,17 +150,19 @@ public class answersActivity extends BaseActivity{
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        image_url = dataSnapshot.child("image").getValue().toString();
-                        name = dataSnapshot.child("name").getValue().toString();
-
-                        if(!TextUtils.isEmpty(name)){
-                            viewHolder.setanswerUsername(name);
+                        if(dataSnapshot.hasChild("image")) {
+                            image_url = dataSnapshot.child("image").getValue().toString();
+                            if (!TextUtils.isEmpty(image_url)) {
+                                Glide.with(answersActivity.this)
+                                        .load(image_url)
+                                        .into(viewHolder.AnswerOwnerDisplay);
+                            }
                         }
-
-                        if (!TextUtils.isEmpty(image_url)) {
-                            Glide.with(answersActivity.this)
-                                    .load(image_url)
-                                    .into(viewHolder.AnswerOwnerDisplay);
+                        if(dataSnapshot.hasChild("name")) {
+                            name = dataSnapshot.child("name").getValue().toString();
+                            if(!TextUtils.isEmpty(name)){
+                                viewHolder.setanswerUsername(name);
+                            }
                         }
 
                     }
@@ -190,30 +181,32 @@ public class answersActivity extends BaseActivity{
                     @Override
                     public void onClick(final View view) {
 
-                        final LinearLayout edittext_layout = (LinearLayout) findViewById(R.id.edittext_layout);
-                        final EditText answer_Edittext = (EditText) findViewById(R.id.edittext_answer);
-                        TextView done = (TextView) findViewById(R.id.done_textview);
+                        viewHolder.editAnswer_dialog = new Dialog(answersActivity.this, android.R.style.Widget_PopupWindow);
+                        viewHolder.editAnswer_dialog.setTitle("Edit Answer");
+                        viewHolder.editAnswer_dialog.setCancelable(true);
+                        viewHolder.editAnswer_dialog.setContentView(R.layout.editdialog);
 
-                        edittext_layout.setVisibility(View.VISIBLE);
-                        answer_Edittext.setText(model.getAnswer());
-                        viewHolder.AnswerTextView.setVisibility(View.GONE);
+                        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
 
-                        /*FirebaseUtils.getAnswerLikedRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                                .child(mPost.getPostId()).addValueEventListener(new ValueEventListener() {
+                        lp.copyFrom(viewHolder.editAnswer_dialog.getWindow().getAttributes());
+                        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                        viewHolder.editAnswer_dialog.setCancelable(true);
+                        viewHolder.editAnswer_dialog.show();
+                        viewHolder.editAnswer_dialog.getWindow().setAttributes(lp);
+
+                        final EditText answer_Edittext = (EditText) viewHolder.editAnswer_dialog.findViewById(R.id.edittext_answer);
+                        TextView done = (TextView) viewHolder.editAnswer_dialog.findViewById(R.id.done_textview);
+                        TextView cancel = (TextView) viewHolder.editAnswer_dialog.findViewById(R.id.cancel_textview);
+
+                        cancel.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                if(dataSnapshot.hasChild(model.getanswerId())){
+                            public void onClick(View view) {
 
-                                    viewHolder.LikeAnswer_iv.setText(R.string.Downvote);
-
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                                viewHolder.editAnswer_dialog.dismiss();
 
                             }
-                        });*/
+                        });
 
                         done.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -221,19 +214,30 @@ public class answersActivity extends BaseActivity{
 
                                 String update = answer_Edittext.getText().toString();
 
+                                if(!TextUtils.isEmpty(update)) {
+                                    FirebaseUtils.getAnswerRef()
+                                            .child(mPost.getPostId())
+                                            .child(model.getAnswerId())
+                                            .child("answer")
+                                            .setValue(update).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
 
-                                FirebaseUtils.getAnswerRef()
-                                        .child(mPost.getPostId())
-                                        .child(model.getAnswerId())
-                                        .child("answer")
-                                        .setValue(update);
+                                            viewHolder.editAnswer_dialog.dismiss();
 
-                                edittext_layout.setVisibility(View.GONE);
-                                viewHolder.AnswerTextView.setVisibility(View.VISIBLE);
+                                        }
+                                    });
+                                } else {
+
+                                    Toast.makeText(answersActivity.this, "Enter some text", Toast.LENGTH_SHORT).show();
+
+                                }
+
+//                                edittext_layout.setVisibility(View.GONE);
+//                                viewHolder.AnswerTextView.setVisibility(View.VISIBLE);
 
                             }
                         });
-
                     }
                 });
 
@@ -312,7 +316,19 @@ public class answersActivity extends BaseActivity{
                    }
                });
 
+               viewHolder.stop_audio.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View view) {
 
+                       if(mediaPlayer.isPlaying()){
+
+                           mediaPlayer.stop();
+                           viewHolder.playaudio.setVisibility(View.VISIBLE);
+                           viewHolder.stop_audio.setVisibility(View.GONE);
+                       }
+
+                   }
+               });
 
                viewHolder.playaudio.setOnClickListener(new View.OnClickListener() {
                    @Override
@@ -326,7 +342,7 @@ public class answersActivity extends BaseActivity{
                            @Override
                            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                               MediaPlayer mediaPlayer;
+
 
                                String audiochild = (String) dataSnapshot.child("audio").getValue();
 
@@ -339,6 +355,22 @@ public class answersActivity extends BaseActivity{
                                    mediaPlayer.prepare();
                                    mediaPlayer.start();
 
+                                   mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                       @Override
+                                       public void onCompletion(MediaPlayer mediaPlayer) {
+
+                                               viewHolder.stop_audio.setVisibility(View.GONE);
+                                               viewHolder.playaudio.setVisibility(View.VISIBLE);
+                                           
+                                       }
+                                   });
+
+                                   if(mediaPlayer.isPlaying()){
+
+                                       viewHolder.stop_audio.setVisibility(View.VISIBLE);
+                                       viewHolder.playaudio.setVisibility(View.GONE);
+
+                                   }
 //                                   if(mediaPlayer.isPlaying()){
 //
 //                                       viewHolder.playaudio.setImageResource(R.drawable.ic_stop_black_24dp);
@@ -422,7 +454,7 @@ public class answersActivity extends BaseActivity{
                                             v.LikeAnswer_iv.setClickable(true);
 //                                            v.LikeAnswer_iv.setText(R.string.Downvote);
 
-                                            /**
+                                            /*
                                              * Send Notification here
                                              */
 
@@ -460,7 +492,7 @@ public class answersActivity extends BaseActivity{
                                             });
 
 
-                                            /**
+                                            /*
                                              * Notification work ends here
                                              */
                                         }
@@ -909,12 +941,16 @@ public class answersActivity extends BaseActivity{
         TextView timeTextView;
         TextView AnswerTextView;
         ImageView playaudio;
+        ImageView stop_audio;
         TextView LikeAnswer_iv;
         TextView LikeAnswer_tv;
 //        TextView unLikeAnswer_tv;
         ImageView edit_answer_iv;
         ImageView answerDispalyImageview;
         RelativeLayout readmore_rel_lay_answers_Activity;
+
+        //Dialog
+        Dialog editAnswer_dialog;
 
         public AnswerHolder(View itemView) {
 
@@ -928,6 +964,7 @@ public class answersActivity extends BaseActivity{
             timeTextView = (TextView) itemView.findViewById(R.id.tv_time_answer);
             AnswerTextView = (TextView) itemView.findViewById(R.id.tv_answer);
             playaudio = (ImageView) mView.findViewById(R.id.fab_answer);
+            stop_audio = (ImageView) mView.findViewById(R.id.stop_recording_answer);
             LikeAnswer_iv = (TextView) mView.findViewById(R.id.iv_like_answer);
             LikeAnswer_tv = (TextView) mView.findViewById(R.id.tv_likes_answer);
 //            unLikeAnswer_tv = (TextView) mView.findViewById(R.id.iv_unlike_answer);

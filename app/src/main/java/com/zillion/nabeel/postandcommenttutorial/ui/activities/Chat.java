@@ -1,47 +1,25 @@
 package com.zillion.nabeel.postandcommenttutorial.ui.activities;
 
-/**
- * Created by Nabeel on 10/28/2017.
- */
-
 import android.app.ProgressDialog;
-import android.os.AsyncTask;
-import android.os.StrictMode;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.zillion.nabeel.postandcommenttutorial.R;
-import com.zillion.nabeel.postandcommenttutorial.ui.fragments.homeFragment;
 import com.zillion.nabeel.postandcommenttutorial.utils.FirebaseUtils;
 import com.zillion.nabeel.postandcommenttutorial.utils.sendNotification;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
 
 public class Chat extends AppCompatActivity {
     LinearLayout layout;
@@ -80,13 +58,6 @@ public class Chat extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         }
-
-/*
-        layout = (LinearLayout)findViewById(R.id.layout1);
-        sendButton = (ImageView)findViewById(R.id.sendButton);
-        messageArea = (EditText)findViewById(R.id.messageArea);
-        scrollView = (ScrollView)findViewById(R.id.scrollView);
-*/
 
         textView = (TextView)findViewById(R.id.text_message_left);
         textview_right = (TextView) findViewById(R.id.text_message_right);
@@ -193,11 +164,7 @@ public class Chat extends AppCompatActivity {
             }
         });
 
-//        Firebase.setAndroidContext(this);
-//        reference1 = new Firebase("https://androidchatapp-76776.firebaseio.com/messages/" + UserDetails.username + "_" + UserDetails.chatWith);
-//        reference2 = new Firebase("https://androidchatapp-76776.firebaseio.com/messages/" + UserDetails.chatWith + "_" + UserDetails.username);
-
-     /*   firebaseDatabase1 = FirebaseDatabase.getInstance().getReference().child("message")
+/*        firebaseDatabase1 = FirebaseDatabase.getInstance().getReference().child("message")
                 .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).child(chatWithEmail.replace(".",","));
         firebaseDatabase2 = FirebaseDatabase.getInstance().getReference().child("message")
                 .child(chatWithEmail.replace(".",",")).child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","));
@@ -270,24 +237,24 @@ public class Chat extends AppCompatActivity {
 
     }
 
-//    public void addMessageBox(String message, int type){
-//        TextView textView = new TextView(Chat.this);
-//        textView.setPadding(15,15,15,15);
-//        textView.setText(message);
-//
-//        LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        lp2.weight = 1.0f;
-//
-//        if(type == 1) {
-//            lp2.gravity = Gravity.RIGHT;
-//        }
-//        else{
-//            lp2.gravity = Gravity.LEFT;
-//        }
-//        textView.setLayoutParams(lp2);
-//        layout.addView(textView);
-//        scrollView.fullScroll(View.FOCUS_DOWN);
-//    }
+    /*public void addMessageBox(String message, int type){
+        TextView textView = new TextView(Chat.this);
+        textView.setPadding(15,15,15,15);
+        textView.setText(message);
+
+        LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp2.weight = 1.0f;
+
+        if(type == 1) {
+            lp2.gravity = Gravity.RIGHT;
+        }
+        else{
+            lp2.gravity = Gravity.LEFT;
+        }
+        textView.setLayoutParams(lp2);
+        layout.addView(textView);
+        scrollView.fullScroll(View.FOCUS_DOWN);
+    }*/
 
     private void send_Message() {
 
@@ -371,82 +338,6 @@ public class Chat extends AppCompatActivity {
 
     }
 
-
-//    private void sendNotification(final String cu_user) {
-//        AsyncTask.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                int SDK_INT = android.os.Build.VERSION.SDK_INT;
-//                if (SDK_INT > 8) {
-//                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-//                            .permitAll().build();
-//                    StrictMode.setThreadPolicy(policy);
-//
-//                    String send_email;
-//
-//                    send_email = chatWithEmail;
-//
-//                    //String user_name = homeFragment.login_user_name;
-//
-////                    Toast.makeText(getApplicationContext() , "e" , Toast.LENGTH_LONG).show();
-//
-//                    Log.d("AppInfo", "Checking");
-//
-//                    try {
-//
-//
-//                        String jsonResponse;
-//
-//                        URL url = new URL("https://onesignal.com/api/v1/notifications");
-//                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-//                        con.setUseCaches(false);
-//                        con.setDoOutput(true);
-//                        con.setDoInput(true);
-//
-//                        con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-//                        con.setRequestProperty("Authorization", "Basic NTgxNWU0OTItMmIxZS00OWM5LWJhYWEtN2NhZGViNTg1OTFk");
-//                        con.setRequestMethod("POST");
-//
-//                        String strJsonBody = "{"
-//                                + "\"app_id\": \"989e3989-b3e5-46e5-9cf9-8dae56df8bec\","
-//
-//                                + "\"filters\": [{\"field\": \"tag\", \"key\": \"User_ID\", \"relation\": \"=\", \"value\": \"" + send_email + "\"}],"
-//
-//                                + "\"data\": {\"foo\": \"bar\"},"
-//                                + "\"contents\": {\"en\":\"" + cu_user + " Send You a message\"}"
-//                                + "}";
-//
-//
-//                        System.out.println("strJsonBody:\n" + strJsonBody);
-//
-//                        byte[] sendBytes = strJsonBody.getBytes("UTF-8");
-//                        con.setFixedLengthStreamingMode(sendBytes.length);
-//
-//                        OutputStream outputStream = con.getOutputStream();
-//                        outputStream.write(sendBytes);
-//
-//                        int httpResponse = con.getResponseCode();
-//                        System.out.println("httpResponse: " + httpResponse);
-//
-//                        if (httpResponse >= HttpURLConnection.HTTP_OK
-//                                && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST) {
-//                            Scanner scanner = new Scanner(con.getInputStream(), "UTF-8");
-//                            jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
-//                            scanner.close();
-//                        } else {
-//                            Scanner scanner = new Scanner(con.getErrorStream(), "UTF-8");
-//                            jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
-//                            scanner.close();
-//                        }
-//                        System.out.println("jsonResponse:\n" + jsonResponse);
-//
-//                    } catch (Throwable t) {
-//                        t.printStackTrace();
-//                    }
-//                }
-//            }
-//        });
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

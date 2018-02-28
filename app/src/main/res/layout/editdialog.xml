@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/edittext_layout"
+    android:layout_margin="8dp"
+    android:background="@drawable/viewallanswers_bg"
+    >
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edittext_answer"
+        android:padding="8sp"
+        android:background="@drawable/input_background"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="20dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:layout_weight="0.5"
+            android:id="@+id/cancel_textview"
+            android:gravity="center_horizontal"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Done"
+            android:layout_weight="0.5"
+            android:id="@+id/done_textview"
+            android:gravity="center_horizontal"
+            android:padding="8sp"
+            android:textColor="@color/white"
+            android:background="@drawable/background_ask_button"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -86,7 +86,9 @@ public class search_user_for_newMessage extends AppCompatActivity {
 
         mListview.setVisibility(View.VISIBLE);
         mAdapter = new UserListAdapter(this , R.layout.layout_user_listenitem, mUsersList);
+        mAdapter.notifyDataSetChanged();
 
+        mAdapter.notifyDataSetChanged();
         mListview.setAdapter(mAdapter);
 
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

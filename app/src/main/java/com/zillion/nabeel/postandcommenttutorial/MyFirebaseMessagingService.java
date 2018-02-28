@@ -57,4 +57,30 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0,notificationBuilder.build());
     }
+
+    /*
+     @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
+        return START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+
+        super.onDestroy();
+        Toast.makeText(this, "Service Destroy", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public IBinder onBind(Intent arg0) {
+        return null;
+    }
+     */
 }
