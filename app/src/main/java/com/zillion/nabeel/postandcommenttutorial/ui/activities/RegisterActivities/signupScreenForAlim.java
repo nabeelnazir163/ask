@@ -461,93 +461,94 @@ public class signupScreenForAlim extends BaseActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
 
 
-                    StorageReference certificates_filepath = mCertificate_stor_ref.child(certificate_image_uri.getLastPathSegment());
-
-                    certificates_filepath.putFile(certificate_image_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                            String download_certicate_uri = taskSnapshot.getDownloadUrl().toString();
-                            FirebaseUtils.getUserRef(email).child("certificate").setValue(download_certicate_uri);
-                        }
-                    });
-
-
-                    StorageReference filepath = mSignup_Stor_ref.child(mImageUriAlim.getLastPathSegment());
-
-                    filepath.putFile(mImageUriAlim).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                            String downloaduri = taskSnapshot.getDownloadUrl().toString();
-                            FirebaseUtils.getUserRef(email).child("image").setValue(downloaduri);
-
-                        }
-                    });
-
-
                     if(task.isSuccessful()){
 
-                        FirebaseUtils.getUserRef(email).child("name").setValue(mNameFieldAlim);
-                        FirebaseUtils.getUserRef(email).child("gender").setValue(select_gender_alim);
-                        FirebaseUtils.getUserRef(email).child("phone").setValue(phonenumberAlim);
-                        FirebaseUtils.getUserRef(email).child("country").setValue(countryname_Alim);
-                        FirebaseUtils.getUserRef(email).child("fiqah").setValue(selected_fiqah);
-                        FirebaseUtils.getUserRef(email).child("userType").setValue("Alim");
-                        FirebaseUtils.getUserRef(email).child("qualification").setValue(qualification);
-                        if(wazaif_cb)
-                        {
-                            FirebaseUtils.getUserRef(email).child("wazaif").setValue(true);
-                        }
-                        if(khuwab_cb)
-                        {
-                            FirebaseUtils.getUserRef(email).child("khuwab").setValue(true);
-                        }
-                        if(istekhara_cb)
-                        {
-                            FirebaseUtils.getUserRef(email).child("istekhara").setValue(true);
-                        }
-                        FirebaseUtils.getUserRef(email).child("known_languages").setValue(final_language);
-                        FirebaseUtils.getUserRef(email).child("fcmtoken").setValue(token);
-                        FirebaseUtils.getUserRef(email).child("uid").setValue(FirebaseUtils.getCurrentUser().getUid());
+                        StorageReference certificates_filepath = mCertificate_stor_ref.child(certificate_image_uri.getLastPathSegment());
 
-                        if(!TextUtils.isEmpty(State_Alim)){
-
-                            FirebaseUtils.getUserRef(email).child("state").setValue(State_Alim);
-
-                        }
-
-                        if (!TextUtils.isEmpty(City_alim)){
-
-                            FirebaseUtils.getUserRef(email).child("city").setValue(City_alim);
-
-                        }
-
-                        if(!TextUtils.isEmpty(street_address_alim)){
-
-                            FirebaseUtils.getUserRef(email).child("address").setValue(street_address_alim);
-
-                        }
-
-                        FirebaseUtils.getUserRef(email).child("email").setValue(getCurrentUser().getEmail()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        certificates_filepath.putFile(certificate_image_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
-                            public void onSuccess(Void aVoid) {
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                                progressDialog.dismiss();
+                                String download_certicate_uri = taskSnapshot.getDownloadUrl().toString();
+                                FirebaseUtils.getUserRef(email).child("certificate").setValue(download_certicate_uri);
+                            }
+                        });
 
-                                userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
-                                userType_sh_editor = userType_sp.edit();
 
-                                userType_sh_editor.putInt("UserType", 1);
-                                userType_sh_editor.apply();
+                        StorageReference filepath = mSignup_Stor_ref.child(mImageUriAlim.getLastPathSegment());
 
-                                Intent main_intent = new Intent(signupScreenForAlim.this , MainActivity.class);
-                                main_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                finish();
-                                startActivity(main_intent);
+                        filepath.putFile(mImageUriAlim).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                String downloaduri = taskSnapshot.getDownloadUrl().toString();
+                                FirebaseUtils.getUserRef(email).child("image").setValue(downloaduri);
+
+                                FirebaseUtils.getUserRef(email).child("name").setValue(mNameFieldAlim);
+                                FirebaseUtils.getUserRef(email).child("gender").setValue(select_gender_alim);
+                                FirebaseUtils.getUserRef(email).child("phone").setValue(phonenumberAlim);
+                                FirebaseUtils.getUserRef(email).child("country").setValue(countryname_Alim);
+                                FirebaseUtils.getUserRef(email).child("fiqah").setValue(selected_fiqah);
+                                FirebaseUtils.getUserRef(email).child("userType").setValue("Alim");
+                                FirebaseUtils.getUserRef(email).child("qualification").setValue(qualification);
+                                if(wazaif_cb)
+                                {
+                                    FirebaseUtils.getUserRef(email).child("wazaif").setValue(true);
+                                }
+                                if(khuwab_cb)
+                                {
+                                    FirebaseUtils.getUserRef(email).child("khuwab").setValue(true);
+                                }
+                                if(istekhara_cb)
+                                {
+                                    FirebaseUtils.getUserRef(email).child("istekhara").setValue(true);
+                                }
+                                FirebaseUtils.getUserRef(email).child("known_languages").setValue(final_language);
+                                FirebaseUtils.getUserRef(email).child("fcmtoken").setValue(token);
+                                FirebaseUtils.getUserRef(email).child("uid").setValue(FirebaseUtils.getCurrentUser().getUid());
+
+                                if(!TextUtils.isEmpty(State_Alim)){
+
+                                    FirebaseUtils.getUserRef(email).child("state").setValue(State_Alim);
+
+                                }
+
+                                if (!TextUtils.isEmpty(City_alim)){
+
+                                    FirebaseUtils.getUserRef(email).child("city").setValue(City_alim);
+
+                                }
+
+                                if(!TextUtils.isEmpty(street_address_alim)){
+
+                                    FirebaseUtils.getUserRef(email).child("address").setValue(street_address_alim);
+
+                                }
+
+                                FirebaseUtils.getUserRef(email).child("email").setValue(getCurrentUser().getEmail()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+
+                                        progressDialog.dismiss();
+
+                                        userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
+                                        userType_sh_editor = userType_sp.edit();
+
+                                        userType_sh_editor.putInt("UserType", 1);
+                                        userType_sh_editor.apply();
+
+                                        Intent main_intent = new Intent(signupScreenForAlim.this , MainActivity.class);
+                                        main_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        finish();
+                                        startActivity(main_intent);
+
+                                    }
+                                });
+
 
                             }
                         });
+
 
                     } else{
 

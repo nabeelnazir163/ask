@@ -12,19 +12,35 @@
         android:layout_margin="5dp"
         >
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="0dp"
+            android:layout_weight="0.15"
+            android:layout_height="50dp"
             android:src="@drawable/facebook"
             android:id="@+id/notification_iv"
             />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.7"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            android:text="@string/date_of_birth"
             android:id="@+id/notification_to_display"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.15"
+            android:layout_gravity="center"
+            android:text="@string/time"
+            android:id="@+id/notification_time"
+            android:textSize="12sp"
             />
 
     </LinearLayout>

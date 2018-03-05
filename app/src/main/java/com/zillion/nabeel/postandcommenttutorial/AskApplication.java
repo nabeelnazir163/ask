@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
-import android.widget.Toast;
-
 import com.zillion.nabeel.postandcommenttutorial.NotificationReceiever.Notification_receiver_hadees;
 import com.zillion.nabeel.postandcommenttutorial.NotificationReceiever.Notification_receiver_hijriEvent;
 import com.zillion.nabeel.postandcommenttutorial.NotificationReceiever.Notification_receiver_prayerTime;
@@ -20,15 +18,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.OkHttpDownloader;
-import com.squareup.picasso.Picasso;
-
 import java.util.Calendar;
 import java.util.Date;
-
-/**
- * Created by brad on 2017/02/05.
- */
 
 public class AskApplication extends Application {
 
@@ -84,7 +75,7 @@ public class AskApplication extends Application {
         unAnsweredQuestionPrefs = getSharedPreferences(UNANSWERED_QUES_PREFS, 0);
         unAnsweredState = unAnsweredQuestionPrefs.getBoolean("unAnsweredQues", false);
 
-        if (hadeesState == true) {
+        if (hadeesState) {
 
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 18);
@@ -101,7 +92,7 @@ public class AskApplication extends Application {
 
         }
 
-        if (calState == true) {
+        if (calState) {
 
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 18);
@@ -115,7 +106,7 @@ public class AskApplication extends Application {
 
         }
 
-        if (prayertimeState == true) {
+        if (prayertimeState) {
 
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 18);
@@ -129,7 +120,7 @@ public class AskApplication extends Application {
 
         }
 
-        if (unAnsweredState == true) {
+        if (unAnsweredState) {
 
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 18);
@@ -158,7 +149,9 @@ public class AskApplication extends Application {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-                            String userType = dataSnapshot.child("userType").getValue().toString();
+                            if (dataSnapshot.hasChild("userType")){
+
+                                String userType = dataSnapshot.child("userType").getValue().toString();
 
                             if (userType.equals("Alim")) {
 
@@ -172,6 +165,7 @@ public class AskApplication extends Application {
 
                             }
                         }
+                    }
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {

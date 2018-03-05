@@ -45,17 +45,50 @@
                 android:onClick="goToInbox"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-
                 android:background="@drawable/chatinbox" />
         </RelativeLayout>
 
         <TextView
             android:visibility="gone"
-            android:id="@+id/badge_notification_2"
+            android:id="@+id/message_badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_alignRight="@id/relative_layout_item_count1"
+            android:background="@android:drawable/ic_notification_overlay"
+            android:text=""
+            android:textColor="#FFF"
+            android:textSize="9sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/badge_layout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/badge_layout2">
+
+        <RelativeLayout
+            android:id="@+id/relative_layout_item_count2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/button3"
+                android:onClick="gotoNotification"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/password_lock" />
+        </RelativeLayout>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/notification_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_alignRight="@id/relative_layout_item_count2"
             android:background="@android:drawable/ic_notification_overlay"
             android:text=""
             android:textColor="#FFF"

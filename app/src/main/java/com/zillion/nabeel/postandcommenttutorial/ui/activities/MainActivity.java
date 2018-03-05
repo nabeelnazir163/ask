@@ -42,6 +42,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 //import com.nex3z.notificationbadge.NotificationBadge;
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.zillion.nabeel.postandcommenttutorial.BootCompleteReceiver;
 import com.zillion.nabeel.postandcommenttutorial.MyFirebaseMessagingService;
@@ -103,7 +105,8 @@ public class MainActivity extends BaseActivity
 
     SharedPreferences.Editor Hadeeseditor , CalEditor , PrayerTimeEditor , unAnsQuesEditor;
 
-    TextView tv;
+    TextView messagetv;
+    public static TextView notification_tv;
 //    NotificationManager notificationManager;
 //    private static NotificationBadge mBadge;
     int Count = 0;
@@ -185,12 +188,17 @@ public class MainActivity extends BaseActivity
             viewPagerAdapter.addFragments(new bookmarkFragment(), "Bookmarks");
             viewPagerAdapter.addFragments(new unAnsweredFragment(), "Unanswered");
             viewPagerAdapter.addFragments(new Followers(), "Following");
+
+
         } else if(userType == 2) {
+
             viewPagerAdapter.addFragments(new bookmarkFragment(), "Bookmarks");
            // viewPagerAdapter.addFragments(new NotificationFrag(), "Notification");
             viewPagerAdapter.addFragments(new Followers(), "Following");
             tabLayout.setTabMode(TabLayout.MODE_FIXED);
+
         } else if (userType == 3){
+
             tabLayout.setTabMode(TabLayout.MODE_FIXED);
         }
         viewPager.setAdapter(viewPagerAdapter);
@@ -548,8 +556,8 @@ public class MainActivity extends BaseActivity
             Toast.makeText(MainActivity.this, "You have to purchase our app in order to use this feature", Toast.LENGTH_SHORT).show();
         } else {
             startActivity(new Intent(MainActivity.this, inbox.class));
-            tv.setText(""+0);
-            tv.setVisibility(View.GONE);
+            messagetv.setText(""+0);
+            messagetv.setVisibility(View.GONE);
         }
 
     }
@@ -558,6 +566,15 @@ public class MainActivity extends BaseActivity
     public void goTosearch(View v){
 
         startActivity(new Intent(MainActivity.this , SearchWithTabbedActivity.class));
+
+    }
+
+    public void gotoNotification(View v){
+
+        startActivity(new Intent(MainActivity.this, Notification.class));
+        notification_tv.setText(""+0);
+        notification_tv.setVisibility(View.GONE);
+
 
     }
     @Override
@@ -571,9 +588,13 @@ public class MainActivity extends BaseActivity
         MenuItemCompat.setActionView(item1, R.layout.notification_update_count_layout);
         notificationCount1 = (RelativeLayout) MenuItemCompat.getActionView(item1);
 
-        tv = notificationCount1.findViewById(R.id.badge_notification_2);
-        tv.setVisibility(View.VISIBLE);
-        tv.setText(""+3);
+        messagetv = notificationCount1.findViewById(R.id.message_badge);
+        messagetv.setVisibility(View.VISIBLE);
+        messagetv.setText(""+3);
+
+        notification_tv = notificationCount1.findViewById(R.id.notification_badge);
+        notification_tv.setVisibility(View.VISIBLE);
+        notification_tv.setText(""+2);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -646,9 +667,38 @@ public class MainActivity extends BaseActivity
         } else if( id == R.id.logout){
 
             if(userType != 3){
-                mAuth.signOut();
-                startActivity(new Intent(MainActivity.this , RegisterActivity.class));
-                finish();
+                FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.hasChild("fcmtoken")){
+
+                            FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                                    .child("fcmtoken").removeValue();
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                AuthUI.getInstance()
+                        .signOut(this)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+
+                                finish();
+                                startActivity(new Intent(MainActivity.this , RegisterActivity.class));
+
+                            }
+                        });
+//                mAuth.signOut();
+
+
+
             }else if(userType == 3){
 
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

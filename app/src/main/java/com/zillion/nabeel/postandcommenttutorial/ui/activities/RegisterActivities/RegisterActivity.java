@@ -481,7 +481,7 @@ public class RegisterActivity extends BaseActivity{
 
                     } else {
                         progressDialog.dismiss();
-                        Toast.makeText(RegisterActivity.this, "Email or Password Not found, Please Try Again", Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this, "Wrong Email or Password, Please Try Again", Toast.LENGTH_LONG).show();
                         mAuth.signOut();
                     }
                 }
@@ -489,9 +489,9 @@ public class RegisterActivity extends BaseActivity{
                 @Override
                 public void onFailure(@NonNull Exception e) {
 
-                    Toast.makeText(RegisterActivity.this, "Check your internet connection and try again later", Toast.LENGTH_LONG).show();
-                    mAuth.signOut();
-                    progressDialog.dismiss();
+//                    Toast.makeText(RegisterActivity.this, "Check your internet connection and try again later", Toast.LENGTH_LONG).show();
+//                    mAuth.signOut();
+//                    progressDialog.dismiss();
 
                 }
             });

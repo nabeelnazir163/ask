@@ -10,6 +10,9 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.zillion.nabeel.postandcommenttutorial.ui.activities.MainActivity;
 import com.zillion.nabeel.postandcommenttutorial.ui.activities.PostActivity;
 import com.zillion.nabeel.postandcommenttutorial.ui.activities.inbox;
@@ -17,6 +20,7 @@ import com.zillion.nabeel.postandcommenttutorial.ui.fragments.homeFragment;
 import com.zillion.nabeel.postandcommenttutorial.utils.Constants;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.zillion.nabeel.postandcommenttutorial.utils.FirebaseUtils;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     Intent intent;
@@ -56,6 +60,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationBuilder.setContentIntent(pendingIntent);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0,notificationBuilder.build());
+
+//        FirebaseUtils.getNotificationRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+//                .addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        long count = dataSnapshot.getChildrenCount();
+//                        MainActivity.notification_tv.setText((int) count);
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//
+//                    }
+//                });
     }
 
     /*

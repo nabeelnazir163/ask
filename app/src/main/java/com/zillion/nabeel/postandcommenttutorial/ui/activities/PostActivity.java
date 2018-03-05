@@ -1,6 +1,5 @@
 package com.zillion.nabeel.postandcommenttutorial.ui.activities;
 
-
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -66,7 +65,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
-
 public class PostActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String BUNDLE_COMMENT = "comment";
@@ -105,6 +103,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
     String Current_User;
     String Current_UserName;
+    String Current_UserImage;
     String FCM_token;
     PopupMenu popupMenu;
 
@@ -980,6 +979,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         progressDialog.setMessage("Sending comment..");
         progressDialog.setCancelable(true);
         progressDialog.setIndeterminate(true);
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
         mComment = new Comment();
 
@@ -1041,6 +1041,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                                                 @Override
                                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                                     Current_UserName = dataSnapshot.child("name").getValue().toString();
+                                                    Current_UserImage = dataSnapshot.child("image").getValue().toString();
 
                                                     FirebaseUtils.getPostRef().child(mPost.getPostId())
                                                             .addValueEventListener(new ValueEventListener() {
@@ -1054,6 +1055,12 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                                                                 public void onDataChange(DataSnapshot dataSnapshot) {
 
 //                                                                    Toast.makeText(PostActivity.this, email, Toast.LENGTH_SHORT).show();
+
+//                                                                    String pushId = FirebaseUtils.getUid();
+//                                                                    FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("name").setValue(Current_UserName);
+//                                                                    FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("notification").setValue("commented on your post");
+//                                                                    FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("time").setValue(System.currentTimeMillis());
+//                                                                    FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("image").setValue(Current_UserImage);
 
                                                                     if(dataSnapshot.hasChild("fcmtoken")) {
                                                                         FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();

@@ -1,10 +1,12 @@
 package com.zillion.nabeel.postandcommenttutorial.ui.activities;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,6 +16,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.zillion.nabeel.postandcommenttutorial.R;
 import com.zillion.nabeel.postandcommenttutorial.models.Notification_model;
+import com.zillion.nabeel.postandcommenttutorial.models.Post;
+import com.zillion.nabeel.postandcommenttutorial.utils.Constants;
 import com.zillion.nabeel.postandcommenttutorial.utils.FirebaseUtils;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -87,24 +91,36 @@ public class Notification extends AppCompatActivity {
             @Override
             protected void populateViewHolder(final Notification_holder viewHolder, final Notification_model model, int position) {
 
-                FirebaseUtils.getNotificationRef()
-                        .addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
+//                FirebaseUtils.getNotificationRef()
+//                        .addValueEventListener(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+                    viewHolder.setNotificationMesssage(model.getName() + " " + model.getNotification());
 
-                                viewHolder.setNotificationMesssage(model.getName() + " " + model.getNotification());
+                    Glide.with(Notification.this).load(model.getImage()).into(viewHolder.Notification_from_iv);
 
-                                Glide.with(Notification.this).load(model.getImageurl()).into(viewHolder.Notification_from_iv);
-
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
+                    viewHolder.Notification_time_tv.setText(DateUtils.getRelativeTimeSpanString(model.getTime()));
 
 
+                    viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent post_intent = new Intent(Notification.this, PostActivity.class);
+                        post_intent.putExtra(Constants.EXTRA_POST, model.getPost());
+                        startActivity(post_intent);
+
+                    }
+                    });
+
+
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(DatabaseError databaseError) {
+//
+//                            }
+//                        });
 
             }
         };
@@ -118,6 +134,7 @@ public class Notification extends AppCompatActivity {
 
         ImageView Notification_from_iv;
         TextView Notification_message_tv;
+        TextView Notification_time_tv;
 
         public Notification_holder(View itemView) {
             super(itemView);
@@ -126,6 +143,7 @@ public class Notification extends AppCompatActivity {
 
             Notification_from_iv = (ImageView) itemView.findViewById(R.id.notification_iv);
             Notification_message_tv = (TextView) itemView.findViewById(R.id.notification_to_display);
+            Notification_time_tv = (TextView) itemView.findViewById(R.id.notification_time);
 
         }
 

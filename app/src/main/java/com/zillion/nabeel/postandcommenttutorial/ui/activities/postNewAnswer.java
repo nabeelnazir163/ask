@@ -65,6 +65,7 @@ import java.util.Scanner;
 public class postNewAnswer extends AppCompatActivity implements View.OnClickListener {
 
     String Current_UserName,FCM_token;
+    String Current_userImage;
 
     Answer mAnswer;
     Post mPost;
@@ -442,30 +443,33 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
         progressDialog.setMessage("Sending Answer..");
         progressDialog.setCancelable(true);
         progressDialog.setIndeterminate(true);
+        progressDialog.setCanceledOnTouchOutside(false);
 
         mAnswer = new Answer();
 
-        FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".", ","))
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+        final String strAnswer = mAnswerEditText.getText().toString();
 
-
-//                        User user = dataSnapshot.getValue(User.class);
-                        final String uid = FirebaseUtils.getUid();
-                        String strAnswer = mAnswerEditText.getText().toString();
-
-                        if(strAnswer.length() >= 10){
+        if(strAnswer.length() >= 10) {
 
 //                        mAnswer.setUser(user);
 
-                        progressDialog.show();
+            progressDialog.show();
 
-                        mAnswer.setEmail(FirebaseUtils.getCurrentUser().getEmail());
-                        mAnswer.setAnswerId(uid);
-                        mAnswer.setAnswer(strAnswer);
-                        mAnswer.setNumLikes(0);
-                        mAnswer.setTimeCreated(System.currentTimeMillis());
+            FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".", ","))
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+//                        User user = dataSnapshot.getValue(User.class);
+                            final String uid = FirebaseUtils.getUid();
+
+
+                            mAnswer.setEmail(FirebaseUtils.getCurrentUser().getEmail());
+                            mAnswer.setAnswerId(uid);
+                            mAnswer.setAnswer(strAnswer);
+                            mAnswer.setNumLikes(0);
+                            mAnswer.setTimeCreated(System.currentTimeMillis());
 
                            /* Boolean isFirtanswer = getSharedPreferences("firstAnsPref", MODE_PRIVATE).getBoolean("isFirstAnswer", true);
 
@@ -500,35 +504,37 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                                 });*/
 //                            }
 
-                        if (mSelectedUri != null) {
-                            FirebaseUtils.getAnswerImageSRef()
-                                    .child(mSelectedUri.getLastPathSegment())
-                                    .putFile(mSelectedUri)
-                                    .addOnSuccessListener(
-                                            new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                                @Override
-                                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                    String url = Constants.ANSWER_IMAGES + "/" + mSelectedUri.getLastPathSegment();
+                            if (mSelectedUri != null) {
+                                FirebaseUtils.getAnswerImageSRef()
+                                        .child(mSelectedUri.getLastPathSegment())
+                                        .putFile(mSelectedUri)
+                                        .addOnSuccessListener(
+                                                new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                        String url = Constants.ANSWER_IMAGES + "/" + mSelectedUri.getLastPathSegment();
 //                                                    Toast.makeText(getApplicationContext(), url, Toast.LENGTH_SHORT).show();
-                                                    mAnswer.setAnswerImgUrl(url);
-                                                    addToMyPostList(uid);
-                                                }
-                                            });
-                        } else {
+                                                        mAnswer.setAnswerImgUrl(url);
+                                                        addToMyPostList(uid);
+                                                    }
+                                                });
+                            } else {
 
-                            addToMyPostList(uid);
+                                addToMyPostList(uid);
+                            }
+
+
                         }
 
-                    } else {
-                            Toast.makeText(postNewAnswer.this, "Your answer must have atleast 10 characters", Toast.LENGTH_LONG).show();
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(getApplicationContext(), "Error while answer", Toast.LENGTH_SHORT).show();
                         }
-                    }
+                    });
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Toast.makeText(getApplicationContext(), "Error while answer", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        } else {
+            Toast.makeText(postNewAnswer.this, "Your answer must have atleast 10 characters", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void addToMyPostList(String uid) {
@@ -606,16 +612,26 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             Current_UserName = dataSnapshot.child("name").getValue().toString();
+                                            Current_userImage = dataSnapshot.child("image").getValue().toString();
 
                                             FirebaseUtils.getPostRef().child(mPost.getPostId()).addValueEventListener(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                                    String email = dataSnapshot.child("email").getValue().toString();
+                                                    final String email = dataSnapshot.child("email").getValue().toString();
 
                                                     FirebaseUtils.getUserRef(email.replace(".",",")).addValueEventListener(new ValueEventListener() {
                                                         @Override
                                                         public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                            String pushId = FirebaseUtils.getUid();
+
+                                                            FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("name").setValue(Current_UserName);
+                                                            FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("notification").setValue("answered your post");
+                                                            FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("post").setValue(mPost);
+                                                            FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("time").setValue(System.currentTimeMillis());
+                                                            FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("image").setValue(Current_userImage);
+
 
                                                             if(dataSnapshot.hasChild("fcmtoken")) {
 

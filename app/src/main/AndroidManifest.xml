@@ -29,6 +29,19 @@
         android:roundIcon="@drawable/logo24x24"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <service android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <receiver android:name=".BootCompleteReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
         <meta-data
             android:name="android.app.searchable"
             android:resource="@xml/searchable" />
@@ -88,11 +101,7 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".MyFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+
 
         <activity android:screenOrientation="portrait" android:name=".ui.activities.UserProfile" />
         <activity android:screenOrientation="portrait" android:name=".ui.activities.Prayer_Time_Activity" />

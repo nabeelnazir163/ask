@@ -37,6 +37,7 @@ import com.bumptech.glide.Glide;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.zillion.nabeel.postandcommenttutorial.ui.activities.CreateNewPostActivity;
 import com.zillion.nabeel.postandcommenttutorial.R;
+import com.zillion.nabeel.postandcommenttutorial.ui.activities.MainActivity;
 import com.zillion.nabeel.postandcommenttutorial.ui.activities.PostActivity;
 import com.zillion.nabeel.postandcommenttutorial.ui.activities.UserProfile;
 import com.zillion.nabeel.postandcommenttutorial.models.Post;
@@ -69,9 +70,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class homeFragment extends Fragment {
     private View mRootVIew;
 
@@ -81,6 +79,7 @@ public class homeFragment extends Fragment {
 
 //    String Current_User;
 
+    String photo_url;
     private FirebaseAuth mAuth;
 
     private ImageView m_current_user_display_image;
@@ -148,6 +147,7 @@ public class homeFragment extends Fragment {
                     @Override
                     public void run() {
                         init();
+                        init_home();
                         mSwipeRef_home.setRefreshing(false);
                     }
                 },2000);
@@ -191,28 +191,31 @@ public class homeFragment extends Fragment {
 
             FirebaseUtils.getPostRef().keepSynced(true);
 
+            init_home();
 
-            FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".", ",")).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+            FirebaseUtils.getNotificationRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                .orderByChild("status")
+                .equalTo("seen")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        long count = dataSnapshot.getChildrenCount();
+                        if(count != 0) {
+                            MainActivity.notification_tv.setText(count + "");
+                        } else if(count == 0){
 
-                        String name = (String) dataSnapshot.child("name").getValue();
-                        String photo_url = (String) dataSnapshot.child("image").getValue();
+                            MainActivity.notification_tv.setVisibility(View.GONE);
 
-                        if(photo_url != null) {
-
-                             Glide.with(getActivity()).load(photo_url).into(m_current_user_display_image);
-//                            Toast.makeText(getContext(), "Image  : " + photo_url, Toast.LENGTH_SHORT).show();
                         }
-                        m_current_user_display_name.setText(name);
+//                            Toast.makeText(getContext(), (int) count, Toast.LENGTH_SHORT).show();
 
-                }
+                    }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
+                    }
+                });
 
         }
 
@@ -250,6 +253,39 @@ public class homeFragment extends Fragment {
         init();
 
         return mRootVIew;
+    }
+
+    private void init_home() {
+        FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".", ",")).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                String name = (String) dataSnapshot.child("name").getValue();
+                photo_url = dataSnapshot.child("image").getValue().toString();
+
+                if(!TextUtils.isEmpty(photo_url)) {
+
+                    Glide.with(m_current_user_display_image.getContext().getApplicationContext()).load(photo_url).into(m_current_user_display_image);
+//                    Toast.makeText(getContext(), photo_url, Toast.LENGTH_SHORT).show();
+                    Log.i("Imageurl", photo_url);
+                    Log.d("Imageurl", photo_url);
+                }else {
+
+                    Glide.with(getActivity()).load(photo_url).placeholder(R.drawable.facebook).into(m_current_user_display_image);
+
+                }
+                m_current_user_display_name.setText(name);
+
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 //    @Override
@@ -322,6 +358,7 @@ public class homeFragment extends Fragment {
 
 //                final String post_key = getRef(position).getKey();
 
+                ;
                 if(model == null){
                     mShimmerViewContainer.setVisibility(View.GONE);
                 }
@@ -374,8 +411,12 @@ public class homeFragment extends Fragment {
                         if( !TextUtils.isEmpty(name))
                         viewHolder.setUsername(name);
 
-                        if( !TextUtils.isEmpty(image_url))
-                        Glide.with(getActivity()).load(image_url).into(viewHolder.postOwnerDisplayImageView);
+                        if( !TextUtils.isEmpty(image_url)) {
+                            Glide.with(getContext()).load(image_url).into(viewHolder.postOwnerDisplayImageView);
+//                            Picasso.with(getActivity()).load(image_url).into(viewHolder.postOwnerDisplayImageView);
+//                            Toast.makeText(getActivity(), image_url, Toast.LENGTH_SHORT).show();
+                        }
+
                     }
 
                     @Override
