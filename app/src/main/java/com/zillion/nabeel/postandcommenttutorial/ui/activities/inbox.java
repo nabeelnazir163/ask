@@ -1,6 +1,8 @@
 package com.zillion.nabeel.postandcommenttutorial.ui.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,31 +20,36 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.zillion.nabeel.postandcommenttutorial.models.inbox_model;
-
 import com.zillion.nabeel.postandcommenttutorial.R;
-import com.zillion.nabeel.postandcommenttutorial.ui.adapter.UserListAdapter;
-import com.zillion.nabeel.postandcommenttutorial.ui.adapter.inbox_adapter;
+import com.zillion.nabeel.postandcommenttutorial.utils.BaseActivity;
 import com.zillion.nabeel.postandcommenttutorial.utils.FirebaseUtils;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 
 import java.util.ArrayList;
 
-public class inbox extends AppCompatActivity {
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class inbox extends BaseActivity {
 
 //    DatabaseReference mDatabase;
     TextView newMessage;
-    TextView viewSentMessages;
+
     TextView noNewMessage;
 
-    private inbox_adapter mAdapter;
+    private RecyclerView inboxRecyclerView;
 
-    ArrayList<inbox_model> inbox_array_message;
-    private RecyclerView commentRecyclerView;
+    //Database Reference
+    private DatabaseReference mConvDatabase;
+    private DatabaseReference mMessageDatabase;
+    private DatabaseReference mUsersDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,18 +57,19 @@ public class inbox extends AppCompatActivity {
         setContentView(R.layout.activity_inbox);
 
         newMessage = (TextView) findViewById(R.id.newMessageInbox);
-        viewSentMessages = (TextView) findViewById(R.id.sentMessageInbox);
         noNewMessage = (TextView) findViewById(R.id.no_new_msg);
 
 
-//        commentRecyclerView = (ListView) findViewById(R.id.inbox_rv);
-//        commentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-//        mLayoutManager.setReverseLayout(true);
-//        mLayoutManager.setStackFromEnd(true);
-//        commentRecyclerView.setLayoutManager(mLayoutManager);
+        mConvDatabase = FirebaseDatabase.getInstance().getReference().child("chat")
+                .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","));
+        mConvDatabase.keepSynced(true);
 
-//        inbox_array_message = new ArrayList<>();
+        mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("users");
+        mUsersDatabase.keepSynced(true);
+
+        mMessageDatabase = FirebaseDatabase.getInstance().getReference().child("messages")
+                .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","));
+        mMessageDatabase.keepSynced(true);
 
         newMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,21 +77,10 @@ public class inbox extends AppCompatActivity {
                 Intent intent = new Intent(inbox.this , search_user_for_newMessage.class);
                 intent.putExtra("askFor", "");
                 startActivity(intent);
-//                inbox_array_message.clear();
             }
         });
 
-//        mAdapter = new inbox_adapter(inbox.this, R.layout.row_inbox, inbox_array_message);
-
-//        mAdapter.notifyDataSetChanged();
-
-        viewSentMessages.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(inbox.this , sent_messages.class);
-                startActivity(intent);
-            }
-        });
+        loadChats();
 
         if(getSupportActionBar() != null){
 
@@ -97,214 +94,153 @@ public class inbox extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setTitle("Inbox");
 
-//        FirebaseDatabase.getInstance().getReference().child("message")
-//                .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//
-//                    for (final DataSnapshot singlesnap : snapshot.getChildren()) {
-//
-//                        if(!TextUtils.isEmpty(singlesnap.child("message").getValue().toString())){
-//
-//                            Toast.makeText(getApplicationContext(), ""+snapshot.getChildrenCount(), Toast.LENGTH_SHORT).show();
-//
-//                            commentRecyclerView.setVisibility(View.VISIBLE);
-//                            noNewMessage.setVisibility(View.GONE);
-//
-//                            if(singlesnap.getValue(inbox_model.class) != null) {
-//                                if(inbox_array_message.contains(singlesnap.child("Sender_name").getValue().toString())) {
-//                                    inbox_array_message.add(singlesnap.getValue(inbox_model.class));
-//                                }
-//                            }
-//                            commentRecyclerView.setAdapter(mAdapter);
-//
-//                            commentRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                                @Override
-//                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//                                    Intent chatintent = new Intent(inbox.this , Chat.class);
-//                                    chatintent.putExtra("emailforchat", singlesnap.child("sender_email").getValue().toString());
-//                                    chatintent.putExtra("image_url", singlesnap.child("sender_image_url").getValue().toString());
-//                                    startActivity(chatintent);
-//
-//                                }
-//                            });
-//
-////                                       viewHolder.setUsername(singlesnap.child("receiver_name").getValue().toString());
-////                                       viewHolder.setMessage(singlesnap.child("message").getValue().toString());
-////                                       Glide.with(inbox.this).load(singlesnap.child("sender_image_url").getValue().toString())
-////                                               .into(viewHolder.messageSenderImageView);
-////                                       viewHolder.setTime(DateUtils.getRelativeTimeSpanString(Long.parseLong(singlesnap.child("sending_timeStamp").getValue().toString())));
-//
-//                            /*viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View view) {
-//
-//                                    Intent chatintent = new Intent(inbox.this , Chat.class);
-//                                    chatintent.putExtra("emailforchat", singlesnap.child("sender_email").getValue().toString());
-//                                    chatintent.putExtra("image_url", singlesnap.child("sender_image_url").getValue().toString());
-//                                    startActivity(chatintent);
-//
-//                                }
-//                            });*/
-//
-//                        }  else {
-//                            commentRecyclerView.setVisibility(View.GONE);
-//                            noNewMessage.setVisibility(View.VISIBLE);
-//                        }
-//
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-
-        initinboxSection();
-
     }
 
-    private void initinboxSection() {
+    private void loadChats() {
 
-        commentRecyclerView = (RecyclerView) findViewById(R.id.inbox_rv);
-        commentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mLayoutManager.setReverseLayout(true);
-        mLayoutManager.setStackFromEnd(true);
-        commentRecyclerView.setLayoutManager(mLayoutManager);
+        inboxRecyclerView = (RecyclerView) findViewById(R.id.inbox_rv);
 
-        FirebaseRecyclerAdapter<inbox_model, inboxHolder> commentAdapter = new FirebaseRecyclerAdapter<inbox_model, inboxHolder>(
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+
+        inboxRecyclerView.setHasFixedSize(true);
+        inboxRecyclerView.setLayoutManager(linearLayoutManager);
+
+        Query conversationQuery = mConvDatabase.orderByChild("sending_timeStamp");
+
+        FirebaseRecyclerAdapter<inbox_model, inboxViewHolder> firebaseConadapter = new FirebaseRecyclerAdapter<inbox_model, inboxViewHolder>(
                 inbox_model.class,
                 R.layout.row_inbox,
-                inboxHolder.class,
-                FirebaseDatabase.getInstance().getReference().child("message")
-                        .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).child("inbox")
+                inboxViewHolder.class,
+                conversationQuery
+
         ) {
             @Override
-            protected void populateViewHolder(final inboxHolder viewHolder, final inbox_model model, int position) {
+            protected void populateViewHolder(final inboxViewHolder viewHolder, final inbox_model model, int i) {
 
-                  /*  FirebaseDatabase.getInstance().getReference().child("message")
-                            .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
+                final String list_user_email = getRef(i).getKey();
 
-                            for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                Query lastMessageQuery = mMessageDatabase.child(list_user_email.replace(".",",")).limitToLast(1);
 
-                                for (final DataSnapshot singlesnap : snapshot.getChildren()) {
+                lastMessageQuery.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                                   if(!TextUtils.isEmpty(singlesnap.child("message").getValue().toString())){
+                        String data = dataSnapshot.child("message").getValue().toString();
+                        long time = (long) dataSnapshot.child("sending_timeStamp").getValue();
 
-                                       commentRecyclerView.setVisibility(View.VISIBLE);
-                                       noNewMessage.setVisibility(View.GONE);
+                        viewHolder.setTime(time);
+                        viewHolder.setMessage(data, model.isSeen());
 
-                                       inbox_array_message.add(singlesnap.getValue(inbox_model.class));
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                mUsersDatabase.child(list_user_email).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        String username = dataSnapshot.child("name").getValue().toString();
+                        String userImage = dataSnapshot.child("image").getValue().toString();
 
 
-//                                       viewHolder.setUsername(singlesnap.child("receiver_name").getValue().toString());
-//                                       viewHolder.setMessage(singlesnap.child("message").getValue().toString());
-//                                       Glide.with(inbox.this).load(singlesnap.child("sender_image_url").getValue().toString())
-//                                               .into(viewHolder.messageSenderImageView);
-//                                       viewHolder.setTime(DateUtils.getRelativeTimeSpanString(Long.parseLong(singlesnap.child("sending_timeStamp").getValue().toString())));
+                        viewHolder.setName(username);
+                        viewHolder.setUserImage(userImage, getApplicationContext());
 
-                                       viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-                                           @Override
-                                           public void onClick(View view) {
+                    }
 
-                                               Intent chatintent = new Intent(inbox.this , Chat.class);
-                                               chatintent.putExtra("emailforchat", singlesnap.child("sender_email").getValue().toString());
-                                               chatintent.putExtra("image_url", singlesnap.child("sender_image_url").getValue().toString());
-                                               startActivity(chatintent);
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                                           }
-                                       });
+                    }
+                });
 
-                                   }  else {
-                                       commentRecyclerView.setVisibility(View.GONE);
-                                       noNewMessage.setVisibility(View.VISIBLE);
-                                   }
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
-                                }
-                            }
-                        }
+                        Intent chatintent = new Intent(inbox.this , Chat.class);
+                        chatintent.putExtra("emailforchat", list_user_email.replace(".",","));
+                        startActivity(chatintent);
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-*/
-                  if(model.getMessage() != null){
-                    commentRecyclerView.setVisibility(View.VISIBLE);
-                    noNewMessage.setVisibility(View.GONE);
-                    viewHolder.setUsername(model.getSender_name());
-                    viewHolder.setMessage(model.getMessage());
-                    viewHolder.setTime(DateUtils.getRelativeTimeSpanString(model.getSending_timeStamp()));
-
-                    Glide.with(getApplicationContext()).load(model.getSender_image_url()).into(viewHolder.messageSenderImageView);
-
-                    viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            Intent chatintent = new Intent(inbox.this , Chat.class);
-                            chatintent.putExtra("emailforchat", model.getSender_email());
-                            chatintent.putExtra("msg_id", model.getMessage_id());
-                            chatintent.putExtra("image_url", model.getSender_image_url());
-                            startActivity(chatintent);
-
-                        }
-                    });
-            } else if (model == null) {
-                    commentRecyclerView.setVisibility(View.GONE);
-                    noNewMessage.setVisibility(View.VISIBLE);
-                }
+                    }
+                });
 
             }
-
         };
 
-        commentRecyclerView.setAdapter(commentAdapter);
-
+        inboxRecyclerView.setAdapter(firebaseConadapter);
     }
 
-
-    public static class inboxHolder extends RecyclerView.ViewHolder {
+    public static class inboxViewHolder extends RecyclerView.ViewHolder{
 
         View mView;
 
-        ImageView messageSenderImageView;
-        TextView messageSenderusernameTextView;
-        TextView SendingtimeTextView;
-        TextView messageTextView;
-
-        public inboxHolder(View itemView) {
-
+        public inboxViewHolder(View itemView) {
             super(itemView);
 
             mView = itemView;
+        }
 
-            messageSenderImageView = (ImageView) itemView.findViewById(R.id.inbox_sender_imageview);
-            messageSenderusernameTextView = (TextView) itemView.findViewById(R.id.inbox_sender_name_tv);
-            SendingtimeTextView = (TextView) itemView.findViewById(R.id.inbox_timestamp);
-            messageTextView = (TextView) itemView.findViewById(R.id.inbox_message_tv);
+        public void setTime(long time){
+
+            TextView timeTv = (TextView) mView.findViewById(R.id.inbox_timestamp);
+            timeTv.setText(DateUtils.getRelativeTimeSpanString(time));
 
         }
 
-        public void setUsername(String username) {
-            messageSenderusernameTextView.setText(username);
+
+        public void setMessage(String message, boolean isSeen){
+
+            TextView userStatusview = (TextView) mView.findViewById(R.id.inbox_message_tv);
+            userStatusview.setText(message);
+
+            if(!isSeen){
+
+                userStatusview.setTypeface(userStatusview.getTypeface(), Typeface.BOLD);
+
+            } else {
+
+                userStatusview.setTypeface(userStatusview.getTypeface(), Typeface.NORMAL);
+
+            }
         }
 
-        public void setTime(CharSequence time) {
-            SendingtimeTextView.setText(time);
+        public void setName(String name){
+
+            TextView username = (TextView) mView.findViewById(R.id.inbox_sender_name_tv);
+
+            username.setText(name);
+
         }
 
-        public void setMessage(String comment) {
-            messageTextView.setText(comment);
+        public void setUserImage(String thumbImage, Context ctx){
+
+            CircleImageView userImage = (CircleImageView) mView.findViewById(R.id.inbox_sender_imageview);
+            Glide.with(ctx)
+                    .load(thumbImage)
+                    .into(userImage);
+
         }
     }
 

@@ -161,8 +161,6 @@ public class UserProfile extends BaseActivity {
 
                 Intent message_intent = new Intent(UserProfile.this , Chat.class);
                 message_intent.putExtra("emailforchat", mEmail);
-                message_intent.putExtra("msg_id", "");
-                message_intent.putExtra("image_url", imageuri);
                 startActivity(message_intent);
 
             }

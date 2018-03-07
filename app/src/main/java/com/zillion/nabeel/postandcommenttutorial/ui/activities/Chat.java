@@ -1,51 +1,78 @@
 package com.zillion.nabeel.postandcommenttutorial.ui.activities;
 
-import android.app.ProgressDialog;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.zillion.nabeel.postandcommenttutorial.R;
+import com.zillion.nabeel.postandcommenttutorial.models.Chat_model;
+import com.zillion.nabeel.postandcommenttutorial.ui.adapter.Message_Adapter;
 import com.zillion.nabeel.postandcommenttutorial.utils.FirebaseUtils;
-import com.zillion.nabeel.postandcommenttutorial.utils.sendNotification;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Chat extends AppCompatActivity {
-    LinearLayout layout;
-    ImageView sendButton;
-    EditText messageArea;
-    ScrollView scrollView;
+
     String chatWithEmail;
-    String chatWith_image_url;
-//    String current_user;
+//    String chatWith_image_url;
+
     String current_user_name;
     String current_user_image;
+
     String chatwithName;
-    String push_id;
     String specific_message_id = "";
 
-    String messageText;
+    //EditText to write message
+    private EditText message_edittext;
 
-    String message_received;
+    //Button to Send Message
+    private ImageView sendMessageButton;
 
-    TextView textView;
-    TextView textview_right;
+    //Recyclerview to show message
+    private RecyclerView message_rv;
 
-    String FCM_token,Current_UserName;
-    String postID = null;
-    DatabaseReference firebaseDatabase1;
-    DatabaseReference firebaseDatabase2;
+    //Swipe to refesh layout to load further messages onload
+    private SwipeRefreshLayout mRefreshMessage;
+
+    //list to get data from firebase and store in it
+    private final List<Chat_model> messageList = new ArrayList<>();
+
+    //LayoutManager to reverse messagelist
+    private LinearLayoutManager manager;
+
+    //start your custom Adapter
+    private Message_Adapter mAdapter;
+
+    //define static variable to set how many number of messages to show;
+    private static final int TOTAL_ITEMS_TO_LOAD = 10;
+
+    private int mCurrentPage = 1;
+
+    //NEW SOLUTION
+    private int itemsPos = 0;
+
+    private String mLastKey = "";
+    private String mPrevKey = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,46 +86,39 @@ public class Chat extends AppCompatActivity {
 
         }
 
-        textView = (TextView)findViewById(R.id.text_message_left);
-        textview_right = (TextView) findViewById(R.id.text_message_right);
+        chatWithEmail = (String) getIntent().getStringExtra("emailforchat")
+                .trim().replace(".",",");
 
-        chatWithEmail = (String) getIntent().getSerializableExtra("emailforchat")
-                .toString().trim().replace(".",",");
+        /*if(!getIntent().getStringExtra("image_url").equals("")) {
 
-        if(!getIntent().getSerializableExtra("image_url").toString().equals("")) {
-
-            chatWith_image_url = (String) getIntent().getSerializableExtra("image_url")
-                    .toString();
+            chatWith_image_url = (String) getIntent().getStringExtra("image_url");
 
         }
 
-        if(!getIntent().getSerializableExtra("msg_id").toString().equals("")) {
+        if(!getIntent().getStringExtra("msg_id").equals("")) {
 
-            specific_message_id = (String) getIntent().getSerializableExtra("msg_id").toString().trim();
+            specific_message_id = (String) getIntent().getStringExtra("msg_id").trim();
 
-        }
+        }*/
 
-        if(!specific_message_id.equals("")) {
+        message_edittext = (EditText) findViewById(R.id.messageArea);
+        sendMessageButton = (ImageView) findViewById(R.id.sendButton);
 
-            FirebaseUtils.getMessageRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".", ","))
-                    .child("inbox").child(specific_message_id).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    message_received = dataSnapshot.child("message").getValue().toString();
-                    textView.setText("\n" + message_received + "\n");
-                    textView.setBackgroundResource(R.drawable.rounded_corner1);
-                }
+        mAdapter = new Message_Adapter(messageList, Chat.this);
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+        message_rv = (RecyclerView) findViewById(R.id.message_list_rv);
 
-                }
-            });
-        }
+        mRefreshMessage = (SwipeRefreshLayout) findViewById(R.id.message_swipe_layout);
+
+        manager = new LinearLayoutManager(this);
+        message_rv.setHasFixedSize(true);
+        message_rv.setLayoutManager(manager);
+
+        message_rv.setAdapter(mAdapter);
+
+        loadMessages();
 
         final ActionBar actionBar = getSupportActionBar();
-
-//        current_user = FirebaseUtils.getCurrentUser().getEmail().toString().replace(".",",");
 
         FirebaseUtils.getUserRef(chatWithEmail).addValueEventListener(new ValueEventListener() {
             @Override
@@ -131,86 +151,110 @@ public class Chat extends AppCompatActivity {
             }
         });
 
-        /*messageArea.setOnKeyListener(new View.OnKeyListener() {
+        FirebaseUtils.getChatRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
             @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                // If the event is a key-down event on the "enter" button
-                if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (i == KeyEvent.KEYCODE_ENTER)) {
-                    // Perform action on key press
+                if(!dataSnapshot.hasChild(chatWithEmail)){
 
-                    send_Message();
+                    Map chatAdMAp = new HashMap();
 
-                    return true;
+                    chatAdMAp.put("sending_timeStamp", System.currentTimeMillis());
+                    chatAdMAp.put("seen", true);
+
+                    Map chatuserMap = new HashMap();
+
+                    chatuserMap.put("chat/" + FirebaseUtils.getCurrentUser().getEmail().replace(".",",") +
+                        "/" + chatWithEmail, chatAdMAp
+                    );
+                    chatuserMap.put("chat/" + chatWithEmail +
+                            "/" + FirebaseUtils.getCurrentUser().getEmail().replace(".",","), chatAdMAp
+                    );
+
+                    FirebaseUtils.getRootRef().updateChildren(chatuserMap, new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                            if(databaseError != null){
+
+                                Log.d("ChatError", databaseError.getMessage().toString());
+
+                            }
+
+                        }
+                    });
+
                 }
-                return false;
+
             }
-        }); */
 
-
-        layout = (LinearLayout) findViewById(R.id.layout1);
-//        layout_2 = (RelativeLayout)findViewById(R.id.layout2);
-        sendButton = (ImageView)findViewById(R.id.sendButton);
-        messageArea = (EditText)findViewById(R.id.messageArea);
-        scrollView = (ScrollView)findViewById(R.id.scrollView);
-
-        sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-                send_Message();
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
 
-/*        firebaseDatabase1 = FirebaseDatabase.getInstance().getReference().child("message")
-                .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).child(chatWithEmail.replace(".",","));
-        firebaseDatabase2 = FirebaseDatabase.getInstance().getReference().child("message")
-                .child(chatWithEmail.replace(".",",")).child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","));
-
-        sendButton.setOnClickListener(new View.OnClickListener() {
+        sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                String messageText = messageArea.getText().toString();
+            public void onClick(View view) {
 
-                if(!messageText.equals("")){
-                    Map map = new HashMap();
-                    map.put("message", messageText);
-                    map.put("Sender_name", current_user_name);
-                    map.put("receiver_name", chatwithName );
-                    map.put("receiver_email",chatWithEmail);
-                    map.put("sender_image_url", current_user_image);
-                    map.put("receiver_image_uri", chatWith_image_url);
-                    map.put("sender_email", FirebaseUtils.getCurrentUser().getEmail());
-                    map.put("sending_timeStamp", System.currentTimeMillis());
+                SendMessage();
 
-                    if(!FirebaseUtils.getCurrentUser().getEmail().replace(".",",").equals(chatWithEmail.replace(".",","))) {
-                        firebaseDatabase1.push().setValue(map);
-                        firebaseDatabase2.push().setValue(map);
-                    }else {
-                        firebaseDatabase1.push().setValue(map);
-                    }
-                    messageArea.setText("");
-                }
             }
         });
 
-        firebaseDatabase1.addChildEventListener(new ChildEventListener() {
+        mRefreshMessage.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                mCurrentPage++;
+
+                itemsPos = 0;
+
+                loadMoreMessages();
+
+            }
+        });
+
+    }
+
+    private void loadMoreMessages() {
+
+        DatabaseReference messageRef = FirebaseUtils.getRootRef().child("messages")
+                .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                .child(chatWithEmail);
+
+        Query messageQuery = messageRef.orderByKey().endAt(mLastKey).limitToLast(10);
+
+        messageQuery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map map = (Map) dataSnapshot.getValue();
-                String message = map.get("message").toString();
-                String userName = map.get("Sender_name").toString();
 
-//                Toast.makeText(getApplicationContext(), userName, Toast.LENGTH_SHORT).show();
+                Chat_model chat_model = dataSnapshot.getValue(Chat_model.class);
+                String messageKey = dataSnapshot.getKey();
 
-                if(userName.equals(FirebaseUtils.getCurrentUser().getEmail())){
-                    addMessageBox("You:-\n" + message, 1);
+                if(!mPrevKey.equals(messageKey)){
+
+                    messageList.add(itemsPos++, chat_model);
+
+                } else {
+
+                    mPrevKey = mLastKey;
+
                 }
-                else{
-                    addMessageBox(chatWithEmail+ ":-\n" + message, 2);
+
+                if(itemsPos == 1){
+
+                    mLastKey = messageKey;
+
                 }
+
+
+                mAdapter.notifyDataSetChanged();
+
+                mRefreshMessage.setRefreshing(false);
+
+                manager.scrollToPositionWithOffset(10, 0);
             }
 
             @Override
@@ -232,31 +276,116 @@ public class Chat extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
 
             }
+        });
 
-        });*/
 
     }
 
-    /*public void addMessageBox(String message, int type){
-        TextView textView = new TextView(Chat.this);
-        textView.setPadding(15,15,15,15);
-        textView.setText(message);
+    private void loadMessages() {
 
-        LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp2.weight = 1.0f;
+        DatabaseReference messageRef = FirebaseUtils.getRootRef().child("messages")
+                .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                .child(chatWithEmail);
 
-        if(type == 1) {
-            lp2.gravity = Gravity.RIGHT;
+        Query messageQuery = messageRef.limitToLast(mCurrentPage * TOTAL_ITEMS_TO_LOAD);
+
+        messageQuery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                Chat_model chat_model = dataSnapshot.getValue(Chat_model.class);
+
+                itemsPos++;
+
+                if(itemsPos == 1){
+
+                    String messageKey = dataSnapshot.getKey();
+
+                    mLastKey = messageKey;
+                    mPrevKey = messageKey;
+
+                }
+
+                messageList.add(chat_model);
+                mAdapter.notifyDataSetChanged();
+
+                message_rv.scrollToPosition(messageList.size() - 1);
+
+//                mRefreshMessage.setRefreshing(false);
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void SendMessage() {
+
+        String message = message_edittext.getText().toString();
+
+        if(!TextUtils.isEmpty(message)){
+
+            String current_user_ref = "messages/" + FirebaseUtils.getCurrentUser().getEmail().replace(".",",")
+                    + "/" + chatWithEmail;
+
+            String chat_user_Ref = "messages/" + chatWithEmail + "/" + FirebaseUtils.getCurrentUser().getEmail().replace(".",",");
+
+            DatabaseReference user_message_push = FirebaseUtils.getRootRef().child("messages")
+                    .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                    .child(chatWithEmail).push();
+
+            String push_id = user_message_push.getKey();
+
+            Map messageMap = new HashMap();
+
+            messageMap.put("message", message);
+            messageMap.put("sending_timeStamp", System.currentTimeMillis());
+            messageMap.put("from", FirebaseUtils.getCurrentUser().getEmail().replace(".",","));
+            messageMap.put("from_image_url", current_user_image);
+
+            Map messageUserMap = new HashMap();
+
+            messageUserMap.put(current_user_ref +"/" + push_id, messageMap );
+            messageUserMap.put(chat_user_Ref + "/" + push_id, messageMap);
+
+            message_edittext.setText("");
+
+            FirebaseUtils.getRootRef().updateChildren(messageUserMap, new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                    if(databaseError != null){
+
+                        Log.d("LOGERROR", databaseError.getMessage().toString());
+
+                    }
+
+                }
+            });
+
         }
-        else{
-            lp2.gravity = Gravity.LEFT;
-        }
-        textView.setLayoutParams(lp2);
-        layout.addView(textView);
-        scrollView.fullScroll(View.FOCUS_DOWN);
-    }*/
 
-    private void send_Message() {
+    }
+   /* private void send_Message() {
 
         final ProgressDialog progressDialog = new ProgressDialog(Chat.this);
         progressDialog.setMessage("Sending Message...");
@@ -269,19 +398,19 @@ public class Chat extends AppCompatActivity {
         if(!TextUtils.isEmpty(messageText)){
             progressDialog.show();
 
-            DatabaseReference mySendDatabase = FirebaseUtils.getMessageRef()
-                    .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                    .child("sentbox").push();
-
-            mySendDatabase.child("receiver_name").setValue(chatwithName);
-            mySendDatabase.child("receiver_email").setValue(chatWithEmail);
-            mySendDatabase.child("message").setValue(messageText);
-            mySendDatabase.child("receiver_image_url").setValue(chatWith_image_url);
-            mySendDatabase.child("message_id").setValue(push_id);
-            mySendDatabase.child("sending_timeStamp").setValue(System.currentTimeMillis());
+//            DatabaseReference mySendDatabase = FirebaseUtils.getMessageRef()
+//                    .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+//                    .child("sentbox").push();
+//
+//            mySendDatabase.child("receiver_name").setValue(chatwithName);
+//            mySendDatabase.child("receiver_email").setValue(chatWithEmail);
+//            mySendDatabase.child("message").setValue(messageText);
+//            mySendDatabase.child("receiver_image_url").setValue(chatWith_image_url);
+//            mySendDatabase.child("message_id").setValue(push_id);
+//            mySendDatabase.child("sending_timeStamp").setValue(System.currentTimeMillis());
 
             DatabaseReference sendToInboxDb = FirebaseUtils.getMessageRef().child(chatWithEmail)
-                    .child("inbox").child(push_id);
+                    .child(push_id);
 
             sendToInboxDb.child("Sender_name").setValue(current_user_name);
             sendToInboxDb.child("sender_image_url").setValue(current_user_image);
@@ -336,7 +465,7 @@ public class Chat extends AppCompatActivity {
 
         }
 
-    }
+    }*/
 
 
     @Override

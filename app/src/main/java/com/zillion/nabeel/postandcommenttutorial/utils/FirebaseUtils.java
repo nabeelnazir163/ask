@@ -63,6 +63,16 @@ public class FirebaseUtils {
                 .getReference("message");
     }
 
+    public static DatabaseReference getChatRef(){
+        return FirebaseDatabase.getInstance()
+                .getReference("chat");
+    }
+
+    public static DatabaseReference getRootRef(){
+        return FirebaseDatabase.getInstance()
+                .getReference();
+    }
+
     public static DatabaseReference postViewRef(){
         return FirebaseDatabase.getInstance()
                 .getReference().child("postview");

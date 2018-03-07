@@ -63,12 +63,7 @@ import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.onesignal.OneSignal;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 
 public class homeFragment extends Fragment {
     private View mRootVIew;
@@ -86,8 +81,6 @@ public class homeFragment extends Fragment {
 
     private TextView mAsk_Ques;
     private TextView m_current_user_display_name;
-    static String Loggedin_user_email;
-    public static String login_user_name;
     private SwipeRefreshLayout mSwipeRef_home;
     FloatingActionButton fab;
     SharedPreferences userType_sp;
@@ -164,30 +157,6 @@ public class homeFragment extends Fragment {
 
         }
         else if(mAuth.getCurrentUser().getEmail() != null) {
-
-            OneSignal.startInit(getActivity())
-                    .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
-                    .unsubscribeWhenNotificationsAreDisabled(true)
-                    .init();
-
-            Loggedin_user_email = mAuth.getCurrentUser().getEmail();
-            OneSignal.sendTag("User_ID", Loggedin_user_email);
-
-           if(userType != 3){
-
-               FirebaseUtils.getUserRef(Loggedin_user_email.replace(".",",")).addValueEventListener(new ValueEventListener() {
-                   @Override
-                   public void onDataChange(DataSnapshot dataSnapshot) {
-                       login_user_name = dataSnapshot.child("name").getValue().toString();
-                   }
-
-                   @Override
-                   public void onCancelled(DatabaseError databaseError) {
-
-                   }
-               });
-
-           }
 
             FirebaseUtils.getPostRef().keepSynced(true);
 

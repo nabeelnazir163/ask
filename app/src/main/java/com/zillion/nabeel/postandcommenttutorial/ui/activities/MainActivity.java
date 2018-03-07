@@ -667,13 +667,44 @@ public class MainActivity extends BaseActivity
         } else if( id == R.id.logout){
 
             if(userType != 3){
-                FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
+               /* FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if(dataSnapshot.hasChild("fcmtoken")){
 
                             FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                                    .child("fcmtoken").removeValue();
+                                    .child("fcmtoken").removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                    AuthUI.getInstance()
+                                            .signOut(MainActivity.this)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+
+                                                    finish();
+//                                                    startActivity(new Intent(MainActivity.this , RegisterActivity.class));
+
+                                                }
+                                            });
+
+                                }
+                            });
+
+                        } else {
+
+                            AuthUI.getInstance()
+                                    .signOut(MainActivity.this)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+
+                                            finish();
+//                                            startActivity(new Intent(MainActivity.this , RegisterActivity.class));
+
+                                        }
+                                    });
 
                         }
                     }
@@ -682,20 +713,13 @@ public class MainActivity extends BaseActivity
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
-                });
+                });*/
 
-                AuthUI.getInstance()
-                        .signOut(this)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
 
-                                finish();
-                                startActivity(new Intent(MainActivity.this , RegisterActivity.class));
+//                FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+//                        .child("fcmtoken").removeValue();
 
-                            }
-                        });
-//                mAuth.signOut();
+                mAuth.signOut();
 
 
 

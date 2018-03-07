@@ -694,7 +694,7 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private void sendNotification() {
+    /*private void sendNotification() {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -706,11 +706,11 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                     String send_email;
 
                     //This is a Simple Logic to Send Notification different Device Programmatically....
-                    /*if (homeFragment.Loggedin_user_email.equals(email)) {
+                    *//*if (homeFragment.Loggedin_user_email.equals(email)) {
                         send_email = "nabeelnazir163@gmail.com";
                     } else {
                         send_email = "nabeelnazir163@yahoo.com";
-                    }*/
+                    }*//*
 
                     send_email = email;
 
@@ -774,5 +774,5 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
-    }
+    }*/
 }

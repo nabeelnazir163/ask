@@ -121,7 +121,6 @@ public class answersActivity extends BaseActivity{
         RecyclerView answerRecyclerView = (RecyclerView) findViewById(R.id.answer_recyclerview);
         answerRecyclerView.setLayoutManager(new LinearLayoutManager(answersActivity.this));
 
-
         FirebaseRecyclerAdapter<Answer, AnswerHolder> answerAdapter = new FirebaseRecyclerAdapter<Answer, AnswerHolder>(
                 Answer.class,
                 R.layout.rowanswer2,
