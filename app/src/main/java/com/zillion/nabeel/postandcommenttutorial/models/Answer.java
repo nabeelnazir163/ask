@@ -2,10 +2,6 @@ package com.zillion.nabeel.postandcommenttutorial.models;
 
 import java.io.Serializable;
 
-/**
- * Created by Nabeel on 10/5/2017.
- */
-
 public class Answer implements Serializable {
 
 //    private User user = new User();

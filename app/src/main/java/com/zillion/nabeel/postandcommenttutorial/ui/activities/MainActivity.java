@@ -105,7 +105,7 @@ public class MainActivity extends BaseActivity
 
     SharedPreferences.Editor Hadeeseditor , CalEditor , PrayerTimeEditor , unAnsQuesEditor;
 
-    TextView messagetv;
+    public static TextView messagetv;
     public static TextView notification_tv;
 //    NotificationManager notificationManager;
 //    private static NotificationBadge mBadge;
@@ -589,12 +589,12 @@ public class MainActivity extends BaseActivity
         notificationCount1 = (RelativeLayout) MenuItemCompat.getActionView(item1);
 
         messagetv = notificationCount1.findViewById(R.id.message_badge);
-        messagetv.setVisibility(View.VISIBLE);
-        messagetv.setText(""+3);
+        messagetv.setVisibility(View.GONE);
+        messagetv.setText(""+0);
 
         notification_tv = notificationCount1.findViewById(R.id.notification_badge);
-        notification_tv.setVisibility(View.VISIBLE);
-        notification_tv.setText(""+2);
+        notification_tv.setVisibility(View.GONE);
+        notification_tv.setText(""+0);
 
         return super.onCreateOptionsMenu(menu);
     }

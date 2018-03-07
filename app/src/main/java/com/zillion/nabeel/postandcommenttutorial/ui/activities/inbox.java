@@ -59,6 +59,17 @@ public class inbox extends BaseActivity {
         newMessage = (TextView) findViewById(R.id.newMessageInbox);
         noNewMessage = (TextView) findViewById(R.id.no_new_msg);
 
+        if(getSupportActionBar() != null){
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            ActionBar ab = getSupportActionBar();
+            ab.setTitle("Inbox");
+
+        }
+
+        ActionBar ab = getSupportActionBar();
+        ab.setTitle("Inbox");
 
         mConvDatabase = FirebaseDatabase.getInstance().getReference().child("chat")
                 .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","));
@@ -82,18 +93,6 @@ public class inbox extends BaseActivity {
 
         loadChats();
 
-        if(getSupportActionBar() != null){
-
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            ActionBar ab = getSupportActionBar();
-            ab.setTitle("Inbox");
-
-        }
-
-        ActionBar ab = getSupportActionBar();
-        ab.setTitle("Inbox");
-
     }
 
     private void loadChats() {
@@ -102,9 +101,8 @@ public class inbox extends BaseActivity {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
-
-        inboxRecyclerView.setHasFixedSize(true);
+//        linearLayoutManager.setStackFromEnd(true);
+//        inboxRecyclerView.setHasFixedSize(true);
         inboxRecyclerView.setLayoutManager(linearLayoutManager);
 
         Query conversationQuery = mConvDatabase.orderByChild("sending_timeStamp");
