@@ -24,6 +24,7 @@ import com.zillion.nabeel.postandcommenttutorial.utils.FirebaseUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.zillion.nabeel.postandcommenttutorial.utils.sendNotification;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -368,6 +369,30 @@ public class Chat extends AppCompatActivity {
             messageUserMap.put(chat_user_Ref + "/" + push_id, messageMap);
 
             message_edittext.setText("");
+
+            /* START SENDING NOTIFICATION HERE */
+
+            if(!FirebaseUtils.getCurrentUser().getEmail().replace(".",",").equals(chatWithEmail)){
+
+                FirebaseUtils.getUserRef(chatWithEmail).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        if(dataSnapshot.hasChild("fcmtoken")) {
+
+                            String FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
+                            sendNotification notify = new sendNotification(current_user_name + " answered your question", "", FCM_token);
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
 
             FirebaseUtils.getRootRef().updateChildren(messageUserMap, new DatabaseReference.CompletionListener() {
                 @Override

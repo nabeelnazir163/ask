@@ -5,18 +5,10 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 import com.zillion.nabeel.postandcommenttutorial.ui.activities.MainActivity;
-import com.zillion.nabeel.postandcommenttutorial.ui.activities.PostActivity;
 import com.zillion.nabeel.postandcommenttutorial.ui.activities.inbox;
-import com.zillion.nabeel.postandcommenttutorial.ui.fragments.homeFragment;
 import com.zillion.nabeel.postandcommenttutorial.utils.Constants;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -32,34 +24,40 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         long[] vPattern = {0,100,1000};
         //for setting default notification sound as notification sound
 //        Uri snotification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        String title = remoteMessage.getNotification().getTitle();
-        String message = remoteMessage.getNotification().getBody();
-        String postID = remoteMessage.getData().get("postID");
 
-        if(message.contains("message")){
-            intent = new Intent(getApplicationContext(), inbox.class);
+        if(FirebaseUtils.getCurrentUser() != null){
+
+            String title = remoteMessage.getNotification().getTitle();
+            String message = remoteMessage.getNotification().getBody();
+            String postID = remoteMessage.getData().get("postID");
+
+            assert message != null;
+            if(message.contains("message")){
+                intent = new Intent(getApplicationContext(), inbox.class);
 //            counter++;
 //            MainActivity m = new MainActivity();
 //            MainActivity.setValue(counter);
 //            Log.d("counter", "" + counter);
 //            MainActivity.tv.setText(""+2);
-        }else {
-            intent = new Intent(getApplicationContext(), MainActivity.class);
-        }
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),0,intent, PendingIntent.FLAG_ONE_SHOT);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
-        intent.putExtra(Constants.EXTRA_POST,postID);
-        notificationBuilder.setContentTitle(title);
-        notificationBuilder.setContentText(message);
-        notificationBuilder.setSmallIcon(R.drawable.logo24x24);
-        notificationBuilder.setAutoCancel(true);
+            }else {
+                intent = new Intent(getApplicationContext(), MainActivity.class);
+            }
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),0,intent, PendingIntent.FLAG_ONE_SHOT);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+            intent.putExtra(Constants.EXTRA_POST,postID);
+            notificationBuilder.setContentTitle(title);
+            notificationBuilder.setContentText(message);
+            notificationBuilder.setSmallIcon(R.drawable.logo24x24);
+            notificationBuilder.setAutoCancel(true);
 //        notificationBuilder.setSound(snotification);
-        notificationBuilder.setVibrate(vPattern);
-        notificationBuilder.setSound(Uri.parse("android.resource://"+ getApplicationContext().getPackageName()+"/"+R.raw.snotification));
-        notificationBuilder.setContentIntent(pendingIntent);
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0,notificationBuilder.build());
+            notificationBuilder.setVibrate(vPattern);
+            notificationBuilder.setSound(Uri.parse("android.resource://"+ getApplicationContext().getPackageName()+"/"+R.raw.snotification));
+            notificationBuilder.setContentIntent(pendingIntent);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(0,notificationBuilder.build());
+
+        }
 
 //        FirebaseUtils.getNotificationRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
 //                .addValueEventListener(new ValueEventListener() {

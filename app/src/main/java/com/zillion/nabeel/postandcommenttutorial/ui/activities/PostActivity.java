@@ -1054,13 +1054,14 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                                                                 @Override
                                                                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-//                                                                    Toast.makeText(PostActivity.this, email, Toast.LENGTH_SHORT).show();
+                                                                    String pushId = FirebaseUtils.getUid();
 
-//                                                                    String pushId = FirebaseUtils.getUid();
-//                                                                    FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("name").setValue(Current_UserName);
-//                                                                    FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("notification").setValue("commented on your post");
-//                                                                    FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("time").setValue(System.currentTimeMillis());
-//                                                                    FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("image").setValue(Current_UserImage);
+                                                                    FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("name").setValue(Current_UserName);
+                                                                    FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("notification").setValue("commented on your post");
+                                                                    FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("time").setValue(System.currentTimeMillis());
+                                                                    FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("image").setValue(Current_UserImage);
+                                                                    FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("post").setValue(mPost);
+
 
                                                                     if(dataSnapshot.hasChild("fcmtoken")) {
                                                                         FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();

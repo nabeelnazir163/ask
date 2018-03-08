@@ -21,11 +21,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * Created by haide on 11/16/2017.
- */
-
 public class sendNotification {
 
     public sendNotification(String name, String postID, String fcm){
@@ -34,7 +29,7 @@ public class sendNotification {
 
 
     public void send(String name, String postID, String fcm){
-        String message, title = "ASK ALIM", pID, fcm_token;
+        String message, title = "ASK AALIM", pID, fcm_token;
         message = name;
         pID = postID;
         fcm_token = fcm;

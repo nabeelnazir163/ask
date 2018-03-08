@@ -3,6 +3,7 @@ package com.zillion.nabeel.postandcommenttutorial.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,9 +33,6 @@ import com.zillion.nabeel.postandcommenttutorial.R;
 import com.zillion.nabeel.postandcommenttutorial.utils.BaseActivity;
 import com.zillion.nabeel.postandcommenttutorial.utils.FirebaseUtils;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-
-import java.util.ArrayList;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class inbox extends BaseActivity {
@@ -50,6 +48,9 @@ public class inbox extends BaseActivity {
     private DatabaseReference mConvDatabase;
     private DatabaseReference mMessageDatabase;
     private DatabaseReference mUsersDatabase;
+
+    //Swipe layoutout ( LAzy loader )
+    private SwipeRefreshLayout inbox_swipe_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,19 @@ public class inbox extends BaseActivity {
 
         ActionBar ab = getSupportActionBar();
         ab.setTitle("Inbox");
+
+        inbox_swipe_layout = (SwipeRefreshLayout) findViewById(R.id.inbox_swipe_Refresh_layout);
+
+        inbox_swipe_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                loadChats();
+
+                inbox_swipe_layout.setRefreshing(false);
+
+            }
+        });
 
         mConvDatabase = FirebaseDatabase.getInstance().getReference().child("chat")
                 .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",","));
@@ -101,7 +115,7 @@ public class inbox extends BaseActivity {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
-//        linearLayoutManager.setStackFromEnd(true);
+        linearLayoutManager.setStackFromEnd(true);
 //        inboxRecyclerView.setHasFixedSize(true);
         inboxRecyclerView.setLayoutManager(linearLayoutManager);
 

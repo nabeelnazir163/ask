@@ -16,17 +16,23 @@
         >
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Type New message"
             android:textColor="@color/com_facebook_blue"
             android:id="@+id/newMessageInbox"
-            android:gravity="right"
-            android:layout_weight="50"
+            android:gravity="right|center_vertical"
+            android:drawableLeft="@drawable/editanswer"
+            android:drawablePadding="5dp"
             />
 
     </LinearLayout>
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/inbox_swipe_Refresh_layout"
+        >
     <android.support.v7.widget.RecyclerView
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
@@ -34,7 +40,7 @@
         android:id="@+id/inbox_rv"
         android:layout_below="@+id/newMessageInbox"
         />
-
+    </android.support.v4.widget.SwipeRefreshLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
