@@ -40,6 +40,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anjlab.android.iab.v3.BillingProcessor;
+import com.anjlab.android.iab.v3.TransactionDetails;
 import com.bumptech.glide.Glide;
 //import com.nex3z.notificationbadge.NotificationBadge;
 import com.firebase.ui.auth.AuthUI;
@@ -67,7 +69,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, BillingProcessor.IBillingHandler {
+
+
+    private BillingProcessor bp;
 
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private ImageView mDisplayImageView;
@@ -114,6 +119,8 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        bp = new BillingProcessor(this,getLiscence(),this);
 
         notificationCount1 = (RelativeLayout) findViewById(R.id.content_main);
 
@@ -553,12 +560,17 @@ public class MainActivity extends BaseActivity
 
         if(userType == 2){
             Toast.makeText(MainActivity.this, "You have to purchase our app in order to use this feature", Toast.LENGTH_SHORT).show();
+            buyPremium();
         } else {
             startActivity(new Intent(MainActivity.this, inbox.class));
             messagetv.setText(""+0);
             messagetv.setVisibility(View.GONE);
         }
 
+    }
+
+    private void buyPremium() {
+        bp.purchase(MainActivity.this,"ask_aalim.premium_account_com.zillion.android.askaalim");
     }
 
 
@@ -786,4 +798,56 @@ public class MainActivity extends BaseActivity
             mUserRef.removeEventListener(mUserValueEventListener);
     }
 
+
+    /**
+     * Methods of Billing Processor
+     */
+
+    @Override
+    public void onBillingInitialized() {
+    /*
+    * Called when BillingProcessor was initialized and it's ready to purchase
+    */
+    }
+
+    @Override
+    public void onProductPurchased(String productId, TransactionDetails details) {
+        Toast.makeText(this, "YOU ARE NOW PREMIUM!!!", Toast.LENGTH_SHORT).show();
+        //ADD PREMIUM TAG TO THE DATABASE TO THE USER PROFILE
+        //SET SHARED PREFERENCE AND ENABLE THE CHAT/MESSAGING FEATURE
+    }
+
+    @Override
+    public void onBillingError(int errorCode, Throwable error) {
+        Toast.makeText(this, "UNABLE TO REQUEST PROCESS!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPurchaseHistoryRestored() {
+    /*
+    * Called when purchase history was restored and the list of all owned PRODUCT ID's
+    * was loaded from Google Play
+    */
+    //NOT OF OUR USE!
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (!bp.handleActivityResult(requestCode, resultCode, data)) {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private String getLiscence(){
+        String lKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArfANYpKd02pN7Cjmb47wUNNs/AhfLtD1vBLLAy3+JniAqdcL6Js0UvobdRmSqwaejxX6rzjO2+ibF9XoDrsC67E2U+AhIRYD6HCaUyGg+suQSqhNK3L0mERHSbCzHnpdA3w8aQy+UmaeCtglh+beEGJCR6hqEWmO62GA/XdE82uehlW89ccJPaqNCzcTg3SZyJ97xlo6nswWNunpGldkU6ZX9PZsnKzCLO+B6T1HVYS2t5LfL29NCTKVJRxIXKpnaW3gMVOFTvsHmX27EDkwWASgVkc/98OfkpHG8K0JPWdCQLNcpB+Yx6gOCrgVb8j5pbf+rPIhyHHh4rIJOAnnLwIDAQAB";
+        return lKey;
+    }
+
+    @Override
+    public void onDestroy() {
+        if (bp != null) {
+            bp.release();
+        }
+        super.onDestroy();
+    }
 }
