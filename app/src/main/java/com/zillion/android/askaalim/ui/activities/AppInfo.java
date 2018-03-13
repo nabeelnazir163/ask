@@ -91,11 +91,11 @@ public class  AppInfo extends BaseActivity {
                 if(isChecked) {
 
                     Hadeeseditor.putBoolean("hadees", true);
-                    Hadeeseditor.commit();
+                    Hadeeseditor.apply();
 
                     Calendar calendar = Calendar.getInstance();
-                    calendar.set(Calendar.HOUR_OF_DAY, 6);
-                    calendar.set(Calendar.MINUTE, 0);
+                    calendar.set(Calendar.HOUR_OF_DAY, 12);
+                    calendar.set(Calendar.MINUTE, 20);
 
                     Intent intent = new Intent(getApplicationContext(), Notification_receiver_hadees.class);
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);

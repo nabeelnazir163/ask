@@ -664,6 +664,7 @@
                 android:id="@+id/Signup_Alim_certificate_imageView"
                 android:src="@drawable/browseimg"
                 android:layout_marginTop="20dp"
+                android:contentDescription="@string/eng_certificate"
                 />
 
 
@@ -673,6 +674,27 @@
                 android:text="@string/eng_certificate"
                 android:layout_marginTop="3dp"
                 android:id="@+id/select_certificate_tv"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#015A35"
+                />
+
+            <ImageView
+                android:contentDescription="@string/eng_idCopy"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/Signup_Alim_idCard_imageView"
+                android:src="@drawable/browseimg"
+                android:layout_marginTop="20dp"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/eng_idCopy"
+                android:layout_marginTop="3dp"
+                android:id="@+id/select_IdCard_tv"
                 android:layout_gravity="center_horizontal"
                 android:textColor="#015A35"
                 />

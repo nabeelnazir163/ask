@@ -54,6 +54,7 @@
     <string name="urdu_cmplt_address">مکمل پتہ</string>
     <string name="urdu_education">تعلیم</string>
     <string name="urdu_certificate">اپنے سرٹیفکیٹ کی تصویر منتخب کریں</string>
+    <string name="urdu_idCard">اپنی شناختی کارڈ کی تصویر منسلک کریں</string>
     <string name="urdu_known_lang">معلوم زبانیں</string>
     <string name="urdu_fiqah">فقیہ</string>
     <string name="urdu_spec_cat">اپنے ماہر زمرہ جات کا انتخاب کریں</string>
@@ -85,6 +86,7 @@
     <string name="eng_address">Complete Address</string>
     <string name="eng_education">Your Qualification</string>
     <string name="eng_certificate">Select Your Certificate Picture</string>
+    <string name="eng_idCopy">Select attach Picture of Your ID-Card</string>
     <string name="eng_known_lan">Known Languages</string>
     <string name="eng_fiqah">Your Fiqah </string>
     <string name="eng_spec_cat">Choose your Specialist Categories</string>

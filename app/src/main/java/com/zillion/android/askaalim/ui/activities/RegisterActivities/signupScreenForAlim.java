@@ -66,6 +66,7 @@ public class signupScreenForAlim extends BaseActivity {
     private TextView mChosePP_Tv;
     private TextView mGender_tv;
     private TextView mCertificate_tv;
+    private TextView mIdCard_tv;
     private TextView mKnownLang_tv;
     private TextView mFiqah_tv;
     private TextView mSpec_Cat_tv;
@@ -84,6 +85,7 @@ public class signupScreenForAlim extends BaseActivity {
 
     private ImageView mProfileiv;
     private ImageView mCertificateiv;
+    private ImageView mIdCard_iv;
 
     private Spinner mFiqahSpinnerAlim;
     private Spinner mCountrySpinnerAlim;
@@ -92,9 +94,11 @@ public class signupScreenForAlim extends BaseActivity {
 
     private final static int GALLERY_REQ = 1;
     private static final int GALLERY_REQ_2 = 2;
+    private static final int GALLERY_REQ_3 = 3;
 
     private Uri mImageUriAlim = null;
     private Uri certificate_image_uri = null;
+    private Uri idCardCopy_image_uri = null;
 
     String mNameFieldAlim;
     String mEmailFieldAlim;
@@ -116,6 +120,7 @@ public class signupScreenForAlim extends BaseActivity {
 
     private StorageReference mSignup_Stor_ref;
     private StorageReference mCertificate_stor_ref;
+    private StorageReference mIdCard_stor_ref;
 
     SharedPreferences userType_sp;
     SharedPreferences.Editor userType_sh_editor;
@@ -146,6 +151,7 @@ public class signupScreenForAlim extends BaseActivity {
         mChosePP_Tv = (TextView) findViewById(R.id.chose_profile_tv);
         mGender_tv = (TextView) findViewById(R.id.signup_alim_gender_tv);
         mCertificate_tv = (TextView) findViewById(R.id.select_certificate_tv);
+        mIdCard_tv = (TextView) findViewById(R.id.select_IdCard_tv);
         mKnownLang_tv = (TextView) findViewById(R.id.known_lang_tv);
         mFiqah_tv = (TextView) findViewById(R.id.fiqah_tv);
         mSpec_Cat_tv = (TextView) findViewById(R.id.chose_spec_cat_tv);
@@ -169,11 +175,13 @@ public class signupScreenForAlim extends BaseActivity {
 
         mProfileiv = (ImageView) findViewById(R.id.profile_iv_alim);
         mCertificateiv = (ImageView) findViewById(R.id.Signup_Alim_certificate_imageView);
+        mIdCard_iv = (ImageView) findViewById(R.id.Signup_Alim_idCard_imageView);
 
         mFinishBtn = (Button) findViewById(R.id.finish_setup);
 
         mSignup_Stor_ref = FirebaseStorage.getInstance().getReference().child("profile_images/");
         mCertificate_stor_ref = FirebaseStorage.getInstance().getReference().child("Alim_certificates/");
+        mIdCard_stor_ref = FirebaseStorage.getInstance().getReference().child("Alim_IdCards/");
 
         Locale[] locales_user = Locale.getAvailableLocales();
         ArrayList<String> countries_user = new ArrayList<String>();
@@ -229,6 +237,18 @@ public class signupScreenForAlim extends BaseActivity {
                 gallery_intent.setAction(Intent.ACTION_GET_CONTENT);
                 gallery_intent.setType("image/*");
                 startActivityForResult(gallery_intent , GALLERY_REQ_2);
+
+            }
+        });
+
+        mIdCard_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent gallery_intent = new Intent();
+                gallery_intent.setAction(Intent.ACTION_GET_CONTENT);
+                gallery_intent.setType("image/*");
+                startActivityForResult(gallery_intent , GALLERY_REQ_3);
 
             }
         });
@@ -350,6 +370,7 @@ public class signupScreenForAlim extends BaseActivity {
             mChosePP_Tv.setText(R.string.urdu_choose_dp);
             mGender_tv.setText(R.string.urdu_gender);
             mCertificate_tv.setText(R.string.urdu_certificate);
+            mIdCard_tv.setText(R.string.urdu_idCard);
             mKnownLang_tv.setText(R.string.urdu_known_lang);
             mFiqah_tv.setText(R.string.urdu_fiqah);
             mSpec_Cat_tv.setText(R.string.urdu_spec_cat);
@@ -384,6 +405,7 @@ public class signupScreenForAlim extends BaseActivity {
             mChosePP_Tv.setText(R.string.eng_chose_dp);
             mGender_tv.setText(R.string.eng_gender);
             mCertificate_tv.setText(R.string.eng_certificate);
+            mIdCard_tv.setText(R.string.eng_idCopy);
             mKnownLang_tv.setText(R.string.eng_known_lan);
             mFiqah_tv.setText(R.string.eng_fiqah);
             mSpec_Cat_tv.setText(R.string.eng_spec_cat);
@@ -454,7 +476,7 @@ public class signupScreenForAlim extends BaseActivity {
         final String qualification = mSignupQualificationAlim.getText().toString();
 
 
-        if(!TextUtils.isEmpty(mNameFieldAlim) && !TextUtils.isEmpty(mEmailFieldAlim) && !TextUtils.isEmpty(mPassFieldAlim) && certificate_image_uri != null && mImageUriAlim!= null){
+        if(!TextUtils.isEmpty(mNameFieldAlim) && !TextUtils.isEmpty(mEmailFieldAlim) && !TextUtils.isEmpty(mPassFieldAlim) && certificate_image_uri != null && mImageUriAlim != null && idCardCopy_image_uri != null){
 
             mAuth.createUserWithEmailAndPassword(mEmailFieldAlim , mPassFieldAlim).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
@@ -465,6 +487,8 @@ public class signupScreenForAlim extends BaseActivity {
 
                         StorageReference certificates_filepath = mCertificate_stor_ref.child(certificate_image_uri.getLastPathSegment());
 
+                        StorageReference idCard_filepath = mIdCard_stor_ref.child(idCardCopy_image_uri.getLastPathSegment());
+
                         certificates_filepath.putFile(certificate_image_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -474,6 +498,14 @@ public class signupScreenForAlim extends BaseActivity {
                             }
                         });
 
+                        certificates_filepath.putFile(idCardCopy_image_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                String download_certicate_uri = taskSnapshot.getDownloadUrl().toString();
+                                FirebaseUtils.getUserRef(email).child("IdCard").setValue(download_certicate_uri);
+                            }
+                        });
 
                         StorageReference filepath = mSignup_Stor_ref.child(mImageUriAlim.getLastPathSegment());
 
@@ -571,9 +603,17 @@ public class signupScreenForAlim extends BaseActivity {
 
             Toast.makeText(getApplicationContext(), "Certificate Image is not attached" , Toast.LENGTH_LONG).show();
             progressDialog.dismiss();
+        }
+        else if ( idCardCopy_image_uri == null){
+
+            Toast.makeText(getApplicationContext(), "ID card Picture is not attached" , Toast.LENGTH_LONG).show();
+            progressDialog.dismiss();
+
         } else if ( mImageUriAlim == null){
+
             Toast.makeText(getApplicationContext(), "Profile Image is not attached" , Toast.LENGTH_LONG).show();
             progressDialog.dismiss();
+
         }
     }
 
@@ -738,6 +778,14 @@ public class signupScreenForAlim extends BaseActivity {
             certificate_image_uri = data.getData();
 
             mCertificateiv.setImageURI(certificate_image_uri);
+
+        }
+
+        if (requestCode == GALLERY_REQ_3 && resultCode == RESULT_OK){
+
+            idCardCopy_image_uri = data.getData();
+
+            mIdCard_iv.setImageURI(idCardCopy_image_uri);
 
         }
 

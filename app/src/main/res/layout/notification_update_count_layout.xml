@@ -45,7 +45,7 @@
                 android:onClick="goToInbox"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/chatinbox" />
+                android:background="@mipmap/ic_message_black_24dp" />
         </RelativeLayout>
 
         <TextView
@@ -79,7 +79,7 @@
                 android:onClick="gotoNotification"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/password_lock" />
+                android:background="@mipmap/ic_notifications_none_black_24dp" />
         </RelativeLayout>
 
         <TextView
