@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zillion.nabeel.postandcommenttutorial"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.zillion.android.askaalim"
     >
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
-    <!--
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    -->
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -31,8 +27,11 @@
         android:theme="@style/AppTheme">
 
         <service android:name=".MyFirebaseMessagingService">
+
             <intent-filter>
+
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
+
             </intent-filter>
         </service>
         <receiver android:name=".BootCompleteReceiver">

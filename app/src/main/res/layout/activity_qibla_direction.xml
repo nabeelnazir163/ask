@@ -5,7 +5,7 @@
     android:id="@+id/activity_compass"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.zillion.nabeel.postandcommenttutorial.ui.activities.answersActivity">
+    tools:context="com.zillion.android.askaalim.ui.activities.answersActivity">
 
     <TextView
         android:layout_width="match_parent"

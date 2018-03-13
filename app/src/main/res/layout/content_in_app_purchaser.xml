@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.zillion.nabeel.postandcommenttutorial.inApp_purchaser"
+    tools:context="com.zillion.android.askaalim.inApp_purchaser"
     tools:showIn="@layout/activity_in_app_purchaser">
 
 </RelativeLayout>

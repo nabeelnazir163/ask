@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:background="@mipmap/prayer_bg_image"
     android:layout_gravity="center"
-    tools:context="com.zillion.nabeel.postandcommenttutorial.ui.activities.Prayer_Time_Activity">
+    tools:context="com.zillion.android.askaalim.ui.activities.Prayer_Time_Activity">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:shimmer="http://schemas.android.com/apk/res-auto"
-    tools:context="com.zillion.nabeel.postandcommenttutorial.ui.fragments.homeFragment">
+    tools:context="com.zillion.android.askaalim.ui.fragments.homeFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
