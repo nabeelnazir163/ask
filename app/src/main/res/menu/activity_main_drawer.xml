@@ -6,14 +6,14 @@
         android:id="@+id/group1">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/home"
+            android:icon="@drawable/new_home"
             android:title="Home" /></group>
 
         <group android:checkableBehavior="single"
             android:id="@+id/group2">
         <item
             android:id="@+id/myaccount"
-            android:icon="@drawable/profile"
+            android:icon="@drawable/new_profile"
             android:title="Profile" /></group>
 
     <!--<group android:checkableBehavior="single"
@@ -30,19 +30,12 @@
             android:icon="@drawable/account_setting"
             android:title="Account Setting"/></group>-->
 
-    <group android:checkableBehavior="single"
-        android:id="@+id/group5">
-        <item
-            android:id="@+id/appinfo"
-            android:icon="@drawable/app_info"
-            android:title="App Setting"/></group>
-
 
         <group android:checkableBehavior="single"
             android:id="@+id/group9">
             <item
                 android:id="@+id/qibladirection"
-                android:icon="@drawable/profile"
+                android:icon="@drawable/qibla_compass"
                 android:title="Qibla Direction" /></group>
 
     <group android:checkableBehavior="single"
@@ -59,6 +52,14 @@
                 android:icon="@drawable/rating_stars_logo"
                 android:title="Ask for Khuwab" />
         </group>
+
+        <group android:checkableBehavior="single"
+            android:id="@+id/group5">
+            <item
+                android:id="@+id/appinfo"
+                android:icon="@drawable/app_info"
+                android:title="App Setting"/></group>
+
 
         <group android:checkableBehavior="single"
             android:id="@+id/group8">

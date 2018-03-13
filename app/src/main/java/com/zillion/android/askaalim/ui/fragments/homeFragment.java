@@ -140,6 +140,7 @@ public class homeFragment extends Fragment {
                     @Override
                     public void run() {
                         init();
+
                         init_home();
                         mSwipeRef_home.setRefreshing(false);
                     }
@@ -225,36 +226,40 @@ public class homeFragment extends Fragment {
     }
 
     private void init_home() {
-        FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".", ",")).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+        if(userType != 3){
 
-                String name = (String) dataSnapshot.child("name").getValue();
-                photo_url = dataSnapshot.child("image").getValue().toString();
+            FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".", ",")).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if(!TextUtils.isEmpty(photo_url)) {
+                    String name = (String) dataSnapshot.child("name").getValue();
+                    photo_url = dataSnapshot.child("image").getValue().toString();
 
-                    Glide.with(m_current_user_display_image.getContext().getApplicationContext()).load(photo_url).into(m_current_user_display_image);
+                    if(!TextUtils.isEmpty(photo_url)) {
+
+                        Glide.with(m_current_user_display_image.getContext().getApplicationContext()).load(photo_url).into(m_current_user_display_image);
 //                    Toast.makeText(getContext(), photo_url, Toast.LENGTH_SHORT).show();
-                    Log.i("Imageurl", photo_url);
-                    Log.d("Imageurl", photo_url);
-                }else {
+                        Log.i("Imageurl", photo_url);
+                        Log.d("Imageurl", photo_url);
+                    }else {
 
-                    Glide.with(getActivity()).load(photo_url).placeholder(R.drawable.facebook).into(m_current_user_display_image);
+                        Glide.with(getActivity()).load(photo_url).placeholder(R.drawable.facebook).into(m_current_user_display_image);
+
+                    }
+                    m_current_user_display_name.setText(name);
+
+
 
                 }
-                m_current_user_display_name.setText(name);
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
 
 
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
+        }
     }
 
 //    @Override

@@ -46,6 +46,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@mipmap/ic_message_black_24dp" />
+
         </RelativeLayout>
 
         <TextView

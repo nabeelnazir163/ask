@@ -13,10 +13,6 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
-/**
- * Created by brad on 2017/02/05.
- */
-
 public class FirebaseUtils {
     //I'm creating this class for similar reasons as the Constants class, and to make my code a bit
     //cleaner and more well managed.
