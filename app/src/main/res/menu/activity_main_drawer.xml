@@ -43,14 +43,14 @@
                 android:id="@+id/group5">
                 <item
                     android:id="@+id/appinfo"
-                    android:icon="@drawable/app_info"
+                    android:icon="@mipmap/ic_info_black_24dp"
                     android:title="App Setting"/></group>
 
         <group android:checkableBehavior="single"
                 android:id="@+id/group8">
                 <item
                     android:id="@+id/rateus"
-                    android:icon="@drawable/rating_stars_logo"
+                    android:icon="@mipmap/ic_star_border_black_24dp"
                     android:title="Rate Us" />
             </group>
 

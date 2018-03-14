@@ -8,7 +8,9 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -58,6 +60,8 @@ public class answersActivity extends BaseActivity{
     TextView username;
 
     MediaPlayer mediaPlayer;
+
+    PopupMenu editText_popupMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +123,10 @@ public class answersActivity extends BaseActivity{
     private void init() {
 
         RecyclerView answerRecyclerView = (RecyclerView) findViewById(R.id.answer_recyclerview);
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(answersActivity.this);
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(answersActivity.this,
+//                linearLayoutManager.getOrientation());
+//        answerRecyclerView.addItemDecoration(dividerItemDecoration);
         answerRecyclerView.setLayoutManager(new LinearLayoutManager(answersActivity.this));
 
         FirebaseRecyclerAdapter<Answer, AnswerHolder> answerAdapter = new FirebaseRecyclerAdapter<Answer, AnswerHolder>(
@@ -136,11 +144,11 @@ public class answersActivity extends BaseActivity{
 
                         if(email.equals(FirebaseUtils.getCurrentUser().getEmail())){
 
-                            viewHolder.edit_answer_iv.setVisibility(View.VISIBLE);
+                            viewHolder.edit_answer_menu_iv.setVisibility(View.VISIBLE);
 
                         } else {
 
-                            viewHolder.edit_answer_iv.setVisibility(View.GONE);
+                            viewHolder.edit_answer_menu_iv.setVisibility(View.GONE);
 
                         }
 
@@ -176,67 +184,85 @@ public class answersActivity extends BaseActivity{
                viewHolder.setAnswerTime(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
                viewHolder.setNumLikes(String.valueOf(model.getNumLikes()));
 
-               viewHolder.edit_answer_iv.setOnClickListener(new View.OnClickListener() {
+               viewHolder.edit_answer_menu_iv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View view) {
 
-                        viewHolder.editAnswer_dialog = new Dialog(answersActivity.this, android.R.style.Widget_PopupWindow);
-                        viewHolder.editAnswer_dialog.setTitle("Edit Answer");
-                        viewHolder.editAnswer_dialog.setCancelable(true);
-                        viewHolder.editAnswer_dialog.setContentView(R.layout.editdialog);
+                        editText_popupMenu = new PopupMenu(answersActivity.this, viewHolder.edit_answer_menu_iv);
+                        editText_popupMenu.getMenuInflater().inflate(R.menu.answer_popup_menu, editText_popupMenu.getMenu());
 
-                        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-
-                        lp.copyFrom(viewHolder.editAnswer_dialog.getWindow().getAttributes());
-                        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-                        viewHolder.editAnswer_dialog.setCancelable(true);
-                        viewHolder.editAnswer_dialog.show();
-                        viewHolder.editAnswer_dialog.getWindow().setAttributes(lp);
-
-                        final EditText answer_Edittext = (EditText) viewHolder.editAnswer_dialog.findViewById(R.id.edittext_answer);
-                        TextView done = (TextView) viewHolder.editAnswer_dialog.findViewById(R.id.done_textview);
-                        TextView cancel = (TextView) viewHolder.editAnswer_dialog.findViewById(R.id.cancel_textview);
-
-                        cancel.setOnClickListener(new View.OnClickListener() {
+                        editText_popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             @Override
-                            public void onClick(View view) {
+                            public boolean onMenuItemClick(MenuItem item) {
 
-                                viewHolder.editAnswer_dialog.dismiss();
+                                int id = item.getItemId();
 
-                            }
-                        });
+                                if(id == R.id.editanswer)
+                                {
 
-                        done.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
+                                    viewHolder.editAnswer_dialog = new Dialog(answersActivity.this, android.R.style.Widget_PopupWindow);
+                                    viewHolder.editAnswer_dialog.setTitle("Edit Answer");
+                                    viewHolder.editAnswer_dialog.setCancelable(true);
+                                    viewHolder.editAnswer_dialog.setContentView(R.layout.editdialog);
 
-                                String update = answer_Edittext.getText().toString();
+                                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
 
-                                if(!TextUtils.isEmpty(update)) {
-                                    FirebaseUtils.getAnswerRef()
-                                            .child(mPost.getPostId())
-                                            .child(model.getAnswerId())
-                                            .child("answer")
-                                            .setValue(update).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    lp.copyFrom(viewHolder.editAnswer_dialog.getWindow().getAttributes());
+                                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                                    viewHolder.editAnswer_dialog.setCancelable(true);
+                                    viewHolder.editAnswer_dialog.show();
+                                    viewHolder.editAnswer_dialog.getWindow().setAttributes(lp);
+
+                                    final EditText answer_Edittext = (EditText) viewHolder.editAnswer_dialog.findViewById(R.id.edittext_answer);
+                                    TextView done = (TextView) viewHolder.editAnswer_dialog.findViewById(R.id.done_textview);
+                                    TextView cancel = (TextView) viewHolder.editAnswer_dialog.findViewById(R.id.cancel_textview);
+
+                                    cancel.setOnClickListener(new View.OnClickListener() {
                                         @Override
-                                        public void onSuccess(Void aVoid) {
+                                        public void onClick(View view) {
 
                                             viewHolder.editAnswer_dialog.dismiss();
 
                                         }
                                     });
-                                } else {
 
-                                    Toast.makeText(answersActivity.this, "Enter some text", Toast.LENGTH_SHORT).show();
+                                    done.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+
+                                            String update = answer_Edittext.getText().toString();
+
+                                            if(!TextUtils.isEmpty(update)) {
+                                                FirebaseUtils.getAnswerRef()
+                                                        .child(mPost.getPostId())
+                                                        .child(model.getAnswerId())
+                                                        .child("answer")
+                                                        .setValue(update).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+
+                                                        viewHolder.editAnswer_dialog.dismiss();
+
+                                                    }
+                                                });
+                                            } else {
+
+                                                Toast.makeText(answersActivity.this, "Enter some text", Toast.LENGTH_SHORT).show();
+
+                                            }
+
+//                                               edittext_layout.setVisibility(View.GONE);
+//                                               viewHolder.AnswerTextView.setVisibility(View.VISIBLE);
+
+                                        }
+                                    });
 
                                 }
-
-//                                edittext_layout.setVisibility(View.GONE);
-//                                viewHolder.AnswerTextView.setVisibility(View.VISIBLE);
-
+                                return true;
                             }
                         });
+                    editText_popupMenu.show();
                     }
                 });
 
@@ -944,7 +970,7 @@ public class answersActivity extends BaseActivity{
         TextView LikeAnswer_iv;
         TextView LikeAnswer_tv;
 //        TextView unLikeAnswer_tv;
-        ImageView edit_answer_iv;
+        ImageView edit_answer_menu_iv;
         ImageView answerDispalyImageview;
         RelativeLayout readmore_rel_lay_answers_Activity;
 
@@ -967,7 +993,7 @@ public class answersActivity extends BaseActivity{
             LikeAnswer_iv = (TextView) mView.findViewById(R.id.iv_like_answer);
             LikeAnswer_tv = (TextView) mView.findViewById(R.id.tv_likes_answer);
 //            unLikeAnswer_tv = (TextView) mView.findViewById(R.id.iv_unlike_answer);
-            edit_answer_iv = (ImageView) mView.findViewById(R.id.edit_answer_iv);
+            edit_answer_menu_iv = (ImageView) mView.findViewById(R.id.edit_answer_menu_iv);
             answerDispalyImageview = (ImageView) mView.findViewById(R.id.iv_answer_ref_display);
             readmore_rel_lay_answers_Activity = (RelativeLayout) mView.findViewById(R.id.readmore_relLayout_answersactivity);
 

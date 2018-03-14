@@ -6,7 +6,7 @@ android {
         applicationId "com.zillion.android.askaalim"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 1
+        versionCode 2
         versionName "0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [onesignal_app_id               : "989e3989-b3e5-46e5-9cf9-8dae56df8bec",
@@ -37,6 +37,7 @@ dependencies {
     //compile 'com.firebaseui:firebase-ui-auth:1.2.0'
     // compile 'com.facebook.android:facebook-android-sdk:4.14.0'
     // compile 'com.firebase:firebase-client-android:2.3.1'
+    //noinspection GradleCompatible
     compile 'com.android.support:appcompat-v7:26.0.1'
     compile 'com.android.support:design:26.0.1'
     compile 'com.firebaseui:firebase-ui-storage:1.0.1'

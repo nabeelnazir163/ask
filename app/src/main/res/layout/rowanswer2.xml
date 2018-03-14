@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     android:orientation="vertical">
@@ -19,7 +18,7 @@
             android:id="@+id/iv_answer_owner_display"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_gravity="top"
+            android:layout_gravity="center_vertical"
             android:src="@drawable/facebook" />
 
         <LinearLayout
@@ -27,7 +26,13 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_weight="0.9"
-            android:orientation="vertical">
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:orientation="vertical"
+            android:background="@drawable/answers_background"
+            android:layout_marginStart="16dp"
+            android:paddingStart="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -53,17 +58,18 @@
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:gravity="right"
+                    android:layout_marginRight="6dp"
+                    android:textColor="@color/black"
                     android:layout_gravity="center_vertical|right"
-                    android:text="10h30" />
+                    android:text="10h30"
+                    android:layout_marginEnd="6dp" />
 
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginLeft="8dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.1"
-                    android:src="@mipmap/ic_edit_black_24dp"
-                    android:id="@+id/edit_answer_iv"
-                    android:visibility="gone"
+                    android:src="@mipmap/ic_more_vert_black_24dp"
+                    android:id="@+id/edit_answer_menu_iv"
                     />
 
             </LinearLayout>
@@ -76,33 +82,6 @@
                 android:maxLines="3"
                 android:text="@string/answer"
                 android:textColor="@android:color/black" />
-
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:id="@+id/edittext_layout"-->
-                <!--android:visibility="gone"-->
-                <!--&gt;-->
-
-                <!--<EditText-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:id="@+id/edittext_answer"-->
-                    <!--android:layout_weight="0.8"-->
-                    <!--android:layout_marginRight="5dp"-->
-                    <!--/>-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="Done"-->
-                    <!--android:layout_weight="0.2"-->
-                    <!--android:id="@+id/done_textview"-->
-                    <!--android:gravity="center_horizontal"-->
-                    <!--/>-->
-
-            <!--</LinearLayout>-->
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -167,12 +146,12 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:layout_marginTop="8dp"
+            android:layout_gravity="right"
             android:layout_marginLeft="56dp"
             android:layout_marginBottom="8dp"
             android:orientation="horizontal"
             android:padding="6sp"
             android:background="@drawable/viewallanswers_bg"
-
             >
 
             <TextView

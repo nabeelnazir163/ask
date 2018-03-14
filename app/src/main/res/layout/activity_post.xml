@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_post"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/light_gray"
     tools:context="com.zillion.android.askaalim.ui.activities.PostActivity">
 
     <ScrollView
@@ -18,7 +20,10 @@
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:cardElevation="10dp"
+                app:cardCornerRadius="10dp"
+                >
 
                 <include layout="@layout/layout_post" />
 
@@ -29,6 +34,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/answerlayoutpostactivity"
                 android:visibility="gone"
+                app:cardElevation="10dp"
+                app:cardCornerRadius="10dp"
                 >
 
                 <LinearLayout

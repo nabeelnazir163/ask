@@ -5,6 +5,7 @@
     <color name="colorAccent">#7E787A</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="greyish_white">#fbfafa</color>
     <color name="green_100">#C8E6C9</color>
     <color name="green_50">#E8F5E9</color>
     <color name="green_200">#A5D6A7</color>
@@ -19,7 +20,8 @@
     <color name="green_A200">#69F0AE</color>
     <color name="green_A400">#00E676</color>
     <color name="green_A700">#00C853</color>
-
+    <color name="light_gray">#f2f3f5</color>
+    <color name="dark_gray">#e4e4e4</color>
    <!--<color name="red_50">#FFEBEE</color>
     <color name="red_100">#FFCDD2</color>
     <color name="red_200">#EF9A9A</color>
