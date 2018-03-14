@@ -570,7 +570,8 @@ public class MainActivity extends BaseActivity
     }
 
     private void buyPremium() {
-        bp.purchase(MainActivity.this,"ask_aalim.premium_account_com.zillion.android.askaalim");
+        String sku = "ask_aalim.premium_account_com.zillion.android.askaalim";
+        bp.purchase(MainActivity.this, sku);
     }
 
 
