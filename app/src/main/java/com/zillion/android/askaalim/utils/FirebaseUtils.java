@@ -56,7 +56,7 @@ public class FirebaseUtils {
 
     public static DatabaseReference getMessageRef(){
         return FirebaseDatabase.getInstance()
-                .getReference("message");
+                .getReference("messages");
     }
 
     public static DatabaseReference getChatRef(){

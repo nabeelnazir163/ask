@@ -320,9 +320,6 @@ public class RegisterActivity extends BaseActivity{
 
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(RegisterActivity.this);
 
-               /* Intent alim_SU_intent = new Intent(RegisterActivity.this, signupScreenForAlim.class);
-                startActivity(alim_SU_intent);*/
-
                 SharedPreferences Lang_sp = getSharedPreferences("Language", Context.MODE_PRIVATE);
                 final SharedPreferences.Editor lan_sh_editor = Lang_sp.edit();
 

@@ -124,11 +124,15 @@
     <string name="replies">Replies</string>
     <string name="message">Message</string>
     <string name="new_message">Type New message</string>
-    <string name="no_new_messages">No new Messages</string>
+    <string name="no_new_messages">No chat found</string>
     <string name="c_email">Confirm Email</string>
     <string name="update_profile">Update Profile</string>
     <string name="date_of_birth">Date of Birth</string>
     <string name="reset_pwd">Reset Password</string>
+    <string name="purchase">Purchase</string>
+    <string name="purchase_statement">You have to purchase this feature. Purchase it now ?</string>
+    <string name="yes">Yes</string>
+    <string name="No">No</string>
 
     <string name="FCM_PREF">com.zillion.android.askaalim.fcm_pref</string>
     <string name="FCM_TOEKN">com.zillion.android.askaalim.fcm_token</string>

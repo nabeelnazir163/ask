@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@color/colorPrimary"
+        android:id="@+id/title"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8sp"
+            android:text="@string/purchase"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:id="@+id/message_dialog"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10sp"
+            android:text="@string/purchase_statement"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/message_dialog"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:text="@string/No"
+            android:gravity="center"
+            android:padding="8sp"
+            android:layout_margin="10dp"
+            android:textColor="@color/black"
+            android:background="@color/white"
+            android:id="@+id/dont_purchase"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/yes"
+            android:gravity="center"
+            android:id="@+id/positive_button"
+            android:layout_weight="0.5"
+            android:padding="8sp"
+            android:layout_margin="10dp"
+            android:background="@color/light_blue_900"
+            android:textColor="@color/white"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

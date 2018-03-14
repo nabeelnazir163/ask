@@ -2,11 +2,12 @@ package com.zillion.android.askaalim.ui.activities;
 
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -19,7 +20,6 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -44,9 +44,6 @@ import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import com.bumptech.glide.Glide;
 //import com.nex3z.notificationbadge.NotificationBadge;
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.zillion.android.askaalim.BootCompleteReceiver;
 import com.zillion.android.askaalim.MyFirebaseMessagingService;
 import com.zillion.android.askaalim.R;
@@ -112,9 +109,14 @@ public class MainActivity extends BaseActivity
 
     public static TextView messagetv;
     public static TextView notification_tv;
-//    NotificationManager notificationManager;
-//    private static NotificationBadge mBadge;
+
     int Count = 0;
+
+    //Alert dialog to confirm for inAPppurchase
+    AlertDialog.Builder purchaseConfirm;
+
+    //product ID ( in app purchase )
+    String product_id = "ask_aalim.premium_account_com.zillion.android.askaalim";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -343,6 +345,41 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         assert navigationView != null;
         navigationView.setNavigationItemSelectedListener(this);
+        Menu menu = navigationView.getMenu();
+        MenuItem Ask_Wazifa = menu.findItem(R.id.askWazaif);
+        MenuItem Ask_Khuwab = menu.findItem(R.id.askkhuwab);
+        MenuItem Ask_istekhara = menu.findItem(R.id.askistekhara);
+
+        if(userType == 1) {
+
+            Ask_Wazifa.setIcon(R.mipmap.ic_star_border_black_24dp);
+            Ask_istekhara.setIcon(R.mipmap.ic_star_border_black_24dp);
+            Ask_Khuwab.setIcon(R.mipmap.ic_star_border_black_24dp);
+
+        } else if(userType == 2){
+
+            if(bp.isPurchased(product_id))
+            {
+                Ask_Wazifa .setIcon(R.mipmap.ic_lock_open_black_24dp);
+                Ask_Khuwab .setIcon(R.mipmap.ic_lock_open_black_24dp);
+                Ask_istekhara .setIcon(R.mipmap.ic_lock_open_black_24dp);
+            } else
+            {
+                Ask_Wazifa.setIcon(R.mipmap.ic_lock_black_24dp);
+                Ask_Khuwab.setIcon(R.mipmap.ic_lock_black_24dp);
+                Ask_istekhara.setIcon(R.mipmap.ic_lock_black_24dp);
+            }
+        } else if(userType == 3) {
+
+            Ask_Wazifa.setIcon(R.mipmap.ic_lock_black_24dp);
+            Ask_Khuwab.setIcon(R.mipmap.ic_lock_black_24dp);
+            Ask_istekhara.setIcon(R.mipmap.ic_lock_black_24dp);
+
+        }
+
+
+//        MenuItem nav_logoutItem = menu.findItem(R.id.nav_input_logout);
+//        nav_logoutItem .setIcon(R.drawable.ic_nav_input_logout);
 
         View navHeaderView = navigationView.getHeaderView(0);
         initNavHeader(navHeaderView);
@@ -443,8 +480,6 @@ public class MainActivity extends BaseActivity
         nv = (NavigationView) findViewById(R.id.nav_view);
         Menu nav_Menu = nv.getMenu();
         nav_Menu.findItem(R.id.myaccount).setVisible(false);
-//        nav_Menu.findItem(R.id.bookmark).setVisible(false);
-//        nav_Menu.findItem(R.id.account_setting).setVisible(false);
     }
 
     private void init() {
@@ -559,19 +594,65 @@ public class MainActivity extends BaseActivity
     public void goToInbox(View v){
 
         if(userType == 2){
-            Toast.makeText(MainActivity.this, "You have to purchase our app in order to use this feature", Toast.LENGTH_SHORT).show();
-            buyPremium();
-        } else {
+            if(bp.isPurchased(product_id)){
+
+                startActivity(new Intent(MainActivity.this, inbox.class));
+                messagetv.setText(""+0);
+                messagetv.setVisibility(View.GONE);
+
+            } else {
+
+                purchaseConfirmDialog();
+
+            }
+        } else if ( userType == 1){
             startActivity(new Intent(MainActivity.this, inbox.class));
             messagetv.setText(""+0);
             messagetv.setVisibility(View.GONE);
+        } else if(userType == 3){
+
+            Toast.makeText(MainActivity.this, "You have to login first in order to use this feature", Toast.LENGTH_SHORT).show();
+
         }
 
     }
 
+    private void purchaseConfirmDialog(){
+
+        purchaseConfirm = new AlertDialog.Builder(MainActivity.this);
+
+        LayoutInflater inflater = (MainActivity.this).getLayoutInflater();
+        View alertView = inflater.inflate(R.layout.in_app_billing_dialog, null);
+        purchaseConfirm.setView(alertView);
+
+        final AlertDialog show_dialog = purchaseConfirm.show();
+
+        TextView cancel_button = (TextView) alertView.findViewById(R.id.dont_purchase);
+        TextView Ok_button = (TextView) alertView.findViewById(R.id.positive_button);
+
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                show_dialog.dismiss();
+            }
+        });
+
+        Ok_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                buyPremium();
+            }
+        });
+
+//        purchaseConfirm.show();
+
+    }
+
+
     private void buyPremium() {
-        String sku = "ask_aalim.premium_account_com.zillion.android.askaalim";
-        bp.purchase(MainActivity.this, sku);
+
+        bp.purchase(MainActivity.this, product_id);
+
     }
 
 
@@ -765,9 +846,87 @@ public class MainActivity extends BaseActivity
             startActivity(new Intent(MainActivity.this , QiblaDirection.class));
         }else if ( id == R.id.askWazaif){
 
-            Intent main_intent = new Intent(MainActivity.this , search_user_for_newMessage.class);
-            main_intent.putExtra("askFor", "khuwab");
-            startActivity(main_intent);
+            if(userType == 3){
+
+                Toast.makeText(MainActivity.this, "You have to login first in order to use this feature", Toast.LENGTH_SHORT).show();
+
+            } else if(userType == 2){
+
+                if(bp.isPurchased("ask_aalim.premium_account_com.zillion.android.askalim")){
+
+                    Intent main_intent = new Intent(MainActivity.this , search_user_for_newMessage.class);
+                    main_intent.putExtra("askFor", "khuwab");
+                    startActivity(main_intent);
+
+                } else {
+
+                    purchaseConfirmDialog();
+
+                }
+
+            } else if(userType == 1){
+
+                Intent main_intent = new Intent(MainActivity.this , search_user_for_newMessage.class);
+                main_intent.putExtra("askFor", "khuwab");
+                startActivity(main_intent);
+
+            }
+
+        } else if ( id == R.id.askkhuwab){
+
+            if(userType == 3){
+
+                Toast.makeText(MainActivity.this, "You have to login first in order to use this feature", Toast.LENGTH_SHORT).show();
+
+            } else if(userType == 2){
+
+                if(bp.isPurchased("ask_aalim.premium_account_com.zillion.android.askalim")){
+
+                    Intent main_intent = new Intent(MainActivity.this , search_user_for_newMessage.class);
+                    main_intent.putExtra("askFor", "khuwab");
+                    startActivity(main_intent);
+
+                } else {
+
+                    purchaseConfirmDialog();
+
+                }
+
+            } else if(userType == 1){
+
+                Intent main_intent = new Intent(MainActivity.this , search_user_for_newMessage.class);
+                main_intent.putExtra("askFor", "khuwab");
+                startActivity(main_intent);
+
+            }
+
+        } else if ( id == R.id.askistekhara){
+
+            if(userType == 3){
+
+                Toast.makeText(MainActivity.this, "You have to login first in order to use this feature", Toast.LENGTH_SHORT).show();
+
+            } else if(userType == 2){
+
+                if(bp.isPurchased("ask_aalim.premium_account_com.zillion.android.askalim")){
+
+                    Intent main_intent = new Intent(MainActivity.this , search_user_for_newMessage.class);
+                    main_intent.putExtra("askFor", "khuwab");
+                    startActivity(main_intent);
+
+                } else {
+
+                    purchaseConfirmDialog();
+
+                }
+
+            } else if(userType == 1){
+
+                Intent main_intent = new Intent(MainActivity.this , search_user_for_newMessage.class);
+                main_intent.putExtra("askFor", "khuwab");
+                startActivity(main_intent);
+
+            }
 
         }
 

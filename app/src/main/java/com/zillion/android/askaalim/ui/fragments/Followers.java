@@ -1,6 +1,5 @@
 package com.zillion.android.askaalim.ui.fragments;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,40 +7,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.zillion.android.askaalim.R;
-import com.zillion.android.askaalim.models.Post;
 import com.zillion.android.askaalim.models.User;
 import com.zillion.android.askaalim.ui.activities.UserProfile;
 import com.zillion.android.askaalim.utils.Constants;
 import com.zillion.android.askaalim.utils.FirebaseUtils;
 import com.firebase.ui.database.FirebaseIndexRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
-import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class Followers extends Fragment {
 
     View mRootview;
@@ -150,6 +131,7 @@ public class Followers extends Fragment {
                     follow_tv.setVisibility(View.GONE);
                     viewHolder.username.setText(model.getName());
                 }
+                assert model != null;
                 Glide.with(getActivity())
                         .load(model.getImage())
                         .into(viewHolder.profileimage);

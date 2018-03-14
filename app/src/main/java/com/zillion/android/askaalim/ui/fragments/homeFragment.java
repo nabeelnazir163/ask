@@ -233,7 +233,7 @@ public class homeFragment extends Fragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
                     String name = (String) dataSnapshot.child("name").getValue();
-                    photo_url = dataSnapshot.child("image").getValue().toString();
+                    photo_url = (String) dataSnapshot.child("image").getValue();
 
                     if(!TextUtils.isEmpty(photo_url)) {
 

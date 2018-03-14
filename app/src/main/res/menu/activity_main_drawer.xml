@@ -32,19 +32,36 @@
                 android:title="Prayer Time"/></group>
 
         <group android:checkableBehavior="single"
-                android:id="@+id/group10">
-                <item
-                    android:id="@+id/askWazaif"
-                    android:icon="@drawable/rating_stars_logo"
-                    android:title="Ask for Khuwab" />
-            </group>
+            android:id="@+id/group10">
+            <item
+                android:id="@+id/askWazaif"
+                android:icon="@mipmap/ic_lock_black_24dp"
+                android:title="Ask for Wazifa" />
+        </group>
+
+        <group android:checkableBehavior="single"
+            android:id="@+id/group11">
+            <item
+                android:id="@+id/askistekhara"
+                android:icon="@mipmap/ic_lock_black_24dp"
+                android:title="Ask for Istekhara" />
+        </group>
+
+        <group android:checkableBehavior="single"
+            android:id="@+id/group12">
+            <item
+                android:id="@+id/askkhuwab"
+                android:icon="@mipmap/ic_lock_black_24dp"
+                android:title="Ask Khuwab ki tabeer" />
+        </group>
 
         <group android:checkableBehavior="single"
                 android:id="@+id/group5">
                 <item
                     android:id="@+id/appinfo"
                     android:icon="@mipmap/ic_info_black_24dp"
-                    android:title="App Setting"/></group>
+                    android:title="App Setting"/>
+        </group>
 
         <group android:checkableBehavior="single"
                 android:id="@+id/group8">

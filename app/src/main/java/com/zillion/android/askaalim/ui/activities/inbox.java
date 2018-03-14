@@ -3,6 +3,7 @@ package com.zillion.android.askaalim.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -38,7 +39,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class inbox extends BaseActivity {
 
 //    DatabaseReference mDatabase;
-    TextView newMessage;
+    FloatingActionButton newMessage;
 
     TextView noNewMessage;
 
@@ -57,7 +58,7 @@ public class inbox extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inbox);
 
-        newMessage = (TextView) findViewById(R.id.newMessageInbox);
+        newMessage = (FloatingActionButton) findViewById(R.id.newMessageInbox);
         noNewMessage = (TextView) findViewById(R.id.no_new_msg);
 
         if(getSupportActionBar() != null){
@@ -131,6 +132,24 @@ public class inbox extends BaseActivity {
             @Override
             protected void populateViewHolder(final inboxViewHolder viewHolder, final inbox_model model, int i) {
 
+
+                FirebaseUtils.getMessageRef().addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        if(dataSnapshot.hasChild(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))){
+
+                            noNewMessage.setVisibility(View.GONE);
+                        } else {
+                            noNewMessage.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
                 final String list_user_email = getRef(i).getKey();
 
                 Query lastMessageQuery = mMessageDatabase.child(list_user_email.replace(".",",")).limitToLast(1);
@@ -139,7 +158,7 @@ public class inbox extends BaseActivity {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                        String data = dataSnapshot.child("message").getValue().toString();
+                        String data = (String) dataSnapshot.child("message").getValue();
                         long time = (long) dataSnapshot.child("sending_timeStamp").getValue();
 
                         viewHolder.setTime(time);

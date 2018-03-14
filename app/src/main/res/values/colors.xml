@@ -22,6 +22,23 @@
     <color name="green_A700">#00C853</color>
     <color name="light_gray">#f2f3f5</color>
     <color name="dark_gray">#e4e4e4</color>
+
+    <color name="light_blue_50">#E1F5FE</color>
+    <color name="light_blue_100">#B3E5FC</color>
+    <color name="light_blue_200">#81D4FA</color>
+    <color name="light_blue_300">#4FC3F7</color>
+    <color name="light_blue_400">#29B6F6</color>
+    <color name="light_blue_500">#03A9F4</color>
+    <color name="light_blue_600">#039BE5</color>
+    <color name="light_blue_700">#0288D1</color>
+    <color name="light_blue_800">#0277BD</color>
+    <color name="light_blue_900">#01579B</color>
+    <color name="light_blue_A100">#80D8FF</color>
+    <color name="light_blue_A200">#40C4FF</color>
+    <color name="light_blue_A400">#00B0FF</color>
+    <color name="light_blue_A700">#0091EA</color>
+
+
    <!--<color name="red_50">#FFEBEE</color>
     <color name="red_100">#FFCDD2</color>
     <color name="red_200">#EF9A9A</color>
