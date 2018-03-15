@@ -84,9 +84,11 @@ public class UserProfile extends BaseActivity {
     private LinearLayout institute_layout;
     private LinearLayout description_layout;
     private LinearLayout livesin_Lin_layout;
+    private LinearLayout fiqah_Lin_layout;
 
     String country;
     String city;
+    String fiqh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +116,7 @@ public class UserProfile extends BaseActivity {
         institute_layout = (LinearLayout) findViewById(R.id.institute_layout);
         description_layout = (LinearLayout) findViewById(R.id.description_layout);
         livesin_Lin_layout = findViewById(R.id.lives_in_lin_layout);
+        fiqah_Lin_layout = findViewById(R.id.fiqah_lin_lay);
 
         mMessage = (TextView) findViewById(R.id.chat);
 
@@ -176,19 +179,21 @@ public class UserProfile extends BaseActivity {
                 if(dataSnapshot.hasChild("country")) {
                     country = (String) dataSnapshot.child("country").getValue();
                 }
-                String fiqh = dataSnapshot.child("fiqah").getValue().toString();
-                if(dataSnapshot.hasChild("city")) {
-                    city = dataSnapshot.child("city").getValue().toString();
+                if(dataSnapshot.hasChild("fiqah")) {
+                    fiqh = (String) dataSnapshot.child("fiqah").getValue();
                 }
-                userType_ = dataSnapshot.child("userType").getValue().toString();
+                if(dataSnapshot.hasChild("city")) {
+                    city = (String) dataSnapshot.child("city").getValue();
+                }
+                userType_ = (String) dataSnapshot.child("userType").getValue();
 //                String country = dataSnapshot.child("country").getValue().toString();
 
                 if(dataSnapshot.hasChild("institute")) {
-                    institute_name = dataSnapshot.child("institute").getValue().toString();
+                    institute_name = (String) dataSnapshot.child("institute").getValue();
                 }
 
                 if(dataSnapshot.hasChild("about_alim")){
-                    description = dataSnapshot.child("about_alim").getValue().toString();
+                    description = (String) dataSnapshot.child("about_alim").getValue();
                 }
                 if(userType_.equals("Alim")){
 
@@ -248,7 +253,11 @@ public class UserProfile extends BaseActivity {
                     livesin_Lin_layout.setVisibility(View.GONE);
                 }
 
-                fiqah.setText(fiqh);
+                if(!TextUtils.isEmpty(fiqh)) {
+                    fiqah.setText(fiqh);
+                } else {
+                    fiqah_Lin_layout.setVisibility(View.GONE);
+                }
 
                 if(!description.equals("")){
                     about_alim.setText(description);

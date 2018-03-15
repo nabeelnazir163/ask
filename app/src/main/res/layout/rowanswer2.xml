@@ -22,87 +22,95 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/facebook" />
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:paddingLeft="8dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:orientation="vertical"
-            android:background="@drawable/answers_background"
             android:layout_marginStart="16dp"
-            android:paddingStart="8dp"
-            tools:ignore="RtlSymmetry">
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                >
+                android:paddingLeft="8dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingStart="8dp"
+                android:orientation="vertical"
+                tools:ignore="RtlSymmetry">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_username_answer"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.6"
+                        android:layout_height="wrap_content"
+                        android:text="Username"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_time_answer"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.4"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:gravity="right"
+                        android:layout_marginRight="6dp"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center_vertical|right"
+                        android:text="10h30"
+                        android:layout_marginEnd="6dp" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:src="@mipmap/ic_more_vert_black_24dp"
+                        android:id="@+id/edit_answer_menu_iv"
+                        />
+
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tv_username_answer"
-                    android:layout_width="0dp"
-                    android:layout_weight="0.6"
+                    android:id="@+id/tv_answer"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Username"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="4dp"
+                    android:maxLines="3"
+                    android:text="@string/answer"
+                    android:textColor="@android:color/black" />
 
-                <TextView
-                    android:id="@+id/tv_time_answer"
-                    android:layout_width="0dp"
-                    android:layout_weight="0.4"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
                     android:gravity="right"
-                    android:layout_marginRight="6dp"
-                    android:textColor="@color/black"
-                    android:layout_gravity="center_vertical|right"
-                    android:text="10h30"
-                    android:layout_marginEnd="6dp" />
+                    android:layout_gravity="right"
+                    android:visibility="gone"
+                    android:id="@+id/readmore_relLayout_answersactivity"
+                    >
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.1"
-                    android:src="@mipmap/ic_more_vert_black_24dp"
-                    android:id="@+id/edit_answer_menu_iv"
-                    />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Readmore"
+                        android:textColor="@color/com_facebook_blue"
+                        />
+
+                </RelativeLayout>
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_answer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:maxLines="3"
-                android:text="@string/answer"
-                android:textColor="@android:color/black" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:layout_gravity="right"
-                android:visibility="gone"
-                android:id="@+id/readmore_relLayout_answersactivity"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Readmore"
-                    android:textColor="@color/com_facebook_blue"
-                    />
-
-            </RelativeLayout>
-
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
     </LinearLayout>
 

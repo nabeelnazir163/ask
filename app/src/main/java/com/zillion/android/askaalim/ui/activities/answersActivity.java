@@ -218,6 +218,8 @@ public class answersActivity extends BaseActivity{
                                     TextView done = (TextView) viewHolder.editAnswer_dialog.findViewById(R.id.done_textview);
                                     TextView cancel = (TextView) viewHolder.editAnswer_dialog.findViewById(R.id.cancel_textview);
 
+                                    answer_Edittext.setText(model.getAnswer());
+
                                     cancel.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {

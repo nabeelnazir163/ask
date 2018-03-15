@@ -380,8 +380,8 @@ public class Chat extends AppCompatActivity {
 
                         if(dataSnapshot.hasChild("fcmtoken")) {
 
-                            String FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
-                            sendNotification notify = new sendNotification(current_user_name + " answered your question", "", FCM_token);
+                            String FCM_token = (String) dataSnapshot.child("fcmtoken").getValue();
+                            sendNotification notify = new sendNotification(current_user_name + " send you a message", "", FCM_token);
                         }
 
                     }

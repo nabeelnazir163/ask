@@ -81,7 +81,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     LinearLayout answers_tv;
 
     TextView viewallanswers_tv;
-    TextView viewallComments_tv;
+    CardView viewallComments_tv;
 
     CardView max_layout;
     CardView comment_cardview;
@@ -141,7 +141,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         tv_seenPost = (TextView) findViewById(R.id.tv_seen);
         mostLikedanswer_text_tv = (TextView) findViewById(R.id.tv_mostlikedanswer_text);
         viewallanswers_tv = (TextView) findViewById(R.id.viewallanswer);
-        viewallComments_tv = (TextView) findViewById(R.id.viewallcomments);
+        viewallComments_tv = (CardView) findViewById(R.id.viewallcomments);
 
         readmore_Rel_layout_mostLiked = (RelativeLayout) findViewById(R.id.readmore_relLayout_mostLiked);
 

@@ -191,8 +191,8 @@ public class inbox extends BaseActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        String username = dataSnapshot.child("name").getValue().toString();
-                        String userImage = dataSnapshot.child("image").getValue().toString();
+                        String username = (String) dataSnapshot.child("name").getValue();
+                        String userImage = (String) dataSnapshot.child("image").getValue();
 
 
                         viewHolder.setName(username);

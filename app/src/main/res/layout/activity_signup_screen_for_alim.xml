@@ -233,7 +233,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp"
-                        android:text="User-Id"
+                        android:text="@string/username"
                         android:textColor="#015A35" />
 
                     <!--<TextView
@@ -251,11 +251,10 @@
                     android:id="@+id/Signup_Alim_Username_namefield"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
                     android:ems="10"
                     android:inputType="text"
                     android:background="@drawable/input_background"
-                    android:hint="User-Id"
+                    android:hint="@string/username"
                     />
 
                 <View

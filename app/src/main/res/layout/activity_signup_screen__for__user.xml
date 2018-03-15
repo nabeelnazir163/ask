@@ -234,7 +234,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp"
-                        android:text="User-Id"
+                        android:text="@string/username"
                         android:textColor="#015A35" />
 
                     <!--<TextView
@@ -257,7 +257,7 @@
                     android:layout_gravity="center"
                     android:gravity="center_vertical"
                     android:ems="10"
-                    android:hint="User-Id"
+                    android:hint="@string/username"
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     />

@@ -14,10 +14,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/edittext_answer"
         android:padding="8sp"
+        android:hint="@string/edit_ans"
         android:background="@drawable/input_background"
         android:layout_marginRight="5dp"
         android:layout_marginTop="20dp"
-        />
+        android:layout_marginEnd="5dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

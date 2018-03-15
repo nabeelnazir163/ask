@@ -208,7 +208,7 @@ public class SignupScreen_For_User extends BaseActivity {
                                 }
                             } else {
 
-                            Toast.makeText(getApplicationContext(), "Password Length must be greater than 6 chars", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Password Length must be greater than 6 characters", Toast.LENGTH_LONG).show();
 
                         }
 
@@ -282,6 +282,7 @@ public class SignupScreen_For_User extends BaseActivity {
         progressDialog.setMessage("Signing up as User");
         progressDialog.setCancelable(true);
         progressDialog.setIndeterminate(true);
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
 
         final String email = mEmailFieldUser.replace(".", ",");
@@ -365,18 +366,14 @@ public class SignupScreen_For_User extends BaseActivity {
                             }
                         });
 
-                    } else{
-
-                        Toast.makeText(getApplicationContext(), "Unable to Signup" , Toast.LENGTH_LONG).show();
-                        progressDialog.dismiss();
-                    }
+                    } 
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
 
-                    Toast.makeText(getApplicationContext(), "Check your internet connection and try again" , Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), e.getMessage() , Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
 
                 }

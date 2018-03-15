@@ -36,6 +36,7 @@
         <item>Maliki</item>
         <item>Shafii</item>
         <item>Hanbali</item>
+        <item>Other</item>
     </string-array>
 
     <string name="title_activity_in_app_purchaser">inApp_purchaser</string>
@@ -136,6 +137,8 @@
     <string name="No">No</string>
     <string name="first_instruction">First Instruction</string>
     <string name="comment_instruction">Comment Instructions</string>
+    <string name="record_audio">Record Audio</string>
+    <string name="edit_ans">Edit Answer</string>
 
     <string name="FCM_PREF">com.zillion.android.askaalim.fcm_pref</string>
     <string name="FCM_TOEKN">com.zillion.android.askaalim.fcm_token</string>

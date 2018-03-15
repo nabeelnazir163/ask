@@ -1,8 +1,10 @@
 package com.zillion.android.askaalim.ui.activities;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.media.MediaPlayer;
@@ -13,6 +15,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -100,6 +103,9 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
     private EditText mAnswerEditText;
 
+    public static final int RECORD_AUDIO = 0;
+    public static final int WRITE_EXTERNAL_STORAGE = 10;
+
     String email;
     String name;
 
@@ -128,6 +134,21 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
         if(actionBar != null){
 
             actionBar.hide();
+
+        }
+
+        if (ActivityCompat.checkSelfPermission(postNewAnswer.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+                 ) {
+//            if ( ActivityCompat.checkSelfPermission(postNewAnswer.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ) {
+
+                ActivityCompat.requestPermissions(postNewAnswer.this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                        RECORD_AUDIO);
+
+//            } else if ( ActivityCompat.checkSelfPermission(postNewAnswer.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
+//
+//                ActivityCompat.requestPermissions(postNewAnswer.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+//                        WRITE_EXTERNAL_STORAGE );
+//            }
 
         }
 
@@ -177,23 +198,41 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
 
             case R.id.postanswer_mic_iv:
 //                showRecordbuttons();
-                dialog = new Dialog(postNewAnswer.this, android.R.style.Widget_PopupWindow);
-                dialog.setTitle("Record Audio");
-                dialog.setCancelable(true);
-                dialog.setContentView(R.layout.dialog_for_audio);
 
-                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                if (ActivityCompat.checkSelfPermission(postNewAnswer.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(postNewAnswer.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                        ) {
 
-                lp.copyFrom(dialog.getWindow().getAttributes());
-                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                                ActivityCompat.requestPermissions(postNewAnswer.this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                        RECORD_AUDIO);
 
-                dialog.setCancelable(true);
-                dialog.getWindow().setAttributes(lp);
+                }
+                else if ( ActivityCompat.checkSelfPermission(postNewAnswer.this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(postNewAnswer.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                        ) {
+                    dialog = new Dialog(postNewAnswer.this, android.R.style.Widget_PopupWindow);
+                    dialog.setTitle("Record Audio");
+                    dialog.setCancelable(true);
+                    dialog.setContentView(R.layout.dialog_for_audio);
 
-                showRecordbuttons();
+                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
 
-                dialog.show();
+                    lp.copyFrom(dialog.getWindow().getAttributes());
+                    lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                    dialog.setCancelable(true);
+                    dialog.getWindow().setAttributes(lp);
+
+                    showRecordbuttons();
+
+                    dialog.show();
+                } else {
+
+                    ActivityCompat.requestPermissions(postNewAnswer.this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            RECORD_AUDIO);
+
+                }
                 break;
 
             case R.id.post_Answer_select_imageview:

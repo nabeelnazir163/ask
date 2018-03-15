@@ -459,6 +459,7 @@ public class signupScreenForAlim extends BaseActivity {
         progressDialog.setMessage("Signing up as Alim");
         progressDialog.setCancelable(true);
         progressDialog.setIndeterminate(true);
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
 
         //final String email = mAuth.getCurrentUser().getEmail().replace(".",",");
@@ -586,10 +587,6 @@ public class signupScreenForAlim extends BaseActivity {
                         });
 
 
-                    } else{
-
-                        Toast.makeText(getApplicationContext(), "Try Again with different email" , Toast.LENGTH_LONG).show();
-                        progressDialog.dismiss();
                     }
 
                 }
@@ -597,7 +594,7 @@ public class signupScreenForAlim extends BaseActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
 
-                    Toast.makeText(getApplicationContext(), "Check your internet connection and try again" , Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), e.getMessage() , Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
 
                 }
