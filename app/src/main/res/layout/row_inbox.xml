@@ -1,68 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="@dimen/appbar_padding_top"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="10dp"
     android:orientation="vertical"
-    >
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="10dp">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_margin="6dp"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="10dp"
         >
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/facebook"
-            android:id="@+id/inbox_sender_imageview"
-            />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_margin="6dp"
             >
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/username"
-                android:textSize="16sp"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginLeft="16dp"
-                android:id="@+id/inbox_sender_name_tv"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/facebook"
+                android:id="@+id/inbox_sender_imageview"
                 />
 
-            <TextView
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:layout_weight="1"
-                android:text="@string/message"
-                android:maxLines="1"
-                android:layout_marginLeft="16dp"
-                android:id="@+id/inbox_message_tv"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/username"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginLeft="16dp"
+                    android:id="@+id/inbox_sender_name_tv"
+                    android:layout_marginStart="16dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/message"
+                    android:maxLines="1"
+                    android:layout_marginLeft="16dp"
+                    android:id="@+id/inbox_message_tv"
+                    android:layout_marginStart="16dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/time"
+                android:textSize="12sp"
+                android:layout_gravity="top"
+                android:id="@+id/inbox_timestamp"
                 />
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="10h30"
-            android:textSize="9dp"
-            android:layout_gravity="top"
-            android:id="@+id/inbox_timestamp"
-            />
-
-    </LinearLayout>
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

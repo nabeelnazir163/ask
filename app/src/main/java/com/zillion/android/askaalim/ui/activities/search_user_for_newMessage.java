@@ -58,15 +58,16 @@ public class search_user_for_newMessage extends AppCompatActivity {
 
         if(intent.getStringExtra("askFor") != null) {
 
-            askfor = intent.getStringExtra("askFor").toString();
+            askfor = intent.getStringExtra("askFor");
 
         }
 
         if(askfor.isEmpty()){
+
             mSearchParams.setHint("Search User");
 
         }else {
-            mSearchParams.setHint("Search User to ask for " + askfor);
+            mSearchParams.setHint("Search Alim to ask for " + askfor);
         }
         hideSoftkeyboard();
         initTextListener();

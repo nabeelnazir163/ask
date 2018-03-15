@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="6dp"
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
@@ -14,84 +15,103 @@
         >
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_comment_owner_display"
                 android:layout_width="40dp"
-                android:layout_gravity="top"
+                android:layout_gravity="center_vertical"
                 android:layout_height="40dp"
                 android:src="@drawable/facebook" />
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="3dp"
                 android:layout_marginLeft="8dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/username"
-                    android:textSize="14sp"
-
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:maxLines="3"
-                    android:textSize="14sp"
-                    android:text="@string/comment"
-                    android:textColor="@android:color/black" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:layout_gravity="right"
-                    android:id="@+id/readmore_relLayout_postactivity"
-                    android:visibility="gone"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/readmore"
-                        android:textColor="@color/com_facebook_blue"
-                        />
-
-                </RelativeLayout>
+                android:layout_marginStart="8dp"
+                app:cardElevation="5dp"
+                app:cardCornerRadius="10dp"
+                >
 
                 <LinearLayout
+                    android:background="@drawable/answers_background"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="3dp"
+                    android:padding="3dp"
+
+                    android:paddingLeft="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:orientation="vertical"
+                    android:paddingStart="8dp"
                     >
 
-                    <TextView
-                        android:id="@+id/tv_time"
-                        android:layout_marginTop="3dp"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:layout_weight="1"
-                        android:text="@string/time" />
+                        android:orientation="horizontal"
+                        >
+
+                        <TextView
+                            android:id="@+id/tv_username"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6"
+                            android:text="@string/username"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/black"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_time"
+                            android:layout_marginTop="3dp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:gravity="right"
+                            android:layout_weight="0.4"
+                            android:text="@string/time" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:maxLines="3"
+                        android:textSize="14sp"
+                        android:text="@string/comment"
+                        android:textColor="@android:color/black" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:layout_gravity="right"
+                        android:id="@+id/readmore_relLayout_postactivity"
+                        android:visibility="gone"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/readmore"
+                            android:textColor="@color/com_facebook_blue"
+                            />
+
+                    </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/reply_layout"
+                        android:orientation="horizontal"
+                        android:padding="4dp"
+                        android:layout_gravity="right"
+                        android:background="@drawable/viewallanswers_bg"
                         >
 
                         <TextView
@@ -99,25 +119,26 @@
                             android:layout_height="wrap_content"
                             android:layout_marginRight="5dp"
                             android:text="0"
+                            android:textColor="@color/colorPrimary"
                             android:id="@+id/reply_count"
-                            />
+                            android:layout_marginEnd="5dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
                             android:text="@string/reply"
+                            android:textColor="@color/black"
                             android:id="@+id/reply_text"
                             />
 
                     </LinearLayout>
+
+
+
                 </LinearLayout>
 
-
-
-            </LinearLayout>
-
-
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 

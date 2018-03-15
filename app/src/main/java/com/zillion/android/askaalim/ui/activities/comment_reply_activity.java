@@ -103,7 +103,15 @@ public class comment_reply_activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                sendReply();
+                if(!mReplyEditText.getText().toString().equals("")) {
+
+                    sendReply();
+
+                } else {
+
+                    Toast.makeText(comment_reply_activity.this, "You cannot post empty reply", Toast.LENGTH_SHORT).show();
+
+                }
 
             }
         });

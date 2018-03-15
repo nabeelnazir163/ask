@@ -21,7 +21,7 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardElevation="10dp"
+                app:cardElevation="5dp"
                 app:cardCornerRadius="10dp"
                 >
 
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/answerlayoutpostactivity"
                 android:visibility="gone"
-                app:cardElevation="10dp"
+                app:cardElevation="5dp"
                 app:cardCornerRadius="10dp"
                 >
 
@@ -154,20 +154,36 @@
                 android:layout_height="wrap_content"
                  />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/comments" />
+                app:cardElevation="5dp"
+                app:cardCornerRadius="10dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:text="@string/comments" />
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/comment_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:id="@+id/cardview_for_comment"
-                android:layout_marginBottom="8dp"
+                app:cardElevation="5dp"
+                app:cardCornerRadius="10dp"
                 >
 
                 <LinearLayout
@@ -180,6 +196,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:padding="5dp"
+                        android:background="@drawable/input_text_for_post_bg"
                         android:hint="@string/type_comment" />
 
                     <ImageView
@@ -194,24 +212,26 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
-            <android.support.v7.widget.RecyclerView
-            android:id="@+id/comment_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-             />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/viewallcomments"
-                android:id="@+id/viewallcomments"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="8dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/viewallanswers_bg"
-                android:padding="5dp"
-                />
+                app:cardElevation="5dp"
+                app:cardCornerRadius="10dp"
+                >
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/viewallcomments"
+                    android:id="@+id/viewallcomments"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/viewallanswers_bg"
+                    android:padding="5dp"
+                    />
+
+            </android.support.v7.widget.CardView>
         </LinearLayout>
 
     </ScrollView>

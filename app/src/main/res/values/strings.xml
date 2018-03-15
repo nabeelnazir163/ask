@@ -10,7 +10,7 @@
     <string name="title_activity_splash">ASK AALIM</string>
     <string name="enter">Enter</string>
     <string name="login_statment">Login Here</string>
-    <string name="question">What is Your Question?</string>
+    <string name="question">What is your question?</string>
     <string name="ask">Ask a question</string>
     <string name="G_login">Login As GUEST</string>
     <string name="ayatno60">هَلْ جَزَاء الْإِحْسَانِ إِلَّا الْإِحْسَانُ</string>
@@ -31,6 +31,7 @@
     </string-array>
 
     <string-array name="fiqah_spinner_name">
+        <item>Select...</item>
         <item>Hanafi</item>
         <item>Maliki</item>
         <item>Shafii</item>
@@ -97,7 +98,7 @@
     <string name="eng_khuwab">Khuwab</string>
     <string name="eng_istekhara">Istekhara</string>
     <string name="eng_wazaif">Wazaif</string>
-    <string name="eng_finish">Finish Setup</string>
+    <string name="eng_finish">Sign up</string>
     <string name="answer">Answer</string>
     <string name="comment">Comment</string>
     <string name="upvote">Upvote</string>
@@ -133,6 +134,8 @@
     <string name="purchase_statement">You have to purchase this feature. Purchase it now ?</string>
     <string name="yes">Yes</string>
     <string name="No">No</string>
+    <string name="first_instruction">First Instruction</string>
+    <string name="comment_instruction">Comment Instructions</string>
 
     <string name="FCM_PREF">com.zillion.android.askaalim.fcm_pref</string>
     <string name="FCM_TOEKN">com.zillion.android.askaalim.fcm_token</string>

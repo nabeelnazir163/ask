@@ -50,22 +50,25 @@ public class Message_Adapter extends RecyclerView.Adapter<Message_Adapter.Messag
 
         String from_user = c.getFrom();
 
-//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 //        params.weight = 1.0f;
+//        params.gravity = Gravity.TOP;
 
         if(current_user_id.equals(from_user)){
 
             holder.messageText.setBackgroundResource(R.drawable.my_message_text_background);
             holder.messageText.setTextColor(Color.WHITE);
-//            params.gravity = Gravity.LEFT;
-//            holder.profile_image.setVisibility(View.GONE);
+            holder.linearLayout.setGravity(Gravity.RIGHT);
+//            params.gravity = Gravity.RIGHT;
+            holder.profile_image.setVisibility(View.GONE);
 
         } else {
 
             holder.messageText.setBackgroundResource(R.drawable.message_text_background);
             holder.messageText.setTextColor(Color.WHITE);
-//            params.gravity = Gravity.RIGHT;
-//            holder.profile_image.setVisibility(View.VISIBLE);
+            holder.linearLayout.setGravity(Gravity.LEFT);
+//            params.gravity = Gravity.LEFT;
+            holder.profile_image.setVisibility(View.VISIBLE);
 
         }
 
@@ -87,12 +90,14 @@ public class Message_Adapter extends RecyclerView.Adapter<Message_Adapter.Messag
         public TextView messageText;
         public CircleImageView profile_image;
         public TextView time_textview;
+        public LinearLayout linearLayout;
 
         public MessageviewHolder(View itemView) {
             super(itemView);
 
             messageText = ((TextView) itemView.findViewById(R.id.message_text));
             time_textview = ((TextView) itemView.findViewById(R.id.timeStamp_chat));
+            linearLayout = ((LinearLayout) itemView.findViewById(R.id.linear_layout));
             profile_image = ((CircleImageView) itemView.findViewById(R.id.chatwith_imageview));
         }
     }

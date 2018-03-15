@@ -1224,7 +1224,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
         RelativeLayout readmore_rel_lay_postactivity;
 
-        LinearLayout reply_layout;
+//        LinearLayout reply_layout;
 
         public CommentHolder(View itemView) {
 
@@ -1242,7 +1242,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
             readmore_rel_lay_postactivity = (RelativeLayout) itemView.findViewById(R.id.readmore_relLayout_postactivity);
 
-            reply_layout = (LinearLayout) itemView.findViewById(R.id.reply_layout);
+//            reply_layout = (LinearLayout) itemView.findViewById(R.id.reply_layout);
 
         }
 

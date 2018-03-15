@@ -1,10 +1,6 @@
 package com.zillion.android.askaalim.models;
 import java.io.Serializable;
 
-/**
- * Created by brad on 2017/02/05.
- */
-
 public class Comment implements Serializable {
     private String email;
     private String commentId;

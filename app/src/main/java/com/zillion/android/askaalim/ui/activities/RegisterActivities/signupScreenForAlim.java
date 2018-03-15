@@ -485,9 +485,9 @@ public class signupScreenForAlim extends BaseActivity {
 
                     if(task.isSuccessful()){
 
-                        StorageReference certificates_filepath = mCertificate_stor_ref.child(certificate_image_uri.getLastPathSegment());
+                        StorageReference certificates_filepath = mCertificate_stor_ref.child(System.currentTimeMillis() + certificate_image_uri.getLastPathSegment());
 
-                        StorageReference idCard_filepath = mIdCard_stor_ref.child(idCardCopy_image_uri.getLastPathSegment());
+                        StorageReference idCard_filepath = mIdCard_stor_ref.child(System.currentTimeMillis() + idCardCopy_image_uri.getLastPathSegment());
 
                         certificates_filepath.putFile(certificate_image_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
@@ -498,7 +498,7 @@ public class signupScreenForAlim extends BaseActivity {
                             }
                         });
 
-                        certificates_filepath.putFile(idCardCopy_image_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        idCard_filepath.putFile(idCardCopy_image_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
@@ -507,7 +507,9 @@ public class signupScreenForAlim extends BaseActivity {
                             }
                         });
 
-                        StorageReference filepath = mSignup_Stor_ref.child(mImageUriAlim.getLastPathSegment());
+                        StorageReference filepath = mSignup_Stor_ref.child(System.currentTimeMillis() + mImageUriAlim.getLastPathSegment());
+
+//                        Uri img_uri_alim = Uri.parse(mImageUriAlim.getLastPathSegment() + System.currentTimeMillis());
 
                         filepath.putFile(mImageUriAlim).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
@@ -520,7 +522,9 @@ public class signupScreenForAlim extends BaseActivity {
                                 FirebaseUtils.getUserRef(email).child("gender").setValue(select_gender_alim);
                                 FirebaseUtils.getUserRef(email).child("phone").setValue(phonenumberAlim);
                                 FirebaseUtils.getUserRef(email).child("country").setValue(countryname_Alim);
-                                FirebaseUtils.getUserRef(email).child("fiqah").setValue(selected_fiqah);
+                                if (!selected_fiqah.equals("Select...")) {
+                                    FirebaseUtils.getUserRef(email).child("fiqah").setValue(selected_fiqah);
+                                }
                                 FirebaseUtils.getUserRef(email).child("userType").setValue("Alim");
                                 FirebaseUtils.getUserRef(email).child("qualification").setValue(qualification);
                                 if(wazaif_cb)

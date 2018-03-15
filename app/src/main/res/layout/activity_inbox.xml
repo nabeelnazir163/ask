@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/light_gray"
     tools:context="com.zillion.android.askaalim.ui.activities.inbox">
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -38,7 +39,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_create_white_24dp"
+        android:src="@mipmap/ic_chat_white_24dp"
         app:backgroundTint="@color/colorPrimary"
         android:layout_alignParentEnd="true" />
 

@@ -1,13 +1,11 @@
 package com.zillion.android.askaalim.ui.activities;
 
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -77,8 +75,7 @@ public class MainActivity extends BaseActivity
     private TextView mEmailTextView;
     private ValueEventListener mUserValueEventListener;
     private DatabaseReference mUserRef;
-    private Toolbar toolbar;
-    boolean isSecond = false;
+    Toolbar toolbar;
     TabLayout tabLayout;
     ViewPager viewPager;
     ViewPagerAdapter viewPagerAdapter;
@@ -109,8 +106,6 @@ public class MainActivity extends BaseActivity
 
     public static TextView messagetv;
     public static TextView notification_tv;
-
-    int Count = 0;
 
     //Alert dialog to confirm for inAPppurchase
     AlertDialog.Builder purchaseConfirm;
@@ -296,7 +291,7 @@ public class MainActivity extends BaseActivity
            unAnsQuesEditor.commit();
 
 
-           final Dialog dialog = new Dialog(MainActivity.this, android.R.style.Widget_PopupWindow);
+           final Dialog dialog = new Dialog(MainActivity.this, android.R.style.Animation);
            dialog.setContentView(R.layout.dialogfirstruninstructions);
            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
            dialog.setTitle("Confirmation Dialog");
@@ -855,7 +850,7 @@ public class MainActivity extends BaseActivity
                 if(bp.isPurchased("ask_aalim.premium_account_com.zillion.android.askalim")){
 
                     Intent main_intent = new Intent(MainActivity.this , search_user_for_newMessage.class);
-                    main_intent.putExtra("askFor", "khuwab");
+                    main_intent.putExtra("askFor", "wazifa");
                     startActivity(main_intent);
 
                 } else {
@@ -867,7 +862,7 @@ public class MainActivity extends BaseActivity
             } else if(userType == 1){
 
                 Intent main_intent = new Intent(MainActivity.this , search_user_for_newMessage.class);
-                main_intent.putExtra("askFor", "khuwab");
+                main_intent.putExtra("askFor", "wazifa");
                 startActivity(main_intent);
 
             }
@@ -911,7 +906,7 @@ public class MainActivity extends BaseActivity
                 if(bp.isPurchased("ask_aalim.premium_account_com.zillion.android.askalim")){
 
                     Intent main_intent = new Intent(MainActivity.this , search_user_for_newMessage.class);
-                    main_intent.putExtra("askFor", "khuwab");
+                    main_intent.putExtra("askFor", "istekhara");
                     startActivity(main_intent);
 
                 } else {
@@ -923,7 +918,7 @@ public class MainActivity extends BaseActivity
             } else if(userType == 1){
 
                 Intent main_intent = new Intent(MainActivity.this , search_user_for_newMessage.class);
-                main_intent.putExtra("askFor", "khuwab");
+                main_intent.putExtra("askFor", "istekhara");
                 startActivity(main_intent);
 
             }

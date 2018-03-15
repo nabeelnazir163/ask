@@ -156,7 +156,7 @@ public class fragment_post_Search extends Fragment {
                         mPostList.clear();
 //                        noSearchFound.setVisibility(View.VISIBLE);
 
-                        Toast.makeText(getContext(), "No post found", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), "No post found", Toast.LENGTH_SHORT).show();
                     }
                 }
 

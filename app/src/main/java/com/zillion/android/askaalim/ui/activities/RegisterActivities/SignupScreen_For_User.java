@@ -109,6 +109,7 @@ public class SignupScreen_For_User extends BaseActivity {
 
         Locale[] locales_user = Locale.getAvailableLocales();
         ArrayList<String> countries_user = new ArrayList<String>();
+//        countries_user.add("Select Countries...");
 
         ArrayAdapter<String> fiqah_adapter_user = new ArrayAdapter<String>(SignupScreen_For_User.this,
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.fiqah_spinner_name));
@@ -301,7 +302,7 @@ public class SignupScreen_For_User extends BaseActivity {
 
                     if(task.isSuccessful()){
 
-                        StorageReference filepath = mSignup_Stor_ref_user.child(mImageUri_user.getLastPathSegment());
+                        StorageReference filepath = mSignup_Stor_ref_user.child(System.currentTimeMillis() + mImageUri_user.getLastPathSegment());
 
                         filepath.putFile(mImageUri_user).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
@@ -313,8 +314,13 @@ public class SignupScreen_For_User extends BaseActivity {
                                 FirebaseUtils.getUserRef(email).child("name").setValue(mNameFieldUser);
                                 FirebaseUtils.getUserRef(email).child("gender").setValue(select_gender_user);
                                 FirebaseUtils.getUserRef(email).child("phone").setValue(phonenumberUser);
-                                FirebaseUtils.getUserRef(email).child("country").setValue(countryname_user);
-                                FirebaseUtils.getUserRef(email).child("fiqah").setValue(selected_fiqah);
+
+                                if(!countryname_user.equals("Select Countries...")) {
+                                    FirebaseUtils.getUserRef(email).child("country").setValue(countryname_user);
+                                }
+                                if(!selected_fiqah.equals("Select...")) {
+                                    FirebaseUtils.getUserRef(email).child("fiqah").setValue(selected_fiqah);
+                                }
                                 FirebaseUtils.getUserRef(email).child("userType").setValue("User");
                                 FirebaseUtils.getUserRef(email).child("uid").setValue(FirebaseUtils.getCurrentUser().getUid());
                                 FirebaseUtils.getUserRef(email).child("fcmtoken").setValue(token);
