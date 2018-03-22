@@ -126,20 +126,6 @@ public class UserProfile extends BaseActivity {
         email_user = FirebaseUtils.getCurrentUser().getEmail();
         mEmail = mUserEmail.replace(".",",");
 
-        FirebaseUtils.getUserRef(mEmail).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                imageuri = dataSnapshot.child("image").getValue().toString();
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
         mSwipeRef_userProfile = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout_userProfile);
 
         userProfile_question = (RecyclerView) findViewById(R.id.recyclerview_userprofile);
@@ -174,7 +160,16 @@ public class UserProfile extends BaseActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                String user_profile_image = (String) dataSnapshot.child("image").getValue();
+                if(dataSnapshot.hasChild("image")){
+
+                    String user_profile_image = (String) dataSnapshot.child("image").getValue();
+
+                    Glide.with(UserProfile.this)
+                            .load(user_profile_image)
+                            .into(mUserProfile_Iv);
+
+                }
+
                 String user_name = (String) dataSnapshot.child("name").getValue();
                 if(dataSnapshot.hasChild("country")) {
                     country = (String) dataSnapshot.child("country").getValue();
@@ -238,10 +233,6 @@ public class UserProfile extends BaseActivity {
                     });
 
                 }
-
-                Glide.with(getApplicationContext())
-                        .load(user_profile_image)
-                        .into(mUserProfile_Iv);
 
                 mUserProfile_name_tv.setText(user_name);
 
@@ -395,9 +386,17 @@ public class UserProfile extends BaseActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        fiqah_string = dataSnapshot.child("fiqah").getValue().toString();
-                        image_url = dataSnapshot.child("image").getValue().toString();
-                        name = dataSnapshot.child("name").getValue().toString();
+                        fiqah_string = (String) dataSnapshot.child("fiqah").getValue();
+
+                        if(dataSnapshot.hasChild("image")) {
+
+                            image_url = (String) dataSnapshot.child("image").getValue();
+
+                            Glide.with(UserProfile.this)
+                                    .load(image_url)
+                                    .into(viewHolder.postOwnerDisplayImageView);
+                        }
+                        name = (String) dataSnapshot.child("name").getValue();
 
                         if (!TextUtils.isEmpty(fiqah_string)) {
 
@@ -407,12 +406,6 @@ public class UserProfile extends BaseActivity {
 
                         viewHolder.setUsername(name);
 
-                        if (!TextUtils.isEmpty(image_url)) {
-
-                            Glide.with(UserProfile.this)
-                                    .load(image_url)
-                                    .into(viewHolder.postOwnerDisplayImageView);
-                        }
                     }
 
                     @Override
@@ -773,9 +766,18 @@ public class UserProfile extends BaseActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        fiqah_string = dataSnapshot.child("fiqah").getValue().toString();
-                        image_url = dataSnapshot.child("image").getValue().toString();
-                        name = dataSnapshot.child("name").getValue().toString();
+                        fiqah_string = (String) dataSnapshot.child("fiqah").getValue();
+
+                        if(dataSnapshot.hasChild("image")) {
+
+                            image_url = (String) dataSnapshot.child("image").getValue();
+
+                            Glide.with(UserProfile.this)
+                                    .load(image_url)
+                                    .into(viewHolder.postOwnerDisplayImageView);
+
+                        }
+                        name = (String) dataSnapshot.child("name").getValue();
 
                         if(!TextUtils.isEmpty(fiqah_string)){
 
@@ -785,9 +787,6 @@ public class UserProfile extends BaseActivity {
 
                         viewHolder.setUsername(name);
 
-                        Glide.with(UserProfile.this)
-                                .load(image_url)
-                                .into(viewHolder.postOwnerDisplayImageView);
                     }
 
                     @Override

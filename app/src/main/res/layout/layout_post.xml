@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -22,7 +23,9 @@
             android:layout_height="40dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="8dp"
-            android:src="@drawable/facebook" />
+            android:src="@drawable/facebook"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -33,50 +36,100 @@
             android:gravity="center_vertical"
             >
 
-            <TextView
-                android:id="@+id/tv_post_username"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="4dp"
-                android:layout_weight="0.5"
-                android:textSize="16dp"
-                android:layout_gravity="center_vertical"
-                android:singleLine="true"
-                android:text="Username"
+                android:orientation="horizontal"
                 android:gravity="center_vertical"
-                />
+                >
+
+                <TextView
+                    android:id="@+id/tv_post_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="@string/username"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical"
+                    android:layout_marginEnd="4dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="("
+                    android:textSize="12sp"
+                    android:singleLine="true"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginStart="6dp" />
+
+                <TextView
+                    android:id="@+id/tv_post_userfiqah"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:singleLine="true"
+                    android:text="Fiqah"
+                    android:layout_marginLeft="3dp"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="3dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=")"
+                    android:textSize="12sp"
+                    android:singleLine="true"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginStart="3dp" />
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_post_userfiqah"
-                android:layout_width="match_parent"
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="4dp"
-                android:layout_weight="0.5"
-                android:textSize="12dp"
-                android:singleLine="true"
-                android:text="Fiqah"
-                android:gravity="center_vertical"
-                android:visibility="gone"
-                />
+                android:layout_marginRight="6dp"
+                android:textSize="10sp"
+                android:layout_gravity="center_vertical"
+                android:text="@string/time"
+                android:layout_marginEnd="6dp"
+                tools:ignore="SmallSp" />
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="6dp"
-            android:textSize="12dp"
-            android:layout_gravity="center_vertical"
-            android:text="10h30" />
 
         <ImageView
             android:id="@+id/menuPopup_imageview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:src="@mipmap/ic_more_vert_black_24dp"
+            android:contentDescription="@string/pick_image_intent_chooser_title" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end|center_vertical"
+            android:src="@drawable/bookmark"
+            android:id="@+id/bookmark_iv"
+            android:layout_marginLeft="4dp"
             android:layout_marginRight="6dp"
-            android:src="@mipmap/ic_more_vert_black_24dp" />
+            android:contentDescription="@string/Bookmark"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="6dp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end|center_vertical"
+            android:src="@drawable/bookmark_after"
+            android:id="@+id/bookmark_iv_after"
+            android:visibility="gone"
+            android:layout_marginRight="6dp"
+            android:contentDescription="@string/Bookmark"
+            android:layout_marginEnd="6dp" />
 
 
     </LinearLayout>
@@ -85,6 +138,8 @@
         android:id="@+id/postview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
         <TextView
@@ -93,28 +148,28 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:layout_marginLeft="16dp"
-            android:longClickable="true"
             android:layout_marginRight="16dp"
-            android:fontFamily="serif"
+            android:fontFamily="sans-serif-condensed"
+            android:longClickable="true"
             android:maxLines="3"
-            android:textIsSelectable="true"
-            android:text="Post text has some words that I could use for a place holder like this"
+            android:text="@string/posttext"
             android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textIsSelectable="true"
+            android:textSize="18sp" />
 
         <RelativeLayout
             android:id="@+id/readmore_relLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:layout_marginRight="16dp"
-            android:gravity="right">
+            android:gravity="end"
+            android:layout_marginEnd="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Readmore"
+                android:text="@string/readmore"
                 android:textColor="@color/com_facebook_blue" />
 
         </RelativeLayout>
@@ -125,8 +180,39 @@
             android:layout_height="200dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
             android:maxHeight="200dp"
-            android:src="@drawable/browseimg" />
+            android:src="@drawable/browseimg"
+            android:contentDescription="@string/upload_img" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/seen_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/seen"
+            android:textSize="12sp"
+            />
+
+        <TextView
+            android:id="@+id/tv_seen"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginStart="3dp"
+            android:gravity="center_vertical"
+            android:text="0" />
 
     </LinearLayout>
 
@@ -140,15 +226,15 @@
 
         <LinearLayout
             android:id="@+id/answer_layout"
-            android:layout_weight="0.3"
+            android:layout_weight="0.2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:padding="5sp"
+            android:padding="3sp"
             android:layout_marginBottom="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
             android:background="@drawable/viewallanswers_bg"
             android:layout_marginEnd="8dp">
 
@@ -157,6 +243,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="@string/answer"
+                android:textColor="@color/black"
+                android:textSize="12sp"
                  />
 
             <TextView
@@ -167,19 +255,20 @@
                 android:gravity="center_vertical"
                 android:text="0"
                 android:layout_marginRight="2dp"
-                 />
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="2dp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/comment_layout"
-            android:layout_weight="0.3"
+            android:layout_weight="0.2"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:padding="6dp"
+            android:layout_marginTop="4dp"
+            android:padding="3dp"
             android:layout_marginRight="8dp"
             android:background="@drawable/viewallanswers_bg"
             android:layout_marginEnd="8dp">
@@ -189,6 +278,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="@string/comment"
+                android:textSize="12sp"
+                android:textColor="@color/black"
                  />
 
             <TextView
@@ -204,86 +295,44 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/seen_layout"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_weight="0.15"
-            android:orientation="horizontal"
-            android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_gravity="right"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/seen_icon"
-                android:drawableStart="@mipmap/seen_icon" />
-
-            <TextView
-                android:id="@+id/tv_seen"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_marginEnd="2dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="2dp"
-                android:layout_marginStart="3dp"
-                android:gravity="center_vertical"
-                android:text="0" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="right"
-            android:layout_weight="0.25"
+            android:layout_height="wrap_content"
+            android:gravity="right|center_vertical"
+            android:layout_weight="0.5"
+            android:layout_marginTop="4dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginRight="8dp"
             android:orientation="horizontal"
-            android:layout_marginEnd="8dp">
+            tools:ignore="RtlHardcoded">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="right|center_vertical"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/viewallanswers_bg"
+                android:layout_marginRight="6dp"
                 android:padding="5dp"
                 android:id="@+id/newanswer_layout_post"
-                android:layout_marginEnd="8dp">
+                android:layout_marginEnd="6dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/writeans"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
                     android:layout_marginRight="4dp"
+                    tools:ignore="SmallSp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:drawablePadding="4dp"
-                    android:drawableRight="@drawable/editanswer"
-                    android:layout_marginEnd="4dp"
-                    android:drawableEnd="@drawable/editanswer" />
+                    android:src="@drawable/writeanswer"
+                    android:contentDescription="@string/answer" />
 
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="24dp"
-                android:layout_gravity="right|center_vertical"
-                android:src="@drawable/bookmark"
-                android:id="@+id/bookmark_iv"
-                />
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="24dp"
-                android:layout_gravity="right|center_vertical"
-                android:src="@drawable/bookmark_after"
-                android:id="@+id/bookmark_iv_after"
-                android:visibility="gone"
-                />
 
         </LinearLayout>
 

@@ -415,6 +415,7 @@ public class RegisterActivity extends BaseActivity{
         progressDialog.setMessage("Logging in");
         progressDialog.setCancelable(true);
         progressDialog.setIndeterminate(true);
+        progressDialog.setCanceledOnTouchOutside(false);
 
         final String email = memailfield.getText().toString();
         String password = mpasswordfield.getText().toString();
@@ -446,19 +447,15 @@ public class RegisterActivity extends BaseActivity{
 
                         progressDialog.dismiss();
 
-                    } else {
-                        progressDialog.dismiss();
-                        Toast.makeText(RegisterActivity.this, "Wrong Email or Password, Please Try Again", Toast.LENGTH_LONG).show();
-                        mAuth.signOut();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
 
-//                    Toast.makeText(RegisterActivity.this, "Check your internet connection and try again later", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, e.getMessage() , Toast.LENGTH_LONG).show();
 //                    mAuth.signOut();
-//                    progressDialog.dismiss();
+                    progressDialog.dismiss();
 
                 }
             });

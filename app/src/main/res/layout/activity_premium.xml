@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.zillion.android.askaalim.Premium_Activity"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:fontFamily="serif"
+        android:text="@string/premium"
+        android:id="@+id/premium_text_heading"
+        />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/premium_text_heading"
+        android:id="@+id/horizontal_Scrol_premium_items"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            >
+
+            <LinearLayout
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:orientation="vertical"
+                android:background="@drawable/black_premium_bg"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:gravity="center"
+                android:paddingTop="30dp"
+                android:paddingBottom="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/askWazifa"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:fontFamily="serif"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/askWazifa_desc"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:fontFamily="serif"
+                    android:layout_gravity="left"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/green_premium_bg"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:paddingTop="30dp"
+                android:paddingBottom="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/askistekhara"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:fontFamily="serif"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/askWazifa_desc"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:fontFamily="serif"
+                    android:layout_gravity="left"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:orientation="vertical"
+                android:background="@drawable/blue_premium_bg"
+                android:gravity="center"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:paddingTop="30dp"
+                android:paddingBottom="30dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/askkhuwab"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:fontFamily="serif"
+                    android:gravity="center"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/askWazifa_desc"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:fontFamily="serif"
+                    android:layout_gravity="left"
+                    />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/buy_prem"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:fontFamily="serif"
+        android:background="@color/green_800"
+        android:textColor="@color/white"
+        android:layout_below="@id/horizontal_Scrol_premium_items"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:padding="15sp"
+        android:textSize="18sp"
+        android:id="@+id/buy_premium_button"
+        />
+
+    <TextView
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:layout_below="@id/buy_premium_button"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:text="@string/pkg"
+        />
+
+</RelativeLayout>

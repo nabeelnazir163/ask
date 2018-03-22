@@ -3,6 +3,7 @@ package com.zillion.android.askaalim.ui.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -76,8 +77,10 @@ public class Message_Adapter extends RecyclerView.Adapter<Message_Adapter.Messag
 
         holder.messageText.setText(c.getMessage());
         holder.time_textview.setText(DateUtils.getRelativeTimeSpanString(c.getSending_timeStamp()));
-        Glide.with(context).load(c.getFrom_image_url()).into(holder.profile_image);
 
+        if(!TextUtils.isEmpty(c.getFrom_image_url())) {
+            Glide.with(context).load(c.getFrom_image_url()).into(holder.profile_image);
+        }
     }
 
     @Override

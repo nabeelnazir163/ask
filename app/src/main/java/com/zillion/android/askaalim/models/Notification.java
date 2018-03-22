@@ -6,10 +6,6 @@ import com.google.firebase.database.ServerValue;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Nabeel on 11/7/2017.
- */
-
 public class Notification {
 
     String user_id;

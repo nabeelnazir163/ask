@@ -16,10 +16,6 @@ import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-/**
- * Created by brad on 2017/02/05.
- */
-
 public class BaseActivity extends AppCompatActivity  {
 
     protected FirebaseUser mFirebaseUser;

@@ -95,14 +95,14 @@ public class answersActivity extends BaseActivity{
 
                 if(dataSnapshot.hasChild("image")) {
 
-                    image = dataSnapshot.child("image").getValue().toString();
+                    image = (String) dataSnapshot.child("image").getValue();
                     Glide.with(answersActivity.this).load(image).into(userImage);
 
                 }
 
                 if(dataSnapshot.hasChild("name")) {
 
-                    name = dataSnapshot.child("name").getValue().toString();
+                    name = (String) dataSnapshot.child("name").getValue();
                     username.setText(name);
 
                 }
@@ -158,12 +158,13 @@ public class answersActivity extends BaseActivity{
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
                         if(dataSnapshot.hasChild("image")) {
-                            image_url = dataSnapshot.child("image").getValue().toString();
-                            if (!TextUtils.isEmpty(image_url)) {
+
+                            image_url = (String) dataSnapshot.child("image").getValue();
+
                                 Glide.with(answersActivity.this)
                                         .load(image_url)
                                         .into(viewHolder.AnswerOwnerDisplay);
-                            }
+
                         }
                         if(dataSnapshot.hasChild("name")) {
                             name = dataSnapshot.child("name").getValue().toString();

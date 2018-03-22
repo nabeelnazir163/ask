@@ -2,9 +2,6 @@ package com.zillion.android.askaalim.models;
 
 import java.io.Serializable;
 
-/**
- * Created by Nabeel on 9/28/2017.
- */
 
 public class reply implements Serializable {
 

@@ -624,88 +624,75 @@ public class postNewAnswer extends AppCompatActivity implements View.OnClickList
                         audiotv.setText(null);
 
                         final String C_Current_user =FirebaseUtils.getCurrentUser().getEmail().replace(".",",");
-                        FirebaseUtils.getUserRef(C_Current_user).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                image_current_user = dataSnapshot.child("image").getValue().toString();
-                                name = dataSnapshot.child("name").getValue().toString();
-                            }
+                            String updated_email = mPost.getEmail().replace(".",",");
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-
-                                String updated_email = mPost.getEmail().replace(".",",");
-
-                                if(!C_Current_user.equals(updated_email)){
+                            if(!C_Current_user.equals(updated_email)){
 
 
-                                    /**
-                                     * Send notification on answer post
-                                     */
+                                /*
+                                 * Send notification on answer post
+                                 */
 
-                                    FirebaseUtils.getUserRef(C_Current_user).addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                            Current_UserName = dataSnapshot.child("name").getValue().toString();
-                                            Current_userImage = dataSnapshot.child("image").getValue().toString();
+                                FirebaseUtils.getUserRef(C_Current_user).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        Current_UserName = (String) dataSnapshot.child("name").getValue();
+                                        Current_userImage = (String) dataSnapshot.child("image").getValue();
 
-                                            FirebaseUtils.getPostRef().child(mPost.getPostId()).addValueEventListener(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                        FirebaseUtils.getPostRef().child(mPost.getPostId()).addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                                    final String email = dataSnapshot.child("email").getValue().toString();
+                                                final String email = (String) dataSnapshot.child("email").getValue();
 
-                                                    FirebaseUtils.getUserRef(email.replace(".",",")).addValueEventListener(new ValueEventListener() {
-                                                        @Override
-                                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                                FirebaseUtils.getUserRef(email.replace(".",",")).addValueEventListener(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                                            String pushId = FirebaseUtils.getUid();
+                                                        String pushId = FirebaseUtils.getUid();
 
-                                                            FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("name").setValue(Current_UserName);
-                                                            FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("notification").setValue("answered your post");
-                                                            FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("post").setValue(mPost);
-                                                            FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("time").setValue(System.currentTimeMillis());
-                                                            FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("image").setValue(Current_userImage);
+                                                        FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("name").setValue(Current_UserName);
+                                                        FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("notification").setValue("answered your post");
+                                                        FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("post").setValue(mPost);
+                                                        FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("time").setValue(System.currentTimeMillis());
+                                                        FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("image").setValue(Current_userImage);
 
 
-                                                            if(dataSnapshot.hasChild("fcmtoken")) {
+                                                        if(dataSnapshot.hasChild("fcmtoken")) {
 
-                                                                FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
-                                                                sendNotification notify = new sendNotification(Current_UserName + " answered your question", mPost.getPostId(), FCM_token);
-                                                            }
+                                                            FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
+                                                            sendNotification notify = new sendNotification(Current_UserName + " answered your question", mPost.getPostId(), FCM_token);
                                                         }
+                                                    }
 
-                                                        @Override
-                                                        public void onCancelled(DatabaseError databaseError) {
+                                                    @Override
+                                                    public void onCancelled(DatabaseError databaseError) {
 
-                                                        }
-                                                    });
+                                                    }
+                                                });
 
-                                                }
+                                            }
 
-                                                @Override
-                                                public void onCancelled(DatabaseError databaseError) {
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
 
-                                                }
-                                            });
+                                            }
+                                        });
 
-                                        }
+                                    }
 
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
 
-                                        }
-                                    });
+                                    }
+                                });
 
-                                    /**
-                                     *  NOTIFICATION WORK ENDS HERE
-                                     */
+                                /*
+                                 *  NOTIFICATION WORK ENDS HERE
+                                 */
 
-                                }
+                            }
 
                     }
                 });

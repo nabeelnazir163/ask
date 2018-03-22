@@ -96,10 +96,14 @@ public class CreateNewPostActivity extends AppCompatActivity implements View.OnC
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 String name = (String) dataSnapshot.child("name").getValue();
-                String photo_url = (String) dataSnapshot.child("image").getValue();
 
-                Glide.with(getApplicationContext()).load(photo_url).into(m_User_display);
+                if(dataSnapshot.hasChild("image")) {
 
+                    String photo_url = (String) dataSnapshot.child("image").getValue();
+
+                    Glide.with(getApplicationContext()).load(photo_url).into(m_User_display);
+
+                }
                 mUsername.setText(name + " asks");
 
             }

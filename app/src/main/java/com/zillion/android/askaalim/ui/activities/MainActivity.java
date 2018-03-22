@@ -44,6 +44,7 @@ import com.bumptech.glide.Glide;
 //import com.nex3z.notificationbadge.NotificationBadge;
 import com.zillion.android.askaalim.BootCompleteReceiver;
 import com.zillion.android.askaalim.MyFirebaseMessagingService;
+import com.zillion.android.askaalim.Premium_Activity;
 import com.zillion.android.askaalim.R;
 import com.zillion.android.askaalim.ui.adapter.ViewPagerAdapter;
 import com.zillion.android.askaalim.ui.activities.RegisterActivities.RegisterActivity;
@@ -106,6 +107,8 @@ public class MainActivity extends BaseActivity
 
     public static TextView messagetv;
     public static TextView notification_tv;
+
+    String photo_url;
 
     //Alert dialog to confirm for inAPppurchase
     AlertDialog.Builder purchaseConfirm;
@@ -208,6 +211,11 @@ public class MainActivity extends BaseActivity
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
         tabLayout.setTabTextColors(Color.BLACK , Color.WHITE);
+
+        nv = (NavigationView) findViewById(R.id.nav_view);
+
+        Menu nav_Menu = nv.getMenu();
+        nav_Menu.findItem(R.id.myaccount).setVisible(false);
 
 
 //        mBadge = (NotificationBadge)findViewById(R.id.badge);
@@ -337,13 +345,18 @@ public class MainActivity extends BaseActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        assert navigationView != null;
-        navigationView.setNavigationItemSelectedListener(this);
-        Menu menu = navigationView.getMenu();
+        assert nv != null;
+        nv.setNavigationItemSelectedListener(this);
+        Menu menu = nv.getMenu();
         MenuItem Ask_Wazifa = menu.findItem(R.id.askWazaif);
         MenuItem Ask_Khuwab = menu.findItem(R.id.askkhuwab);
         MenuItem Ask_istekhara = menu.findItem(R.id.askistekhara);
+
+
+        //Hide Premium Items For Now
+        nav_Menu.findItem(R.id.askWazaif).setVisible(false);
+        nav_Menu.findItem(R.id.askkhuwab).setVisible(false);
+        nav_Menu.findItem(R.id.askistekhara).setVisible(false);
 
         if(userType == 1) {
 
@@ -376,7 +389,7 @@ public class MainActivity extends BaseActivity
 //        MenuItem nav_logoutItem = menu.findItem(R.id.nav_input_logout);
 //        nav_logoutItem .setIcon(R.drawable.ic_nav_input_logout);
 
-        View navHeaderView = navigationView.getHeaderView(0);
+        View navHeaderView = nv.getHeaderView(0);
         initNavHeader(navHeaderView);
 
         if(userType == 3) {
@@ -472,7 +485,6 @@ public class MainActivity extends BaseActivity
 
     private void hideItemforGuest()
     {
-        nv = (NavigationView) findViewById(R.id.nav_view);
         Menu nav_Menu = nv.getMenu();
         nav_Menu.findItem(R.id.myaccount).setVisible(false);
     }
@@ -502,15 +514,18 @@ public class MainActivity extends BaseActivity
 
                     String email = null;
                     String name = (String) dataSnapshot.child("name").getValue();
-                    String photo_url = (String) dataSnapshot.child("image").getValue();
+                    if(dataSnapshot.hasChild("image")) {
 
+                        photo_url = (String) dataSnapshot.child("image").getValue();
+                        Glide.with(getApplicationContext()).load(photo_url).into(mDisplayImageView);
+
+                    }
                     if (mAuth.getCurrentUser() != null) {
 
                         email = mAuth.getCurrentUser().getEmail();
 
                     }
 
-                    Glide.with(getApplicationContext()).load(photo_url).into(mDisplayImageView);
 
                     mNameTextView.setText(name);
                     mEmailTextView.setText(email);
@@ -839,7 +854,34 @@ public class MainActivity extends BaseActivity
 
 //            mAuth.signOut();
             startActivity(new Intent(MainActivity.this , QiblaDirection.class));
-        }else if ( id == R.id.askWazaif){
+        } else if ( id == R.id.premium){
+
+            if(userType == 3){
+
+                Toast.makeText(MainActivity.this, "You have to login first in order to use this feature", Toast.LENGTH_SHORT).show();
+
+            } else if(userType == 2){
+
+                if(bp.isPurchased("ask_aalim.premium_account_com.zillion.android.askalim")){
+
+                    Toast.makeText(MainActivity.this, "Purchased", Toast.LENGTH_SHORT).show();
+
+                    startActivity(new Intent(MainActivity.this, Premium_Activity.class));
+
+                } else {
+
+                    buyPremium();
+                }
+
+            } else if(userType == 1){
+
+                Intent main_intent = new Intent(MainActivity.this , search_user_for_newMessage.class);
+                main_intent.putExtra("askFor", "wazifa");
+                startActivity(main_intent);
+
+            }
+
+        } else if ( id == R.id.askWazaif){
 
             if(userType == 3){
 

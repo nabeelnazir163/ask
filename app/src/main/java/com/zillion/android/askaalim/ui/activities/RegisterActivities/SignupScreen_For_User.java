@@ -295,79 +295,81 @@ public class SignupScreen_For_User extends BaseActivity {
 
 
 
-        if(!TextUtils.isEmpty(mNameFieldUser) && !TextUtils.isEmpty(mEmailFieldUser) && !TextUtils.isEmpty(mPassFieldUser) && mImageUri_user != null){
+        if(!TextUtils.isEmpty(mNameFieldUser) && !TextUtils.isEmpty(mEmailFieldUser) && !TextUtils.isEmpty(mPassFieldUser) ){
 
             mAuth.createUserWithEmailAndPassword(mEmailFieldUser , mPassFieldUser).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
 
-                    if(task.isSuccessful()){
+                    if(task.isSuccessful()) {
 
-                        StorageReference filepath = mSignup_Stor_ref_user.child(System.currentTimeMillis() + mImageUri_user.getLastPathSegment());
+                        if (mImageUri_user != null) {
 
-                        filepath.putFile(mImageUri_user).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            StorageReference filepath = mSignup_Stor_ref_user.child(System.currentTimeMillis() + mImageUri_user.getLastPathSegment());
+
+                            filepath.putFile(mImageUri_user).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                    Uri downloaduri = taskSnapshot.getDownloadUrl();
+                                    FirebaseUtils.getUserRef(email).child("image").setValue(downloaduri);
+                                }
+                            });
+
+                        }
+
+                        FirebaseUtils.getUserRef(email).child("name").setValue(mNameFieldUser);
+                        FirebaseUtils.getUserRef(email).child("gender").setValue(select_gender_user);
+                        FirebaseUtils.getUserRef(email).child("phone").setValue(phonenumberUser);
+
+                        if (!countryname_user.equals("Select Countries...")) {
+                            FirebaseUtils.getUserRef(email).child("country").setValue(countryname_user);
+                        }
+                        if (!selected_fiqah.equals("Select...")) {
+                            FirebaseUtils.getUserRef(email).child("fiqah").setValue(selected_fiqah);
+                        }
+                        FirebaseUtils.getUserRef(email).child("userType").setValue("User");
+                        FirebaseUtils.getUserRef(email).child("uid").setValue(FirebaseUtils.getCurrentUser().getUid());
+                        FirebaseUtils.getUserRef(email).child("fcmtoken").setValue(token);
+
+                        if (!TextUtils.isEmpty(State_user)) {
+
+                            FirebaseUtils.getUserRef(email).child("state").setValue(State_user);
+
+                        }
+
+                        if (!TextUtils.isEmpty(City_user)) {
+
+                            FirebaseUtils.getUserRef(email).child("city").setValue(City_user);
+
+                        }
+
+                        if (!TextUtils.isEmpty(street_address_user)) {
+
+                            FirebaseUtils.getUserRef(email).child("address").setValue(street_address_user);
+
+                        }
+
+                        FirebaseUtils.getUserRef(email).child("email").setValue(FirebaseUtils.getCurrentUser().getEmail()).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            public void onSuccess(Void aVoid) {
 
-                                String downloaduri = taskSnapshot.getDownloadUrl().toString();
-                                FirebaseUtils.getUserRef(email).child("image").setValue(downloaduri);
+                                progressDialog.dismiss();
 
-                                FirebaseUtils.getUserRef(email).child("name").setValue(mNameFieldUser);
-                                FirebaseUtils.getUserRef(email).child("gender").setValue(select_gender_user);
-                                FirebaseUtils.getUserRef(email).child("phone").setValue(phonenumberUser);
+                                userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
+                                userType_sh_editor = userType_sp.edit();
 
-                                if(!countryname_user.equals("Select Countries...")) {
-                                    FirebaseUtils.getUserRef(email).child("country").setValue(countryname_user);
-                                }
-                                if(!selected_fiqah.equals("Select...")) {
-                                    FirebaseUtils.getUserRef(email).child("fiqah").setValue(selected_fiqah);
-                                }
-                                FirebaseUtils.getUserRef(email).child("userType").setValue("User");
-                                FirebaseUtils.getUserRef(email).child("uid").setValue(FirebaseUtils.getCurrentUser().getUid());
-                                FirebaseUtils.getUserRef(email).child("fcmtoken").setValue(token);
+                                userType_sh_editor.putInt("UserType", 2);
+                                userType_sh_editor.apply();
 
-                                if(!TextUtils.isEmpty(State_user)){
+                                Intent main_intent = new Intent(SignupScreen_For_User.this, MainActivity.class);
+                                main_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                finish();
+                                startActivity(main_intent);
 
-                                    FirebaseUtils.getUserRef(email).child("state").setValue(State_user);
-
-                                }
-
-                                if (!TextUtils.isEmpty(City_user)){
-
-                                    FirebaseUtils.getUserRef(email).child("city").setValue(City_user);
-
-                                }
-
-                                if(!TextUtils.isEmpty(street_address_user)){
-
-                                    FirebaseUtils.getUserRef(email).child("address").setValue(street_address_user);
-
-                                }
-
-                                FirebaseUtils.getUserRef(email).child("email").setValue(FirebaseUtils.getCurrentUser().getEmail()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-
-                                        progressDialog.dismiss();
-
-                                        userType_sp = getSharedPreferences("UserType", Context.MODE_PRIVATE);
-                                        userType_sh_editor = userType_sp.edit();
-
-                                        userType_sh_editor.putInt("UserType", 2);
-                                        userType_sh_editor.apply();
-
-                                        Intent main_intent = new Intent(SignupScreen_For_User.this , MainActivity.class);
-                                        main_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                        finish();
-                                        startActivity(main_intent);
-
-                                    }
-                                });
                             }
                         });
-
-                    } 
-
+                    }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -379,11 +381,7 @@ public class SignupScreen_For_User extends BaseActivity {
                 }
             });
 
-        }  else if ( mImageUri_user == null){
-            Toast.makeText(getApplicationContext(), "Profile Image is not attached" , Toast.LENGTH_LONG).show();
-            progressDialog.dismiss();
         }
-
     }
 
     public final static boolean isValidEmail(String target) {

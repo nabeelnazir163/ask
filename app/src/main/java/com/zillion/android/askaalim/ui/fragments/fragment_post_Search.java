@@ -138,6 +138,8 @@ public class fragment_post_Search extends Fragment {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("posts");
 
+        mAdapter.notifyDataSetChanged();
+
         reference.orderByChild("postText").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -226,7 +228,6 @@ public class fragment_post_Search extends Fragment {
 
     private void updatePostListview(final Post model){
 
-        mAdapter.notifyDataSetChanged();
         mListview.setAdapter(mAdapter);
 
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

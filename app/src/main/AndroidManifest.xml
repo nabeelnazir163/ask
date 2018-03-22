@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.zillion.android.askaalim"
-    >
+    package="com.zillion.android.askaalim">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -25,18 +24,19 @@
         android:roundIcon="@drawable/logo24x24"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <service android:name=".MyFirebaseMessagingService">
-
+        <service android:name=".MyFirebaseMessagingService"
+            >
             <intent-filter>
-
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
-
             </intent-filter>
         </service>
+
+        <service android:name=".ui.activities.FirebaseNotificationServices"/>
+
         <receiver android:name=".BootCompleteReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
@@ -51,15 +51,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".ui.activities.RegisterActivities.RegisterActivity"
-            android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".ui.activities.PostActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.activities.PostActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activities.splash"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="com.google.android.gms.version"
@@ -71,29 +72,45 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity
+            android:name=".ui.activities.repeatingActivities.Repeating_activity_hadees"
+            android:screenOrientation="portrait" />
+
+        <receiver
+            android:name=".NotificationReceiever.Notification_receiver_hadees"
+            android:screenOrientation="portrait" />
 
         <activity
-            android:screenOrientation="portrait"
-            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
+            android:name=".ui.activities.repeatingActivities.Repeating_activity_hijriEvent"
+            android:screenOrientation="portrait" />
 
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.repeatingActivities.Repeating_activity_hadees" />
+        <receiver
+            android:name=".NotificationReceiever.Notification_receiver_hijriEvent"
+            android:screenOrientation="portrait" />
 
-        <receiver android:screenOrientation="portrait" android:name=".NotificationReceiever.Notification_receiver_hadees" />
+        <activity
+            android:name=".ui.activities.repeatingActivities.Repeating_activity_prayertime"
+            android:screenOrientation="portrait" />
 
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.repeatingActivities.Repeating_activity_hijriEvent" />
+        <receiver
+            android:name=".NotificationReceiever.Notification_receiver_prayerTime"
+            android:screenOrientation="portrait" />
 
-        <receiver android:screenOrientation="portrait" android:name=".NotificationReceiever.Notification_receiver_hijriEvent" />
+        <activity
+            android:name=".ui.activities.repeatingActivities.Repeating_activity_unAnsweres"
+            android:screenOrientation="portrait" />
 
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.repeatingActivities.Repeating_activity_prayertime" />
+        <receiver
+            android:name=".NotificationReceiever.Notification_receiver_unAnsweredQues"
+            android:screenOrientation="portrait" />
 
-        <receiver android:screenOrientation="portrait" android:name=".NotificationReceiever.Notification_receiver_prayerTime" />
-
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.repeatingActivities.Repeating_activity_unAnsweres" />
-
-        <receiver android:screenOrientation="portrait" android:name=".NotificationReceiever.Notification_receiver_unAnsweredQues" />
-
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.Chat" />
+        <activity
+            android:name=".ui.activities.Chat"
+            android:screenOrientation="portrait" />
 
         <service android:name=".MyFirebaseInstanceIdService">
             <intent-filter>
@@ -101,16 +118,23 @@
             </intent-filter>
         </service>
 
-
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.UserProfile" />
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.Prayer_Time_Activity" />
         <activity
-            android:screenOrientation="portrait"
+            android:name=".ui.activities.UserProfile"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.Prayer_Time_Activity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".inApp_purchaser"
             android:label="@string/title_activity_in_app_purchaser"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.AppInfo" />
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.comment_reply_activity" />
+        <activity
+            android:name=".ui.activities.AppInfo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.comment_reply_activity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -122,24 +146,51 @@
         <activity
             android:name=".ui.activities.RegisterActivities.signupScreenForAlim"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.CreateNewPostActivity" />
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.answersActivity" />
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.postNewAnswer" />
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.Notification" />
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.inbox" />
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.ResetPassword" />
         <activity
-            android:screenOrientation="portrait"
+            android:name=".ui.activities.CreateNewPostActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.answersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.postNewAnswer"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.Notification"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.inbox"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.ResetPassword"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activities.SearchWithTabbedActivity"
             android:label="@string/title_activity_search_with_tabbed"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.search_user_for_newMessage" />
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.QiblaDirection" />
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.viewallsearchesForUser" />
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.viewallPosts" />
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.viewallComments" />
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.sent_messages" />
-        <activity android:screenOrientation="portrait" android:name=".ui.activities.edit_profile"></activity>
+        <activity
+            android:name=".ui.activities.search_user_for_newMessage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.QiblaDirection"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.viewallsearchesForUser"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.viewallPosts"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.viewallComments"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.sent_messages"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.edit_profile"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Premium_Activity"></activity>
     </application>
 
 </manifest>

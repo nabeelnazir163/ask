@@ -91,15 +91,21 @@ public class viewallComments extends BaseActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        image_url_comment = dataSnapshot.child("image").getValue().toString();
-                        name_comment = dataSnapshot.child("name").getValue().toString();
+                        if(dataSnapshot.hasChild("image")){
+
+                            image_url_comment = (String) dataSnapshot.child("image").getValue();
+
+                            Glide.with(viewallComments.this)
+                                    .load(image_url_comment)
+                                    .into(viewHolder.commentOwnerDisplay);
+
+                        }
+                        name_comment = (String) dataSnapshot.child("name").getValue();
 
                         viewHolder.setUsername(name_comment);
                         viewHolder.setComment(model.getComment());
                         viewHolder.setTime(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
-                        Glide.with(viewallComments.this)
-                                .load(image_url_comment)
-                                .into(viewHolder.commentOwnerDisplay);
+
                     }
 
                     @Override

@@ -141,7 +141,7 @@ public class homeFragment extends Fragment {
                     public void run() {
                         init();
 
-                        init_home();
+                        //init_home();
                         mSwipeRef_home.setRefreshing(false);
                     }
                 },2000);
@@ -365,15 +365,20 @@ public class homeFragment extends Fragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if(dataSnapshot.hasChild("fiqah")) {
-                            fiqah = dataSnapshot.child("fiqah").getValue().toString();
+                            fiqah = (String) dataSnapshot.child("fiqah").getValue();
                         }
 
                         if(dataSnapshot.hasChild("image")) {
-                            image_url = dataSnapshot.child("image").getValue().toString();
+
+                            image_url = (String) dataSnapshot.child("image").getValue();
+                            Glide.with(getContext())
+                                    .load(image_url)
+                                    .into(viewHolder.postOwnerDisplayImageView);
+
                         }
 
                         if(dataSnapshot.hasChild("name")) {
-                            name = dataSnapshot.child("name").getValue().toString();
+                            name = (String) dataSnapshot.child("name").getValue();
                         }
 
                         if(!TextUtils.isEmpty(fiqah)){
@@ -385,11 +390,9 @@ public class homeFragment extends Fragment {
                         if( !TextUtils.isEmpty(name))
                         viewHolder.setUsername(name);
 
-                        if( !TextUtils.isEmpty(image_url)) {
-                            Glide.with(getContext()).load(image_url).into(viewHolder.postOwnerDisplayImageView);
 //                            Picasso.with(getActivity()).load(image_url).into(viewHolder.postOwnerDisplayImageView);
 //                            Toast.makeText(getActivity(), image_url, Toast.LENGTH_SHORT).show();
-                        }
+
 
                     }
 

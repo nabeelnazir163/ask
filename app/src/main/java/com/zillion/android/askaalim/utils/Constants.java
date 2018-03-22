@@ -1,10 +1,5 @@
 package com.zillion.android.askaalim.utils;
 
-
-/**
- * Created by brad on 2017/02/05.
- */
-
 public class Constants {
 
     public static final String POST_KEY = "posts";

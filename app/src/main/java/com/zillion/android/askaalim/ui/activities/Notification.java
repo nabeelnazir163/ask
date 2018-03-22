@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -97,8 +98,9 @@ public class Notification extends AppCompatActivity {
 //                            public void onDataChange(DataSnapshot dataSnapshot) {
                     viewHolder.setNotificationMesssage(model.getName() + " " + model.getNotification());
 
-                    Glide.with(Notification.this).load(model.getImage()).into(viewHolder.Notification_from_iv);
-
+                    if(!TextUtils.isEmpty(model.getImage())) {
+                        Glide.with(Notification.this).load(model.getImage()).into(viewHolder.Notification_from_iv);
+                    }
                     viewHolder.Notification_time_tv.setText(DateUtils.getRelativeTimeSpanString(model.getTime()));
 
 

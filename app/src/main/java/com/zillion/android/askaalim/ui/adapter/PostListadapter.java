@@ -72,16 +72,21 @@ public class PostListadapter extends ArrayAdapter<Post> {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        String name = dataSnapshot.child("name").getValue().toString();
-                        String img = dataSnapshot.child("image").getValue().toString();
+                        String name = (String) dataSnapshot.child("name").getValue();
+                        if(dataSnapshot.hasChild("image")) {
 
+                            String img = (String) dataSnapshot.child("image").getValue();
+
+                            Glide.with(mContext)
+                                    .load(img)
+                                    .into(viewHolder.profile_img);
+
+                        }
                         if(!TextUtils.isEmpty(name)){
                             viewHolder.username.setText(name);
                         }
 
-                        if(!TextUtils.isEmpty(img)){
-                            Glide.with(mContext).load(img).into(viewHolder.profile_img);
-                        }
+
                     }
 
                     @Override

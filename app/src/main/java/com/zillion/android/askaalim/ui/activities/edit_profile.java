@@ -167,11 +167,19 @@ public class edit_profile extends BaseActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        old_image_uri = Uri.parse(dataSnapshot.child("image").getValue().toString());
-                        old_name = dataSnapshot.child("name").getValue().toString();
+
+
+                        if(dataSnapshot.hasChild("image")){
+
+                            old_image_uri = Uri.parse((String) dataSnapshot.child("image").getValue());
+                            Glide.with(getApplicationContext()).load(old_image_uri).into(chnage_image);
+
+                        } else {
+                            old_image_uri = Uri.parse("");
+                        }
+                        old_name = (String) dataSnapshot.child("name").getValue();
 
                         chnage_name.setText(old_name);
-                        Glide.with(getApplicationContext()).load(old_image_uri).into(chnage_image);
 
                         new_image_uri = old_image_uri;
 //                        Toast.makeText(getApplicationContext(), "new uri" + new_image_uri, Toast.LENGTH_LONG).show();

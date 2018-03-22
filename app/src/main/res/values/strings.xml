@@ -139,9 +139,18 @@
     <string name="comment_instruction">Comment Instructions</string>
     <string name="record_audio">Record Audio</string>
     <string name="edit_ans">Edit Answer</string>
+    <string name="premium">Premium</string>
+    <string name="askWazifa">Ask for Wazifa</string>
+    <string name="askkhuwab">Ask for Khuwab ki tabeer</string>
+    <string name="askistekhara">Ask for Istekhara</string>
+    <string name="buy_prem">Buy Premium</string>
+    <string name="askWazifa_desc">Keep Swiping forever, no limits no timers</string>
+    <string name="pkg">Buy complete package for only Rs. 250 </string>
+    <string name="seen">Seen</string>
+    <string name="writeans">Write an Asnwer</string>
+    <string name="posttext">Post text</string>
 
     <string name="FCM_PREF">com.zillion.android.askaalim.fcm_pref</string>
     <string name="FCM_TOEKN">com.zillion.android.askaalim.fcm_token</string>
-
 
 </resources>

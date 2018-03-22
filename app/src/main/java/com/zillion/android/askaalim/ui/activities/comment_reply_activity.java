@@ -252,15 +252,18 @@ public class comment_reply_activity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                image_url_comment = dataSnapshot.child("image").getValue().toString();
-                name_comment = dataSnapshot.child("name").getValue().toString();
+                if(dataSnapshot.hasChild("image")) {
+                    image_url_comment = (String) dataSnapshot.child("image").getValue();
+                    Glide.with(comment_reply_activity.this)
+                            .load(image_url_comment)
+                            .into(ComUserDisplayImageView);
+                }
+                name_comment = (String) dataSnapshot.child("name").getValue();
 
                 Com_user_Display_name.setText(name_comment);
                 Comment.setText(mComment.getComment());
                 commentTime.setText(DateUtils.getRelativeTimeSpanString(mComment.getTimeCreated()));
-                Glide.with(comment_reply_activity.this)
-                        .load(image_url_comment)
-                        .into(ComUserDisplayImageView);
+
             }
 
             @Override
@@ -293,14 +296,17 @@ public class comment_reply_activity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        image_url_comment = dataSnapshot.child("image").getValue().toString();
-                        name_comment = dataSnapshot.child("name").getValue().toString();
+                        if(dataSnapshot.hasChild("image")) {
+
+                            image_url_comment = (String) dataSnapshot.child("image").getValue();
+                            Glide.with(comment_reply_activity.this).load(image_url_comment).into(viewHolder.mCommentIv);
+
+                        }
+                        name_comment = (String) dataSnapshot.child("name").getValue();
 
                         viewHolder.setComUsername(name_comment);
                         viewHolder.setReply(model.getReply_text());
                         viewHolder.setReplyTime(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
-
-                        Glide.with(comment_reply_activity.this).load(image_url_comment).into(viewHolder.mCommentIv);
 
                     }
 

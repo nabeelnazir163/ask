@@ -192,11 +192,13 @@ public class inbox extends BaseActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
                         String username = (String) dataSnapshot.child("name").getValue();
-                        String userImage = (String) dataSnapshot.child("image").getValue();
+                        if(dataSnapshot.hasChild("image")) {
 
+                            String userImage = (String) dataSnapshot.child("image").getValue();
+                            viewHolder.setUserImage(userImage, getApplicationContext());
 
+                        }
                         viewHolder.setName(username);
-                        viewHolder.setUserImage(userImage, getApplicationContext());
 
                     }
 

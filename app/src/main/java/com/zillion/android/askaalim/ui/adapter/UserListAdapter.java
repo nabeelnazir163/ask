@@ -3,6 +3,7 @@ package com.zillion.android.askaalim.ui.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,9 @@ public class UserListAdapter extends ArrayAdapter<User> {
         viewHolder.username.setText(getItem(position).getName());
         viewHolder.userType.setText(getItem(position).getUserType());
 
-        Glide.with(mContext).load(getItem(position).getImage()).into(viewHolder.profileimage);
+        if(!TextUtils.isEmpty(getItem(position).getImage())) {
+            Glide.with(mContext).load(getItem(position).getImage()).into(viewHolder.profileimage);
+        }
 
         return convertView;
     }

@@ -141,51 +141,8 @@ public class Chat extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                current_user_name = dataSnapshot.child("name").getValue().toString();
-                current_user_image = dataSnapshot.child("image").getValue().toString();
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        FirebaseUtils.getChatRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                if(!dataSnapshot.hasChild(chatWithEmail)){
-
-                    Map chatAdMAp = new HashMap();
-
-                    chatAdMAp.put("sending_timeStamp", System.currentTimeMillis());
-                    chatAdMAp.put("seen", true);
-
-                    Map chatuserMap = new HashMap();
-
-                    chatuserMap.put("chat/" + FirebaseUtils.getCurrentUser().getEmail().replace(".",",") +
-                        "/" + chatWithEmail, chatAdMAp
-                    );
-                    chatuserMap.put("chat/" + chatWithEmail +
-                            "/" + FirebaseUtils.getCurrentUser().getEmail().replace(".",","), chatAdMAp
-                    );
-
-                    FirebaseUtils.getRootRef().updateChildren(chatuserMap, new DatabaseReference.CompletionListener() {
-                        @Override
-                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
-                            if(databaseError != null){
-
-                                Log.d("ChatError", databaseError.getMessage().toString());
-
-                            }
-
-                        }
-                    });
-
-                }
+                current_user_name = (String) dataSnapshot.child("name").getValue();
+                current_user_image = (String) dataSnapshot.child("image").getValue();
 
             }
 
@@ -403,6 +360,49 @@ public class Chat extends AppCompatActivity {
                         Log.d("LOGERROR", databaseError.getMessage().toString());
 
                     }
+
+                }
+            });
+
+            FirebaseUtils.getChatRef().child(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    if(!dataSnapshot.hasChild(chatWithEmail)){
+
+                        Map chatAdMAp = new HashMap();
+
+                        chatAdMAp.put("sending_timeStamp", System.currentTimeMillis());
+                        chatAdMAp.put("seen", true);
+
+                        Map chatuserMap = new HashMap();
+
+                        chatuserMap.put("chat/" + FirebaseUtils.getCurrentUser().getEmail().replace(".",",") +
+                                "/" + chatWithEmail, chatAdMAp
+                        );
+                        chatuserMap.put("chat/" + chatWithEmail +
+                                "/" + FirebaseUtils.getCurrentUser().getEmail().replace(".",","), chatAdMAp
+                        );
+
+                        FirebaseUtils.getRootRef().updateChildren(chatuserMap, new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                                if(databaseError != null){
+
+                                    Log.d("ChatError", databaseError.getMessage().toString());
+
+                                }
+
+                            }
+                        });
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
                 }
             });

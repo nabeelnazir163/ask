@@ -3,10 +3,6 @@ package com.zillion.android.askaalim.models;
 
 import java.io.Serializable;
 
-/**
- * Created by brad on 2017/02/05.
- */
-
 public class User implements Serializable {
 
     private String address;

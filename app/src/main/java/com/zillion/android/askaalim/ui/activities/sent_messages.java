@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,8 +70,9 @@ public class sent_messages extends AppCompatActivity {
                     viewHolder.setMessage(model.getMessage());
                     viewHolder.setTime(DateUtils.getRelativeTimeSpanString(model.getSending_timeStamp()));
 
-                    Glide.with(getApplicationContext()).load(model.getReceiver_image_url()).into(viewHolder.messageSenderImageView);
-
+                    if(!TextUtils.isEmpty(model.getReceiver_image_url())) {
+                        Glide.with(getApplicationContext()).load(model.getReceiver_image_url()).into(viewHolder.messageSenderImageView);
+                    }
                 } else {
 
                     noNewMessage.setVisibility(View.VISIBLE);

@@ -361,8 +361,16 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                    @Override
                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-                       image_url_ans = dataSnapshot.child("image").getValue().toString();
-                       name_ans = dataSnapshot.child("name").getValue().toString();
+                       if(dataSnapshot.hasChild("image")) {
+
+                           image_url_ans = (String) dataSnapshot.child("image").getValue();
+
+                           Glide.with(PostActivity.this)
+                                   .load(image_url_ans)
+                                   .into(mostLikedanswer_iv);
+
+                       }
+                       name_ans = (String) dataSnapshot.child("name").getValue();
                        mostLikedanseer(model.getAnswer());
                        setMostlikedanswer_time_tv(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
 
@@ -395,12 +403,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
                            }
                        });
-
-                       if (!TextUtils.isEmpty(image_url_ans)) {
-                           Glide.with(PostActivity.this)
-                                   .load(image_url_ans)
-                                   .into(mostLikedanswer_iv);
-                       }
 
                    }
 
@@ -437,14 +439,17 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    image_url_comment = dataSnapshot.child("image").getValue().toString();
-                    name_comment = dataSnapshot.child("name").getValue().toString();
+                    if(dataSnapshot.hasChild("image")){
+
+                        image_url_comment = (String) dataSnapshot.child("image").getValue();
+
+                        Glide.with(PostActivity.this)
+                                .load(image_url_comment)
+                                .into(viewHolder.commentOwnerDisplay);
+                    }
+                    name_comment = (String) dataSnapshot.child("name").getValue();
 
                     viewHolder.setUsername(name_comment);
-
-                    Glide.with(PostActivity.this)
-                            .load(image_url_comment)
-                            .into(viewHolder.commentOwnerDisplay);
 
                     viewHolder.setComment(model.getComment());
                     viewHolder.setTime(DateUtils.getRelativeTimeSpanString(model.getTimeCreated()));
@@ -562,9 +567,18 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                fiqah = dataSnapshot.child("fiqah").getValue().toString();
-                image_url = dataSnapshot.child("image").getValue().toString();
-                name = dataSnapshot.child("name").getValue().toString();
+                fiqah = (String) dataSnapshot.child("fiqah").getValue();
+
+                if(dataSnapshot.hasChild("image")) {
+
+                    image_url = (String) dataSnapshot.child("image").getValue();
+
+                    Glide.with(PostActivity.this)
+                            .load(image_url)
+                            .into(postOwnerDisplayImageView);
+
+                }
+                name = (String) dataSnapshot.child("name").getValue();
 
                 if(!TextUtils.isEmpty(fiqah)){
 
@@ -574,9 +588,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
                 postOwnerUsernameTextView.setText(name);
 
-                Glide.with(PostActivity.this)
-                        .load(image_url)
-                        .into(postOwnerDisplayImageView);
+
             }
 
             @Override
@@ -1040,15 +1052,15 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                                             FirebaseUtils.getUserRef(C_Current_user).addValueEventListener(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(DataSnapshot dataSnapshot) {
-                                                    Current_UserName = dataSnapshot.child("name").getValue().toString();
-                                                    Current_UserImage = dataSnapshot.child("image").getValue().toString();
+                                                    Current_UserName = (String) dataSnapshot.child("name").getValue();
+                                                    Current_UserImage = (String) dataSnapshot.child("image").getValue();
 
                                                     FirebaseUtils.getPostRef().child(mPost.getPostId())
                                                             .addValueEventListener(new ValueEventListener() {
                                                         @Override
                                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                                            final String email = dataSnapshot.child("email").getValue().toString();
+                                                            final String email = (String) dataSnapshot.child("email").getValue();
 
                                                             FirebaseUtils.getUserRef(email.replace(".",",")).addValueEventListener(new ValueEventListener() {
                                                                 @Override

@@ -1,9 +1,5 @@
 package com.zillion.android.askaalim.models;
 
-/**
- * Created by Nabeel on 1/8/2018.
- */
-
 public class sentbox_model {
     private String receiver_name;
     private String receiver_email;

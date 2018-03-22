@@ -150,9 +150,17 @@ public class unAnsweredFragment extends Fragment {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                            fiqah = dataSnapshot.child("fiqah").getValue().toString();
-                                            image_url = dataSnapshot.child("image").getValue().toString();
-                                            name = dataSnapshot.child("name").getValue().toString();
+                                            fiqah = (String) dataSnapshot.child("fiqah").getValue();
+
+                                            if(dataSnapshot.hasChild("image")) {
+
+                                                image_url = (String) dataSnapshot.child("image").getValue();
+
+                                                Glide.with(getActivity())
+                                                        .load(image_url)
+                                                        .into(viewHolder.postOwnerDisplayImageView);
+                                            }
+                                            name = (String) dataSnapshot.child("name").getValue();
 
                                             if(!TextUtils.isEmpty(fiqah)){
 
@@ -162,9 +170,6 @@ public class unAnsweredFragment extends Fragment {
 
                                             viewHolder.setUsername(name);
 
-                                            Glide.with(getActivity())
-                                                    .load(image_url)
-                                                    .into(viewHolder.postOwnerDisplayImageView);
                                         }
 
                                         @Override

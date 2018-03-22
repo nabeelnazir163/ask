@@ -61,7 +61,7 @@ public class fragment_userSearch extends Fragment {
         mUsersList = new ArrayList<>();
         mAdapter = new UserListAdapter(getContext() , R.layout.layout_user_listenitem, mUsersList);
 
-        hideSoftkeyboard();
+//        hideSoftkeyboard();
         initTextListener();
 
         backbutton.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +87,6 @@ public class fragment_userSearch extends Fragment {
 
     private void updateUsersListview(){
 
-        mAdapter.notifyDataSetChanged();
         mListview.setAdapter(mAdapter);
 
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -150,6 +149,8 @@ public class fragment_userSearch extends Fragment {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users");
 
+        mAdapter.notifyDataSetChanged();
+
         reference.orderByChild("email").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -161,7 +162,6 @@ public class fragment_userSearch extends Fragment {
 
                     if (email.contains(s)) {
 
-//                        Toast.makeText(getContext(), "No user" + mUsersList.size(), Toast.LENGTH_SHORT).show();
                         mUsersList.add(singlesnapshot.getValue(User.class));
                         updateUsersListview();
 
@@ -184,57 +184,4 @@ public class fragment_userSearch extends Fragment {
 
     }
 
-//    private void searchforMatch(String keyword){
-//
-//        mUsersList.clear();
-//
-//        if(keyword.length() != 0)
-//         {
-//
-//            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-//
-//            Query query = reference.child("users").orderByChild("email").startAt(keyword).endAt(keyword + "\uf8ff").limitToFirst(5);
-//
-//            query.addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//                    for(DataSnapshot singlesnapshot : dataSnapshot.getChildren()){
-//
-//                        mUsersList.add(singlesnapshot.getValue(User.class));
-//                        updateUsersListview();
-//
-//                        mSearchParams.setOnKeyListener(new View.OnKeyListener() {
-//                            public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                                // If the event is a key-down event on the "enter" button
-//                                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-//                                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-//                                    // Perform action on key press
-//
-//                                    Intent alluserSearchIntent = new Intent(getContext(), viewallsearchesForUser.class);
-//                                    alluserSearchIntent.putExtra("textTomatch" , mSearchParams.getText().toString().trim().toLowerCase() );
-//                                    startActivity(alluserSearchIntent);
-////                                    Toast.makeText(getContext(), "User", Toast.LENGTH_SHORT).show();
-//
-//                                    return true;
-//                                }
-//                                return false;
-//                            }
-//                        });
-//
-//                    }
-//                }
-//
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
-//
-//                }
-//            });
-//
-//        } else {
-//
-//            mUsersList.clear();
-//
-//        }
-//
-//    }
 }

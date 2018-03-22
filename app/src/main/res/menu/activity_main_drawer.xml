@@ -32,6 +32,14 @@
                 android:title="Prayer Time"/></group>
 
         <group android:checkableBehavior="single"
+            android:id="@+id/group13">
+            <item
+                android:id="@+id/premium"
+                android:icon="@mipmap/ic_lock_black_24dp"
+                android:title="@string/premium" />
+        </group>
+
+        <group android:checkableBehavior="single"
             android:id="@+id/group10">
             <item
                 android:id="@+id/askWazaif"
