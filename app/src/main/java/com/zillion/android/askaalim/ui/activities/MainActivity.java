@@ -758,13 +758,13 @@ public class MainActivity extends BaseActivity
 
             try{
 
-                Uri uri1 = Uri.parse("market://details?id" + getPackageName());
+                Uri uri1 = Uri.parse("market://details?id=" + getPackageName());
                 Intent gotoMarket = new Intent(Intent.ACTION_VIEW, uri1);
                 startActivity(gotoMarket);
 
             }catch ( ActivityNotFoundException e){
 
-                Uri uri1 = Uri.parse("https://play.google.com/store/apps/details?id" + getPackageName());
+                Uri uri1 = Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName());
                 Intent gotoMarket = new Intent(Intent.ACTION_VIEW, uri1);
                 startActivity(gotoMarket);
 
@@ -825,9 +825,9 @@ public class MainActivity extends BaseActivity
 
             } else if(userType == 2){
 
-                if(bp.isPurchased("ask_aalim.premium_account_com.zillion.android.askalim")){
+                if(!bp.isPurchased("ask_aalim.premium_account_com.zillion.android.askalim")){
 
-                    Toast.makeText(MainActivity.this, "Purchased", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(MainActivity.this, "Purchased", Toast.LENGTH_SHORT).show();
 
                     startActivity(new Intent(MainActivity.this, Premium_Activity.class));
 

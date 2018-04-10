@@ -996,159 +996,110 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         mComment = new Comment();
 
         FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".", ","))
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+            .addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        User user = dataSnapshot.getValue(User.class);
-                        final String uid = FirebaseUtils.getUid();
-                        String strComment = mCommentEditTextView.getText().toString();
+                    User user = dataSnapshot.getValue(User.class);
+                    final String uid = FirebaseUtils.getUid();
+                    String strComment = mCommentEditTextView.getText().toString();
 
-                        mComment.setEmail(FirebaseUtils.getCurrentUser().getEmail());
-                        mComment.setCommentId(uid);
-                        mComment.setComment(strComment);
-                        mComment.setTimeCreated(System.currentTimeMillis());
-                        mComment.setNumReply(0);
+                    mComment.setEmail(FirebaseUtils.getCurrentUser().getEmail());
+                    mComment.setCommentId(uid);
+                    mComment.setComment(strComment);
+                    mComment.setTimeCreated(System.currentTimeMillis());
+                    mComment.setNumReply(0);
 
-                        FirebaseUtils.getCommentRef(mPost.getPostId())
-                                .child(uid)
-                                .setValue(mComment);
+                    FirebaseUtils.getCommentRef(mPost.getPostId())
+                            .child(uid)
+                            .setValue(mComment);
 
-                        if(mPost.getNumComments() < 3){
+                    if(mPost.getNumComments() < 3){
 
-                            viewallComments_tv.setVisibility(View.GONE);
+                        viewallComments_tv.setVisibility(View.GONE);
 
-                        } else {
+                    } else {
 
-                            viewallComments_tv.setVisibility(View.VISIBLE);
+                        viewallComments_tv.setVisibility(View.VISIBLE);
 
-                        }
+                    }
 
-                        FirebaseUtils.getPostRef().child(mPost.getPostId())
-                                .child(Constants.NUM_COMMENTS_KEY)
-                                .runTransaction(new Transaction.Handler() {
-                                    @Override
-                                    public Transaction.Result doTransaction(MutableData mutableData) {
-                                        long num = (long) mutableData.getValue();
-                                        mutableData.setValue(num + 1);
-                                        return Transaction.success(mutableData);
-                                    }
+                    FirebaseUtils.getPostRef().child(mPost.getPostId())
+                        .child(Constants.NUM_COMMENTS_KEY)
+                        .runTransaction(new Transaction.Handler() {
+                            @Override
+                            public Transaction.Result doTransaction(MutableData mutableData) {
+                                long num = (long) mutableData.getValue();
+                                mutableData.setValue(num + 1);
+                                return Transaction.success(mutableData);
+                            }
 
-                                    @Override
-                                    public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                            @Override
+                            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
 
-                                        progressDialog.dismiss();
+                                progressDialog.dismiss();
 
-                                        //FirebaseUtils.addToMyRecord(Constants.COMMENTS_KEY, uid);
+                                //FirebaseUtils.addToMyRecord(Constants.COMMENTS_KEY, uid);
 
-                                        mCommentEditTextView.setText("");
+                                mCommentEditTextView.setText("");
 
-                                        final String C_Current_user = FirebaseUtils.getCurrentUser().getEmail().replace(".",",");
+                                final String C_Current_user = FirebaseUtils.getCurrentUser().getEmail().replace(".",",");
 
-                                        String updated_email = mPost.getEmail().replace(".",",");
+                                String updated_email = mPost.getEmail().replace(".",",");
 
-                                        if(!C_Current_user.equals(updated_email)){
+                                if(!C_Current_user.equals(updated_email)){
 
-                                            FirebaseUtils.getUserRef(C_Current_user).addValueEventListener(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                                    Current_UserName = (String) dataSnapshot.child("name").getValue();
-                                                    Current_UserImage = (String) dataSnapshot.child("image").getValue();
+                                    String pushId = FirebaseUtils.getUid();
 
-                                                    FirebaseUtils.getPostRef().child(mPost.getPostId())
-                                                            .addValueEventListener(new ValueEventListener() {
-                                                        @Override
-                                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                    FirebaseUtils.getNotificationRef().child("notifications").child(updated_email.replace(".",","))
+                                            .child(pushId).child("fromUser").setValue(FirebaseUtils.getCurrentUser().getEmail().replace(".",","));
 
-                                                            final String email = (String) dataSnapshot.child("email").getValue();
-
-                                                            FirebaseUtils.getUserRef(email.replace(".",",")).addValueEventListener(new ValueEventListener() {
-                                                                @Override
-                                                                public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                                                    String pushId = FirebaseUtils.getUid();
-
-                                                                    FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("name").setValue(Current_UserName);
-                                                                    FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("notification").setValue("commented on your post");
-                                                                    FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("time").setValue(System.currentTimeMillis());
-                                                                    FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("image").setValue(Current_UserImage);
-                                                                    FirebaseUtils.getNotificationRef().child(email.replace(".",",")).child(pushId).child("post").setValue(mPost);
-
-
-                                                                    if(dataSnapshot.hasChild("fcmtoken")) {
-                                                                        FCM_token = dataSnapshot.child("fcmtoken").getValue().toString();
-
-                                                                        sendNotification notify = new sendNotification(Current_UserName + " commented on your post",mPost.getPostId(),FCM_token);
-                                                                    }
-                                                                }
-
-                                                                @Override
-                                                                public void onCancelled(DatabaseError databaseError) {
-
-                                                                }
-                                                            });
-
-                                                        }
-
-                                                        @Override
-                                                        public void onCancelled(DatabaseError databaseError) {
-
-                                                        }
-                                                    });
-
-                                                }
-
-                                                @Override
-                                                public void onCancelled(DatabaseError databaseError) {
-
-                                                }
-                                            });
-                                        }
-                                    }
-                                });
-
-
-
-                        Boolean isFirtComment = getSharedPreferences("firstCommentPref",  MODE_PRIVATE).getBoolean("isFrtComment", true);
-
-                        if(isFirtComment){
-
-                            final Dialog dialog = new Dialog(PostActivity.this, android.R.style.Widget_PopupWindow);
-                            dialog.setContentView(R.layout.dialogfirstcommentinstructions);
-                            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-
-                            lp.copyFrom(dialog.getWindow().getAttributes());
-                            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-                            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-                            dialog.setCancelable(true);
-                            dialog.show();
-                            dialog.getWindow().setAttributes(lp);
-
-                            final CheckBox dont_show = (CheckBox) dialog.findViewById(R.id.dont_show_checkbox_comment);
-                            Button close = (Button) dialog.findViewById(R.id.ins_close_b_comment);
-
-                            close.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    if(dont_show.isChecked()){
-
-                                        getSharedPreferences("firstCommentPref",  MODE_PRIVATE).edit().putBoolean("isFrtComment", false).commit();
-
-                                    }
-
-                                    dialog.dismiss();
                                 }
-                            });
-                        }
+                            }
+                        });
 
+
+
+                    Boolean isFirtComment = getSharedPreferences("firstCommentPref",  MODE_PRIVATE).getBoolean("isFrtComment", true);
+
+                    if(isFirtComment){
+
+                        final Dialog dialog = new Dialog(PostActivity.this, android.R.style.Widget_PopupWindow);
+                        dialog.setContentView(R.layout.dialogfirstcommentinstructions);
+                        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+
+                        lp.copyFrom(dialog.getWindow().getAttributes());
+                        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                        dialog.setCancelable(true);
+                        dialog.show();
+                        dialog.getWindow().setAttributes(lp);
+
+                        final CheckBox dont_show = (CheckBox) dialog.findViewById(R.id.dont_show_checkbox_comment);
+                        Button close = (Button) dialog.findViewById(R.id.ins_close_b_comment);
+
+                        close.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if(dont_show.isChecked()){
+
+                                    getSharedPreferences("firstCommentPref",  MODE_PRIVATE).edit().putBoolean("isFrtComment", false).commit();
+
+                                }
+
+                                dialog.dismiss();
+                            }
+                        });
                     }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        progressDialog.dismiss();
-                    }
-                });
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    progressDialog.dismiss();
+                }
+            });
     }
 
     private void setting_num_answer() {

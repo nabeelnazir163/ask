@@ -125,7 +125,7 @@ public class Chat extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                chatwithName = dataSnapshot.child("name").getValue().toString();
+                chatwithName = (String) dataSnapshot.child("name").getValue();
 
                 actionBar.setTitle(chatwithName);
 
@@ -327,7 +327,7 @@ public class Chat extends AppCompatActivity {
 
             message_edittext.setText("");
 
-            FirebaseUtils.getNotificationRef().child(chatWithEmail)
+            FirebaseUtils.getNotificationRef().child("chat_notifiation").child(chatWithEmail)
                     .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).push().setValue(true);
 
             /* START SENDING NOTIFICATION HERE */
@@ -360,7 +360,7 @@ public class Chat extends AppCompatActivity {
 
                     if(databaseError != null){
 
-                        Log.d("LOGERROR", databaseError.getMessage().toString());
+                        Log.d("LOGERROR", databaseError.getMessage());
 
                     }
 

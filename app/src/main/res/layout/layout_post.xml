@@ -222,7 +222,7 @@
             android:layout_marginRight="2dp"
             android:layout_marginStart="3dp"
             android:gravity="center_vertical"
-            android:text="0" />
+            android:text="@string/zero" />
 
     </LinearLayout>
 
@@ -236,8 +236,7 @@
 
         <LinearLayout
             android:id="@+id/answer_layout"
-            android:layout_weight="0.2"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
@@ -263,7 +262,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:gravity="center_vertical"
-                android:text="0"
+                android:text="@string/zero"
                 android:layout_marginRight="2dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="2dp" />
@@ -271,8 +270,7 @@
 
         <LinearLayout
             android:id="@+id/comment_layout"
-            android:layout_weight="0.2"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
@@ -298,7 +296,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:gravity="center_vertical"
-                android:text="0"
+                android:text="@string/zero"
                 android:layout_marginRight="2dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="2dp" />
