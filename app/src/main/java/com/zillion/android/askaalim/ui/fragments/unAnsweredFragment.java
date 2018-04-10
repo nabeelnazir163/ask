@@ -164,7 +164,7 @@ public class unAnsweredFragment extends Fragment {
 
                                             if(!TextUtils.isEmpty(fiqah)){
 
-                                                viewHolder.fiqahOfAlim.setVisibility(View.VISIBLE);
+                                                viewHolder.fiqah_layout.setVisibility(View.VISIBLE);
                                                 viewHolder.setFiqahOfAlim(fiqah);
                                             }
 
@@ -599,6 +599,7 @@ public class unAnsweredFragment extends Fragment {
         TextView fiqahOfAlim;
         RelativeLayout readmore_rel_layout;
         TextView tv_seenPost;
+        LinearLayout fiqah_layout;
 
         public unanswerViewHolder(View itemView) {
             super(itemView);
@@ -623,6 +624,8 @@ public class unAnsweredFragment extends Fragment {
             readmore_rel_layout = (RelativeLayout) itemView.findViewById(R.id.readmore_relLayout);
 //            seenLayout = (LinearLayout) itemView.findViewById(R.id.seen_layout);
             tv_seenPost = (TextView) itemView.findViewById(R.id.tv_seen);
+            fiqah_layout = (LinearLayout) itemView.findViewById(R.id.fiqah_layout);
+
         }
 
         public void setUsername(String username) {

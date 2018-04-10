@@ -151,6 +151,7 @@
     <string name="posttext">Post text</string>
     <string name="notification">Notification</string>
     <string name="zero">0</string>
+    <string name="user">User</string>
 
     <string name="FCM_PREF">com.zillion.android.askaalim.fcm_pref</string>
     <string name="FCM_TOEKN">com.zillion.android.askaalim.fcm_token</string>

@@ -327,9 +327,12 @@ public class Chat extends AppCompatActivity {
 
             message_edittext.setText("");
 
+            FirebaseUtils.getNotificationRef().child(chatWithEmail)
+                    .child(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).push().setValue(true);
+
             /* START SENDING NOTIFICATION HERE */
 
-            if(!FirebaseUtils.getCurrentUser().getEmail().replace(".",",").equals(chatWithEmail)){
+            /*if(!FirebaseUtils.getCurrentUser().getEmail().replace(".",",").equals(chatWithEmail)){
 
                 FirebaseUtils.getUserRef(chatWithEmail).addValueEventListener(new ValueEventListener() {
                     @Override
@@ -349,7 +352,7 @@ public class Chat extends AppCompatActivity {
                     }
                 });
 
-            }
+            }*/
 
             FirebaseUtils.getRootRef().updateChildren(messageUserMap, new DatabaseReference.CompletionListener() {
                 @Override

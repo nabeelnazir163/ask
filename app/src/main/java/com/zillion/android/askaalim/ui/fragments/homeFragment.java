@@ -383,7 +383,7 @@ public class homeFragment extends Fragment {
 
                         if(!TextUtils.isEmpty(fiqah)){
 
-                            viewHolder.fiqahOfAlim.setVisibility(View.VISIBLE);
+                            viewHolder.fiqah_layout.setVisibility(View.VISIBLE);
                             viewHolder.setFiqahOfAlim(fiqah);
                         }
 
@@ -847,6 +847,7 @@ public class homeFragment extends Fragment {
         RelativeLayout readmore_rel_layout;
         LinearLayout seenLayout;
         TextView tv_seenPost;
+        LinearLayout fiqah_layout;
 
         public PostHolder(View itemView) {
             super(itemView);
@@ -871,6 +872,7 @@ public class homeFragment extends Fragment {
             readmore_rel_layout = (RelativeLayout) itemView.findViewById(R.id.readmore_relLayout);
             seenLayout = (LinearLayout) itemView.findViewById(R.id.seen_layout);
             tv_seenPost = (TextView) itemView.findViewById(R.id.tv_seen);
+            fiqah_layout = (LinearLayout) itemView.findViewById(R.id.fiqah_layout);
 
         }
 

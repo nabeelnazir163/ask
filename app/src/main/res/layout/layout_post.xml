@@ -56,34 +56,44 @@
                     android:gravity="center_vertical"
                     android:layout_marginEnd="4dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="("
-                    android:textSize="12sp"
-                    android:singleLine="true"
-                    android:layout_marginLeft="6dp"
-                    android:layout_marginStart="6dp" />
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:orientation="horizontal"
+                   android:id="@+id/fiqah_layout"
+                   android:visibility="gone"
+                   >
 
-                <TextView
-                    android:id="@+id/tv_post_userfiqah"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:singleLine="true"
-                    android:text="Fiqah"
-                    android:layout_marginLeft="3dp"
-                    android:gravity="center_vertical"
-                    android:layout_marginStart="3dp" />
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="("
+                       android:textSize="12sp"
+                       android:singleLine="true"
+                       android:layout_marginLeft="6dp"
+                       android:layout_marginStart="6dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=")"
-                    android:textSize="12sp"
-                    android:singleLine="true"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginStart="3dp" />
+                   <TextView
+                       android:id="@+id/tv_post_userfiqah"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:textSize="12sp"
+                       android:singleLine="true"
+                       android:text="Fiqah"
+                       android:layout_marginLeft="3dp"
+                       android:gravity="center_vertical"
+                       android:layout_marginStart="3dp" />
+
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text=")"
+                       android:textSize="12sp"
+                       android:singleLine="true"
+                       android:layout_marginLeft="3dp"
+                       android:layout_marginStart="3dp" />
+
+               </LinearLayout>
 
             </LinearLayout>
 
@@ -231,7 +241,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="3sp"
+            android:padding="4sp"
             android:layout_marginBottom="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="4dp"
@@ -268,7 +278,7 @@
             android:orientation="horizontal"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="4dp"
-            android:padding="3dp"
+            android:padding="4sp"
             android:layout_marginRight="8dp"
             android:background="@drawable/viewallanswers_bg"
             android:layout_marginEnd="8dp">

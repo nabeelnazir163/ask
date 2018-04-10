@@ -42,6 +42,8 @@ import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import com.bumptech.glide.Glide;
 //import com.nex3z.notificationbadge.NotificationBadge;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.zillion.android.askaalim.BootCompleteReceiver;
 import com.zillion.android.askaalim.MyFirebaseMessagingService;
 import com.zillion.android.askaalim.Premium_Activity;
@@ -772,8 +774,21 @@ public class MainActivity extends BaseActivity
 
             if(userType != 3){
 
-                mAuth.signOut();
+                FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
+                        .child("fcmtoken").removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
 
+                        mAuth.signOut();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        Toast.makeText(MainActivity.this, "Unable to Signout", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }else if(userType == 3){
 
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

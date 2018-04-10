@@ -162,7 +162,7 @@ public class bookmarkFragment extends Fragment {
 
                         if(!TextUtils.isEmpty(fiqah)){
 
-                            viewHolder.fiqahOfAlim.setVisibility(View.VISIBLE);
+                            viewHolder.fiqah_layout.setVisibility(View.VISIBLE);
                             viewHolder.setFiqahOfAlim(fiqah);
                         }
 
@@ -532,6 +532,7 @@ public class bookmarkFragment extends Fragment {
         LinearLayout newanswers;
         RelativeLayout readmore_rel_layout;
         TextView tv_seenPost;
+        LinearLayout fiqah_layout;
 
         public bookmarkViewHolder(View itemView) {
             super(itemView);
@@ -555,6 +556,8 @@ public class bookmarkFragment extends Fragment {
             newanswers = (LinearLayout) itemView.findViewById(R.id.newanswer_layout_post);
             readmore_rel_layout = (RelativeLayout) itemView.findViewById(R.id.readmore_relLayout);
             tv_seenPost = (TextView) itemView.findViewById(R.id.tv_seen);
+            fiqah_layout = (LinearLayout) itemView.findViewById(R.id.fiqah_layout);
+
         }
 
         public void setUsername(String username) {

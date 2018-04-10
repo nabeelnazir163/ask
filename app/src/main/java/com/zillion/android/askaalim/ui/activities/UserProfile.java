@@ -400,7 +400,7 @@ public class UserProfile extends BaseActivity {
 
                         if (!TextUtils.isEmpty(fiqah_string)) {
 
-                            viewHolder.fiqahOfAlim.setVisibility(View.VISIBLE);
+                            viewHolder.fiqah_layout.setVisibility(View.VISIBLE);
                             viewHolder.setFiqahOfAlim(fiqah_string);
                         }
 
@@ -781,7 +781,7 @@ public class UserProfile extends BaseActivity {
 
                         if(!TextUtils.isEmpty(fiqah_string)){
 
-                            viewHolder.fiqahOfAlim.setVisibility(View.VISIBLE);
+                            viewHolder.fiqah_layout.setVisibility(View.VISIBLE);
                             viewHolder.setFiqahOfAlim(fiqah_string);
                         }
 
@@ -1160,6 +1160,7 @@ public class UserProfile extends BaseActivity {
         RelativeLayout readmore_rel_layout;
         LinearLayout seenLayout;
         TextView tv_seenPost;
+        LinearLayout fiqah_layout;
 
         View mView;
 
@@ -1186,6 +1187,7 @@ public class UserProfile extends BaseActivity {
             readmore_rel_layout = (RelativeLayout) itemView.findViewById(R.id.readmore_relLayout);
             seenLayout = (LinearLayout) itemView.findViewById(R.id.seen_layout);
             tv_seenPost = (TextView) itemView.findViewById(R.id.tv_seen);
+            fiqah_layout = (LinearLayout) itemView.findViewById(R.id.fiqah_layout);
 
         }
 
