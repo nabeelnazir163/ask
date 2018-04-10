@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
-            app:cardCornerRadius="10dp"
+            app:cardCornerRadius="5dp"
             app:cardElevation="5dp"
             >
 
@@ -53,7 +53,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="0.6"
                         android:layout_height="wrap_content"
-                        android:text="Username"
+                        android:text="@string/username"
                         android:textSize="14sp"
                         android:textColor="@android:color/black"
                         android:textStyle="bold" />
@@ -68,10 +68,12 @@
                         android:layout_marginRight="6dp"
                         android:textColor="@color/black"
                         android:layout_gravity="center_vertical|right"
-                        android:text="10h30"
-                        android:layout_marginEnd="6dp" />
+                        android:text="@string/time"
+                        android:layout_marginEnd="6dp"
+                        tools:ignore="RtlHardcoded" />
 
                     <ImageView
+                        android:contentDescription="@string/chng_image"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.1"
@@ -97,12 +99,12 @@
                     android:layout_gravity="right"
                     android:visibility="gone"
                     android:id="@+id/readmore_relLayout_answersactivity"
-                    >
+                    tools:ignore="RtlHardcoded">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Readmore"
+                        android:text="@string/readmore"
                         android:textColor="@color/com_facebook_blue"
                         />
 
@@ -122,13 +124,16 @@
         >
 
         <ImageView
+            android:contentDescription="@string/chng_image"
             android:id="@+id/fab_answer"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:visibility="gone"
             android:layout_marginLeft="56dp"
-            app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
+            app:srcCompat="@drawable/ic_play_arrow_black_24dp"
+            android:focusable="true"
+            android:layout_marginStart="56dp" />
 
         <ImageView
             android:id="@+id/stop_recording_answer"
@@ -137,9 +142,13 @@
             android:clickable="true"
             android:visibility="gone"
             android:layout_marginLeft="56dp"
-            app:srcCompat="@drawable/stop_record" />
+            app:srcCompat="@drawable/stop_record"
+            android:focusable="true"
+            android:contentDescription="@string/chng_image"
+            android:layout_marginStart="56dp" />
 
         <ImageView
+            android:contentDescription="@string/chng_image"
             android:id="@+id/iv_answer_ref_display"
             android:layout_width="wrap_content"
             android:layout_height="200dp"
@@ -161,13 +170,13 @@
             android:orientation="horizontal"
             android:padding="6sp"
             android:background="@drawable/viewallanswers_bg"
-            >
+            tools:ignore="RtlHardcoded">
 
             <TextView
                 android:id="@+id/iv_like_answer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Upvote"
+                android:text="@string/upvote"
                 />
 
             <!--<TextView
@@ -183,7 +192,7 @@
                 android:layout_height="20dp"
                 android:layout_marginLeft="8dp"
                 android:gravity="center"
-                android:text="0"
+                android:text="@string/zero"
                 android:textSize="16sp" />
         </LinearLayout>
 

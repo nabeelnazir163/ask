@@ -24,12 +24,7 @@
         android:roundIcon="@drawable/logo24x24"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name=".MyFirebaseMessagingService"
-            >
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+
 
         <service android:name=".ui.activities.FirebaseNotificationServices"/>
 
@@ -110,7 +105,23 @@
 
         <activity
             android:name=".ui.activities.Chat"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+
+            <intent-filter>
+
+                <action android:name="com.zillion.android.AskAalim_Target_Notification"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+
+            </intent-filter>
+
+        </activity>
+
+        <service android:name=".MyFirebaseMessagingService"
+            >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <service android:name=".MyFirebaseInstanceIdService">
             <intent-filter>

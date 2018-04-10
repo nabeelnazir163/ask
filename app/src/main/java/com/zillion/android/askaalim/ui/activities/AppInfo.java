@@ -118,15 +118,15 @@ public class  AppInfo extends BaseActivity {
 
                 if(isChecked){
 
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.set(Calendar.HOUR_OF_DAY, 7);
-                    calendar.set(Calendar.MINUTE, 00);
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(Calendar.HOUR_OF_DAY, 7);
+                        calendar.set(Calendar.MINUTE, 00);
 
-                    Intent intent = new Intent(getApplicationContext(), Notification_receiver_hijriEvent.class);
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                        Intent intent = new Intent(getApplicationContext(), Notification_receiver_hijriEvent.class);
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
 
                     CalEditor.putBoolean("calender", true);

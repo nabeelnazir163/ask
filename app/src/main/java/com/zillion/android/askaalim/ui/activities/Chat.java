@@ -338,7 +338,7 @@ public class Chat extends AppCompatActivity {
                         if(dataSnapshot.hasChild("fcmtoken")) {
 
                             String FCM_token = (String) dataSnapshot.child("fcmtoken").getValue();
-                            sendNotification notify = new sendNotification(current_user_name + " send you a message", "", FCM_token);
+                          //  sendNotification notify = new sendNotification(current_user_name + " send you a message", "", FCM_token);
                         }
 
                     }
@@ -390,7 +390,7 @@ public class Chat extends AppCompatActivity {
 
                                 if(databaseError != null){
 
-                                    Log.d("ChatError", databaseError.getMessage().toString());
+                                    Log.d("ChatError", databaseError.getMessage());
 
                                 }
 

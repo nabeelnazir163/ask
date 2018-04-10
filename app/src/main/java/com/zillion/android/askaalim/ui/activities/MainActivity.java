@@ -129,6 +129,7 @@ public class MainActivity extends BaseActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Starting Background service
         startService(new Intent(getBaseContext(), MyFirebaseMessagingService.class));
         ComponentName rec = new ComponentName(MainActivity.this, BootCompleteReceiver.class);
         PackageManager pm = getPackageManager();
@@ -770,61 +771,8 @@ public class MainActivity extends BaseActivity
         } else if( id == R.id.logout){
 
             if(userType != 3){
-               /* FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",",")).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.hasChild("fcmtoken")){
-
-                            FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-                                    .child("fcmtoken").removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-
-                                    AuthUI.getInstance()
-                                            .signOut(MainActivity.this)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-
-                                                    finish();
-//                                                    startActivity(new Intent(MainActivity.this , RegisterActivity.class));
-
-                                                }
-                                            });
-
-                                }
-                            });
-
-                        } else {
-
-                            AuthUI.getInstance()
-                                    .signOut(MainActivity.this)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-
-                                            finish();
-//                                            startActivity(new Intent(MainActivity.this , RegisterActivity.class));
-
-                                        }
-                                    });
-
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });*/
-
-
-//                FirebaseUtils.getUserRef(FirebaseUtils.getCurrentUser().getEmail().replace(".",","))
-//                        .child("fcmtoken").removeValue();
 
                 mAuth.signOut();
-
-
 
             }else if(userType == 3){
 

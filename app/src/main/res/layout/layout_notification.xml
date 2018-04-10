@@ -3,47 +3,48 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="#FFFF"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    android:layout_margin="5dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="0dp"
+        android:layout_weight="0.1"
+        android:layout_height="40dp"
+        android:src="@drawable/facebook"
+        android:id="@+id/notification_iv"
+        />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="0.9"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="5dp"
+        android:orientation="vertical"
         >
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="0dp"
-            android:layout_weight="0.15"
-            android:layout_height="50dp"
-            android:src="@drawable/facebook"
-            android:id="@+id/notification_iv"
-            />
-
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="0.7"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:layout_gravity="center"
-            android:textSize="16sp"
-            android:text="@string/date_of_birth"
+            android:textSize="15sp"
+            android:gravity="center_vertical"
+            android:text="@string/notification"
             android:id="@+id/notification_to_display"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             />
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.15"
-            android:layout_gravity="center"
             android:text="@string/time"
             android:id="@+id/notification_time"
             android:textSize="12sp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             />
 
     </LinearLayout>
-
 
 </LinearLayout>
